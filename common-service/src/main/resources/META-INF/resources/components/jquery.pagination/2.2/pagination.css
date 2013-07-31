@@ -1,0 +1,32 @@
+.paginationbar {
+    font-size: 80%;
+}
+        
+.paginationbar a {
+    text-decoration: none;
+	border: solid 1px #AAE;
+	color: #15B;
+}
+
+.paginationbar a, .paginationbar span {
+    display: block;
+    float: left;
+    padding: 0px 5px 0px 5px;
+    margin-right: 2px;
+	margin-bottom: 2px;
+	min-width:1em;
+	text-align:center;
+}
+
+.paginationbar .current {
+    background: #d3d3d3;
+    color: #fff;
+	border: solid 1px #AAE;
+}
+
+.paginationbar .current.prev, .paginationbar .current.next{
+	color:#999;
+	border-color:#999;
+	background:#fff;
+	display:none
+}

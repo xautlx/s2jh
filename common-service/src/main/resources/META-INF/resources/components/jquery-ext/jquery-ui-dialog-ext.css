@@ -1,0 +1,11 @@
+.ui-dialog .ui-dialog-titlebar-max { position: absolute; right: 2em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ui-dialog .ui-dialog-titlebar-max span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-max:hover, .ui-dialog .ui-dialog-titlebar-max:focus { padding: 0; }
+
+.ui-dialog .ui-dialog-titlebar-rest { position: absolute; right: 2em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ui-dialog .ui-dialog-titlebar-rest span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-rest:hover, .ui-dialog .ui-dialog-titlebar-rest:focus { padding: 0; }
+
+.ui-dialog .ui-dialog-titlebar-min { position: absolute; right: 3.7em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ui-dialog .ui-dialog-titlebar-min span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-min:hover, .ui-dialog .ui-dialog-titlebar-min:focus { padding: 0; }

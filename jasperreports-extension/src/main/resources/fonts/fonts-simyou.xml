@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="幼圆">   
+	    <normal>fonts/SIMYOU.TTF</normal>   
+	    <bold>fonts/SIMYOU.TTF</bold>   
+	    <italic>fonts/SIMYOU.TTF</italic>   
+	    <boldItalic>fonts/SIMYOU.TTF</boldItalic>   
+	    <pdfEncoding>Identity-H</pdfEncoding>   
+	    <pdfEmbedded>true</pdfEmbedded>   
+	    <exportFonts>   
+	        <export key="net.sf.jasperreports.html">'幼圆', Arial, Helvetica, sans-serif</export>   
+	        <export key="net.sf.jasperreports.xhtml">'幼圆', Arial, Helvetica, sans-serif</export>   
+	    </exportFonts>        
+	</fontFamily>  
+
+</fontFamilies>

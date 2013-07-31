@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="方正准圆简体">   
+	    <normal>fonts/FZZY.TTF</normal>   
+	    <bold>fonts/FZZY.TTF</bold>   
+	    <italic>fonts/FZZY.TTF</italic>   
+	    <boldItalic>fonts/FZZY.TTF</boldItalic>   
+	    <pdfEncoding>Identity-H</pdfEncoding>   
+	    <pdfEmbedded>true</pdfEmbedded>   
+	    <exportFonts>   
+	        <export key="net.sf.jasperreports.html">'方正准圆简体', Arial, Helvetica, sans-serif</export>   
+	        <export key="net.sf.jasperreports.xhtml">'方正准圆简体', Arial, Helvetica, sans-serif</export>   
+	    </exportFonts>        
+	</fontFamily>  
+
+</fontFamilies>

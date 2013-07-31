@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE weblogic-web-app PUBLIC "-//BEA Systems, Inc.//DTD Web Application 9.1//EN" "http://www.bea.com/servers/wls810/dtd/weblogic
+810-web-jar.dtd">
+<weblogic-web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.bea.com/ns/weblogic/weblogic-web-app     
+http://www.bea.com/ns/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd"
+	xmlns="http://www.bea.com/ns/weblogic/weblogic-web-app">
+	<container-descriptor>
+		<prefer-web-inf-classes>true</prefer-web-inf-classes>
+		<servlet-reload-check-secs>-1</servlet-reload-check-secs>	
+		<show-archived-real-path-enabled>true</show-archived-real-path-enabled>	
+	</container-descriptor>
+</weblogic-web-app>  

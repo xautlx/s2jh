@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36}[%line] - %msg %mdc %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 建议设置为WARN或更低级别，此Logger主要用于Struts显示以404错误代码返回的Could not find action or result信息，用于排除编码错误-->
+    <logger name="org.apache.struts2.dispatcher" level="WARN" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="lab" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>  
+    <!-- 打印大量结果集对于运行效率影响较大,开发过程建议默认关闭,在遇到问题需要分析问题是可设置为DEBUG -->
+    <logger name="jdbc.resultsettable" level="WARN" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>               
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration> 

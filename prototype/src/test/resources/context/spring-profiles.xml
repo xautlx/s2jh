@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+	<!-- unit test环境 -->
+	<beans profile="test">
+		<!-- 嵌入式内存中数据库 -->
+		<jdbc:embedded-database id="dataSourceSpied"
+			type="H2">
+		</jdbc:embedded-database>
+
+		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+			<constructor-arg>
+				<ref bean="dataSourceSpied" />
+			</constructor-arg>
+		</bean>
+	</beans>
+</beans>

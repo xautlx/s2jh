@@ -1,0 +1,121 @@
+@CHARSET "UTF-8";
+
+.wizard .carousel-inner {
+	overflow: visible;
+	margin: 0;
+	padding: 0;
+}
+
+.wizard.animated .carousel-inner {
+	overflow: hidden;
+}
+
+.wizard .carousel-inner div.item {
+    border: 1px solid #CCC;
+    padding:5px;   
+}
+
+.wizard-header {
+	margin: 5px
+}
+
+.wizard-header a {
+	padding: 10px 12px 10px;
+	margin-right: 5px;
+	background: #efefef;
+	position: relative;
+	display: inline-block;
+}
+
+.wizard-header a:before {
+	width: 0;
+	height: 0;
+	border-top: 20px inset transparent;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #fff;
+	position: absolute;
+	content: "";
+	top: 0;
+	left: 0;
+}
+
+.wizard-header a:after {
+	width: 0;
+	height: 0;
+	border-top: 20px inset transparent;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #efefef;
+	position: absolute;
+	content: "";
+	top: 0;
+	right: -20px;
+	z-index: 2;
+}
+
+.wizard-header a:first-child:before,.wizard-header a:last-child:after {
+	border: none;
+}
+
+.wizard-header a:first-child {
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+.wizard-header a:last-child {
+	-webkit-border-radius: 0 4px 4px 0;
+	-moz-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.wizard-header .badge {
+	margin: 0 5px 0 18px;
+	position: relative;
+	top: -1px;
+}
+
+.wizard-header a:first-child .badge {
+	margin-left: 0;
+}
+
+.wizard .carousel-inner .step-title {
+  display:block;
+  position: relative;  
+  border:1px solid #E0E0E0;
+  margin: 0 0 5px 0;
+  padding:5px; 
+  font: bold 16px Verdana, Arial, Helvetica, sans-serif; 
+  color:#5A5655;   
+  background-color:#E0E0E0;
+  text-align:left; 
+  z-index:88;
+  -webkit-border-radius: 5px;
+  -moz-border-radius  : 5px;    
+}
+
+.wizard-header a {
+  text-decoration: none
+}
+
+.wizard-header a.disabled {
+  color:#CCCCCC;  
+  cursor:text;   
+}
+
+.wizard-header .done {
+    background: #8CC63F;
+    color: #fff;
+}
+
+.wizard-header .done:after {
+    border-left-color: #8CC63F;
+}
+
+.wizard-header .active {
+    background: #007ACC;
+    color: #fff;
+}
+
+.wizard-header .active:after {
+    border-left-color: #007ACC;
+}

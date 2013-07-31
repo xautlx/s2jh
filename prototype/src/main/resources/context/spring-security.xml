@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- 该路径下的资源不用过滤 -->
+	<http pattern="/jcaptcha" security="none" />
+	<http pattern="/pub/**" security="none" />
+	<http pattern="/images/**" security="none" />
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/components/**" security="none" />
+
+	<http access-denied-page="/common/errors.jsp">
+		<form-login login-page="/pub/signin"
+			authentication-success-handler-ref="authenticationSuccessHistHandler" />
+		<!-- Set the request cache -->
+		<request-cache ref="requestCache" />
+		<remember-me key="s2jh" token-validity-seconds="3600"
+			data-source-ref="dataSource" authentication-success-handler-ref="authenticationSuccessHistHandler" />
+		<session-management invalid-session-url="/pub/signin">
+			<concurrency-control max-sessions="10"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+		<custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		<logout logout-success-url="/pub/signin" />
+	</http>
+
+	<beans:bean id="requestCache"
+		class="org.springframework.security.web.savedrequest.HttpSessionRequestCache" />
+
+	<!-- 配置过滤器 -->
+	<beans:bean id="securityFilter"
+		class="lab.s2jh.auth.security.ExtSecurityInterceptor">
+		<!-- 用户拥有的权限 -->
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<!-- 用户是否拥有所请求资源的权限 -->
+		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+		<!-- 资源与权限对应关系 -->
+		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+	</beans:bean>
+
+	<beans:bean id="userDetailsService"
+		class="lab.s2jh.auth.security.AuthUserDetailsService">
+		<beans:property name="userService" ref="userService" />
+		<beans:property name="privilegeService" ref="privilegeService" />
+		<beans:property name="roleService" ref="roleService" />
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder hash="md5">
+				<salt-source user-property="uid" />
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="accessDecisionManager"
+		class="lab.s2jh.auth.security.AccessDecisionManagerImpl"></beans:bean>
+	<beans:bean id="securityMetadataSource"
+		class="lab.s2jh.auth.security.FilterInvocationSecurityMetadataSourceImpl">
+		<beans:property name="privilegeService" ref="privilegeService"></beans:property>
+	</beans:bean>
+
+	<!-- 写入登录记录 -->
+	<beans:bean id="authenticationSuccessHistHandler"
+		class="lab.s2jh.auth.security.AuthenticationSuccessHistHandler">
+		<beans:property name="defaultTargetUrl" value="/layout" />
+		<beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+		<beans:property name="userService" ref="userService" />
+	</beans:bean>
+
+
+	<!-- 明文密码 <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.PlaintextPasswordEncoder"> 
+		</beans:bean> -->
+
+	<!-- 加密密码 -->
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<!-- JdbcTokenRepositoryImpl persistent transaction hacking: http://forum.springsource.org/showthread.php?103929-JdbcTokenRepositoryImpl-not-inserting-persistant-token -->
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl.*(..))"
+			id="rememberMeOperation" />
+		<aop:advisor advice-ref="rememberMeTxAdvice" pointcut-ref="rememberMeOperation" />
+	</aop:config>
+
+	<tx:advice id="rememberMeTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="createNewToken" />
+			<tx:method name="updateToken" />
+			<tx:method name="removeUserTokens" />
+		</tx:attributes>
+	</tx:advice>
+</beans:beans>  

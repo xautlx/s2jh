@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>lab.s2jh</groupId>
+		<artifactId>s2jh-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>common-service</artifactId>
+	<packaging>jar</packaging>
+	<name>s2jh :: module :: common</name>
+
+
+	<dependencies>
+		<!-- j2ee web spec -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<!-- WEB end -->
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+			<version>${s2jh.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>project-tools</artifactId>
+            <scope>test</scope>
+            <version>${s2jh.version}</version>
+        </dependency>		
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>jasperreports-extension</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itextasian</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-jasperreports-plugin</artifactId>
+		</dependency>
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>generator</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<classpathScope>test</classpathScope>
+							<mainClass>lab.apollo.tool.builder.SourceCodeFrameworkBuilder</mainClass>
+							<arguments>
+								<argument>./generator/</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>compressor</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.lesscss</groupId>
+						<artifactId>lesscss-maven-plugin</artifactId>
+						<version>1.3.0</version>
+						<configuration>
+							<sourceDirectory>${project.basedir}/src/main/resources/META-INF/resources/components/bootstrap/2.2.2/less</sourceDirectory>
+							<outputDirectory>${project.basedir}/src/main/resources/META-INF/resources/components/bootstrap/2.2.2/build</outputDirectory>
+							<compress>true</compress>
+							<includes>
+								<include>bootstrap.less</include>
+							</includes>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- YUI Compressor Maven压缩插件 -->
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>1.3.0</version>
+						<executions>
+							<execution>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>compress</goal>
+								</goals>
+								<configuration>
+									<!-- 读取js,css文件采用UTF-8编码 -->
+									<encoding>UTF-8</encoding>
+									<!-- 不显示js可能的错误 -->
+									<jswarn>false</jswarn>
+									<!-- 若存在已压缩的文件，会先对比源文件是否有改动 有改动便压缩，无改动就不压缩 -->
+									<force>false</force>
+									<!-- 在指定的列号后插入新行 -->
+									<linebreakpos>-1</linebreakpos>
+									<!-- 压缩之前先执行聚合文件操作 -->
+									<preProcessAggregates>true</preProcessAggregates>
+									<!-- 直接以原文件名作为压缩输出文件名 -->
+									<nosuffix>true</nosuffix>
+									<!-- 压缩js和css文件 -->
+									<includes>
+										<include>**/*.js</include>
+										<include>**/*.css</include>
+									</includes>
+									<!-- 以下目录和文件不会被压缩 -->
+									<excludes>
+										<exclude>**/*.min.js</exclude>
+										<exclude>**/*.min.css</exclude>
+										<!-- 数据文件不压缩 -->
+										<exclude>scripts/data/*.js</exclude>
+										<!-- 个别组件压缩后运行出现问题，则exclude -->
+										<exclude>**/jquery.layout-1.2.0.js</exclude>
+									</excludes>
+									<!-- 压缩后输出文件目录 -->
+									<webappDirectory>${project.build.directory}/yuicompressor</webappDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<webResources>
+								<resource>
+									<directory>${project.build.directory}/yuicompressor</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													net.alchim31.maven
+												</groupId>
+												<artifactId>
+													yuicompressor-maven-plugin
+												</artifactId>
+												<versionRange>
+													[1.3.0,)
+												</versionRange>
+												<goals>
+													<goal>compress</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36}[%line] - %msg %mdc %n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="lab" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+    <logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>  	
+
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration> 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="华文宋体">   
+	    <normal>fonts/STSONG.TTF</normal>   
+	    <bold>fonts/STSONG.TTF</bold>   
+	    <italic>fonts/STSONG.TTF</italic>   
+	    <boldItalic>fonts/STSONG.TTF</boldItalic>   
+	    <pdfEncoding>Identity-H</pdfEncoding>   
+	    <pdfEmbedded>true</pdfEmbedded>   
+	    <exportFonts>   
+	        <export key="net.sf.jasperreports.html">'华文宋体', Arial, Helvetica, sans-serif</export>   
+	        <export key="net.sf.jasperreports.xhtml">'华文宋体', Arial, Helvetica, sans-serif</export>   
+	    </exportFonts>        
+	</fontFamily>  
+
+</fontFamilies>

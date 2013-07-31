@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>lab.s2jh</groupId>
+		<artifactId>s2jh-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>prototype</artifactId>
+	<packaging>war</packaging>
+	<name>s2jh :: prototype</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>common-service</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>project-tools</artifactId>
+            <scope>test</scope>
+            <version>${s2jh.version}</version>
+        </dependency>
+
+		<!-- j2ee web spec -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<!-- WEB end -->
+
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- TEST end -->
+
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>generator</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<classpathScope>test</classpathScope>
+							<mainClass>lab.apollo.tool.builder.SourceCodeFrameworkBuilder</mainClass>
+							<arguments>
+								<argument>./generator/</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

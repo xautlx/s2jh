@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>lab.s2jh</groupId>
+		<artifactId>s2jh-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>showcase</artifactId>
+	<packaging>war</packaging>
+	<name>s2jh :: showcase</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>core-service</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+			<version>${s2jh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>common-service</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
+
+		<!-- j2ee web spec -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<!-- WEB end -->
+
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- TEST end -->
+
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>generator</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<classpathScope>test</classpathScope>
+							<mainClass>lab.apollo.tool.builder.SourceCodeFrameworkBuilder</mainClass>
+							<arguments>
+								<argument>./generator/</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>smoke</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+					</plugin>
+
+					<!-- selenium插件启动与关闭selenium服务器 -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>selenium-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>start-selenium</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start-server</goal>
+								</goals>
+								<configuration>
+									<background>true</background>
+									<port>4444</port>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-selenium</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop-server</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- Server插件启动与关闭应用 -->
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<configuration>
+							<container>
+								<containerId>tomcat7x</containerId>
+								<zipUrlInstaller>
+									<url>http://www.apache.org/dist/tomcat/tomcat-7/v7.0.41/bin/apache-tomcat-7.0.41.zip</url>
+									<downloadDir>${user.home}/.m2/tomcat7x/downloads</downloadDir>
+									<extractDir>${user.home}/.m2/tomcat7x/extracts</extractDir>
+									<!-- <proxy> <host>proxy.abc.com</host> <port>8080</port> <user></user> 
+										<password></password> </proxy> -->
+								</zipUrlInstaller>
+							</container>
+							<configuration>
+								<home>${project.build.directory}/tomcat7x/container</home>
+								<properties>
+									<cargo.servlet.port>8888</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>8011</cargo.tomcat.ajp.port>
+								</properties>
+							</configuration>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-container</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop-container</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.11</version>
+						<executions>
+							<execution>
+								<id>functional-test</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<skip>false</skip>
+									<includes>
+										<include>**/*Mock.java</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>standalone</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>assembly-standalone</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>assembly/assembly-standalone.xml</descriptor>
+									</descriptors>
+									<archive>
+										<manifest>
+											<mainClass>lab.s2jh.biz.core.MainExecutor</mainClass>
+										</manifest>
+									</archive>
+								</configuration>
+							</execution>
+							<execution>
+								<id>assembly-simplified</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>assembly/assembly-simplified.xml</descriptor>
+									</descriptors>
+									<archive>
+										<manifest>
+											<mainClass>lab.s2jh.biz.core.MainExecutor</mainClass>
+										</manifest>
+									</archive>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>delivery</id>
+			<build>
+				<plugins>
+					<plugin>
+						<!-- YUI Compressor Maven压缩插件 -->
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>1.3.0</version>
+						<executions>
+							<execution>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>compress</goal>
+								</goals>
+								<configuration>
+									<!-- 读取js,css文件采用UTF-8编码 -->
+									<encoding>UTF-8</encoding>
+									<!-- 不显示js可能的错误 -->
+									<jswarn>false</jswarn>
+									<!-- 若存在已压缩的文件，会先对比源文件是否有改动 有改动便压缩，无改动就不压缩 -->
+									<force>false</force>
+									<!-- 在指定的列号后插入新行 -->
+									<linebreakpos>-1</linebreakpos>
+									<!-- 压缩之前先执行聚合文件操作 -->
+									<preProcessAggregates>true</preProcessAggregates>
+									<!-- 直接以原文件名作为压缩输出文件名 -->
+									<nosuffix>true</nosuffix>
+									<!-- 压缩js和css文件 -->
+									<includes>
+										<include>**/jquery-ext/*.js</include>
+									</includes>
+									<!-- 压缩后输出文件目录 -->
+									<webappDirectory>../common-service/src/main/resources/META-INF/resources</webappDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-jsp</id>
+								<phase>compile</phase>
+								<configuration>
+									<target>
+										<copy todir="../common-service/src/main/resources/META-INF/resources/pages">
+											<fileset dir="src/main/webapp/pages">
+												<include name="auth/**" />
+												<include name="pub/**" />
+												<include name="rpt/**" />
+												<include name="util/**" />
+											</fileset>
+										</copy>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>assembly-simplified</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>assembly/assembly-simplified.xml</descriptor>
+									</descriptors>
+									<archive>
+										<manifest>
+											<mainClass>lab.s2jh.biz.core.MainExecutor</mainClass>
+										</manifest>
+									</archive>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-simplified-war</id>
+                                <phase>install</phase>
+                                <configuration>
+                                    <target>
+                                        <copy todir="../../s2jh.quickstart" verbose="true">
+                                            <fileset dir="target">
+                                                <include name="*simplified.war" />
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

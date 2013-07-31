@@ -1,0 +1,1 @@
+INSERT INTO t_auth_user_r2_role (id, acl_code, acl_type, version, role_id, user_id) VALUES ('402880c53d8bd807013d8bde3a6a000c', NULL, NULL, 0, '402880c53d23d99a013d23ed7e160003', '402880c53d15b9fa013d15c379a20000');

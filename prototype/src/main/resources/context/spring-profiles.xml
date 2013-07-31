@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+	<beans profile="default">
+		<!-- 定制扩展PropertyPlaceholder，实现从数据库加载覆盖属性配置 -->
+		<bean class="lab.s2jh.cfg.DynamicPropertyPlaceholderConfigurer">
+			<property name="locations">
+				<list>
+					<value>classpath:/application.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="true" />
+			<property name="dataSource" ref="dataSource" />
+			<property name="tableName" value="T_SYS_CFG_PROP" />
+			<property name="nameColumn" value="prop_key" />
+			<property name="valueColumn" value="prop_dynamic_value" />
+		</bean>
+
+		<!-- H2文件模式数据库，实际开发替换成其他MySQL、Oracle等数据库配置即可，注意别忘了在pom.xml中添加对应数据库驱动的依赖 -->
+		<bean id="dataSourceSpied"
+			class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
+			<property name="databaseName" value="c:\\h2\\prototype" />
+			<property name="databaseConfigurer">
+				<bean
+					class="org.springframework.jdbc.datasource.embedded.H2EmbeddedFileDatabaseConfigurer"
+					factory-method="getInstance">
+				</bean>
+			</property>
+		</bean>
+
+		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+
+		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource"
+			depends-on="extSlf4jSpyLogDelegator">
+			<constructor-arg>
+				<ref bean="dataSourceSpied" />
+			</constructor-arg>
+		</bean>
+
+		<jdbc:initialize-database data-source="dataSource"
+			ignore-failures="ALL" enabled="${jdbc.initialize.database.enable}">
+			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
+				encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user.sql"
+				encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_privilege.sql"
+				encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_role.sql"
+				encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql"
+				encoding="UTF-8" />
+		</jdbc:initialize-database>
+	</beans>
+
+	<!-- 用于Unit Test配置 -->
+	<beans profile="test">
+		<!-- 缺省PropertyPlaceholder定义 -->
+		<bean
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations">
+				<list>
+					<value>classpath:/application.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="true" />
+		</bean>
+
+		<!-- 嵌入式内存中数据库 -->
+		<jdbc:embedded-database id="dataSourceSpied"
+			type="H2">
+		</jdbc:embedded-database>
+
+		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+			<constructor-arg>
+				<ref bean="dataSourceSpied" />
+			</constructor-arg>
+		</bean>
+	</beans>
+</beans>

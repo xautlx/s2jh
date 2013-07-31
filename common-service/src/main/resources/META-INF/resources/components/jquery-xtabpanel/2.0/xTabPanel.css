@@ -1,0 +1,134 @@
+.jTabPanel {
+}
+.jTabPanelBorder {
+  border: solid 1px #CCCCCC;
+}
+.jTabPanel * {
+  cursor: default;
+}
+.jTabPanel .tab-contrl-wrap {
+  width: 100%;
+  height: 26px;
+  padding-top: 2px;
+  background-color: #F0F0F0;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.jTabPanel .tab-contrl-wrap .tab-scroll {
+  position: absolute;
+  bottom: 3;
+  width: 20px;
+  height: 22px;
+  line-height: 22px;
+  display: none;
+  background-color: #CCCCCC;
+  border: solid 1px #797979;
+  border-bottom: 0;
+  text-align: center;
+  z-index: 1;
+}
+.jTabPanel .tab-contrl-wrap .tab-left-button {
+  left: 0px;
+  border-left: 0;
+}
+.jTabPanel .tab-contrl-wrap .tab-right-button {
+  right: 0px;
+  border-right: 0;
+}
+.jTabPanel .tab-contrl-wrap .tab-refresh-button {
+  right: 2px;
+}
+.jTabPanel .tab-contrl-wrap .tab-button-disabled {
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+  filter: alpha(opacity = 50);
+  color: #7D7D7D;
+  cursor: default;
+}
+.jTabPanel .tab-contrl-wrap .show {
+  display: block;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap {
+  overflow: hidden;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap-scroll {
+  margin-left: 21px;
+  padding-right: 2px;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move {
+  width: 10000px;
+  margin: 0;
+  padding: 0;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li {
+  float: left;
+  list-style: none;
+  height: 22px;
+  margin-left: 2px;
+  display: inline; /*IE6双倍margin的bug*/
+  border: solid 1px #999999;
+  background: #E0E4ED;
+  position: relative;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li.active {
+  border-bottom: solid 1px #677FB2;
+  background-color: #677FB2;
+  color: #FFFFFF;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li .tab-item-title {
+  margin-right: 4px;
+  padding-left: 4px;
+  height: 22px;
+  line-height: 22px;
+  overflow: hidden;
+  float: left;
+  display: inline;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li .tab-item-title-nopadding {
+  padding-left: 0px;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li .fix {
+  float: left;
+  height: 22px;
+  line-height: 22px;
+  margin-right: 4px;
+  display: inline;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li .tab-item-title-icon {
+  width: 22px;
+	height: 22px;
+	float: left;
+	background-repeat: no-repeat;
+}
+.jTabPanel .panel-spacer {
+  border-top: 1px solid #999999;
+  height: 0px;
+  background: #677FB2;
+  font-size: 1px;
+  line-height: 1px;
+  margin-top: -1px;
+}
+.jTabPanel .panel-content {
+  background-color: #FFFFFF;
+}
+.jTabPanel .panel-content .content-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
+  background-color: #FFFFFF;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li .tab-closer {
+  position: absolute;
+  right: 5px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  background: url('close.gif') no-repeat;
+  font-size: 1px;
+  cursor: pointer;
+}
+.jTabPanel .tab-contrl-wrap .tab-item-wrap .tab-item-move li.active .tab-closer {
+  background-position: -9px;
+}
