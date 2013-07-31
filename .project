@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>s2jh</name>
+	<comment></comment>
+	<projects>
+		<project>common-config</project>
+		<project>common-service</project>
+		<project>core-service</project>
+		<project>project-parent</project>
+		<project>project-tools</project>
+		<project>showcase</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>
