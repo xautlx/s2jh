@@ -2,7 +2,9 @@
 
 A J2EE development framework for Enterprise Web Application based on Struts2/Spring/JPA/Hibernate and JQuery/Bootstrap
 
-[https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/Index) - Detailed wiki documents on GitHub/点击查看项目WIKI文档
+**项目详细WIKI文档**： [https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/Index)
+
+**联系作者**： [xautlx@hotmail.com](mailto:xautlx@hotmail.com)
 
 ## Introduction
 
