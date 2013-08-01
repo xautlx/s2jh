@@ -24,6 +24,7 @@
 <script src="${base}/components/jquery-ext/jquery-ui-tabs-ext.js?_=${buildVersion}"></script>
 <script src="${base}/components/jquery-ext/jquery-comboselect.js?_=${buildVersion}"></script>
 <script src="${base}/components/jquery-ext/jquery-combotext.js?_=${buildVersion}"></script>
+<script src="${base}/components/jquery-ext/jquery.dynamictable.js?_=${buildVersion}"></script>
 
 <script src="${base}/components/jquery-validation/1.10.0/jquery.validate.js?_=${buildVersion}"></script>
 <script
