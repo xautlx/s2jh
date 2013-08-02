@@ -35,6 +35,10 @@ public abstract class DynamicParameterDef extends BaseEntity<String> {
     @MetaData(title = "禁用标识", description = "禁用项全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
+    
+    @MetaData(title = "隐藏标识", description = "隐藏项目不用用户输入，一般需要配置合理的defaultValue")
+    @EntityAutoCode(order = 45, search = true)
+    private Boolean hidden = Boolean.FALSE;
 
     @MetaData(title = "参数类型")
     @EntityAutoCode(order = 50, search = true)
@@ -93,6 +97,14 @@ public abstract class DynamicParameterDef extends BaseEntity<String> {
 
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+    
+    public Boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
     }
 
     public Boolean getDisabled() {
@@ -186,5 +198,7 @@ public abstract class DynamicParameterDef extends BaseEntity<String> {
             return "{" + sb.substring(0, sb.length() - 1) + "}";
         }
     }
+
+
 
 }
