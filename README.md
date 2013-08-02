@@ -4,7 +4,7 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 **项目详细WIKI文档**： [https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/Index)
 
-**联系作者**： [xautlx@hotmail.com](mailto:xautlx@hotmail.com)
+**联系作者**：[联系方式及个人资料简洁](https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/AboutAuthor)
 
 ## Introduction
 
