@@ -74,4 +74,12 @@ public class S2AutocompleteTextFieldTag extends TextFieldTag {
         this.source = source;
     }
 
+    public void setLabelValue(String labelValue) {
+        this.labelValue = labelValue;
+    }
+
+    public void setValidator(String validator) {
+        this.validator = validator;
+    }
+
 }
