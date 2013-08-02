@@ -47,6 +47,11 @@
 					<s2:textfield name="validateRules" label="前端UI校验规则" />
 				</div>
 			</div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <s2:radio name="hidden" list="#application.enums.booleanLabel" label="隐藏标识" />
+                </div>
+            </div>			
 			<div class="row-fluid">
 				<div class="span6">
 					<s2:textfield name="defaultValue" label="缺省参数值" />

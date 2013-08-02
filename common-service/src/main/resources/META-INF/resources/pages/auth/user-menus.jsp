@@ -4,11 +4,27 @@
     $(function() {
 
         $.getJSON("${base}/sys/menu!list", function(data) {
-            $.fn.zTree.init($("#allMenuTree<s:property value='#parameters.id'/>"), {}, data);
+            $.fn.zTree.init($("#allMenuTree<s:property value='#parameters.id'/>"), {
+                callback : {
+                    onClick : function(event, treeId, treeNode) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
+                }
+            }, data);
         });
 
         $.getJSON("${base}/auth/user!menus?id=<s:property value='#parameters.id'/>", function(data) {
-            $.fn.zTree.init($("#userMenuTree<s:property value='#parameters.id'/>"), {}, data);
+            $.fn.zTree.init($("#userMenuTree<s:property value='#parameters.id'/>"), {
+                callback : {
+                    onClick : function(event, treeId, treeNode) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
+                }
+            }, data);
         });
     });
 </script>
