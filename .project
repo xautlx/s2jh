@@ -3,15 +3,15 @@
 	<name>s2jh</name>
 	<comment></comment>
 	<projects>
-		<project>common-config</project>
-		<project>common-service</project>
-		<project>core-service</project>
-		<project>project-parent</project>
-		<project>project-tools</project>
-		<project>showcase</project>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>
