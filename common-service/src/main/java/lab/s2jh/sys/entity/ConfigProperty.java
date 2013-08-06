@@ -14,6 +14,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "T_SYS_CFG_PROP")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
@@ -21,13 +23,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class ConfigProperty extends BaseEntity<String> {
 
     private String propKey;
-    
+
     private String propName;
 
-    private String propStaticValue;
-    
-    private String propDynamicValue;
-    
+    private String simpleValue;
+
+    private String htmlValue;
+
     private String propDescn;
 
     private String id;
@@ -66,27 +68,28 @@ public class ConfigProperty extends BaseEntity<String> {
         this.propName = propName;
     }
 
-    public String getPropStaticValue() {
-        return propStaticValue;
-    }
-
-    public void setPropStaticValue(String propStaticValue) {
-        this.propStaticValue = propStaticValue;
-    }
-
-    public String getPropDynamicValue() {
-        return propDynamicValue;
-    }
-
-    public void setPropDynamicValue(String propDynamicValue) {
-        this.propDynamicValue = propDynamicValue;
-    }
-
+    @JsonIgnore
     public String getPropDescn() {
         return propDescn;
     }
 
     public void setPropDescn(String propDescn) {
         this.propDescn = propDescn;
+    }
+
+    public String getSimpleValue() {
+        return simpleValue;
+    }
+
+    public void setSimpleValue(String simpleValue) {
+        this.simpleValue = simpleValue;
+    }
+
+    public String getHtmlValue() {
+        return htmlValue;
+    }
+
+    public void setHtmlValue(String htmlValue) {
+        this.htmlValue = htmlValue;
     }
 }

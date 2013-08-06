@@ -32,7 +32,7 @@ public class LayoutController extends RestActionSupport implements ModelDriven<O
     @Autowired
     private UserService userService;
 
-    @Value("${system.title}")
+    @Value("${cfg.system.title}")
     private String systemTitle;
 
     private ObjectMapper mapper = new ObjectMapper();
