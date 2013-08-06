@@ -47,6 +47,7 @@
 			<div class="row-fluid">
 				<div class="span6">
 					<s2:textarea name="description" label="描述" rows="3" id="abc" />
+					<s2:
 					<script type="text/javascript">
                         $(function() {
                             KindEditor.create('#abc', {
