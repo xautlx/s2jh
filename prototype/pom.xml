@@ -30,13 +30,7 @@
 			<artifactId>common-service</artifactId>
 			<version>${s2jh.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>lab.s2jh</groupId>
-            <artifactId>project-tools</artifactId>
-            <scope>test</scope>
-            <version>${s2jh.version}</version>
-        </dependency>
-
+		
 		<!-- j2ee web spec -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -75,17 +69,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- TEST end -->
-
-		<dependency>
-			<groupId>org.eclipse.jetty.aggregate</groupId>
-			<artifactId>jetty-webapp</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -106,8 +89,8 @@
 							</execution>
 						</executions>
 						<configuration>
-							<classpathScope>test</classpathScope>
-							<mainClass>lab.apollo.tool.builder.SourceCodeFrameworkBuilder</mainClass>
+							<classpathScope>compile</classpathScope>
+							<mainClass>lab.s2jh.tool.builder.SourceCodeFrameworkBuilder</mainClass>
 							<arguments>
 								<argument>./generator/</argument>
 							</arguments>

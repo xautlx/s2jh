@@ -30,6 +30,7 @@
 	<modules>
 		<module>jasperreports-extension</module>
 		<module>core-service</module>
+		<module>project-tools</module>
 		<module>common-service</module>
 		<module>showcase</module>
 		<module>prototype</module>
@@ -95,14 +96,14 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-        <repository>
-            <id>jahia</id>
-            <name>jahia repository</name>
-            <url>http://maven.jahia.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>		
+		<repository>
+			<id>jahia</id>
+			<name>jahia repository</name>
+			<url>http://maven.jahia.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
@@ -574,6 +575,12 @@
 				<artifactId>jackson-module-jaxb-annotations</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
+			<!-- For kindeditor -->
+			<dependency>
+				<groupId>com.googlecode.json-simple</groupId>
+				<artifactId>json-simple</artifactId>
+				<version>1.1.1</version>
+			</dependency>
 			<!-- JSON end -->
 
 			<!-- XML begin -->
@@ -646,10 +653,10 @@
 						<groupId>bouncycastle</groupId>
 						<artifactId>bctsp-jdk14</artifactId>
 					</exclusion>
-                    <exclusion>
-                        <groupId>bouncycastle</groupId>
-                        <artifactId>bcmail-jdk14</artifactId>
-                    </exclusion>					
+					<exclusion>
+						<groupId>bouncycastle</groupId>
+						<artifactId>bcmail-jdk14</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>

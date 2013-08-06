@@ -25,7 +25,7 @@
 	href="${base}/components/zebra-dialog/1.2/css/zebra_dialog.css?_=${buildVersion}">
 
 <link rel="stylesheet" type="text/css"
-	href="${base}/components/kindeditor/4.1.4/themes/default/default.css?_=${buildVersion}">
+	href="${base}/components/kindeditor/4.1.7/themes/default/default.css?_=${buildVersion}">
 
 <link rel="stylesheet" type="text/css"
 	href="${base}/components/jquery-ext/jquery-ui-dialog-ext.css?_=${buildVersion}">

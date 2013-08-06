@@ -10,6 +10,9 @@
         <dependent-module archiveName="common-service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/common-service/common-service">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="project-tools-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/project-tools/project-tools">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="jasperreports-extension-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jasperreports-extension/jasperreports-extension">
             <dependency-type>uses</dependency-type>
         </dependent-module>

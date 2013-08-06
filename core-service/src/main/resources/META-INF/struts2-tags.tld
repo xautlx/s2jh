@@ -1536,9 +1536,9 @@
 	</tag>
 
 	<tag>
-		<description><![CDATA[Render HTML rich editor textarea tag.]]></description>
-		<name>htmltextarea</name>
-		<tag-class>org.apache.struts2.views.jsp.ui.S2HtmlTextareaTag</tag-class>
+		<description><![CDATA[Render HTML kindeditor tag.]]></description>
+		<name>kindeditor</name>
+		<tag-class>org.apache.struts2.views.jsp.ui.S2KindEditorTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description><![CDATA[Set the rich editor height attribute on rendered html element]]></description>
