@@ -36,7 +36,6 @@
 		<module>prototype</module>
 	</modules>
 
-
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
 		<s2jh.version>1.0.0</s2jh.version>

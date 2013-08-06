@@ -38,7 +38,7 @@
 
 <%-- Build from lesscss-maven-plugin --%>
 <link rel="stylesheet" type="text/css"
-	href="${base}/components/bootstrap/2.2.2/build/bootstrap.css?_=${buildVersion}">
+	href="${base}/components/bootstrap/2.2.2/out/bootstrap.css?_=${buildVersion}">
 
 <link rel="stylesheet" type="text/css"
 	href="${base}/components/styles/default.css?_=${buildVersion}">
