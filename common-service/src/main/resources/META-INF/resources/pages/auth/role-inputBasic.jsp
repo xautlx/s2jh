@@ -46,17 +46,7 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span6">
-					<s2:textarea name="description" label="描述" rows="3" id="abc" />
-					<s2:
-					<script type="text/javascript">
-                        $(function() {
-                            KindEditor.create('#abc', {
-                                uploadJson : '${base}/components/kindeditor/4.1.7/jsp/upload_json.jsp',
-                                fileManagerJson : '${base}/components/kindeditor/4.1.7/jsp/file_manager_json.jsp',
-                                allowFileManager : true
-                            });
-                        })
-                    </script>
+					<s2:textarea name="description" label="描述" rows="2"/>
 				</div>
 			</div>
 		</div>
