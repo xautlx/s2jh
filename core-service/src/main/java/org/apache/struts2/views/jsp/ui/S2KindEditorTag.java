@@ -5,6 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.struts2.components.TextArea;
 
+/**
+ * 基于KindEditor封装的大文本录入组件标签
+ * 用法示例：<s2:kindeditor name="description" label="描述" rows="3"/>
+ */
 public class S2KindEditorTag extends TextareaTag {
 
     /** 
