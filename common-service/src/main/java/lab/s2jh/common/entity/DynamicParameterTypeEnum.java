@@ -19,7 +19,7 @@ public enum DynamicParameterTypeEnum {
     @MetaData(title = "是否布尔型")
     BOOLEAN,
 
-    @MetaData(title = "枚举数据定义", description = "根据枚举对象的name()和getLabel()返回对应的key1-value1结构数据,对应的listDataSource写法示例：lab.apollo.demo.po.entity.PurchaseOrder$PurchaseOrderTypEnum")
+    @MetaData(title = "枚举数据定义", description = "根据枚举对象的name()和getLabel()返回对应的key1-value1结构数据,对应的listDataSource写法示例：lab.s2jh.demo.po.entity.PurchaseOrder$PurchaseOrderTypEnum")
     ENUM,
 
     @MetaData(title = "数据字典下拉列表", description = "提供数据字典表中CATEGORY对应的key1-value1结构数据,对应的listDataSource写法示例：PRIVILEGE_CATEGORY")

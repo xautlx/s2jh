@@ -67,7 +67,7 @@ public class DataDict extends BaseEntity<String> {
 
     /**
      * 字典数据对应的补充数据Value值，如果除了data1Value业务设计需要其他补充数据可启用扩展Value字段存取这些值
-     * 对于扩展数据的获取一般通过{@link lab.apollo.sys.service.DataDictService#findDataDictListByCategory(String)}
+     * 对于扩展数据的获取一般通过{@link lab.s2jh.sys.service.DataDictService#findDataDictListByCategory(String)}
      * 对于返回的数据，根据实际业务定制化使用即可
      */
     @MetaData(title = "数据2设定")
@@ -76,7 +76,7 @@ public class DataDict extends BaseEntity<String> {
 
     /**
      * 字典数据对应的补充数据Value值，如果除了data1Value业务设计需要其他补充数据可启用扩展Value字段存取这些值
-     * 对于扩展数据的获取一般通过{@link lab.apollo.sys.service.DataDictService#findDataDictListByCategory(String)}
+     * 对于扩展数据的获取一般通过{@link lab.s2jh.sys.service.DataDictService#findDataDictListByCategory(String)}
      * 对于返回的数据，根据实际业务定制化使用即可
      */
     @MetaData(title = "数据3设定", description = "以CLOB大文本方式存储用于特定的大文本数据配置")

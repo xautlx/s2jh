@@ -32,14 +32,14 @@ import freemarker.template.Template;
  * 生成的代码在：generator/codes目录下，其中standalone是一个Entity一个目录，用于偶尔重复生成拷贝某一个Entity相关代码之用，integrate是整合到一起的目录结构
  * 注意：生成的代码都在当前tools工程中，需自行根据需要拷贝所需相关代码到对应的业务工程目录或Package下，然后在业务工程中基于框架代码添加相关业务逻辑代码
  * 
- * 模板文件位置：project-tools\src\main\resources\lab\apollo\tool\builder\freemarker，可自行根据项目需要调整模板定义格式
+ * 模板文件位置：project-tools\src\main\resources\lab\s2jh\tool\builder\freemarker，可自行根据项目需要调整模板定义格式
  */
 public class SourceCodeFrameworkBuilder {
 
     public static void main(String[] args) throws Exception {
         Configuration cfg = new Configuration();
         // 设置FreeMarker的模版文件位置
-        cfg.setClassForTemplateLoading(SourceCodeFrameworkBuilder.class, "/lab/apollo/tool/builder/freemarker");
+        cfg.setClassForTemplateLoading(SourceCodeFrameworkBuilder.class, "/lab/s2jh/tool/builder/freemarker");
         cfg.setDefaultEncoding("UTF-8");
         String rootPath = args[0];
 
