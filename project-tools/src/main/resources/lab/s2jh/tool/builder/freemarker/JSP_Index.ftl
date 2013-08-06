@@ -54,11 +54,11 @@
                     formatter : function(cellValue, options, rowdata, action) {
                         return $.jgrid.buildButtons([ {
                             title : "编辑",
-                            icon : "ui-icon-pencil",
+                            icon : "icon-pencil",
                             onclick : "$('#" + $(this).attr("id") + "').jqGrid('editRow','" + rowdata.id + "')"
                         }, {
                             title : "查看",
-                            icon : "ui-icon-folder-open",
+                            icon : "icon-book",
                             onclick : "$.popupViewDialog('${base}${model_path}/${entity_name_field}!viewTabs?id=" + options.rowId + "')"
                         } ]);
                     }                 
