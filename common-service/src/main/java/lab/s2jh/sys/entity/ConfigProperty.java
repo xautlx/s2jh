@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "T_SYS_CFG_PROP")
-@Cache(usage = CacheConcurrencyStrategy.NONE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(title = "配置属性")
 public class ConfigProperty extends BaseEntity<String> {
 

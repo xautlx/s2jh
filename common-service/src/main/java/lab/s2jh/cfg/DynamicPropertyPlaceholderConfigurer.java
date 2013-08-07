@@ -48,7 +48,8 @@ public class DynamicPropertyPlaceholderConfigurer extends PropertyPlaceholderCon
                     }
                     //为了避免意外的数据库配置导致系统崩溃，约定以cfg打头标识的参数表示可以被数据库参数覆写，其余的则不会覆盖文件定义的属性值
                     if (name.startsWith("cfg.")) {
-                        props.setProperty(name, value);
+                        logger.info("Setup database property: {}={}", name, value);
+                        props.put(name, value);
                     }
                 }
             });

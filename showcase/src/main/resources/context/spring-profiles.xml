@@ -19,7 +19,7 @@
 			<property name="dataSource" ref="dataSource" />
 			<property name="tableName" value="T_SYS_CFG_PROP" />
 			<property name="nameColumn" value="prop_key" />
-			<property name="valueColumn" value="prop_dynamic_value" />
+			<property name="valueColumn" value="simple_value" />
 		</bean>
 
 		<!-- H2文件模式数据库 -->

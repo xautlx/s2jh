@@ -18,7 +18,7 @@
 			<property name="dataSource" ref="dataSource" />
 			<property name="tableName" value="T_SYS_CFG_PROP" />
 			<property name="nameColumn" value="prop_key" />
-			<property name="valueColumn" value="prop_dynamic_value" />
+			<property name="valueColumn" value="simple_value" />
 		</bean>
 
 		<!-- H2文件模式数据库，实际开发替换成其他MySQL、Oracle等数据库配置即可，注意别忘了在pom.xml中添加对应数据库驱动的依赖 -->
