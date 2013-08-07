@@ -6,12 +6,14 @@
 <#include "/${parameters.templateDir}/simple/textarea.ftl" />
 <script type="text/javascript">
 $(function() {
-    $('#${parameters.id?html}').attr("kindeditor","KindEditor_${parameters.id?html}");
-    var KindEditor_${parameters.id?html} = KindEditor.create('#${parameters.id?html}', $.extend({
+    KindEditor.create('#${parameters.id?html}', $.extend({
         uploadJson : '${request.contextPath}/components/kindeditor/4.1.7/jsp/upload_json.jsp',
         fileManagerJson : '${request.contextPath}/components/kindeditor/4.1.7/jsp/file_manager_json.jsp',
         allowFileManager : false,
-        width: '100%'
+        width: '100%',
+        afterBlur : function() {
+            this.sync();
+        }
     },${parameters.options?default("{}")?string}));
 })
 </script>
