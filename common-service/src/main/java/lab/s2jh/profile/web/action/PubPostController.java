@@ -14,6 +14,7 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.sys.entity.PubPost;
 import lab.s2jh.sys.entity.PubPostRead;
 import lab.s2jh.sys.service.PubPostReadService;
@@ -71,7 +72,10 @@ public class PubPostController extends BaseController<PubPost, String> {
         return buildDefaultHttpHeaders("list");
     }
 
+    @MetaData(title="用户公告消息列表")
+    @SecurityControllIgnore
     public HttpHeaders messages() {
+        //进行Session数据缓存优化处理，避免每次查询数据库
         HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
         List<PubPost> pubPosts = pubPostService.findPublished();
