@@ -1,0 +1,1 @@
+ul.marquee{display:block;padding:0;margin:0;list-style:none;line-height:1;position:relative;overflow:hidden;width:500px;height:22px;background-color:#f2f2ff;border:1px solid #08084d;}ul.marquee li{position:absolute;top:-999em;left:0;display:block;white-space:nowrap;font:14px Arial,Helvetica,sans-serif;padding:3px 5px;}

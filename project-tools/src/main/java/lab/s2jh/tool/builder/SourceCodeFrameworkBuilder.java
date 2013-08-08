@@ -118,7 +118,7 @@ public class SourceCodeFrameworkBuilder {
                 } else if (fieldType == Boolean.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
-                    entityCodeField.setListWidth(60);
+                    //entityCodeField.setListWidth(60);
                     entityCodeField.setListAlign("center");
                 } else if (Number.class.isAssignableFrom(fieldType)) {
                     entityCodeField = new EntityCodeField();
@@ -133,7 +133,7 @@ public class SourceCodeFrameworkBuilder {
                 } else if (fieldType == Date.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
-                    entityCodeField.setListWidth(120);
+                    //entityCodeField.setListWidth(120);
                     entityCodeField.setListAlign("center");
                 }
 

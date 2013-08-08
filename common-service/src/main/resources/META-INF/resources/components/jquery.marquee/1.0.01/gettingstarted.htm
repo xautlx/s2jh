@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Giva Labs - Marquee jQuery Plug-in | Giva</title>
+
+	<link type="text/css" href="./css/docs.css" rel="stylesheet" media="all" />
+	<link type="text/css" href="./css/jquery.marquee.css" rel="stylesheet" media="all" />
+
+	<!---// load jQuery from the GoogleAPIs CDN //--->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript" src="./lib/jquery.marquee.js"></script>
+
+	<script type="text/javascript">
+	<!--//
+	// on DOM ready
+	$(document).ready(function (){
+		$("#current_rev").html("v"+$.marquee.version);
+		$("#marquee").marquee();
+	});
+	//-->
+	</script>
+</head>
+
+<body>
+
+			<h1 class="secttl">Giva Labs</h1>
+			<h2 class="sectag">Marquee jQuery Plug-in <span id="current_rev"></span></h2>
+
+			<h3 id="overview">Overview</h3>
+			<p>
+				The jQuery Marquee plug-in converts a list element (&lt;ul /&gt; or &lt;ol /&gt;)
+				into an ESPN-style scrolling marquee. Messages are scrolled in from top or bottom
+				(based on the yScroll option) and longer messages will then ticker to the left in
+				order to show the full message.
+			</p>
+
+			<h3 id="requirements">Requirements</h3>
+			<p>In order to use the Marquee plug-in, you need the following: </p>
+			<ul class="bullet">
+				<li class="bullet">jQuery v1.2.6 (or higher)*</li>
+				<li class="bullet">jquery.marquee.js Plug-in</li>
+			</ul>
+			<blockquote>
+				* This plug-in may work with older versions of jQuery in the 1.2 family. If you try 
+				using this with an older version of jQuery, you will need to include the 
+				jquery.dimensions.js plug-in (as of jQuery v1.2.6 the jquery.dimensions.js
+				plug-in is included in the jQuery core.)
+			</blockquote>
+
+			<h3 id="usage">Usage</h3>
+
+			<p>
+				To convert your &lt;ul /&gt; (or &lt;ol /&gt; elements into marquee elements, just invoke 
+				the jQuery plug-in using the following syntax:
+			</p>
+
+			<pre><code class="js">$(&quot;ul&quot;).marquee(<em>[options]</em>);</code></pre>
+
+			<h4 id="arguments">Arguments</h4>
+			<dl>
+				<dt>options</dt>
+				<dd>
+					<p>
+						This argument is <em><strong>optional</strong></em> and allows you to customize the 
+						settings used for each instance of the plug-in. For a list of all available options, 
+						see the <a href="#options">Options</a> section.
+					</p>
+				</dd>
+			</dl>
+			
+			<p>Now that we have a reference to the widget, we can invoke any of the public API calls.</p>
+
+			<h4 id="methods">Public API</h4>
+			<dl class="methods">
+				<dt>$("#id").marquee("update")</dt>
+				<dd>
+					<p>
+						This updates the marquee's cache&#8212;which is required after dynamically updating the
+						&lt;ul /&gt; elements content in order to show the new elements.
+					</p>
+				</dd>
+				<dt>$("#id").marquee("pause")</dt>
+				<dd>
+					<p>Pauses the current marquee to prevent it from scrolling.</p>
+				</dd>
+				<dt>$("#id").marquee("resume")</dt>
+				<dd>
+					<p>Resumes the marquee so it begins scrolling again.</p>
+				</dd>
+				<dt>$("#id").marquee("object")</dt>
+				<dd>
+					<p>
+						Returns a reference to the internal $.Marquee object. This is for advanced usage only. 
+						Examine the source code for uses of the $.Marquee object.
+					</p>
+				</dd>
+			</dl>
+
+			<h4 id="options">Options</h4>
+			<p>There are a number of options available for customizing the look and feel of the Marquee widget.</p>
+<pre><code class="js">{
+         yScroll: "top"                          // the position of the marquee initially scroll (can be 
+                                                 // either "top" or "bottom")
+       , showSpeed: 850                          // the speed of to animate the initial dropdown of the messages
+       , scrollSpeed: 12                         // the speed of the scrolling (keep number low)
+       , pauseSpeed: 5000                        // the time to wait before showing the next message or 
+                                                 // scrolling current message
+       , pauseOnHover: true                      // determine if we should pause on mouse hover
+       , loop: -1                                // determine how many times to loop through the marquees 
+                                                 // (#'s < 0 = infinite)
+       , fxEasingShow: "swing"                   // the animition easing to use when showing a new marquee
+       , fxEasingScroll: "linear"                // the animition easing to use when showing a new marquee
+
+       // define the class statements
+       , cssShowing: "marquee-showing"
+
+       // event handlers
+       , init: null                              // callback that occurs when a marquee is initialized
+       , beforeshow: null                        // callback that occurs before message starts scrolling on screen
+       , show: null                              // callback that occurs when a new marquee message is displayed
+       , aftershow: null                         // callback that occurs after the message has scrolled
+}</code></pre>
+
+			<h3 id="getting_started">Getting Started</h3>
+			<p>The first thing we need to do is to load the required JavaScript libraries and the CSS stylesheet used by the widget:</p>
+<pre><code class="html">&lt;!---// load jQuery and the jQuery Marquee Plug-in //---&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;./lib/jquery.marquee.js&quot;&gt;&lt;/script&gt;
+
+&lt;!---// load the Marquee CSS stylesheet //---&gt;
+&lt;link type=&quot;text/css&quot; href=&quot;./css/jquery.marquee.css&quot; rel=&quot;stylesheet&quot; media=&quot;all&quot; /&gt;</code></pre>
+
+			<p>Before you can invoke an instance of the Marquee widget, you must have one or more list elements on your page.</p>
+
+			<pre><code class="html">&lt;ul id="marquee" class="marquee"&gt;
+  &lt;li&gt;
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed a nulla. 
+    Lorem ipsum dolor sit amet, consectetuer.&lt;/li&gt;
+  &lt;li&gt;
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per 
+    inceptos hymenaeos. Fusce tincidunt adipiscing,massa. Class aptent taciti 
+    sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. 
+    Fusce tincidunt adipiscing,massa.
+  &lt;/li&gt;
+  &lt;li&gt;
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per 
+    inceptos hymenaeos. Fusce tincidunt adipiscing,massa.
+  &lt;/li&gt;
+  &lt;li&gt;
+    Mauris ullamcorper euismod leo. Nulla congue tellus vitae ante at pede eu 
+    ligula lacinia. Integer sed sapien, rutrum nec.
+  &lt;/li&gt;
+  &lt;li&gt;
+    Aliquam erat volutpat. Fusce dolor. Vestibulum ornare congue turpis 
+    sollicitudin nunc elit. Nullam erat neque, facilisis quis.
+  &lt;/li&gt;
+  &lt;li&gt;
+    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur 
+    ridiculus mus. Nam non eros sed facilisis, bibendum eu.
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+			<p>
+				The next step is to actually create an instance of the Marquee widget. You want to make 
+				sure to initialize the widget after all the necessary DOM elements are available, which 
+				makes the document.ready event a great place to initialize the widget.
+			</p>
+<pre><code class="html">&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function (){
+  $("#marquee").marquee();
+});
+&lt;/script&gt;</code></pre>
+			<p>Now let us take a look at what the code above produced.</p>
+			<h3 id="example">Example</h3>
+			
+			<ul id="marquee" class="marquee" style="margin: 20px;">
+				<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed a nulla. Lorem ipsum dolor sit amet, consectetuer.</li>
+				<li>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Fusce tincidunt adipiscing,massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Fusce tincidunt adipiscing,massa.</li>
+				<li>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Fusce tincidunt adipiscing,massa.</li>
+				<li>Mauris ullamcorper euismod leo. Nulla congue tellus vitae ante at pede eu ligula lacinia. Integer sed sapien, rutrum nec.</li>
+				<li>Aliquam erat volutpat. Fusce dolor. Vestibulum ornare congue turpis sollicitudin nunc elit. Nullam erat neque, facilisis quis.</li>
+				<li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam non eros sed facilisis, bibendum eu.</li>
+			</ul>
+			<!--// end example code //-->
+
+			<p>
+				You can mouse over the message to prevent the message from scrolling&#8212;which is nice if your messages
+				have embedded links.
+			</p>
+			
+			<p>
+				For more examples, see the <a href="marquee_example.htm">Giva Labs - Marquee Example Page</a> page.
+			</p>
+
+			<h3 id="support">Support</h3>
+			<p>
+				This source code is provided as-is. At this time Giva is not offering direct support for this product. 
+				If you are in need of assistance,  post your question to one of the 
+				<a href="http://docs.jquery.com/Discussion">jQuery Mailing Lists</a>. Members of the Giva development 
+				team actively participate on the jQuery Mailing lists, so if we see your question we will try our 
+				best to respond.
+			</p>
+
+			<h3 id="license">License</h3>
+			<pre>Copyright 2009 Giva, Inc. (<a href="http://www.givainc.com/labs/">http://www.givainc.com/labs/</a>) 
+
+Licensed under the Apache License, Version 2.0 (the "License"); 
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at 
+	<a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">http://www.apache.org/licenses/LICENSE-2.0</a> 
+
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an "AS IS" BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+See the License for the specific language governing permissions and 
+limitations under the License.</pre>
+
+			<h3 id="revision">
+				Revisions
+			</h3>
+			<dl class="revisions">
+				<dt>v1.0.01 (2009-05-20)</dt>
+				<dd>
+					<ul>
+						<li>Initial release</li>
+					</ul>
+				</dd>
+			</dl>
+
+</body>
+
+</html>

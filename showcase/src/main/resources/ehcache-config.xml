@@ -16,7 +16,11 @@
         memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false"
         overflowToDisk="true" maxElementsOnDisk="1000000">
     </cache>
-
+    <cache name="PubPostSpringCache" maxElementsInMemory="50000"
+        memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false"
+        overflowToDisk="true" maxElementsOnDisk="1000000">
+    </cache>
+    
 	<cache name="XxJcxxSpringCache" maxElementsInMemory="50000"
 		memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false"
 		overflowToDisk="true" maxElementsOnDisk="1000000">

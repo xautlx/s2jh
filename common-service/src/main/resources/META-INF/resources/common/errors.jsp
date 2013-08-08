@@ -7,6 +7,7 @@
 <%@page import="org.apache.commons.lang3.BooleanUtils"%>
 <%@page import="org.slf4j.MDC"%>
 <%@page import="lab.s2jh.core.web.interceptor.ExtTokenInterceptor"%>
+<%@page import="javax.servlet.http.HttpServletResponse"%>
 <%@ page contentType="text/html; charset=UTF-8" isErrorPage="true"%>
 <%
     org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("lab.s2jh.errors");
@@ -27,7 +28,9 @@
     boolean skipLog = false;
     String errorTitle = "ERR" + rand + ": ";
     String errorMessage = errorTitle + "系统运行错误，请联系管理员！";
-    if (e instanceof lab.s2jh.core.exception.BaseRuntimeException) {
+    if (e instanceof lab.s2jh.core.exception.DuplicateTokenException) {
+        errorMessage = "请勿快速重复提交表单";
+    } else if (e instanceof lab.s2jh.core.exception.BaseRuntimeException) {
         errorMessage = errorTitle + e.getMessage();
     } else if (e instanceof org.springframework.dao.DataIntegrityViolationException) {
         org.springframework.dao.DataIntegrityViolationException dive = (org.springframework.dao.DataIntegrityViolationException) e;
@@ -37,7 +40,6 @@
             if (cve.getCause() instanceof java.sql.SQLException) {
                 java.sql.SQLException sqle = (java.sql.SQLException) cve.getCause();
                 String sqlMessage = sqle.getMessage();
-                System.out.println("--------------"+sqlMessage);
                 if (sqlMessage != null && (sqlMessage.indexOf("FK") > -1 || sqlMessage.startsWith("ORA-02292"))) {
                     errorMessage = "该数据已被关联使用，请求的操作无效。若有疑问请联系系统管理员。";
                     skipLog = true;

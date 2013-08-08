@@ -32,6 +32,8 @@
                     <s2:radio name="${entityField.fieldName}" list="#application.booleanLabelMap" label="${entityField.title}"/>
                     <#elseif entityField.enumField>
                     <s:select name="${entityField.fieldName}" list="#application.${entityField.uncapitalizeFieldType}Map" label="${entityField.title}"/>
+                    <#elseif entityField.fieldType=='Date'>
+                    <s2:datetextfield name="${entityField.fieldName}" cssClass="input-small" label="${entityField.title}" format="date"/>                  
                     <#elseif entityField.fieldType=='LocalDate'>
                     <s2:datetextfield name="${entityField.fieldName}" cssClass="input-small" label="${entityField.title}" format="date"/> 
                     <#elseif entityField.fieldType=='LocalDateTime'>

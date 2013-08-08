@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import lab.s2jh.core.exception.DuplicateTokenException;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.TokenHelper;
 import org.slf4j.Logger;
@@ -39,7 +41,7 @@ public class ExtTokenInterceptor extends MethodFilterInterceptor {
             synchronized (session) {
                 String counterToken = (String) session.getAttribute(TOKEN_COUNTER);
                 if (counterToken != null && token.equals(counterToken)) {
-                    throw new IllegalStateException("The form has already been processed");
+                    throw new DuplicateTokenException("The form has already been processed");
                 }
                 session.setAttribute(TOKEN_COUNTER, token);
             }

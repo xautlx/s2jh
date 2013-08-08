@@ -473,7 +473,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * @param entity 待update可操作性检查对象
      * @return 是否禁止更新
      */
-    public boolean isDisallowUpdate(T entity) {
+    public boolean isDisallowUpdate() {
         return false;
     }
 
@@ -486,7 +486,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 同理：子类在其他业务方法处理时，如果也需要进行额外的数据检查时，也要注意此规则应该在对应的prepare回调方法中进行，而不是业务执行方法中
      */
     public void prepareDoUpdate() {
-        Assert.isTrue(!isDisallowUpdate(bindingEntity), "数据访问权限不足");
+        Assert.isTrue(!isDisallowUpdate(), "数据访问权限不足");
     }
 
     /**

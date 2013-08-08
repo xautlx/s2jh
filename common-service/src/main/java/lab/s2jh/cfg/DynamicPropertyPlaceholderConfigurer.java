@@ -16,6 +16,9 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 
 /**
  * 基于数据库加载动态配置参数
+ * 框架扩展属性加载：Spring除了从.properties加载属性数据，还会从T_SYS_CFG_PROP加载属性数据
+ * 并且数据库如果存在同名属性则优先取数据库的属性值覆盖配置文件中的值
+ * 为了避免意外的数据库配置导致系统崩溃，约定以cfg打头标识的参数表示可以被数据库参数覆写，其余的则不会覆盖文件定义的属性值
  */
 public class DynamicPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 

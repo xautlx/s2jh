@@ -9,6 +9,38 @@
 <script src="${base}/components/jquery-xtabpanel/2.0/xTabPanel.js?_=${buildVersion}"></script>
 <link rel="stylesheet" type="text/css"
 	href="${base}/components/jquery-xtabpanel/2.0/xTabPanel.css?_=${buildVersion}">
+
+<script src="${base}/components/jquery.marquee/1.0.01/lib/jquery.marquee.js?_=${buildVersion}"></script>
+<style type="text/css">
+ul.marquee {
+	/* required styles */
+	display: block;
+	padding: 2px;
+	margin-top: 3px;
+	list-style: none;
+	line-height: 1;
+	position: relative;
+	overflow: hidden;
+	/* optional styles for appearance */
+	width: 300px;
+	height: 20px;
+	/* height should be included to reserve visual space for the marquee */
+	border: 0px;
+}
+
+ul.marquee li {
+	/* required styles */
+	position: absolute;
+	top: -999em;
+	left: 0;
+	display: block;
+	white-space: nowrap; /* keep all text on a single line */
+	/* optional styles for appearance */
+	font: 14px Arial, Helvetica, sans-serif;
+	padding: 3px 5px;
+}
+</style>
+
 </head>
 <body>
 
@@ -30,9 +62,11 @@
 		<div class="navbar">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href='javascript:void(0)' onclick="window.location.reload()">&nbsp;<s:property value="%{systemTitle}" /></a>
+					<a class="brand" href='javascript:void(0)' onclick="window.location.reload()">&nbsp;<s:property
+							value="%{systemTitle}" /></a>
 					<div class="nav-collapse collapse navbar-responsive-collapse">
 						<ul class="nav pull-right">
+							<li class="divider-vertical"></li>
 							<li><a href="javascript:void(0)"><s:property value="%{authUserDetails.username}" /></a></li>
 							<li><a href="javascript:void(0)" id="switchLayout"><i class="icon-fullscreen"></i>
 									切换显示</a></li>
@@ -42,6 +76,10 @@
 								onclick="if(confirm('确认注销登录吗？')){window.location.href='${base}/j_spring_security_logout';}">
 									<i class="icon-off"></i> 注销登录
 							</a></li>
+						</ul>
+						<ul class="marquee pull-right" id="marquee">
+							<i class="icon-volume-down" style="display: none"></i>
+							<li><a href="javascript:void(0)" class="hide">暂无最新公告</a></li>
 						</ul>
 					</div>
 					<!-- /.nav-collapse -->
@@ -61,8 +99,8 @@
 				<span id="messageBar">&nbsp;</span>
 			</div>
 			<div class="span2">
-			    <div style="line-height: 15px"><%@ include file="/common/app-ver.jsp"%></div>
-			 </div>
+				<div style="line-height: 15px"><%@ include file="/common/app-ver.jsp"%></div>
+			</div>
 			<div class="span2">
 				<div id="timerDisplayBar" class="pull-right" style="line-height: 15px"></div>
 			</div>
@@ -306,6 +344,56 @@
                     height : 350
                 })
             })
+
+            var timer = setInterval(function() {
+                var $marquee = $("#marquee");
+                var $lis = $marquee.find("> li");
+
+                $.ajax({
+                    type : "GET",
+                    dataType : "json",
+                    url : "${base}/profile/pub-post!messages",
+                    success : function(data) {
+                        $marquee.find("> li").each(function() {
+                            var id = $(this).attr("id");
+                            if (id) {
+                                var needRemove = true;
+                                $.each(data, function(i, item) {
+                                    if (item.id == id) {
+                                        needRemove = false;
+                                    }
+                                });
+                                if (needRemove) {
+                                    $(this).remove();
+                                }
+                            }
+                        });
+
+                        $.each(data, function(i, item) {
+                            if ($marquee.find("> li[id='" + item.id + "']").length == 0) {
+                                $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.htmlTitle + '</a></li>'));
+                            }
+                        });
+                        if ($marquee.find("> li[id]").length == 0) {
+                            $marquee.find("> i").hide();
+                        } else {
+                            $marquee.find("> i").show();
+                        }
+                        $marquee.marquee("update");
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        clearInterval(timer);
+                        alert('系统检测到请求异常，请尝试刷新页面');
+                    }
+                });
+            }, 5*60*1000);
+
+            $("#marquee").delegate("li", "click", function() {
+                var id = $(this).attr("id");
+                $.popupViewDialog('${base}/profile/pub-post!view?id=' + id);
+            });
+
+            $("#marquee").marquee();
         });
 
         //系统时间显示

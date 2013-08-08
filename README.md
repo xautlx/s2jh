@@ -18,7 +18,7 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 * 纯粹的免费开源技术选型，不涉及直接的收费License技术组件
 * 基于Maven的组件依赖管理模式，并扩展介绍持续集成开发配置
 
-### Snapshoot
+### Snapshot
 
-![Snapshoot View](https://raw.github.com/wiki/xautlx/s2jh/images/index.gif)
+![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index.gif)
 

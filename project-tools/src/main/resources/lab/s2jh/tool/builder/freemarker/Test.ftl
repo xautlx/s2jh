@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import com.google.common.collect.Sets;
+
 @ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
 public class ${entity_name}ServiceTest extends SpringTransactionalTestCase {
 

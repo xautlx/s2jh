@@ -14,10 +14,8 @@ import com.opensymphony.xwork2.interceptor.PrefixMethodInvocationUtil;
 public class ExtPrepareInterceptor extends MethodFilterInterceptor {
 
     private final static String PREPARE_PREFIX = "prepare";
-    private final static String ALT_PREPARE_PREFIX = "prepareDo";
 
     private boolean alwaysInvokePrepare = true;
-    private boolean firstCallPrepareDo = false;
 
     /**
      * Sets if the <code>preapare</code> method should always be executed.
@@ -30,37 +28,20 @@ public class ExtPrepareInterceptor extends MethodFilterInterceptor {
         this.alwaysInvokePrepare = Boolean.parseBoolean(alwaysInvokePrepare);
     }
 
-    /**
-     * Sets if the <code>prepareDoXXX</code> method should be called first
-     * <p/>
-     * Default is <tt>false</tt> for backward compatibility
-     *
-     * @param firstCallPrepareDo if <code>prepareDoXXX</code> should be called first
-     */
-    public void setFirstCallPrepareDo(String firstCallPrepareDo) {
-        this.firstCallPrepareDo = Boolean.parseBoolean(firstCallPrepareDo);
-    }
-
     @Override
     public String doIntercept(ActionInvocation invocation) throws Exception {
         Object action = invocation.getAction();
 
         if (action instanceof Preparable) {
-            
+
             if (alwaysInvokePrepare) {
                 ((Preparable) action).prepare();
             }
-            
+
             try {
-                String[] prefixes;
-                if (firstCallPrepareDo) {
-                    prefixes = new String[] {ALT_PREPARE_PREFIX, PREPARE_PREFIX};
-                } else {
-                    prefixes = new String[] {PREPARE_PREFIX, ALT_PREPARE_PREFIX};
-                }
+                String[] prefixes = new String[] { PREPARE_PREFIX };
                 PrefixMethodInvocationUtil.invokePrefixMethod(invocation, prefixes);
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 /*
                  * The invoked method threw an exception and reflection wrapped it
                  * in an InvocationTargetException.
@@ -70,7 +51,7 @@ public class ExtPrepareInterceptor extends MethodFilterInterceptor {
                 Throwable cause = e.getCause();
                 if (cause instanceof Exception) {
                     throw (Exception) cause;
-                } else if(cause instanceof Error) {
+                } else if (cause instanceof Error) {
                     throw (Error) cause;
                 } else {
                     /*
@@ -80,7 +61,6 @@ public class ExtPrepareInterceptor extends MethodFilterInterceptor {
                     throw e;
                 }
             }
-
 
         }
 

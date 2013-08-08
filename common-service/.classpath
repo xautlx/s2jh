@@ -30,6 +30,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/core-service"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/project-tools"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

@@ -77,7 +77,13 @@
                 </#if>  
                 <#if entityField.fieldType=='Boolean'>          
                     formatter : booleanFormatter,
-                </#if>                                      
+                </#if>  
+                <#if entityField.fieldType=='Date'>          
+                    sorttype: 'date',
+                </#if>
+                <#if entityField.fieldType=='BigDecimal'>          
+                    sorttype: 'number',
+                </#if>                                                                       
                     align : '${entityField.listAlign}'
                 </#if>
                 </#list>

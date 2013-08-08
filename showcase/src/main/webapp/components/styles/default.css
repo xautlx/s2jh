@@ -351,6 +351,10 @@ span.highlight {
 	margin-bottom: 0px
 }
 
+.alert{
+    margin-bottom: 0px
+}
+
 /*偶数行颜色#f8f8f8  奇数行颜色与北京颜色相同为#f1f1f1   选中状态颜色#96c0e3   鼠标滑过状态颜色#d5e6f4；*/
 .evennumber {
     background: #f8f8f8;
