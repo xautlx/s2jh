@@ -16,7 +16,7 @@ ul.marquee {
 	/* required styles */
 	display: block;
 	padding: 2px;
-	margin-top: 3px;
+	margin-top: 2px;
 	list-style: none;
 	line-height: 1;
 	position: relative;
@@ -26,6 +26,10 @@ ul.marquee {
 	height: 20px;
 	/* height should be included to reserve visual space for the marquee */
 	border: 0px;
+}
+
+ul.marquee i {
+    margin-top: 5px;
 }
 
 ul.marquee li {
@@ -255,6 +259,50 @@ ul.marquee li {
             window.clearInterval(window.thread);
             $('#progressBar').progressbar('option', 'value', 0);
         }
+        
+        //更新公告
+        function updatePubPost() {
+            var $marquee = $("#marquee");
+            var $lis = $marquee.find("> li");
+
+            $.ajax({
+                type : "GET",
+                dataType : "json",
+                url : "${base}/profile/pub-post!messages",
+                success : function(data) {
+                    $marquee.find("> li").each(function() {
+                        var id = $(this).attr("id");
+                        if (id) {
+                            var needRemove = true;
+                            $.each(data, function(i, item) {
+                                if (item.id == id) {
+                                    needRemove = false;
+                                }
+                            });
+                            if (needRemove) {
+                                $(this).remove();
+                            }
+                        }
+                    });
+
+                    $.each(data, function(i, item) {
+                        if ($marquee.find("> li[id='" + item.id + "']").length == 0) {
+                            $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.publishTime +' ' + item.htmlTitle + '</a></li>'));
+                        }
+                    });
+                    if ($marquee.find("> li[id]").length == 0) {
+                        $marquee.find("> i").hide();
+                    } else {
+                        $marquee.find("> i").show();
+                    }
+                    $marquee.marquee("update");
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    clearInterval(timer);
+                    alert('系统检测到请求异常，请尝试刷新页面');
+                }
+            });
+        };
 
         /*
          *#######################
@@ -343,48 +391,11 @@ ul.marquee li {
                 })
             })
 
-            var timer = setInterval(function() {
-                var $marquee = $("#marquee");
-                var $lis = $marquee.find("> li");
+            
 
-                $.ajax({
-                    type : "GET",
-                    dataType : "json",
-                    url : "${base}/profile/pub-post!messages",
-                    success : function(data) {
-                        $marquee.find("> li").each(function() {
-                            var id = $(this).attr("id");
-                            if (id) {
-                                var needRemove = true;
-                                $.each(data, function(i, item) {
-                                    if (item.id == id) {
-                                        needRemove = false;
-                                    }
-                                });
-                                if (needRemove) {
-                                    $(this).remove();
-                                }
-                            }
-                        });
-
-                        $.each(data, function(i, item) {
-                            if ($marquee.find("> li[id='" + item.id + "']").length == 0) {
-                                $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.htmlTitle + '</a></li>'));
-                            }
-                        });
-                        if ($marquee.find("> li[id]").length == 0) {
-                            $marquee.find("> i").hide();
-                        } else {
-                            $marquee.find("> i").show();
-                        }
-                        $marquee.marquee("update");
-                    },
-                    error : function(XMLHttpRequest, textStatus, errorThrown) {
-                        clearInterval(timer);
-                        alert('系统检测到请求异常，请尝试刷新页面');
-                    }
-                });
-            }, 5*60*1000);
+            updatePubPost();
+            
+            var timer = setInterval(updatePubPost, 5 * 60 * 1000);
 
             $("#marquee").delegate("li", "click", function() {
                 var id = $(this).attr("id");
