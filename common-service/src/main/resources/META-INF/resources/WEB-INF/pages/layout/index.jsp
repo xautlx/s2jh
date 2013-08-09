@@ -290,12 +290,12 @@ ul.marquee li {
                             $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.publishTime +' ' + item.htmlTitle + '</a></li>'));
                         }
                     });
+                    $marquee.marquee("update");
                     if ($marquee.find("> li[id]").length == 0) {
                         $marquee.find("> i").hide();
                     } else {
                         $marquee.find("> i").show();
                     }
-                    $marquee.marquee("update");
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
                     clearInterval(timer);

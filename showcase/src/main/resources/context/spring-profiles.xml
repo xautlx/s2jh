@@ -67,8 +67,8 @@
 			<jdbc:script location="classpath:sql/data/t_rpt_report_param.sql"
 				encoding="UTF-8" />
 
-            <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
-                encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
+				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/sys_enum_type.sql"
 				encoding="UTF-8" />
@@ -160,8 +160,8 @@
 			<jdbc:script location="classpath:sql/data/t_rpt_report_param.sql"
 				encoding="UTF-8" />
 
-            <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
-                encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
+				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/sys_enum_type.sql"
 				encoding="UTF-8" />
@@ -203,4 +203,30 @@
 			<property name="password" value="showcase" />
 		</bean>
 	</beans>
+
+	<!-- Oracle配置演示 -->
+	<beans profile="oracle">
+		<!-- 缺省PropertyPlaceholder定义 -->
+		<bean
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations">
+				<list>
+					<value>classpath:/application.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="true" />
+		</bean>
+
+		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+		<!-- Oracle 定义DBCP连接池 -->
+		<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+			destroy-method="close" depends-on="extSlf4jSpyLogDelegator">
+			<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
+			<property name="url"
+				value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE" />
+			<property name="username" value="showcase" />
+			<property name="password" value="showcase" />
+		</bean>
+	</beans>
+
 </beans>

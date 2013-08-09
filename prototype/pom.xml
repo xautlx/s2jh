@@ -30,7 +30,9 @@
 			<artifactId>common-service</artifactId>
 			<version>${s2jh.version}</version>
 		</dependency>
-		
+		<!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> 
+			<artifactId>ojdbc6</artifactId> <scope>runtime</scope> </dependency> -->
+			
 		<!-- j2ee web spec -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
