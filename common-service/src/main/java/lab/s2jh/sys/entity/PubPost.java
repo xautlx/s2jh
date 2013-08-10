@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -44,6 +46,10 @@ public class PubPost extends BaseEntity<String> {
     @MetaData(title = "总计查看用户数")
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
+    
+    @MetaData(title = "关联附件")
+    @EntityAutoCode(order = 100, search = false)
+    private AttachmentFile r2File;
 
     private String id;
 
@@ -105,5 +111,15 @@ public class PubPost extends BaseEntity<String> {
 
     public void setReadUserCount(Integer readUserCount) {
         this.readUserCount = readUserCount;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "FILE_ID")
+    public AttachmentFile getR2File() {
+        return r2File;
+    }
+
+    public void setR2File(AttachmentFile r2File) {
+        this.r2File = r2File;
     }
 }

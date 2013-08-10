@@ -12,6 +12,11 @@ $(function() {
         fileManagerJson : '${request.contextPath}/components/kindeditor/4.1.7/jsp/file_manager_json.jsp',
         allowFileManager : false,
         width: '100%',
+        minWidth: '200px',
+        minHeight: '60px',
+<#if parameters.dynamicAttributes["items"]??>
+        items : ${parameters.dynamicAttributes["items"]?string},
+</#if>        
         afterBlur : function() {
             this.sync();
         }

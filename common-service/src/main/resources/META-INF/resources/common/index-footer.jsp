@@ -61,6 +61,7 @@
 <script src="${base}/components/js-util/pinyin.js?_=${buildVersion}"></script>
 
 <script src="${base}/components/bootstrap/2.2.2/js/bootstrap-carousel.js?_=${buildVersion}"></script>
+<script src="${base}/components/bootstrap/2.2.2/js/bootstrap-tooltip.js?_=${buildVersion}"></script>
 
 <script src="${base}/components/bootstrap.wizard/1.0/bootstrap-wizard.js?_=${buildVersion}"></script>
 <link rel="stylesheet" type="text/css"

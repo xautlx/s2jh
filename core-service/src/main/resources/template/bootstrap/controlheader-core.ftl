@@ -23,12 +23,28 @@
   <label class="control-label"
 <#if parameters.id??>
         for="${parameters.id?html}" <#t/>
+</#if> 
+<#if parameters.tooltip??>
+        title="${parameters.tooltip?html}" <#t/>      
 </#if>  
     ><#t/>
 <#if parameters.required?default(false)>
         <span class="required">*</span><#t/>
 </#if>
-        ${parameters.label?html}${parameters.labelseparator!""?html}
+<#if parameters.tooltip??>
+        <i class="icon-info-sign"></i>
+</#if> 
+     ${parameters.label?html}${parameters.labelseparator!""?html}  
     </label><#t/>
+<#if parameters.tooltip??>
+<script type="text/javascript">
+    $(function() {
+        $("label[title]").tooltip({
+            placement : 'right',
+            html : true
+        });
+    })
+</script>
+</#if>
     <div class="controls">
 </#if>

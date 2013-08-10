@@ -4,8 +4,10 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.sys.entity.PubPost;
+import lab.s2jh.sys.service.AttachmentFileService;
 import lab.s2jh.sys.service.PubPostService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +16,9 @@ public class PubPostController extends BaseController<PubPost, String> {
 
     @Autowired
     private PubPostService pubPostService;
+
+    @Autowired
+    private AttachmentFileService attachmentFileService;
 
     @Override
     protected BaseService<PubPost, String> getEntityService() {
@@ -28,6 +33,10 @@ public class PubPostController extends BaseController<PubPost, String> {
     @Override
     @MetaData(title = "创建")
     public HttpHeaders doCreate() {
+        String fileId = this.getParameter("r2FileId");
+        if (StringUtils.isNotBlank(fileId)) {
+            bindingEntity.setR2File(attachmentFileService.findOne(fileId));
+        }
         return super.doCreate();
     }
 
@@ -41,6 +50,12 @@ public class PubPostController extends BaseController<PubPost, String> {
     @Override
     @MetaData(title = "更新")
     public HttpHeaders doUpdate() {
+        String fileId = this.getParameter("r2FileId");
+        if (StringUtils.isNotBlank(fileId)) {
+            bindingEntity.setR2File(attachmentFileService.findOne(fileId));
+        } else {
+            bindingEntity.setR2File(null);
+        }
         return super.doUpdate();
     }
 

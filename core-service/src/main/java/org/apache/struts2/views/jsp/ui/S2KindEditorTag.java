@@ -1,8 +1,7 @@
 package org.apache.struts2.views.jsp.ui;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.components.TextArea;
 
 /**
@@ -11,13 +10,15 @@ import org.apache.struts2.components.TextArea;
  */
 public class S2KindEditorTag extends TextareaTag {
 
-    /** 
-     * 如果在元素中未定义此属性，则按照属性的类型、JSR303 Validator注解、Hibernate Entity注解等自动组合生成JQuery Validator校验语法字符串
-     * 如果在元素中定义此属性则以直接定义属性值作为JQuery Validator校验语法字符串，不再进行自动校验逻辑计算处理 
+    /**
+     * 配置编辑器的工具栏，其中”/”表示换行，”|”表示分隔符。
+     * http://www.kindsoft.net/docs/option.html#items
+     * 未提供参数取组件默认配置项，内置“simple”表示简单配置项，其余可按照组件文档提供配置项定义
      */
-    protected String validator;
+    protected String items;
 
     protected void populateParams() {
+
         super.populateParams();
 
         TextArea uiBean = ((TextArea) component);
@@ -29,7 +30,18 @@ public class S2KindEditorTag extends TextareaTag {
         if (this.theme == null) {
             uiBean.setTheme("bootstrap");
         }
-        TagValidatorAttributeBuilder.buildValidatorAttribute(validator, this, this.getStack(),
-                (HttpServletRequest) this.pageContext.getRequest(), uiBean);
+
+        if (StringUtils.isNotBlank(items)) {
+            if ("simple".equals(items)) {
+                items = "['fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',"
+                        + "'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',"
+                        + "'insertunorderedlist', '|', 'emoticons', 'image', 'link']";
+            }
+            dynamicAttributes.put("items", items);
+        }
+    }
+
+    public void setItems(String items) {
+        this.items = items;
     }
 }
