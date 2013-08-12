@@ -282,7 +282,7 @@ div.data-view {
 .data-view .controls {
 	border-bottom: 1px solid #cccccc;
 	padding: 5px;
-	height: 20px;
+	min-height: 20px;
 }
 
 /*For jquery.highlight.js*/
