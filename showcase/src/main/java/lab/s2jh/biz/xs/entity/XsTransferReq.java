@@ -18,9 +18,10 @@ import javax.persistence.Transient;
 
 import lab.s2jh.biz.xx.entity.XxJcxx;
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.AbstractAuditEntity;
+import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
+import lab.s2jh.core.entity.def.OperationAuditable;
 import lab.s2jh.core.util.EnumUtil;
 import lab.s2jh.core.web.json.JodaDateJsonSerializer;
 
@@ -38,7 +39,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @MetaData(title = "学生异动")
 @Audited
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class XsTransferReq extends AbstractAuditEntity<String> {
+public class XsTransferReq extends BaseEntity<String> implements OperationAuditable{
 
     @MetaData(title = "异动学生")
     @EntityAutoCode(order = 5)

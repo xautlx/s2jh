@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import lab.s2jh.core.entity.Auditable;
+import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.security.AuthContextHolder;
 
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class SaveUpdateAuditListener {
 
     /**
      * Sets modification and creation date and auditor on the target object in
-     * case it implements {@link Auditable} on persist events.
+     * case it implements {@link DefaultAuditable} on persist events.
      * 
      * @param target
      */
@@ -47,7 +47,7 @@ public class SaveUpdateAuditListener {
 
     /**
      * Sets modification and creation date and auditor on the target object in
-     * case it implements {@link Auditable} on update events.
+     * case it implements {@link DefaultAuditable} on update events.
      * 
      * @param target
      */
@@ -59,12 +59,12 @@ public class SaveUpdateAuditListener {
 
     private void touch(Object target, boolean isNew) {
 
-        if (!(target instanceof Auditable)) {
+        if (!(target instanceof DefaultAuditable)) {
             return;
         }
 
         @SuppressWarnings("unchecked")
-        Auditable<String, ?> auditable = (Auditable<String, ?>) target;
+        DefaultAuditable<String, ?> auditable = (DefaultAuditable<String, ?>) target;
 
         String auditor = touchAuditor(auditable, isNew);
         Date now = dateTimeForNow ? touchDate(auditable, isNew) : null;
@@ -83,7 +83,7 @@ public class SaveUpdateAuditListener {
      * @param auditable
      * @return
      */
-    private String touchAuditor(final Auditable<String, ?> auditable, boolean isNew) {
+    private String touchAuditor(final DefaultAuditable<String, ?> auditable, boolean isNew) {
 
         String auditor = AuthContextHolder.getAuthUserPin();
 
@@ -108,7 +108,7 @@ public class SaveUpdateAuditListener {
      * @param auditable
      * @return
      */
-    private Date touchDate(final Auditable<String, ?> auditable, boolean isNew) {
+    private Date touchDate(final DefaultAuditable<String, ?> auditable, boolean isNew) {
 
         Date now = new Date();
 

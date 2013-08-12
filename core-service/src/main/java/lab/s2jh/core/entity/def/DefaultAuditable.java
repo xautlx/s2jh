@@ -1,11 +1,11 @@
-package lab.s2jh.core.entity;
+package lab.s2jh.core.entity.def;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.domain.Persistable;
 
-public interface Auditable<U, ID extends Serializable> extends Persistable<ID> {
+public interface DefaultAuditable<U, ID extends Serializable> extends Persistable<ID> {
 
     /**
      * Returns the user who created this entity.

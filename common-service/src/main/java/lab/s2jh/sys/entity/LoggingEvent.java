@@ -20,9 +20,9 @@ import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.SaveUpdateAuditListener;
-import lab.s2jh.core.entity.Auditable;
 import lab.s2jh.core.entity.PersistableEntity;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
+import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
 import org.hibernate.annotations.Cache;
@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 @EntityListeners({ SaveUpdateAuditListener.class })
 @MetaData(title = "日志事件", description = "用于基于Logback日志DBAppender的ERROR日志数据存取")
-public class LoggingEvent extends PersistableEntity<Long> implements Auditable<String, Long> {
+public class LoggingEvent extends PersistableEntity<Long> implements DefaultAuditable<String, Long> {
 
     private Long id;
     private Long timestmp;

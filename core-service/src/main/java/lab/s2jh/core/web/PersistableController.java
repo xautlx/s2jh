@@ -22,9 +22,9 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.envers.EntityRevision;
 import lab.s2jh.core.audit.envers.ExtDefaultRevisionEntity;
 import lab.s2jh.core.audit.envers.ExtRevisionListener;
-import lab.s2jh.core.entity.AbstractAuditEntity;
 import lab.s2jh.core.entity.PersistableEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
+import lab.s2jh.core.entity.def.OperationAuditable;
 import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter;
@@ -828,9 +828,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         for (EntityRevision entityRevision : entityRevisions) {
             Object entity = entityRevision.getEntity();
             ExtDefaultRevisionEntity revEntity = entityRevision.getRevisionEntity();
-            if (entity instanceof AbstractAuditEntity) {
-                @SuppressWarnings("rawtypes")
-                AbstractAuditEntity aae = (AbstractAuditEntity) entity;
+            if (entity instanceof OperationAuditable) {
+                OperationAuditable aae = (OperationAuditable) entity;
                 revEntity.setOldStateDisplay(aae.convertStateToDisplay(revEntity.getOldState()));
                 revEntity.setNewStateDisplay(aae.convertStateToDisplay(revEntity.getNewState()));
                 revEntity.setOperationEventDisplay(aae.convertEventToDisplay(revEntity.getOperationEvent()));

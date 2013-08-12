@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseEntity;
 
+import org.apache.struts2.components.File.FileDef;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "T_SYS_ATTACHMENT_FILE")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(title = "附件文件数据")
-public class AttachmentFile extends BaseEntity<String> {
+public class AttachmentFile extends BaseEntity<String> implements FileDef{
 
     /** 附件上传文件名称 */
     private String fileRealName;
@@ -160,5 +161,4 @@ public class AttachmentFile extends BaseEntity<String> {
     public void setLastTouchBy(String lastTouchBy) {
         this.lastTouchBy = lastTouchBy;
     }
-
 }

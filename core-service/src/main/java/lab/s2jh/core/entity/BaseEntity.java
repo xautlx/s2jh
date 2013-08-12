@@ -15,6 +15,7 @@ import javax.persistence.Version;
 
 import lab.s2jh.core.audit.SaveUpdateAuditListener;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
+import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonInclude(Include.NON_EMPTY)
 @EntityListeners({ SaveUpdateAuditListener.class })
 public abstract class BaseEntity<ID extends Serializable> extends PersistableEntity<ID> implements
-        Auditable<String, ID> {
+        DefaultAuditable<String, ID> {
 
     /** 乐观锁版本,初始设置为0 */
     private int version = 0;
