@@ -10,6 +10,8 @@
 <link rel="stylesheet" type="text/css"
 	href="${base}/components/jquery-xtabpanel/2.0/xTabPanel.css?_=${buildVersion}">
 
+<script src="${base}/components/jquery-address/1.5/jquery.address-1.5.js?_=${pageScope.buildVersion}"></script>
+
 <script src="${base}/components/jquery.marquee/1.0.01/lib/jquery.marquee.js?_=${buildVersion}"></script>
 <style type="text/css">
 ul.marquee {
@@ -298,7 +300,9 @@ ul.marquee li {
                     }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    clearInterval(timer);
+                    if(window.pubPostTimer){
+                        clearInterval(window.pubPostTimer);
+                    }                    
                     alert('系统检测到请求异常，请尝试刷新页面');
                 }
             });
@@ -382,20 +386,11 @@ ul.marquee li {
             })
 
             $("#changePasswd").click(function() {
-                $.popupDialog({
-                    dialogId : 'changePasswdDialog',
-                    url : "${base}/auth/profile!passwd",
-                    title : "修改登录密码",
-                    width : 600,
-                    height : 350
-                })
+                $.address.value("123");
             })
 
-            
-
+            window.pubPostTimer = setInterval(updatePubPost, 5 * 60 * 1000);
             updatePubPost();
-            
-            var timer = setInterval(updatePubPost, 5 * 60 * 1000);
 
             $("#marquee").delegate("li", "click", function() {
                 var id = $(this).attr("id");

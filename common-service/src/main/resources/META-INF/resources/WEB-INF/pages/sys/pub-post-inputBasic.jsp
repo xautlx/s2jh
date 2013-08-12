@@ -34,12 +34,12 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-					<s2:kindeditor name="htmlTitle" label="标题" rows="2" />
+					<s2:kindeditor name="htmlTitle" label="标题" rows="2" items="simple"/>
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="span6">
-					<s2:datetextfield name="publishTime" label="发布时间" format="yyyy-MM-dd HH:mm:00" current="true"/>
+					<s2:datetextfield name="publishTime" label="发布时间" format="yyyy-MM-dd HH:mm:00" current="true" />
 				</div>
 				<div class="span6">
 					<s2:datetextfield name="expireTime" label="到期时间" format="yyyy-MM-dd HH:mm:00" />
@@ -48,6 +48,12 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<s2:kindeditor name="htmlContent" label="公告内容" rows="10" />
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<s2:singlefile name="r2FileId" labelValue="%{r2File.fileRealName}" label="关联附件"
+						value="%{r2File.id}" tooltip="多文件请首先压缩打包为<strong>单个文件</strong>上传" />
 				</div>
 			</div>
 		</div>
