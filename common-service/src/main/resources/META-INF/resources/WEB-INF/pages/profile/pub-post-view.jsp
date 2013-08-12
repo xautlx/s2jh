@@ -20,5 +20,10 @@
                 <s2:property value="htmlContent" label="公告内容" escapeHtml="false"/>
             </div>
         </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <s2:file value="r2File" label="关联附件"/>
+            </div>
+        </div>        
     </div>    
 </div>
