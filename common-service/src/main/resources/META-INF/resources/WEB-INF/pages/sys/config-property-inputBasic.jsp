@@ -25,32 +25,32 @@
 		</div>
 		<div class="well">
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<s2:textfield name="propKey" label="代码" />
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<s2:textfield name="propName" label="名称" />
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<s2:textfield name="simpleValue" label="简单属性值" />
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<s2:property value="staticConfigValue" label="静态属性值" />
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span6">
-					<s2:kindeditor name="htmlValue" label="HTML属性值" rows="3" />
+				<div class="span12">
+					<s2:kindeditor name="htmlValue" label="HTML属性值" rows="5" items="simple"/>
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<s2:textarea name="propDescn" label="参数属性用法说明" rows="2" />
 				</div>
 			</div>
