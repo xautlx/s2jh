@@ -92,6 +92,8 @@ public class SourceCodeFrameworkBuilder {
             MetaData classEntityComment = (MetaData) entityClass.getAnnotation(MetaData.class);
             if (classEntityComment != null) {
                 root.put("model_title", classEntityComment.title());
+            } else {
+                root.put("model_title", entityName);
             }
 
             Set<Field> fields = new HashSet<Field>();
@@ -164,7 +166,8 @@ public class SourceCodeFrameworkBuilder {
             process(cfg.getTemplate("Service.ftl"), root, integrateRootPath + "\\service\\", className + "Service.java");
             process(cfg.getTemplate("Controller.ftl"), root, integrateRootPath + "\\web\\action\\", className
                     + "Controller.java");
-            process(cfg.getTemplate("Test.ftl"), root, integrateRootPath + "\\test\\", className + "Test.java");
+            process(cfg.getTemplate("Test.ftl"), root, integrateRootPath + "\\test\\service\\", className
+                    + "ServiceTest.java");
             process(cfg.getTemplate("JSP_Index.ftl"), root, integrateRootPath + "\\jsp\\", nameField + "-index.jsp");
             process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-inputTabs.jsp");
