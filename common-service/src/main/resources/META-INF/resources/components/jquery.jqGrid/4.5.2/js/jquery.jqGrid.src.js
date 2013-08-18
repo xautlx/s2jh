@@ -5828,7 +5828,7 @@ $.extend($.jgrid,{
 			} else {
 				try {
 				    //https://github.com/tonytomov/jqGrid/issues/500
-					$(mw).draggable({handle: $("#"+$.jgrid.jqID(mh.id)),'document'});
+					$(mw).draggable({handle: $("#"+$.jgrid.jqID(mh.id)), containment: "document"});
 				} catch (e) {}
 			}
 		}
