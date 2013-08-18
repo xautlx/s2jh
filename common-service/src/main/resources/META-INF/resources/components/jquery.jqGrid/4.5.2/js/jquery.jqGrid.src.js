@@ -5823,11 +5823,12 @@ $.extend($.jgrid,{
 		if(p.resize === undefined) {p.resize=true;}
 		if (p.drag) {
 			$(mh).css('cursor','move');
-			if($.fn.jqDrag) {
+			if(false) { //TODO: Need more friendly modification
 				$(mw).jqDrag(mh);
 			} else {
 				try {
-					$(mw).draggable({handle: $("#"+$.jgrid.jqID(mh.id))});
+				    //https://github.com/tonytomov/jqGrid/issues/500
+					$(mw).draggable({handle: $("#"+$.jgrid.jqID(mh.id)),'document'});
 				} catch (e) {}
 			}
 		}
