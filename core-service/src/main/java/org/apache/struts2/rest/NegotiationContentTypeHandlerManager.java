@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.handler.ContentTypeHandler;
 
 /**
- * 添加基于Request Header的Accpet信息设置类型处理器
+ * 添加基于Request Header的Accept信息设置类型处理器
  */
 public class NegotiationContentTypeHandlerManager extends DefaultContentTypeHandlerManager {
 

@@ -6,8 +6,7 @@
  * 
  * Build on jQuery JavaScript Library v1.4.4
  * 
- * Date: 2010.12.22
- *  $ protected _ private
+ * Date: 2010.12.22 $ protected _ private
  * 
  * @param {Object}
  *            config
@@ -63,11 +62,17 @@ TabPanel.prototype = {
         // 组件HTML
         var _tabHTML = [];
         _tabHTML.push('<div class="jTabPanel" id="' + this.id + '">');// TabPanel
-                                                                        // start
+        // start
         _tabHTML.push('<div class="tab-contrl-wrap">');// tab contrl wrap start
-        _tabHTML.push('<div class="tab-scroll tab-left-button">&lt;</div>');// tab left button
-        _tabHTML.push('<div class="tab-scroll tab-right-button">&gt;</div>');// tab right button
-        _tabHTML.push('<div class="tab-scroll tab-refresh-button show"><i class="icon-refresh icon-white" style="cursor:pointer"></i></div>');// tab right button
+        _tabHTML.push('<div class="tab-scroll tab-left-button">&lt;</div>');// tab
+                                                                            // left
+                                                                            // button
+        _tabHTML.push('<div class="tab-scroll tab-right-button">&gt;</div>');// tab
+                                                                                // right
+                                                                                // button
+        _tabHTML.push('<div class="tab-scroll tab-refresh-button show"><i class="icon-refresh icon-white" style="cursor:pointer"></i></div>');// tab
+                                                                                                                                                // right
+                                                                                                                                                // button
         _tabHTML.push('<div class="tab-item-wrap">');// tab item wrap start
         _tabHTML.push('<ul class="tab-item-move"></ul>');
         _tabHTML.push('</div>');// tab item wrap end
@@ -119,7 +124,7 @@ TabPanel.prototype = {
                 $tabEntity._move('-', $tabEntity.$maxMove + parseInt($tabEntity.tabItemMove.css('margin-left'), 10));
             }
         });
-        
+
         // 刷新活动标签事件
         this.refreshButton.bind({
             click : function() {
@@ -168,7 +173,7 @@ TabPanel.prototype = {
         // 设置内容高度
         this.tabContent.height(this.jTabPanel.outerHeight() - this.tabContrlWrap.outerHeight() - this.border_h);
         this._updateWhere();
-        for(var i=0;i<window.frames.length;i++){
+        for ( var i = 0; i < window.frames.length; i++) {
             window.frames[i].$.resetCalculateGridWidth();
         }
     },
@@ -223,7 +228,7 @@ TabPanel.prototype = {
         // 绑定事件
         item.tabTitle.click(function() {
             $tabEntity.show(item.id);
-            for(var i=0;i<window.frames.length;i++){
+            for ( var i = 0; i < window.frames.length; i++) {
                 window.frames[i].$.resetCalculateGridWidth();
             }
         })
@@ -341,6 +346,10 @@ TabPanel.prototype = {
                     this.$tabs[tabId].htmlObject.attr('src', this.$tabs[tabId].htmlObject.attr('src'));
                 }
             }
+            
+            var mid=tabId.substring(9, tabId.length);
+            //alert("mid=" + mid);
+            $.address.value(mid);
         } else {
             alert('ID not found.');
         }
@@ -487,7 +496,7 @@ TabPanel.prototype = {
             });
         }
     },
-    
+
     /**
      * 直接移动到合适的可见位置
      */
@@ -669,9 +678,9 @@ TabPanel.prototype = {
         if (!this.$tabs[tabId]) {
             return false;
         } else {
-            var url = window.frames[tabId+ 'Frame'].location.href;
-            url = AddOrReplaceUrlParameter(url,"_",new Date().getTime());
-            window.frames[tabId+ 'Frame'].location.href=url;
+            var url = window.frames[tabId + 'Frame'].location.href;
+            url = AddOrReplaceUrlParameter(url, "_", new Date().getTime());
+            window.frames[tabId + 'Frame'].location.href = url;
         }
     },
 
