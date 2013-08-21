@@ -101,6 +101,11 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
     }
 
     @Transient
+    public void setExtraAttributes(Map<String, Object> extraAttributes) {
+        this.extraAttributes = extraAttributes;
+    }
+
+    @Transient
     public void addExtraAttribute(String key, Object value) {
         if (extraAttributes == null) {
             extraAttributes = Maps.newHashMap();

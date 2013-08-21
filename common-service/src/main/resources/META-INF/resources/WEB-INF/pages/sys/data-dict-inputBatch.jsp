@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <div class="container-fluid data-edit">
-	<s2:form cssClass="form-horizontal" method="post" action="/sys/data-dict!doBatch">
-		<s:hidden name="id" />
-		<s:hidden name="version" />
-		<s:token />
+	<s2:form cssClass="form-horizontal" method="post" action="/sys/data-dict!doCreateBatch">
 		<div class="row-fluid">
 			<div class="toolbar">
 				<div class="toolbar-inner">
@@ -32,7 +29,7 @@
 				<tbody>
 					<tr class="dynamicRowTemplate">
 						<s:hidden name="batchDataDicts[x].extraAttributes.uiOperation" value="create" />
-						<td><s:select list="categoryMap" name="batchDataDicts[x].category" /></td>
+						<td><s:select list="categoryMap" name="batchDataDicts[x].category" requiredLabel="true" /></td>
 						<td><s:textfield name="batchDataDicts[x].key1Value" requiredLabel="true"
 								cssClass="input-fluid" /></td>
 						<td><s:textfield name="batchDataDicts[x].key2Value" cssClass="input-fluid" /></td>

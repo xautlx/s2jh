@@ -28,7 +28,7 @@ public class DataDict extends BaseEntity<String> {
     /** 类别定义。具体使用说明请参考 
      * {@link DataDictService#findDataDictByCategory(String)} 
      */
-    @MetaData(title = "分类")
+    @MetaData(title = "分类", description = "一般建议直接以代码方式维护数据，不要用中文")
     @EntityAutoCode(order = 5, search = true)
     private String category;
 

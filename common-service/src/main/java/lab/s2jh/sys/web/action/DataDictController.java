@@ -6,6 +6,7 @@ import java.util.Map;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.entity.DataDict;
 import lab.s2jh.sys.service.DataDictService;
 
@@ -69,4 +70,16 @@ public class DataDictController extends BaseController<DataDict, String> {
         this.batchDataDicts = batchDataDicts;
     }
     
+    public List<DataDict> getBatchDataDicts() {
+        return batchDataDicts;
+    }
+
+    @MetaData(title = "批量添加")
+    public HttpHeaders doCreateBatch() {
+        dataDictService.save(batchDataDicts);
+        setModel(OperationResult.buildSuccessResult("批量添加完成"));
+        return buildDefaultHttpHeaders();
+    }
+
+
 }
