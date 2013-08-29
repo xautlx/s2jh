@@ -6,15 +6,16 @@ import java.util.Map;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.entity.DataDict;
 import lab.s2jh.sys.service.DataDictService;
 
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 @MetaData(title = "数据字典管理")
 public class DataDictController extends BaseController<DataDict, String> {
@@ -53,15 +54,23 @@ public class DataDictController extends BaseController<DataDict, String> {
     @Override
     @MetaData(title = "查询")
     public HttpHeaders findByPage() {
-        return super.findByPage();
+        HttpHeaders ret = super.findByPage();
+        @SuppressWarnings("unchecked")
+        Page<DataDict> page = (Page<DataDict>) this.model;
+        for (DataDict dataDict : page.getContent()) {
+            dataDict.addExtraAttribute("categoryLabel", dataDictService.findCategoryLabel(dataDict.getCategory()));
+        }
+        return ret;
     }
 
     public Map<String, String> getCategoryMap() {
-        Map<String, String> dataMap = Maps.newLinkedHashMap();
-        for (String category : dataDictService.findDistinctCategories()) {
-            dataMap.put(category, category);
-        }
-        return dataMap;
+        return dataDictService.findDistinctCategories();
+    }
+    
+    @SecurityControllIgnore
+    public HttpHeaders distinctCategoriesData() {
+        setModel(getCategoryMap());
+        return buildDefaultHttpHeaders();
     }
 
     private List<DataDict> batchDataDicts = Lists.newArrayList();
@@ -69,7 +78,7 @@ public class DataDictController extends BaseController<DataDict, String> {
     public void setBatchDataDicts(List<DataDict> batchDataDicts) {
         this.batchDataDicts = batchDataDicts;
     }
-    
+
     public List<DataDict> getBatchDataDicts() {
         return batchDataDicts;
     }
@@ -80,6 +89,5 @@ public class DataDictController extends BaseController<DataDict, String> {
         setModel(OperationResult.buildSuccessResult("批量添加完成"));
         return buildDefaultHttpHeaders();
     }
-
 
 }

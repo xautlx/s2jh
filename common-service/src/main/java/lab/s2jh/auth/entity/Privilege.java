@@ -32,9 +32,15 @@ import com.google.common.collect.Lists;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Privilege extends BaseEntity<String> {
 
+    public final static String DATA_DICT_PRIVILEGE_TYPE = "PRIVILEGE_TYPE";
+
     @MetaData(title = "分类")
     @EntityAutoCode(order = 5, search = true)
     private String category;
+
+    @MetaData(title = "类型")
+    @EntityAutoCode(order = 8, search = true)
+    private String type;
 
     @MetaData(title = "代码")
     @EntityAutoCode(order = 10, search = true)
@@ -79,6 +85,15 @@ public class Privilege extends BaseEntity<String> {
 
     public void setId(final String id) {
         this.id = id;
+    }
+
+    @Column(nullable = true, length = 128)
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Column(nullable = false, length = 256)

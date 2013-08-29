@@ -66,9 +66,15 @@
                         } ]);
                     }
                 }, {
-                    name : 'category',
+                    name : 'extraAttributes.categoryLabel',
+                    index : 'category',
                     sortable : false,
-                    align : 'left'
+                    align : 'left',
+                    width : 200,
+                    stype : 'select',
+                    searchoptions : {
+                        dataUrl : '${base}/sys/data-dict!distinctCategoriesData.json',
+                    }
                 }, {
                     name : 'key1Value',
                     align : 'left'
@@ -102,7 +108,7 @@
                 },
                 grouping : true,
                 groupingView : {
-                    groupField : [ 'category' ],
+                    groupField : [ 'extraAttributes.categoryLabel' ],
                     groupOrder : [ 'asc' ],
                     groupCollapse : false
                 },

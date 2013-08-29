@@ -1,4 +1,4 @@
-package lab.s2jh.common.entity;
+package lab.s2jh.core.entity.def;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;

@@ -1,4 +1,4 @@
-package lab.s2jh.common.web.action;
+package lab.s2jh.pub.web.action;
 
 import java.io.OutputStream;
 
@@ -12,15 +12,13 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.rest.RestActionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 表格组件功能
  */
-@Namespace("/pub")
 public class GridController extends RestActionSupport {
 
     private final static Logger logger = LoggerFactory.getLogger(GridController.class);

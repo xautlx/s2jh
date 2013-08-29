@@ -31,6 +31,11 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span6">
+					<s2:radio name="type" label="类型" list="types" />
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
 					<s2:textfield name="code" label="代码" />
 				</div>
 			</div>

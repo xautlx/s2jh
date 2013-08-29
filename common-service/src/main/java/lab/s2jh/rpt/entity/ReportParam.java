@@ -10,8 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import lab.s2jh.common.entity.DynamicParameterDef;
 import lab.s2jh.core.annotation.MetaData;
+import lab.s2jh.core.entity.def.DynamicParameterDef;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

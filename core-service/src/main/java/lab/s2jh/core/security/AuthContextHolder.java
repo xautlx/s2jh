@@ -4,6 +4,7 @@
 package lab.s2jh.core.security;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,8 @@ public class AuthContextHolder {
     public static final String SPRING_SECURITY_LAST_USERNAME_KEY = "SPRING_SECURITY_LAST_USERNAME";
 
     private static final ThreadLocal<String> userPinContainer = new ThreadLocal<String>();
+
+    private static final ThreadLocal<Locale> localeContainer = new ThreadLocal<Locale>();
 
     public static final String DEFAULT_UNKNOWN_PIN = "N/A";
 
@@ -70,16 +73,16 @@ public class AuthContextHolder {
      * 获取用户ACL CODE
      */
     public static String getAclCodePrefix() {
-        String aclCode=getAclCode();
-        if(StringUtils.isBlank(aclCode)){
+        String aclCode = getAclCode();
+        if (StringUtils.isBlank(aclCode)) {
             return "";
         }
-        Collection<String> aclCodePrefixs= getAclCodePrefixs();
-        if(CollectionUtils.isEmpty(aclCodePrefixs)){
+        Collection<String> aclCodePrefixs = getAclCodePrefixs();
+        if (CollectionUtils.isEmpty(aclCodePrefixs)) {
             return "";
         }
         for (String aclCodePrefix : aclCodePrefixs) {
-            if(aclCode.startsWith(aclCodePrefix)){
+            if (aclCode.startsWith(aclCodePrefix)) {
                 return aclCodePrefix;
             }
         }
@@ -88,5 +91,16 @@ public class AuthContextHolder {
 
     public static Collection<String> getAclCodePrefixs() {
         return getAuthUserDetails().getAclCodePrefixs();
+    }
+
+    /**
+     * 获取Locale
+     */
+    public static Locale getLocale() {
+        Locale locale = localeContainer.get();
+        if (locale == null) {
+            locale = new Locale("zh", "cn");
+        }
+        return locale;
     }
 }

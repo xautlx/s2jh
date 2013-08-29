@@ -44,7 +44,7 @@
         $(function() {
             $("#privilegeListDiv").grid({
                 url : '${base}/auth/privilege!findByPage',
-                colNames : [ '操作', '代码', '名称', '类别', 'URL', '禁用标识', '排序号' ],
+                colNames : [ '操作','类型', '代码', '名称', '分类', 'URL', '禁用标识', '排序号' ],
                 colModel : [ {
                     name : 'operation',
                     align : 'center',
@@ -65,6 +65,14 @@
                         } ]);
                     }
                 }, {
+                    name : 'type',
+                    align : 'center',
+                    width : 80,
+                    stype : 'select',
+                    searchoptions : {
+                        dataUrl : '${base}/auth/privilege!types.json',
+                    }              
+                }, {
                     name : 'code',
                     align : 'left',
                     width : 200
@@ -77,7 +85,7 @@
                     width : 80,
                     stype : 'select',
                     searchoptions : {
-                        dataUrl : '${base}/auth/privilege!distinctCategoriesData.json',
+                        dataUrl : '${base}/auth/privilege!distinctCategories.json',
                     }
                 }, {
                     name : 'url',

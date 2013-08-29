@@ -19,6 +19,17 @@
 
 	<description>Spring公共配置 </description>
 
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>error</value>
+				<value>message</value>
+				<value>dataDictCategory</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
 	<context:component-scan base-package="lab.s2jh"
 		scoped-proxy="targetClass">

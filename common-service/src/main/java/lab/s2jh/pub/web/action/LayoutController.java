@@ -1,4 +1,4 @@
-package lab.s2jh.common.web.action;
+package lab.s2jh.pub.web.action;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import lab.s2jh.sys.service.MenuService;
 import lab.s2jh.sys.vo.NavMenuVO;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
 import org.apache.struts2.rest.RestActionSupport;
@@ -22,8 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.ModelDriven;
 
 /**
- *
+ * 全局布局处理
  */
+@Namespace("/")
 public class LayoutController extends RestActionSupport implements ModelDriven<Object> {
 
     @Autowired

@@ -19,5 +19,5 @@ public interface DataDictDao extends BaseDao<DataDict, String> {
     public List<String> findDistinctCategories();
 
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
-    public List<DataDict> findByCategory(String category);
+    public List<DataDict> findByCategoryOrderByOrderRankDesc(String category);
 }

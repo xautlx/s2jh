@@ -1,6 +1,7 @@
 package lab.s2jh.sys.service.test;
 
 import java.util.List;
+import java.util.Map;
 
 import lab.s2jh.core.test.SpringTransactionalTestCase;
 import lab.s2jh.core.test.TestObjectUtils;
@@ -43,8 +44,7 @@ public class DataDictServiceTest extends SpringTransactionalTestCase {
         entity2.setCategory("ABCDEF");
         dataDictService.save(entity2);
 
-        List<String> items = dataDictService.findDistinctCategories();
+        Map<String,String> items = dataDictService.findDistinctCategories();
         Assert.assertTrue(items.size() == 1);
-        Assert.assertTrue(items.get(0).equals("ABCDEF"));
     }
 }

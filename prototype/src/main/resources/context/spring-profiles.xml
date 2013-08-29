@@ -44,6 +44,8 @@
 
 		<jdbc:initialize-database data-source="dataSource"
 			ignore-failures="ALL" enabled="${jdbc.initialize.database.enable}">
+            <jdbc:script location="classpath:sql/data/t_sys_data_dict.sql"
+                encoding="UTF-8" />			
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_user.sql"

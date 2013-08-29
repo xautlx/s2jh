@@ -23,6 +23,7 @@ import lab.s2jh.core.util.UidUtils;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
+import lab.s2jh.sys.service.DataDictService;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ClassUtils;
@@ -53,6 +54,9 @@ public class PrivilegeController extends BaseController<Privilege, String> {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private DataDictService dataDictService;
 
     private static AntPathMatcher urlMatcher = new AntPathMatcher();
 
@@ -237,9 +241,17 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return dataMap;
     }
 
-    @SecurityControllIgnore
-    public HttpHeaders distinctCategoriesData() {
+    public HttpHeaders distinctCategories() {
         setModel(getDistinctCategories());
+        return buildDefaultHttpHeaders();
+    }
+
+    public Map<String, String> getTypes() {
+        return dataDictService.findMapDataByCategory(Privilege.DATA_DICT_PRIVILEGE_TYPE);
+    }
+
+    public HttpHeaders types() {
+        setModel(getTypes());
         return buildDefaultHttpHeaders();
     }
 

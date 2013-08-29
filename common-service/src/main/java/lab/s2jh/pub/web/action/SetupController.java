@@ -1,4 +1,4 @@
-package lab.s2jh.common.web.action;
+package lab.s2jh.pub.web.action;
 
 import java.io.IOException;
 
@@ -8,7 +8,6 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.service.UserService;
 
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
 import org.apache.struts2.rest.RestActionSupport;
@@ -16,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 /**
- *
+ * 初始化处理
  */
-@Namespace("/pub")
 public class SetupController extends RestActionSupport {
 
     @Autowired
