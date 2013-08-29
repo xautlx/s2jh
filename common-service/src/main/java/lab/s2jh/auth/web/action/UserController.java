@@ -37,6 +37,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -157,7 +158,9 @@ public class UserController extends BaseController<User, String> {
         GroupPropertyFilter groupFilter = GroupPropertyFilter
                 .buildGroupFilterFromHttpRequest(entityClass, getRequest());
         Collection<String> aclCodePrefixs = AuthContextHolder.getAuthUserDetails().getAclCodePrefixs();
-        groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
+        if (!CollectionUtils.isEmpty(aclCodePrefixs)) {
+            groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
+        }
         Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
         if (authUserAclType != null) {
             groupFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
@@ -236,5 +239,5 @@ public class UserController extends BaseController<User, String> {
     public HttpHeaders revisionCompare() {
         return super.revisionCompare();
     }
-    
+
 }
