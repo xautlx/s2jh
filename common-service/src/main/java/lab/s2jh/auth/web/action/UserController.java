@@ -157,7 +157,7 @@ public class UserController extends BaseController<User, String> {
     public HttpHeaders findByPage() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter
                 .buildGroupFilterFromHttpRequest(entityClass, getRequest());
-        if(AuthContextHolder.getAuthUserDetails()!=null){
+        if (AuthContextHolder.getAuthUserDetails() != null) {
             Collection<String> aclCodePrefixs = AuthContextHolder.getAuthUserDetails().getAclCodePrefixs();
             if (!CollectionUtils.isEmpty(aclCodePrefixs)) {
                 groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
