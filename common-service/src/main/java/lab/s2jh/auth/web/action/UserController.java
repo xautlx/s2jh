@@ -162,11 +162,11 @@ public class UserController extends BaseController<User, String> {
             if (!CollectionUtils.isEmpty(aclCodePrefixs)) {
                 groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
             }
-        }
-        Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (authUserAclType != null) {
-            groupFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
-        }
+            Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+            if (authUserAclType != null) {
+                groupFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
+            }
+        }        
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         Page<User> page = this.getEntityService().findByPage(groupFilter, pageable);
         if (aclService != null) {
