@@ -163,7 +163,7 @@ public class PrivilegeService extends BaseService<Privilege, String> {
         //high=所有未配置对应权限的URL请求作为受保护资源进行控制，访问则抛出访问拒绝异常
         //low= 所有未配置对应权限的URL请求作为非保护资源宽松控制，只要登录用户都可以访问
 
-        if (StringUtils.isNotBlank(authControlLevel) && authControlLevel.equalsIgnoreCase("low")) {
+        if (StringUtils.isNotBlank(authControlLevel) && authControlLevel.trim().equalsIgnoreCase("low")) {
             logger.warn("URL Security control running at level: Low");
             addURL2Role(resourceMap, "/**", Role.ROLE_ANONYMOUSLY_CODE);
         } else {
