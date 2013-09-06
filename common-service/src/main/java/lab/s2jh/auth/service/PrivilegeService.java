@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -58,6 +59,9 @@ public class PrivilegeService extends BaseService<Privilege, String> {
 
     @Autowired
     private ReportDefDao reportDefDao;
+
+    @Value("${auth.control.level}")
+    private String authControlLevel;
 
     @Override
     protected BaseDao<Privilege, String> getEntityDao() {
@@ -154,8 +158,19 @@ public class PrivilegeService extends BaseService<Privilege, String> {
 
         //追加其他未受控权限
         addURL2Role(resourceMap, "/layout**", Role.ROLE_ANONYMOUSLY_CODE);
-        //其他所有URL访问则受控
-        addURL2Role(resourceMap, "/**", Role.ROLE_PROTECTED_CODE);
+
+        //权限控制等级，可选值说明：
+        //high=所有未配置对应权限的URL请求作为受保护资源进行控制，访问则抛出访问拒绝异常
+        //low= 所有未配置对应权限的URL请求作为非保护资源宽松控制，只要登录用户都可以访问
+
+        if (StringUtils.isNotBlank(authControlLevel) && authControlLevel.equalsIgnoreCase("low")) {
+            logger.warn("URL Security control running at level: Low");
+            addURL2Role(resourceMap, "/**", Role.ROLE_ANONYMOUSLY_CODE);
+        } else {
+            logger.info("URL Security control running at level: High");
+            addURL2Role(resourceMap, "/**", Role.ROLE_PROTECTED_CODE);
+        }
+
         //ROLE_ADMIN角色默认赋予所有权限
         addURL2Role(resourceMap, "/**", Role.ROLE_ADMIN_CODE);
 
