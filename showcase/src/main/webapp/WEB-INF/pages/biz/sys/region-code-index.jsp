@@ -39,6 +39,12 @@
 					<table id="regionCodeListDiv"></table>
 					<div id="regionCodeListDivPager"></div>
 				</div>
+                <div class="row-fluid">
+                    <s2:tabbedpanel id="regionCodeListTabs">
+                        <ul>
+                        </ul>
+                    </s2:tabbedpanel>
+                </div>				
 			</div>
 		</s2:tabbedpanel>
 	</div>
@@ -108,10 +114,12 @@
                     url : "${base}/biz/sys/region-code!doDelete"
                 },
                 addRow : {
-                    url : "${base}/biz/sys/region-code!inputTabs"
+                    url : "${base}/biz/sys/region-code!inputTabs",
+                    toTab : "#regionCodeListTabs"
                 },
                 editRow : {
                     url : "${base}/biz/sys/region-code!inputTabs",
+                    toTab : "#regionCodeListTabs",
                     labelCol : 'regionCode'
                 },
                 sortorder : "asc",
