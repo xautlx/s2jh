@@ -16,10 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.CollectionUtils;
 
-@ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
 public class MenuServiceTest extends SpringTransactionalTestCase {
 
     @Autowired

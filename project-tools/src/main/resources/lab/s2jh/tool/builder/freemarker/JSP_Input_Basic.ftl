@@ -29,7 +29,7 @@
             <div class="row-fluid">
                 <div class="span6">
                     <#if entityField.fieldType=='Boolean'>
-                    <s2:radio name="${entityField.fieldName}" list="#application.booleanLabelMap" label="${entityField.title}"/>
+                    <s2:radio name="${entityField.fieldName}" list="#application.enums.booleanLabel" label="${entityField.title}"/>
                     <#elseif entityField.enumField>
                     <s:select name="${entityField.fieldName}" list="#application.${entityField.uncapitalizeFieldType}Map" label="${entityField.title}"/>
                     <#elseif entityField.fieldType=='Date'>

@@ -10,11 +10,10 @@ import lab.s2jh.sys.service.PubPostService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import com.google.common.collect.Sets;
 
-@ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
+
 public class PubPostServiceTest extends SpringTransactionalTestCase {
 
     @Autowired

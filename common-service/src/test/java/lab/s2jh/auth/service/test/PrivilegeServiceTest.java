@@ -13,9 +13,7 @@ import lab.s2jh.core.test.TestObjectUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
 public class PrivilegeServiceTest extends SpringTransactionalTestCase {
 
     @Autowired

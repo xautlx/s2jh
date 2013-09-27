@@ -8,7 +8,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath*:/context/spring*.xml,classpath*:/service/spring*.xml
+			classpath:/context/context-profiles.xml,classpath:/context/spring*.xml,classpath:/service/spring*.xml
 		</param-value>
 	</context-param>
 	<context-param>

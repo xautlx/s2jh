@@ -8,7 +8,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath*:/context/spring*.xml,classpath*:/service/spring*.xml
+			classpath:/context/context-profiles.xml,classpath:/context/spring*.xml,classpath:/service/spring*.xml
 		</param-value>
 	</context-param>
 	<context-param>
@@ -34,18 +34,18 @@
 	<listener>
 		<listener-class>lab.s2jh.auth.security.AuthLogonHistRefreshListener</listener-class>
 	</listener>
-	
-    <!-- jcaptcha验证码图片生成URL -->
-    <servlet>
-        <servlet-name>jcaptcha</servlet-name>
-        <servlet-class>lab.s2jh.core.web.captcha.ImageCaptchaServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>jcaptcha</servlet-name>
-        <url-pattern>/pub/jcaptcha.servlet</url-pattern>
-    </servlet-mapping>
 
-    <!-- JasperReport报表图片 -->
+	<!-- jcaptcha验证码图片生成URL -->
+	<servlet>
+		<servlet-name>jcaptcha</servlet-name>
+		<servlet-class>lab.s2jh.core.web.captcha.ImageCaptchaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jcaptcha</servlet-name>
+		<url-pattern>/pub/jcaptcha.servlet</url-pattern>
+	</servlet-mapping>
+
+	<!-- JasperReport报表图片 -->
 	<servlet>
 		<servlet-name>imageServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
@@ -90,16 +90,16 @@
 		<filter-name>httpRequestLogFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-    <!-- Spring Security JCaptcha Filter-->
-    <filter>
-        <filter-name>JCaptchaFilter</filter-name>
-        <filter-class>lab.s2jh.core.web.captcha.JCaptchaFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>JCaptchaFilter</filter-name>
-        <url-pattern>/j_spring_security_check</url-pattern>
-    </filter-mapping>   	
+
+	<!-- Spring Security JCaptcha Filter -->
+	<filter>
+		<filter-name>JCaptchaFilter</filter-name>
+		<filter-class>lab.s2jh.core.web.captcha.JCaptchaFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>JCaptchaFilter</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
 
 	<!-- Spring Security -->
 	<filter>

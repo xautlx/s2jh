@@ -11,11 +11,10 @@ import lab.s2jh.sys.service.DataDictService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import com.google.common.collect.Sets;
 
-@ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
+
 public class DataDictServiceTest extends SpringTransactionalTestCase {
 
     @Autowired

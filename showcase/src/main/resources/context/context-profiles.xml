@@ -4,7 +4,8 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
-    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd"
+	default-lazy-init="false">
 
 	<!-- 用于开发配置 -->
 	<beans profile="default">
@@ -51,8 +52,12 @@
 
 		<jdbc:initialize-database data-source="dataSource"
 			ignore-failures="ALL" enabled="${jdbc.initialize.database.enable}">
-            <jdbc:script location="classpath:sql/data/t_sys_data_dict.sql"
-                encoding="UTF-8" />
+
+			<jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql"
+				encoding="UTF-8" />
+
+			<jdbc:script location="classpath:sql/data/t_sys_data_dict.sql"
+				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_user.sql"
@@ -70,6 +75,9 @@
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
+				encoding="UTF-8" />
+
+			<jdbc:script location="classpath:sql/data/t_job_bean_cfg.sql"
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/sys_enum_type.sql"
@@ -104,6 +112,8 @@
 		<!-- 嵌入式内存中数据库 -->
 		<jdbc:embedded-database id="dataSourceSpied"
 			type="H2">
+            <jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql"
+                encoding="UTF-8" />			
 		</jdbc:embedded-database>
 
 		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
@@ -146,8 +156,12 @@
 		</bean>
 
 		<jdbc:initialize-database data-source="dataSource">
-            <jdbc:script location="classpath:sql/data/t_sys_data_dict.sql"
-                encoding="UTF-8" />		
+
+			<jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql"
+				encoding="UTF-8" />
+
+			<jdbc:script location="classpath:sql/data/t_sys_data_dict.sql"
+				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_user.sql"
@@ -165,6 +179,9 @@
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql"
+				encoding="UTF-8" />
+
+			<jdbc:script location="classpath:sql/data/t_job_bean_cfg.sql"
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/sys_enum_type.sql"

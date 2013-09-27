@@ -12,7 +12,6 @@
 	<packaging>jar</packaging>
 	<name>s2jh :: module :: common</name>
 
-
 	<dependencies>
 		<!-- j2ee web spec -->
 		<dependency>
@@ -84,6 +83,17 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-jasperreports-plugin</artifactId>
 		</dependency>
+		
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-oracle</artifactId>
+        </dependency>
+
 	</dependencies>
 
 

@@ -103,8 +103,6 @@
                     url : "${base}/sys/logging-event!update",
                     labelCol : 'id'
                 },
-                sortorder : "desc",
-                sortname : "id",
                 rowNum : 10,
                 caption : "日志事件列表"
             });

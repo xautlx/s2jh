@@ -6,7 +6,7 @@
         <div class="row-fluid">
             <div class="span6">
                 <#if entityField.fieldType=='Boolean'>
-                <s2:property value="#application.booleanLabelMap[${entityField.fieldName}]" label="${entityField.title}"/>
+                <s2:property value="#application.enums.booleanLabel[${entityField.fieldName}]" label="${entityField.title}"/>
                 <#elseif entityField.enumField>
                 <s2:property value="#application.${entityField.uncapitalizeFieldType}Map[${entityField.fieldName}]" label="${entityField.title}"/>
                 <#elseif entityField.fieldType=='Date'>

@@ -32,4 +32,7 @@ public interface XxBjDao extends BaseDao<XxBj, String> {
 
     @Query("select t from XxBj t where (t.bh like :term or t.bjmc like :term) order by nj desc")
     List<XxBj> findByBhOrBjmcLike(@Param("term") String bhTerm, @Param("term") String bjmcTerm);
+    
+    @Query("select count(*) from XxBj t where t.bh = :bh")
+    Long findXsCount(@Param("bh") String bh);
 }

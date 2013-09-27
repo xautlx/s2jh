@@ -96,7 +96,4 @@
 		<property name="shared" value="true" />
 	</bean>
 
-	<!-- Spring Task/Async异步支持配置 -->
-	<bean id="handlingAsyncTaskExecutor" class="lab.s2jh.core.context.async.HandlingAsyncTaskExecutor" />
-	<task:annotation-driven executor="handlingAsyncTaskExecutor" />
 </beans>

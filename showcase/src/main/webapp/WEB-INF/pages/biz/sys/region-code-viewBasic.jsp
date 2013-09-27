@@ -73,7 +73,7 @@
 				<div class="control-group">
 					<label class="control-label" for="enabled">状态</label>
 					<div class="controls">
-						<s:property value="booleanLabelMap[enabled]" />
+						<s:property value="#application.enums.booleanLabel[enabled]" />
 					</div>
 				</div>
 			</div>

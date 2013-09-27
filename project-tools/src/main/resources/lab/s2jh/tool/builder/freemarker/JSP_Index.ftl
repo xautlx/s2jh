@@ -23,7 +23,7 @@
                             </button>
                             <div class="btn-group pull-right">
                                 <button type="button" class="btn" title="高级查询"
-                                    onclick="$('#userListDiv').jqGrid('advSearch');">
+                                    onclick="$('#${entity_name_uncapitalize}ListDiv').jqGrid('advSearch');">
                                     <i class="icon-search"></i>
                                 </button>
                             </div>                            
