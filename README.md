@@ -8,6 +8,8 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
 
+Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
+
 ## Features
 
 * 面向主流企业级WEB应用系统的界面和常用基础功能设计实现
@@ -21,7 +23,3 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 ### Snapshot
 
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index.gif)
-
-
-[![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
-
