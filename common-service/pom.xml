@@ -39,11 +39,11 @@
 			<scope>test</scope>
 			<version>${s2jh.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>lab.s2jh</groupId>
-            <artifactId>project-tools</artifactId>
-            <version>${s2jh.version}</version>
-        </dependency>		
+		<dependency>
+			<groupId>lab.s2jh</groupId>
+			<artifactId>project-tools</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>lab.s2jh</groupId>
 			<artifactId>jasperreports-extension</artifactId>
@@ -74,6 +74,8 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itextasian</artifactId>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/jars/itextasian-1.5.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -83,16 +85,16 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-jasperreports-plugin</artifactId>
 		</dependency>
-		
-        <!-- quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz-oracle</artifactId>
-        </dependency>
+
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-oracle</artifactId>
+		</dependency>
 
 	</dependencies>
 
