@@ -6,7 +6,7 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 ## Introduction
 
-集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考，
+集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
 
 ## Features
 
