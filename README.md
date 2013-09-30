@@ -6,7 +6,7 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 ## Introduction
 
-通过企业级应用开发项目经验及技术总结，提取整理一套基于主流开源技术架构的基础开发框架，提供一个JEE相关主流开源技术架构整合及一些基础通用功能和组件的设计实现的最佳实践和参考样例。
+一套基于主流开源技术架构的基础开发框架，提供一个JEE相关主流开源技术架构整合及一些基础通用功能和组件的设计实现的最佳实践和参考样例。
 
 ## Features
 
