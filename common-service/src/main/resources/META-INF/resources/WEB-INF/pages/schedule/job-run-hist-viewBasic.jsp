@@ -9,6 +9,11 @@
         </div>
         <div class="row-fluid">
             <div class="span6">
+                <s2:property value="nodeId" label="触发节点标识"/>
+            </div>
+        </div>        
+        <div class="row-fluid">
+            <div class="span6">
                 <s2:property value="jobGroup" label="Job分组"/>
             </div>
         </div>
@@ -58,13 +63,8 @@
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span6">
-                <s2:property value="nodeId" label="触发节点标识"/>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span6">
-                <s2:property value="exceptionStack" label="异常日志"/>
+            <div class="span12">
+                <s2:property value="exceptionStack" label="异常日志" pre="true"/>
             </div>
         </div>
     </div>    

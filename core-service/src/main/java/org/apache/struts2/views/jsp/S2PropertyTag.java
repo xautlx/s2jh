@@ -20,6 +20,9 @@ import com.opensymphony.xwork2.util.logging.LoggerFactory;
 public class S2PropertyTag extends PropertyTag {
 
     private static final Logger LOG = LoggerFactory.getLogger(S2PropertyTag.class);
+    
+    /** 以HTML pre格式化方式显示内容,如显示异常堆栈文本 */
+    private String pre;
 
     /** Bootstrap样式label属性定义 */
     private String label;
@@ -49,7 +52,25 @@ public class S2PropertyTag extends PropertyTag {
                 }
             }
         }
+        if("true".equalsIgnoreCase(pre)){
+            try {
+                writer.write("<pre>");
+            } catch (IOException e) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Could not print out pre tag", e);
+                }
+            }
+        }
         boolean evalBody = component.start(writer);
+        if("true".equalsIgnoreCase(pre)){
+            try {
+                writer.write("</pre>");
+            } catch (IOException e) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Could not print out pre tag", e);
+                }
+            }
+        }
         if (label != null) {
             try {
                 writer.write("</div></div>");
@@ -68,5 +89,9 @@ public class S2PropertyTag extends PropertyTag {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public void setPre(String pre) {
+        this.pre = pre;
     }
 }
