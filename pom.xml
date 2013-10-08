@@ -680,11 +680,6 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>com.lowagie</groupId>
-				<artifactId>itextasian</artifactId>
-				<version>1.5.2</version>
-			</dependency>
-			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-all</artifactId>
 				<version>1.8.6</version>
@@ -968,11 +963,9 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.0</version>
 					<configuration>
 						<source>${jdk.version}</source>
 						<target>${jdk.version}</target>
-						<showWarnings>true</showWarnings>
 					</configuration>
 				</plugin>
 

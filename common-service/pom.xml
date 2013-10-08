@@ -74,6 +74,7 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itextasian</artifactId>
+			<version>1.5.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/jars/itextasian-1.5.2.jar</systemPath>
 		</dependency>
