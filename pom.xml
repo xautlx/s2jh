@@ -103,6 +103,11 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+        <repository>
+            <id>oschina</id>
+            <name>oschina repository</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </repository>		
 	</repositories>
 
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
