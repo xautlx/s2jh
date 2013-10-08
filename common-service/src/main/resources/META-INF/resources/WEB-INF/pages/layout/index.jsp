@@ -386,7 +386,13 @@ ul.marquee li {
             })
 
             $("#changePasswd").click(function() {
-                $.address.value("123");
+                $.popupDialog({
+                    dialogId : 'changePasswdDialog',
+                    url : "${base}/auth/profile!passwd",
+                    title : "修改登录密码",
+                    width : 600,
+                    height : 350
+                })
             })
 
             window.pubPostTimer = setInterval(updatePubPost, 5 * 60 * 1000);
