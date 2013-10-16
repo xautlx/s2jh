@@ -40,13 +40,6 @@ public class PubPostController extends BaseController<PubPost, String> {
         return super.doCreate();
     }
 
-    public boolean isDisallowUpdate() {
-        if (bindingEntity.getReadUserCount() != null && bindingEntity.getReadUserCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     @MetaData(title = "更新")
     public HttpHeaders doUpdate() {

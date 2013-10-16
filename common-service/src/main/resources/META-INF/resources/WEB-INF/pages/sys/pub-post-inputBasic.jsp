@@ -10,11 +10,11 @@
 			<div class="toolbar">
 				<div class="toolbar-inner">
 					<s2:button type="button" cssClass="btn btn-submit" callback-tab="pubPostIndexTabs"
-						callback-grid="pubPostListDiv" disabled="disallowUpdate">
+						callback-grid="pubPostListDiv">
 						<i class="icon-ok"></i> 保存
 					</s2:button>
 					<s2:button type="button" cssClass="btn btn-submit submit-post-close"
-						callback-tab="pubPostIndexTabs" callback-grid="pubPostListDiv" disabled="disallowUpdate">
+						callback-tab="pubPostIndexTabs" callback-grid="pubPostListDiv">
 						<i class="icon-check"></i> 保存并关闭
 					</s2:button>
 					<s2:button type="reset" cssClass="btn" disabled="disallowUpdate">
@@ -22,9 +22,6 @@
 					</s2:button>
 				</div>
 			</div>
-		</div>
-		<div class="alert alert-info">
-			<strong>提示:</strong>公告一旦被阅读后(已阅读人数大于零)，公告将冻结不允许被修改。
 		</div>
 		<div class="well">
 			<div class="row-fluid">
@@ -34,7 +31,7 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-					<s2:kindeditor name="htmlTitle" label="标题" rows="2" items="simple"/>
+					<s2:kindeditor name="htmlTitle" label="标题" rows="2" items="simple" />
 				</div>
 			</div>
 			<div class="row-fluid">
