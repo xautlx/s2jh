@@ -22,7 +22,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
  */
 public class ExtSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
-    private static Logger logger = LoggerFactory.getLogger(ExtSecurityInterceptor.class);
+    private static Logger logger = LoggerFactory.getLogger("lab.s2jh.auth.security.LoggerExtSecurityInterceptor");
 
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
     
@@ -38,7 +38,7 @@ public class ExtSecurityInterceptor extends AbstractSecurityInterceptor implemen
     @Override
     public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
-        logger.debug("ExtSecurityInterceptor doFilter...");
+        //logger.debug("ExtSecurityInterceptor doFilter...");
         FilterInvocation fi = new FilterInvocation(req, response, chain);
         InterceptorStatusToken token = super.beforeInvocation(fi);
         try {

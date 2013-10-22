@@ -18,18 +18,18 @@ import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.AuditOverrides;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/**
- * 自增主键实体基类定义.
- * 
- */
-@MappedSuperclass
 @JsonInclude(Include.NON_EMPTY)
 @EntityListeners({ SaveUpdateAuditListener.class })
+@MappedSuperclass
+@AuditOverrides({ @AuditOverride(forClass = BaseEntity.class) })
 public abstract class BaseEntity<ID extends Serializable> extends PersistableEntity<ID> implements
         DefaultAuditable<String, ID> {
 

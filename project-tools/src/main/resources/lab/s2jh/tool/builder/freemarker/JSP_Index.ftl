@@ -88,7 +88,7 @@
                 </#if>
                 </#list>
                 }, {
-                   name : 'createdDate',
+                   name : 'createdDt',
                    width : 120,
                    fixed : true,
                    hidden : true,
