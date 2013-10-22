@@ -58,7 +58,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
      * @see org.springframework.data.domain.Auditable#getCreatedBy()
      */
     @JsonIgnore
-    @Column(updatable = false)
+    @Column(updatable = false, name = "created_by")
     public String getCreatedBy() {
         return createdBy;
     }
@@ -74,7 +74,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
         this.createdBy = createdBy;
     }
 
-    @Column(updatable = false)
+    @Column(updatable = false, name = "created_dt")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = DateTimeJsonSerializer.class)
     public Date getCreatedDate() {
@@ -92,6 +92,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
      * @see org.springframework.data.domain.Auditable#getLastModifiedBy()
      */
     @JsonIgnore
+    @Column(name = "updated_by")
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -103,6 +104,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
 
     @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_dt")
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
