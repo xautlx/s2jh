@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,6 +17,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Lob;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
@@ -87,36 +91,37 @@ public class SourceCodeFrameworkBuilder {
             root.put("action_package", rootPackage);
             root.put("table_name", "T_TODO_" + className.toUpperCase());
             root.put("base", "${base}");
-            debug("Entity Data Map=" + root);
             Class entityClass = Class.forName(classFullName);
+            root.put("id_type", entityClass.getMethod("getId", null).getReturnType().getSimpleName());
             MetaData classEntityComment = (MetaData) entityClass.getAnnotation(MetaData.class);
             if (classEntityComment != null) {
                 root.put("model_title", classEntityComment.value());
             } else {
                 root.put("model_title", entityName);
             }
+            debug("Entity Data Map=" + root);
 
             Set<Field> fields = new HashSet<Field>();
             Field[] curfields = entityClass.getDeclaredFields();
             for (Field field : curfields) {
                 fields.add(field);
             }
-            Field[] parentfields = entityClass.getSuperclass().getDeclaredFields();
-            for (Field field : parentfields) {
-                fields.add(field);
-            }
+            //Field[] parentfields = entityClass.getSuperclass().getDeclaredFields();
+            //for (Field field : parentfields) {
+            //    fields.add(field);
+            //}
             List<EntityCodeField> entityFields = new ArrayList<EntityCodeField>();
+            int cnt = 1;
             for (Field field : fields) {
                 debug(" - Field=" + field);
                 Class fieldType = field.getType();
-                EntityAutoCode entityAutoCode = field.getAnnotation(EntityAutoCode.class);
-                if (entityAutoCode == null) {
-                    continue;
-                }
 
                 EntityCodeField entityCodeField = null;
-                if (fieldType == String.class) {
+                if (fieldType.isEnum()) {
                     entityCodeField = new EntityCodeField();
+                    entityCodeField.setListFixed(true);
+                    entityCodeField.setListWidth(80);
+                    entityCodeField.setListAlign("center");
                 } else if (fieldType == Boolean.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
@@ -127,11 +132,22 @@ public class SourceCodeFrameworkBuilder {
                     entityCodeField.setListFixed(true);
                     entityCodeField.setListWidth(60);
                     entityCodeField.setListAlign("right");
-                } else if (fieldType.isEnum()) {
+                } else if (fieldType == String.class) {
                     entityCodeField = new EntityCodeField();
-                    entityCodeField.setListFixed(true);
-                    entityCodeField.setListWidth(80);
-                    entityCodeField.setListAlign("center");
+                    Method getMethod = entityClass.getMethod("get" + StringUtils.capitalize(field.getName()));
+                    Column fieldColumn = getMethod.getAnnotation(Column.class);
+                    if (fieldColumn != null) {
+                        int length = fieldColumn.length();
+                        if (length > 255) {
+                            entityCodeField.setList(false);
+                            entityCodeField.setListWidth(length);
+                        }
+                    }
+                    Lob fieldLob = getMethod.getAnnotation(Lob.class);
+                    if (fieldLob != null) {
+                        entityCodeField.setList(false);
+                        entityCodeField.setListWidth(Integer.MAX_VALUE);
+                    }
                 } else if (fieldType == Date.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
@@ -144,15 +160,21 @@ public class SourceCodeFrameworkBuilder {
                         entityCodeField.setEnumField(true);
                     }
                     entityCodeField.setFieldType(fieldType.getSimpleName());
-                    entityCodeField.setSearch(entityAutoCode.search());
-                    entityCodeField.setListHidden(entityAutoCode.listHidden());
-                    entityCodeField.setEdit(entityAutoCode.edit());
-                    entityCodeField.setList(entityAutoCode.listHidden() || entityAutoCode.listShow());
-                    MetaData entityComment = field.getAnnotation(MetaData.class);
-                    entityCodeField.setTitle(entityComment.value());
                     entityCodeField.setFieldName(field.getName());
+                    EntityAutoCode entityAutoCode = field.getAnnotation(EntityAutoCode.class);
                     if (entityAutoCode != null) {
-                        entityCodeField.setOrder(entityAutoCode.order());
+                        entityCodeField.setSearch(entityAutoCode.search());
+                        entityCodeField.setListHidden(entityAutoCode.listHidden());
+                        entityCodeField.setEdit(entityAutoCode.edit());
+                        entityCodeField.setList(entityAutoCode.listHidden() || entityAutoCode.listShow());
+                        MetaData entityComment = field.getAnnotation(MetaData.class);
+                        entityCodeField.setTitle(entityComment.value());
+                        if (entityAutoCode != null) {
+                            entityCodeField.setOrder(entityAutoCode.order());
+                        }
+                    } else {
+                        entityCodeField.setTitle(field.getName());
+                        entityCodeField.setOrder(cnt++);
                     }
                     entityFields.add(entityCodeField);
                 }

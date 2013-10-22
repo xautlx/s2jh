@@ -30,7 +30,11 @@
 			<artifactId>common-service</artifactId>
 			<version>${s2jh.version}</version>
 		</dependency>
-
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>project-tools</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
 		<!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> 
 			<artifactId>ojdbc6</artifactId> <scope>runtime</scope> </dependency> -->
 
@@ -105,7 +109,7 @@
 						</executions>
 						<configuration>
 							<classpathScope>compile</classpathScope>
-							<mainClass>lab.apollo.tool.builder.SourceCodeFrameworkBuilder</mainClass>
+							<mainClass>lab.s2jh.tool.builder.SourceCodeFrameworkBuilder</mainClass>
 							<arguments>
 								<argument>./generator/</argument>
 							</arguments>

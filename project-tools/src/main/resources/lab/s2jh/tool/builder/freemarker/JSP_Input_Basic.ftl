@@ -31,13 +31,15 @@
                     <#if entityField.fieldType=='Boolean'>
                     <s2:radio name="${entityField.fieldName}" list="#application.enums.booleanLabel" label="${entityField.title}"/>
                     <#elseif entityField.enumField>
-                    <s:select name="${entityField.fieldName}" list="#application.${entityField.uncapitalizeFieldType}Map" label="${entityField.title}"/>
+                    <s:select name="${entityField.fieldName}" list="#application.enums.${entityField.uncapitalizeFieldType}" label="${entityField.title}"/>
                     <#elseif entityField.fieldType=='Date'>
                     <s2:datetextfield name="${entityField.fieldName}" cssClass="input-small" label="${entityField.title}" format="date"/>                  
                     <#elseif entityField.fieldType=='LocalDate'>
                     <s2:datetextfield name="${entityField.fieldName}" cssClass="input-small" label="${entityField.title}" format="date"/> 
                     <#elseif entityField.fieldType=='LocalDateTime'>
                     <s2:datetextfield name="${entityField.fieldName}" cssClass="input-medium" label="${entityField.title}" format="timestamp"/>                                             
+                    <#elseif (entityField.fieldType=='String' && entityField.listWidth gt 255)>
+                    <s2:textarea name="${entityField.fieldName}" label="${entityField.title}" rows="3"/>                                             
                     <#else>
                     <s2:textfield name="${entityField.fieldName}" label="${entityField.title}" />
                     </#if>

@@ -10,14 +10,14 @@ import lab.s2jh.core.web.view.OperationResult;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "[TODO控制器名称]")
-public class ${entity_name}Controller extends BaseController<${entity_name},String> {
+@MetaData("${entity_name}Controller")
+public class ${entity_name}Controller extends BaseController<${entity_name},${id_type}> {
 
     @Autowired
     private ${entity_name}Service ${entity_name_uncapitalize}Service;
 
     @Override
-    protected BaseService<${entity_name}, String> getEntityService() {
+    protected BaseService<${entity_name}, ${id_type}> getEntityService() {
         return ${entity_name_uncapitalize}Service;
     }
     
@@ -26,7 +26,7 @@ public class ${entity_name}Controller extends BaseController<${entity_name},Stri
         // TODO Add acl check code logic
     }
 
-    @MetaData(title = "[TODO方法作用]")
+    @MetaData("[TODO方法作用]")
     public HttpHeaders todo() {
         //TODO
         setModel(OperationResult.buildSuccessResult("TODO操作完成"));
@@ -34,25 +34,25 @@ public class ${entity_name}Controller extends BaseController<${entity_name},Stri
     }
     
     @Override
-    @MetaData(title = "创建")
+    @MetaData("创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData("更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData("删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData("查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
