@@ -1,5 +1,5 @@
 @Namespace("/schedule")
-@MetaData(title = "定时任务模块")
+@MetaData(value = "定时任务模块")
 package lab.s2jh.schedule.web.action;
 import lab.s2jh.core.annotation.MetaData;
 

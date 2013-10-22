@@ -27,70 +27,70 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 @Table(name = "T_AUTH_LOGON_LOG")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
-@MetaData(title = "用户登录登出历史记录")
+@MetaData(value = "用户登录登出历史记录")
 public class UserLogonLog extends BaseEntity<String> {
 
-    @MetaData(title = "登录账号")
+    @MetaData(value = "登录账号")
     @EntityAutoCode(order = 10, search = true)
     private String username;
 
-    @MetaData(title = "账户编号")
+    @MetaData(value = "账户编号")
     @EntityAutoCode(order = 20, search = false, listHidden = true)
     private String userid;
 
-    @MetaData(title = "登录时间")
+    @MetaData(value = "登录时间")
     @EntityAutoCode(order = 22, search = true)
     private Date logonTime;
 
-    @MetaData(title = "登出时间")
+    @MetaData(value = "登出时间")
     @EntityAutoCode(order = 24, search = false)
     private Date logoutTime;
 
-    @MetaData(title = "登录时长")
+    @MetaData(value = "登录时长")
     @EntityAutoCode(order = 28, search = false)
     private Long logonTimeLength;
 
-    @MetaData(title = "登录次数")
+    @MetaData(value = "登录次数")
     @EntityAutoCode(order = 30, search = false)
     private Long logonTimes;
 
-    @MetaData(title = "userAgent")
+    @MetaData(value = "userAgent")
     @EntityAutoCode(order = 32, search = false, listHidden = true)
     private String userAgent;
 
-    @MetaData(title = "xForwardFor")
+    @MetaData(value = "xForwardFor")
     @EntityAutoCode(order = 36, search = false)
     private String xForwardFor;
 
-    @MetaData(title = "localAddr")
+    @MetaData(value = "localAddr")
     @EntityAutoCode(order = 40, search = false, listHidden = true)
     private String localAddr;
 
-    @MetaData(title = "localName")
+    @MetaData(value = "localName")
     @EntityAutoCode(order = 50, search = false, listHidden = true)
     private String localName;
 
-    @MetaData(title = "localPort")
+    @MetaData(value = "localPort")
     @EntityAutoCode(order = 60, search = false, listHidden = true)
     private Integer localPort;
 
-    @MetaData(title = "remoteAddr")
+    @MetaData(value = "remoteAddr")
     @EntityAutoCode(order = 70, search = false, listHidden = true)
     private String remoteAddr;
 
-    @MetaData(title = "remoteHost")
+    @MetaData(value = "remoteHost")
     @EntityAutoCode(order = 80, search = false, listHidden = true)
     private String remoteHost;
 
-    @MetaData(title = "remotePort")
+    @MetaData(value = "remotePort")
     @EntityAutoCode(order = 90, search = false, listHidden = true)
     private Integer remotePort;
 
-    @MetaData(title = "serverIP")
+    @MetaData(value = "serverIP")
     @EntityAutoCode(order = 100, search = false, listHidden = true)
     private String serverIP;
     
-    @MetaData(title = "Session编号")
+    @MetaData(value = "Session编号")
     @EntityAutoCode(order = 160, search = false, listHidden = true)
     private String httpSessionId;
 

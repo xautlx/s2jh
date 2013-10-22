@@ -442,7 +442,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return JSON操作提示
      */
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     protected HttpHeaders doCreate() {
         //检查提交的数据参数符合用户ACL权限，否则拒绝创建数据
         checkEntityAclPermission(bindingEntity);
@@ -493,7 +493,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return JSON操作提示
      */
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     protected HttpHeaders doUpdate() {
         ExtRevisionListener.setOperationEvent(RevisionType.MOD.name());
         getEntityService().save(bindingEntity);
@@ -571,7 +571,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return JSON操作提示
      */
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     protected HttpHeaders doDelete() {
         Set<T> enableDeleteEntities = Sets.newHashSet();
         Collection<T> entities = this.getEntitiesByParameterIds();
@@ -602,7 +602,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return JSON集合数据
      */
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     protected HttpHeaders findByPage() {
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         GroupPropertyFilter groupFilter = GroupPropertyFilter
@@ -804,7 +804,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             EntityAutoCode entityAutoCode = field.getAnnotation(EntityAutoCode.class);
             if (entityAutoCode != null && entityAutoCode.comparable()) {
                 MetaData metaData = field.getAnnotation(MetaData.class);
-                revisionFields.put(field, metaData != null ? metaData.title() : field.getName().toUpperCase());
+                revisionFields.put(field, metaData != null ? metaData.value() : field.getName().toUpperCase());
             }
         }
         return revisionFields;
@@ -815,7 +815,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return JSON集合数据
      */
-    @MetaData(title = "版本数据列表")
+    @MetaData(value = "版本数据列表")
     protected HttpHeaders revisionList() {
         String property = this.getParameter("property");
         Boolean hasChanged = null;
@@ -844,7 +844,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 为了避免由于权限配置不严格，导致未授权的Controller数据操作访问，父类提供protected基础实现，子类根据需要覆写public然后调用基类方法
      * @return 在struts.xml中全局的revisionCompare Result定义
      */
-    @MetaData(title = "版本数据对比")
+    @MetaData(value = "版本数据对比")
     protected HttpHeaders revisionCompare() {
         HttpServletRequest request = this.getRequest();
         String id = String.valueOf(this.getId());

@@ -34,7 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "BIZ_XS_XXIMPORT")
-@MetaData(title = "学生信息导入中间处理表")
+@MetaData(value = "学生信息导入中间处理表")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XsXxImport extends PersistableEntity<String> {
 
@@ -110,35 +110,35 @@ public class XsXxImport extends PersistableEntity<String> {
     @XlsMatchTitles({ "grbsm", "个人标识码" })
     private String grbsm;
 
-    @MetaData(title = "分组标识", description = "一般取用户Session标识一批次操作分组")
+    @MetaData(value = "分组标识", description = "一般取用户Session标识一批次操作分组")
     @EntityAutoCode(order = 10, search = false, listShow = false)
     private String groupNum;
 
-    @MetaData(title = "文件名称", description = "记录导入文件名称")
+    @MetaData(value = "文件名称", description = "记录导入文件名称")
     @EntityAutoCode(order = 10, search = false, listHidden = true)
     private String fileName;
 
-    @MetaData(title = "Excel Sheet名称", description = "记录导入Sheet名称")
+    @MetaData(value = "Excel Sheet名称", description = "记录导入Sheet名称")
     @EntityAutoCode(order = 20, search = false, listHidden = true)
     private String sheetName;
 
-    @MetaData(title = "Excel行号")
+    @MetaData(value = "Excel行号")
     @EntityAutoCode(order = 30, search = true)
     private Integer lineNum;
 
-    @MetaData(title = "校验通过")
+    @MetaData(value = "校验通过")
     @EntityAutoCode(order = 1000, search = true)
     private Boolean validatePass = Boolean.TRUE;
 
-    @MetaData(title = "校验未过说明")
+    @MetaData(value = "校验未过说明")
     @EntityAutoCode(order = 1100)
     private String validateMessage;
 
-    @MetaData(title = "导入通过")
+    @MetaData(value = "导入通过")
     @EntityAutoCode(order = 1200, search = true)
     private Boolean importPass = Boolean.TRUE;
 
-    @MetaData(title = "导入未过说明")
+    @MetaData(value = "导入未过说明")
     @EntityAutoCode(order = 1300)
     private String importMessage;
 

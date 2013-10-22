@@ -22,21 +22,21 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "T_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "category", "key1Value",
         "key2Value" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "数据字典")
+@MetaData(value = "数据字典")
 public class DataDict extends BaseEntity<String> {
 
     /** 类别定义。分类代码对应中文描述在dataDictCategory国际化资源文件中定义。具体使用说明请参考 
      * {@link DataDictService#findDataDictByCategory(String)} 
      */
-    @MetaData(title = "分类代码", description = "以代码方式维护数据，不要用中文")
+    @MetaData(value = "分类代码", description = "以代码方式维护数据，不要用中文")
     @EntityAutoCode(order = 5, search = true)
     private String category;
 
-    @MetaData(title = "代码", description = "自动生成，主要用在偶尔进行父子关系设定时需要")
+    @MetaData(value = "代码", description = "自动生成，主要用在偶尔进行父子关系设定时需要")
     @EntityAutoCode(order = 6, search = false)
     private String code;
 
-    @MetaData(title = "父代码", description = "主要用在偶尔进行父子关系设定时需要")
+    @MetaData(value = "父代码", description = "主要用在偶尔进行父子关系设定时需要")
     @EntityAutoCode(order = 7, search = false)
     private String parentCode;
 
@@ -45,14 +45,14 @@ public class DataDict extends BaseEntity<String> {
      * key值定义是基于同一category下面的唯一性定义，不同category下面的key可以相同
      * 注意：为了灵活性，数据库层面无唯一约束定义，请自行确保category+key1数据的唯一性
      */
-    @MetaData(title = "Key1定义")
+    @MetaData(value = "Key1定义")
     @EntityAutoCode(order = 8, search = true)
     private String key1Value;
 
     /** 
      * 字典数据的Key2值，如果key1值不能单一确定唯一性则可以启用key2值进行组合唯一控制
      */
-    @MetaData(title = "Key2定义")
+    @MetaData(value = "Key2定义")
     @EntityAutoCode(order = 10, search = true)
     private String key2Value;
 
@@ -61,7 +61,7 @@ public class DataDict extends BaseEntity<String> {
      * 大部分情况一般都是key-value形式的数据，只需要维护key1Value和data1Value即可，
      * 然后通过{@link DataDictService#findDataDictByCategory(String)}即可快速返回key-value形式的Map数据
      */
-    @MetaData(title = "数据1设定")
+    @MetaData(value = "数据1设定")
     @EntityAutoCode(order = 20, search = true)
     private String data1Value;
 
@@ -70,7 +70,7 @@ public class DataDict extends BaseEntity<String> {
      * 对于扩展数据的获取一般通过{@link lab.s2jh.sys.service.DataDictService#findDataDictListByCategory(String)}
      * 对于返回的数据，根据实际业务定制化使用即可
      */
-    @MetaData(title = "数据2设定")
+    @MetaData(value = "数据2设定")
     @EntityAutoCode(order = 30, search = true)
     private String data2Value;
 
@@ -79,15 +79,15 @@ public class DataDict extends BaseEntity<String> {
      * 对于扩展数据的获取一般通过{@link lab.s2jh.sys.service.DataDictService#findDataDictListByCategory(String)}
      * 对于返回的数据，根据实际业务定制化使用即可
      */
-    @MetaData(title = "数据3设定", description = "以CLOB大文本方式存储用于特定的大文本数据配置")
+    @MetaData(value = "数据3设定", description = "以CLOB大文本方式存储用于特定的大文本数据配置")
     @EntityAutoCode(order = 30, search = false)
     private String data3Value;
 
-    @MetaData(title = "禁用标识", description = "禁用项目全局不显示")
+    @MetaData(value = "禁用标识", description = "禁用项目全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(title = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 10;
 

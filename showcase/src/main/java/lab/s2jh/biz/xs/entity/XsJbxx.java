@@ -33,83 +33,83 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "BIZ_XS_JBXX", uniqueConstraints = { @UniqueConstraint(columnNames = { "xxdm", "xh" }) })
-@MetaData(title = "学生个人基础信息")
+@MetaData(value = "学生个人基础信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Audited
 public class XsJbxx extends PersistableEntity<String> {
 
-    @MetaData(title = "学校代码", description = "学生所属学校代码")
+    @MetaData(value = "学校代码", description = "学生所属学校代码")
     @EntityAutoCode(order = 5, search = false, listShow = false)
     private String xxdm;
 
-    @MetaData(title = "所属学校班级")
+    @MetaData(value = "所属学校班级")
     @EntityAutoCode(order = 8, search = false, listShow = false, comparable = true)
     private XxBj xxBj;
 
-    @MetaData(title = "学号", description = "学生在学校内编码,校内唯一")
+    @MetaData(value = "学号", description = "学生在学校内编码,校内唯一")
     @EntityAutoCode(order = 10, search = true)
     private String xh;
 
-    @MetaData(title = "姓名", description = "正式登记注册中文姓名,姓名为中文")
+    @MetaData(value = "姓名", description = "正式登记注册中文姓名,姓名为中文")
     @EntityAutoCode(order = 20, search = true)
     private String xm;
 
-    @MetaData(title = "性别", description = "GB/T 2261.1 引用性别代码表（ZD_GB_XBM）性别：1-男，2-女")
+    @MetaData(value = "性别", description = "GB/T 2261.1 引用性别代码表（ZD_GB_XBM）性别：1-男，2-女")
     @EntityAutoCode(order = 30, searchAdvance = true)
     @EnumTypeValue(EnumTypes.ZD_GB_XBM)
     private String xbm;
 
-    @MetaData(title = "出生日期", description = "出生证签署的并在公安户籍部门正式登记注册、人事档案中记载的时间日，格式：2011-01-01")
+    @MetaData(value = "出生日期", description = "出生证签署的并在公安户籍部门正式登记注册、人事档案中记载的时间日，格式：2011-01-01")
     @EntityAutoCode(order = 40, searchAdvance = true)
     private String csrq;
 
-    @MetaData(title = "出生地", description = "引用行政区划表SYS_REGION_CODE的数据")
+    @MetaData(value = "出生地", description = "引用行政区划表SYS_REGION_CODE的数据")
     @EntityAutoCode(order = 50, searchAdvance = true, listHidden = true)
     private String csdm;
 
-    @MetaData(title = "籍贯")
+    @MetaData(value = "籍贯")
     @EntityAutoCode(order = 60, searchAdvance = true, listHidden = true)
     private String jg;
 
-    @MetaData(title = "民族", description = "GB/T 3304,取用2位数字代码，如：01 汉族，02 蒙古族 引用民族码代码表（ZD_GB_MZM）")
+    @MetaData(value = "民族", description = "GB/T 3304,取用2位数字代码，如：01 汉族，02 蒙古族 引用民族码代码表（ZD_GB_MZM）")
     @EntityAutoCode(order = 70, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_GB_MZM)
     private String mzm;
 
-    @MetaData(title = "国籍/地区", description = "GB/T 2659。采用三字母代码，如：CHN 中国，USA 美国. 引用国籍地区码代码表（ZD_GB_GJDQM）")
+    @MetaData(value = "国籍/地区", description = "GB/T 2659。采用三字母代码，如：CHN 中国，USA 美国. 引用国籍地区码代码表（ZD_GB_GJDQM）")
     @EntityAutoCode(order = 80, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_GB_GJDQM)
     private String gjdqm;
 
-    @MetaData(title = "身份证件类型", description = "可证明学生身份的证件类型：1-居民身份证；6-香港特区护照/身份证明；7-澳门特区护照/身份证明；8-台湾居民来往大陆通行证；9-境外永久居住证；引用身份证件类型代码表（ZD_BB_SFZJLXM）")
+    @MetaData(value = "身份证件类型", description = "可证明学生身份的证件类型：1-居民身份证；6-香港特区护照/身份证明；7-澳门特区护照/身份证明；8-台湾居民来往大陆通行证；9-境外永久居住证；引用身份证件类型代码表（ZD_BB_SFZJLXM）")
     @EntityAutoCode(order = 90, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_BB_SFZJLXM)
     private String sfzjlxm;
 
-    @MetaData(title = "身份证件号", description = "身份证件类型对应的证件号码")
+    @MetaData(value = "身份证件号", description = "身份证件类型对应的证件号码")
     @EntityAutoCode(order = 100, searchAdvance = true, listHidden = true)
     private String sfzjh;
 
-    @MetaData(title = "港澳台侨外码", description = "CELTS-29 GATQW 港澳台侨外代码。引用港澳台侨外代码表（ZD_BB_GATQWM）")
+    @MetaData(value = "港澳台侨外码", description = "CELTS-29 GATQW 港澳台侨外代码。引用港澳台侨外代码表（ZD_BB_GATQWM）")
     @EntityAutoCode(order = 110, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_BB_GATQWM)
     private String gatqwm;
 
-    @MetaData(title = "政治面貌", description = "GB/T 4762,可采用简称，如：01 中共党员，04 民革会员。引用政治面貌代码表（ZD_BB_ZZMMM）")
+    @MetaData(value = "政治面貌", description = "GB/T 4762,可采用简称，如：01 中共党员，04 民革会员。引用政治面貌代码表（ZD_BB_ZZMMM）")
     @EntityAutoCode(order = 120, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_BB_ZZMMM)
     private String zzmmm;
 
-    @MetaData(title = "健康状况", description = "GB/T 2261.3,采用1位数字代码。引用健康状况代码表（ZD_GB_JKZKM）")
+    @MetaData(value = "健康状况", description = "GB/T 2261.3,采用1位数字代码。引用健康状况代码表（ZD_GB_JKZKM）")
     @EntityAutoCode(order = 130, searchAdvance = true, listHidden = true)
     @EnumTypeValue(EnumTypes.ZD_GB_JKZKM)
     private String jkzkm;
 
-    @MetaData(title = "照片", description = "近期正面免冠证件照片")
+    @MetaData(value = "照片", description = "近期正面免冠证件照片")
     @EntityAutoCode(order = 140, searchAdvance = true, listHidden = true, comparable = false)
     private byte[] zp;
 
-    @MetaData(title = "个人标识码")
+    @MetaData(value = "个人标识码")
     @EntityAutoCode(order = 150, searchAdvance = true, listHidden = true)
     private String grbsm;
 

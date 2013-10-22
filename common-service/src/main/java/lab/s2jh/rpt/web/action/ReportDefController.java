@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-@MetaData(title = "报表定义管理")
+@MetaData(value = "报表定义管理")
 public class ReportDefController extends BaseController<ReportDef, String> {
 
     @Autowired
@@ -53,7 +53,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         String templateFileId = this.getParameter("templateFileId");
         if (StringUtils.isNotBlank(templateFileId)) {
@@ -63,7 +63,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         String templateFileId = this.getParameter("templateFileId");
         if (StringUtils.isNotBlank(templateFileId)) {
@@ -75,13 +75,13 @@ public class ReportDefController extends BaseController<ReportDef, String> {
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
@@ -90,7 +90,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
         return reportDefService.findCategories();
     }
 
-    @MetaData(title = "计算显示角色关联数据")
+    @MetaData(value = "计算显示角色关联数据")
     @SecurityControllIgnore
     public HttpHeaders findRelatedRoles() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Role.class, getRequest());
@@ -110,7 +110,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "更新角色关联")
+    @MetaData(value = "更新角色关联")
     public HttpHeaders doUpdateRelatedRoleR2s() {
         Set<String> roleIds = this.getParameterIds("r2ids");
         R2OperationEnum op = Enum.valueOf(R2OperationEnum.class, getParameter("op", R2OperationEnum.update.name()));

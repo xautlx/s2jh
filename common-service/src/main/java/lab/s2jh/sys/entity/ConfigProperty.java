@@ -24,26 +24,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "T_SYS_CFG_PROP")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "配置属性")
+@MetaData(value = "配置属性")
 public class ConfigProperty extends BaseEntity<String> {
 
-    @MetaData(title = "代码")
+    @MetaData(value = "代码")
     @EntityAutoCode(order = 10)
     private String propKey;
 
-    @MetaData(title = "名称")
+    @MetaData(value = "名称")
     @EntityAutoCode(order = 20)
     private String propName;
 
-    @MetaData(title = "简单属性值")
+    @MetaData(value = "简单属性值")
     @EntityAutoCode(order = 30)
     private String simpleValue;
 
-    @MetaData(title = "HTML属性值")
+    @MetaData(value = "HTML属性值")
     @EntityAutoCode(order = 40)
     private String htmlValue;
 
-    @MetaData(title = "参数属性用法说明")
+    @MetaData(value = "参数属性用法说明")
     @EntityAutoCode(order = 50)
     private String propDescn;
 

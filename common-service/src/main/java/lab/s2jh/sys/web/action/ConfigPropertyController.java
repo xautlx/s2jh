@@ -9,7 +9,7 @@ import lab.s2jh.sys.service.ConfigPropertyService;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "参数属性配置")
+@MetaData(value = "参数属性配置")
 public class ConfigPropertyController extends BaseController<ConfigProperty,String> {
 
     @Autowired
@@ -27,25 +27,25 @@ public class ConfigPropertyController extends BaseController<ConfigProperty,Stri
 
     
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

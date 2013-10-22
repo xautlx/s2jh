@@ -40,12 +40,12 @@ public class RegionCodeController extends BaseBizController<RegionCode, String> 
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
-    @MetaData(title = "所有行政区域数据")
+    @MetaData(value = "所有行政区域数据")
     @SecurityControllIgnore
     public HttpHeaders regionData() {
         List<ValueLabelBean> allCachedKeyValues = regionCodeCacheService.findAllCachedKeyValues();
@@ -53,7 +53,7 @@ public class RegionCodeController extends BaseBizController<RegionCode, String> 
         return new DefaultHttpHeaders().withETag(allCachedKeyValues);
     }
 
-    @MetaData(title = "用户所辖行政区域")
+    @MetaData(value = "用户所辖行政区域")
     @SecurityControllIgnore
     public HttpHeaders regions() {
         String id = this.getParameter("id");

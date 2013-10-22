@@ -37,54 +37,54 @@ import com.google.common.collect.Lists;
 
 @Entity
 @Table(name = "T_AUTH_USER", uniqueConstraints = @UniqueConstraint(columnNames = { "aclCode", "signinid" }))
-@MetaData(title = "用户")
+@MetaData(value = "用户")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Audited
 public class User extends BaseEntity<String> {
 
-    @MetaData(title = "登录账号")
+    @MetaData(value = "登录账号")
     @EntityAutoCode(order = 10, search = true)
     private String signinid;
 
-    @MetaData(title = "登录密码")
+    @MetaData(value = "登录密码")
     @EntityAutoCode(order = 10, listShow = false)
     private String password;
 
-    @MetaData(title = "昵称")
+    @MetaData(value = "昵称")
     @EntityAutoCode(order = 20, search = true)
     private String nick;
 
-    @MetaData(title = "电子邮件")
+    @MetaData(value = "电子邮件")
     @EntityAutoCode(order = 30, search = true)
     private String email;
 
-    @MetaData(title = "禁用标识", description = "禁用之后则不能登录访问系统")
+    @MetaData(value = "禁用标识", description = "禁用之后则不能登录访问系统")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(title = "注册时间")
+    @MetaData(value = "注册时间")
     @EntityAutoCode(order = 40, edit = false, listHidden = true)
     private Date signupTime;
 
-    @MetaData(title = "账户未锁定标志")
+    @MetaData(value = "账户未锁定标志")
     @EntityAutoCode(order = 50, search = false, listHidden = true)
     private Boolean accountNonLocked = Boolean.TRUE;
 
-    @MetaData(title = "失效日期")
+    @MetaData(value = "失效日期")
     @EntityAutoCode(order = 50, search = true)
     private Date accountExpireTime;
 
-    @MetaData(title = "账户密码过期时间")
+    @MetaData(value = "账户密码过期时间")
     @EntityAutoCode(order = 50, search = false, listHidden = true)
     private Date credentialsExpireTime;
 
-    @MetaData(title = "角色关联")
+    @MetaData(value = "角色关联")
     private List<UserR2Role> userR2Roles = Lists.newArrayList();
 
-    @MetaData(title = "初始化用户标识")
+    @MetaData(value = "初始化用户标识")
     private Boolean initSetupUser;
 
-    @MetaData(title = "用户唯一标识号")
+    @MetaData(value = "用户唯一标识号")
     private String uid;
 
     private Date lastLogonTime;

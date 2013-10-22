@@ -48,7 +48,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-@MetaData(title = "学籍导入")
+@MetaData(value = "学籍导入")
 public class XsXxImportController extends BaseBizController<XsXxImport, String> {
 
     private final Logger logger = LoggerFactory.getLogger(XsXxImportController.class);
@@ -76,7 +76,7 @@ public class XsXxImportController extends BaseBizController<XsXxImport, String> 
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
@@ -100,7 +100,7 @@ public class XsXxImportController extends BaseBizController<XsXxImport, String> 
         this.uploadFilesContentType = uploadFilesContentType;
     }
 
-    @MetaData(title = "导入数据文件上传")
+    @MetaData(value = "导入数据文件上传")
     public HttpHeaders doUploadFile() throws Exception {
         Date now = new Date();
         String sessionId = this.getRequest().getSession().getId();
@@ -217,7 +217,7 @@ public class XsXxImportController extends BaseBizController<XsXxImport, String> 
         groupFilter.and(new PropertyFilter(MatchType.EQ, "groupNum", this.getRequest().getSession().getId()));
     }
 
-    @MetaData(title = "执行导入有效数据")
+    @MetaData(value = "执行导入有效数据")
     public HttpHeaders doImport() {
         String groupNum = this.getRequest().getSession().getId();
         Field[] fields = XsXxImport.class.getDeclaredFields();

@@ -13,7 +13,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@MetaData(title = "学籍查询")
+@MetaData(value = "学籍查询")
 public class XsXxSearchController extends BaseBizController<XsJbxx, String> {
 
     @Autowired
@@ -37,7 +37,7 @@ public class XsXxSearchController extends BaseBizController<XsJbxx, String> {
     }
     
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

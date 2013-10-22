@@ -27,7 +27,7 @@ public class EnumJsonSerializer extends JsonSerializer<Enum> {
         MetaData entityComment = enumField.getAnnotation(MetaData.class);
         if (entityComment != null) {
             jgen.writeFieldName("title");
-            jgen.writeString(entityComment.title());
+            jgen.writeString(entityComment.value());
         }
         jgen.writeEndObject();
     }

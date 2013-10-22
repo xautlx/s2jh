@@ -37,18 +37,18 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
     private int version = 0;
 
     /** 数据访问控制代码 */
-    private String aclCode;
+    protected String aclCode;
 
     /** 数据访问控制类型 */
-    private Integer aclType;
+    protected Integer aclType;
 
-    private String createdBy;
+    protected String createdBy;
 
-    private Date createdDate;
+    protected Date createdDate;
 
-    private String lastModifiedBy;
+    protected String lastModifiedBy;
 
-    private Date lastModifiedDate;
+    protected Date lastModifiedDate;
 
     public abstract void setId(final ID id);
 
@@ -102,7 +102,6 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
     }
 
     @JsonIgnore
-    @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date getLastModifiedDate() {
         return lastModifiedDate;

@@ -20,105 +20,105 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "BIZ_XX_FZXX")
-@MetaData(title = "学校辅助信息")
+@MetaData(value = "学校辅助信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XxFzxx extends PersistableEntity<String> {
 
-    @MetaData(title = "对应学校代码")
+    @MetaData(value = "对应学校代码")
     private String xxdm;
 
-    @MetaData(title = "对应学校")
+    @MetaData(value = "对应学校")
     private XxJcxx xxJcxx;
 
-    @MetaData(title = "组织机构码", description = "学校组织机构代码(中华人民共和国事业法人代码)，由八位本体代码和一位校验码组成")
+    @MetaData(value = "组织机构码", description = "学校组织机构代码(中华人民共和国事业法人代码)，由八位本体代码和一位校验码组成")
     @EntityAutoCode(order = 10)
     private String zzjgm;
 
-    @MetaData(title = "建校年月")
+    @MetaData(value = "建校年月")
     @EntityAutoCode(order = 20)
     private String jxny;
 
-    @MetaData(title = "校庆日")
+    @MetaData(value = "校庆日")
     @EntityAutoCode(order = 30)
     private String xqr;
 
-    @MetaData(title = "法人证书号")
+    @MetaData(value = "法人证书号")
     @EntityAutoCode(order = 40)
     private String frzsh;
 
-    @MetaData(title = "土地产权码")
+    @MetaData(value = "土地产权码")
     @EntityAutoCode(order = 50)
     private String tdcqm;
 
-    @MetaData(title = "土地证号")
+    @MetaData(value = "土地证号")
     @EntityAutoCode(order = 60)
     private String tdzh;
 
-    @MetaData(title = "附设班类型")
+    @MetaData(value = "附设班类型")
     @EntityAutoCode(order = 70)
     private String fsblxm;
 
-    @MetaData(title = "学校校区数")
+    @MetaData(value = "学校校区数")
     @EntityAutoCode(order = 80)
     private Integer xxxqs;
 
-    @MetaData(title = "学校（机构）评估类型")
+    @MetaData(value = "学校（机构）评估类型")
     @EntityAutoCode(order = 90)
     private String xxpglxm;
 
-    @MetaData(title = "学校评估情况说明 ")
+    @MetaData(value = "学校评估情况说明 ")
     @EntityAutoCode(order = 100, listShow = false)
     private String xxpgqksm;
 
-    @MetaData(title = "寄宿制形式码")
+    @MetaData(value = "寄宿制形式码")
     @EntityAutoCode(order = 110)
     private String jszxsm;
 
-    @MetaData(title = "学校海拔高度")
+    @MetaData(value = "学校海拔高度")
     @EntityAutoCode(order = 120)
     private BigDecimal hbgd;
 
-    @MetaData(title = "党委负责人")
+    @MetaData(value = "党委负责人")
     @EntityAutoCode(order = 130)
     private String dwfzr;
 
-    @MetaData(title = "学校经度")
+    @MetaData(value = "学校经度")
     @EntityAutoCode(order = 140)
     private BigDecimal xxjd;
 
-    @MetaData(title = "学校纬度")
+    @MetaData(value = "学校纬度")
     @EntityAutoCode(order = 150)
     private BigDecimal xxwd;
 
-    @MetaData(title = "所在地地域属性")
+    @MetaData(value = "所在地地域属性")
     @EntityAutoCode(order = 160)
     private String szddysxm;
 
-    @MetaData(title = "所在地经济属性码")
+    @MetaData(value = "所在地经济属性码")
     @EntityAutoCode(order = 170)
     private String szdjjsxm;
 
-    @MetaData(title = "所在地民族属性", description = "1 民族自治县;0 非民族自治县")
+    @MetaData(value = "所在地民族属性", description = "1 民族自治县;0 非民族自治县")
     @EntityAutoCode(order = 180)
     private String szdmzsx;
 
-    @MetaData(title = "主教学语言码", description = "用三位数字代码")
+    @MetaData(value = "主教学语言码", description = "用三位数字代码")
     @EntityAutoCode(order = 190)
     private String zjxyym;
 
-    @MetaData(title = "辅教学语言码", description = "用三位数字代码")
+    @MetaData(value = "辅教学语言码", description = "用三位数字代码")
     @EntityAutoCode(order = 200)
     private String fjxyym;
 
-    @MetaData(title = "招生半径", description = "招生的地区范围")
+    @MetaData(value = "招生半径", description = "招生的地区范围")
     @EntityAutoCode(order = 210)
     private String zsbj;
 
-    @MetaData(title = "成立背景")
+    @MetaData(value = "成立背景")
     @EntityAutoCode(order = 220)
     private String clbj;
 
-    @MetaData(title = "历史沿革")
+    @MetaData(value = "历史沿革")
     @EntityAutoCode(order = 230)
     private String lsyg;
 

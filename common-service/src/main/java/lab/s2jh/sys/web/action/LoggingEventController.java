@@ -9,7 +9,7 @@ import lab.s2jh.sys.service.LoggingEventService;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "日志处理")
+@MetaData(value = "日志处理")
 public class LoggingEventController extends PersistableController<LoggingEvent,Long> {
 
     @Autowired
@@ -26,19 +26,19 @@ public class LoggingEventController extends PersistableController<LoggingEvent,L
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

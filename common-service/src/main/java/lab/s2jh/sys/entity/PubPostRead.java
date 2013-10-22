@@ -27,26 +27,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "T_SYS_PUB_POST_READ", uniqueConstraints = @UniqueConstraint(columnNames = { "pub_post_id",
         "read_user_id" }))
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@MetaData(title = "公告阅读记录")
+@MetaData(value = "公告阅读记录")
 public class PubPostRead extends BaseEntity<String> {
 
-    @MetaData(title = "公告")
+    @MetaData(value = "公告")
     @EntityAutoCode(order = 10)
     private PubPost pubPost;
 
-    @MetaData(title = "阅读用户")
+    @MetaData(value = "阅读用户")
     @EntityAutoCode(order = 40)
     private User readUser;
 
-    @MetaData(title = "首次阅读时间")
+    @MetaData(value = "首次阅读时间")
     @EntityAutoCode(order = 30)
     private Date firstReadTime;
 
-    @MetaData(title = "最后阅读时间")
+    @MetaData(value = "最后阅读时间")
     @EntityAutoCode(order = 35)
     private Date lastReadTime;
 
-    @MetaData(title = "总计阅读次数")
+    @MetaData(value = "总计阅读次数")
     @EntityAutoCode(order = 40)
     private Integer readTotalCount = 1;
 

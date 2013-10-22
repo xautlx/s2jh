@@ -23,49 +23,49 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "BIZ_XS_FZXX")
-@MetaData(title = "学生个人辅助信息")
+@MetaData(value = "学生个人辅助信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XsFzxx extends PersistableEntity<String> {
 
     private XsJbxx xsJbxx;
 
-    @MetaData(title = "学号", description = "学生在学校内编码")
+    @MetaData(value = "学号", description = "学生在学校内编码")
     @EntityAutoCode(order = 10, search = true)
     private String xh;
 
-    @MetaData(title = "英文姓名")
+    @MetaData(value = "英文姓名")
     @EntityAutoCode(order = 20, searchAdvance = true, listHidden = true)
     private String ywxm;
 
-    @MetaData(title = "姓名拼音", description = "姓名全称的汉语拼音")
+    @MetaData(value = "姓名拼音", description = "姓名全称的汉语拼音")
     @EntityAutoCode(order = 30, searchAdvance = true, listHidden = true)
     private String xmpy;
 
-    @MetaData(title = "曾用名", description = "指曾经正式使用过的姓名")
+    @MetaData(value = "曾用名", description = "指曾经正式使用过的姓名")
     @EntityAutoCode(order = 40, listHidden = true)
     private String cym;
 
-    @MetaData(title = "身份证件有效期")
+    @MetaData(value = "身份证件有效期")
     @EntityAutoCode(order = 50, searchAdvance = true, listHidden = true)
     private String sfzjyxq;
 
-    @MetaData(title = "信仰宗教", description = "GA 214.12。引用信仰宗教代码表（ZD_GB_XYZJM）")
+    @MetaData(value = "信仰宗教", description = "GA 214.12。引用信仰宗教代码表（ZD_GB_XYZJM）")
     @EntityAutoCode(order = 60, searchAdvance = true, listHidden = true)
     private String xyzjm;
 
-    @MetaData(title = "血型", description = "CELTS-29 XX 血型代码。引用血型代码表（ZD_GB_XXM）")
+    @MetaData(value = "血型", description = "CELTS-29 XX 血型代码。引用血型代码表（ZD_GB_XXM）")
     @EntityAutoCode(order = 70, searchAdvance = true, listHidden = true)
     private String xxm;
 
-    @MetaData(title = "户口所在地", description = "指户口所在地址，包括省（自治区、直辖市）/地（市、州）/县（区、旗）/乡（镇）/街（村）详细地址")
+    @MetaData(value = "户口所在地", description = "指户口所在地址，包括省（自治区、直辖市）/地（市、州）/县（区、旗）/乡（镇）/街（村）详细地址")
     @EntityAutoCode(order = 80, listHidden = true)
     private String hkszd;
 
-    @MetaData(title = "户口性质", description = "GA 324.1。指公安户籍部门确认的农业户口或非农业户口")
+    @MetaData(value = "户口性质", description = "GA 324.1。指公安户籍部门确认的农业户口或非农业户口")
     @EntityAutoCode(order = 90, searchAdvance = true, listHidden = true)
     private String hkxzm;
 
-    @MetaData(title = "特长", description = "指某一方面特殊的能力或技能")
+    @MetaData(value = "特长", description = "指某一方面特殊的能力或技能")
     @EntityAutoCode(order = 100, listShow = false)
     private String tc;
 

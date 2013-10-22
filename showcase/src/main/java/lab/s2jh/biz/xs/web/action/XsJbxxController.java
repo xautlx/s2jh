@@ -28,7 +28,7 @@ import org.springframework.data.domain.Sort;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@MetaData(title = "学生信息管理")
+@MetaData(value = "学生信息管理")
 public class XsJbxxController extends BaseBizController<XsJbxx, String> {
 
     @Autowired
@@ -54,13 +54,13 @@ public class XsJbxxController extends BaseBizController<XsJbxx, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         String bh = this.getRequiredParameter("xxBjBh");
         bindingEntity.setXxBj(xxBjService.findByXxdmAndBh(bindingEntity.getXxdm(), bh));
@@ -68,13 +68,13 @@ public class XsJbxxController extends BaseBizController<XsJbxx, String> {
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         bindingEntity.setXxdm(AuthContextHolder.getAclCode());
         String bh = this.getRequiredParameter("xxBjBh");
@@ -82,7 +82,7 @@ public class XsJbxxController extends BaseBizController<XsJbxx, String> {
         return super.doCreate();
     }
 
-    @MetaData(title = "自动提示完成数据")
+    @MetaData(value = "自动提示完成数据")
     @SecurityControllIgnore
     public HttpHeaders autocomplete() {
         String val = this.getParameter(PARAM_NAME_FOR_AUTOCOMPLETE);
@@ -102,7 +102,7 @@ public class XsJbxxController extends BaseBizController<XsJbxx, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "学号有效性验证")
+    @MetaData(value = "学号有效性验证")
     @SecurityControllIgnore
     public HttpHeaders validXh() {
         String aclCode = AuthContextHolder.getAclCode();

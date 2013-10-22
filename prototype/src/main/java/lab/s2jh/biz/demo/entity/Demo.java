@@ -23,15 +23,15 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "BIZ_DEMO")
-@MetaData(title = "演示实体")
+@MetaData(value = "演示实体")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Demo extends BaseEntity<String> {
 
-    @MetaData(title = "代码")
+    @MetaData(value = "代码")
     @EntityAutoCode
     private String code;
 
-    @MetaData(title = "标题")
+    @MetaData(value = "标题")
     @EntityAutoCode
     private String name;
 

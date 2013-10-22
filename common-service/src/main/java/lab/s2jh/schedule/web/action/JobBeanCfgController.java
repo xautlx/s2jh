@@ -24,7 +24,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@MetaData(title = "定时任务配置管理")
+@MetaData(value = "定时任务配置管理")
 public class JobBeanCfgController extends BaseController<JobBeanCfg, String> {
 
     @Autowired
@@ -52,30 +52,30 @@ public class JobBeanCfgController extends BaseController<JobBeanCfg, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
-    @MetaData(title = "Trigger列表")
+    @MetaData(value = "Trigger列表")
     public HttpHeaders triggers() throws IllegalAccessException, SchedulerException {
         List<Map<String, Object>> triggerDatas = Lists.newArrayList();
 
@@ -103,7 +103,7 @@ public class JobBeanCfgController extends BaseController<JobBeanCfg, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "设置计划任务状态")
+    @MetaData(value = "设置计划任务状态")
     public HttpHeaders doStateTrigger() throws SchedulerException {
         Set<String> ids = getParameterIds();
         String state = this.getRequiredParameter("state");
@@ -128,7 +128,7 @@ public class JobBeanCfgController extends BaseController<JobBeanCfg, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "立即执行计划任务")
+    @MetaData(value = "立即执行计划任务")
     public HttpHeaders doRunTrigger() throws SchedulerException {
         Set<String> ids = getParameterIds();
         Map<Trigger, SchedulerFactoryBean> allTriggers = jobBeanCfgService.findAllTriggers();

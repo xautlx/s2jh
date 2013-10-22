@@ -10,7 +10,7 @@ import lab.s2jh.core.web.view.OperationResult;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "[TODO控制器名称]")
+@MetaData(value = "[TODO控制器名称]")
 public class DemoController extends BaseController<Demo,String> {
 
     @Autowired
@@ -26,7 +26,7 @@ public class DemoController extends BaseController<Demo,String> {
         // TODO Add acl check code logic
     }
 
-    @MetaData(title = "[TODO方法作用]")
+    @MetaData(value = "[TODO方法作用]")
     public HttpHeaders todo() {
         //TODO
         setModel(OperationResult.buildSuccessResult("TODO操作完成"));
@@ -34,25 +34,25 @@ public class DemoController extends BaseController<Demo,String> {
     }
     
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

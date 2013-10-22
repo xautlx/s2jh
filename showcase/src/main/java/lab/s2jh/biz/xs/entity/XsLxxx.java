@@ -21,41 +21,41 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "BIZ_XS_LXXX")
-@MetaData(title = "学生个人联系信息")
+@MetaData(value = "学生个人联系信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XsLxxx extends PersistableEntity<String> {
     
     private XsJbxx xsJbxx;
 
-    @MetaData(title = "学号", description = "学生在学校内编码")
+    @MetaData(value = "学号", description = "学生在学校内编码")
     @EntityAutoCode(order = 10, search = true)
     private String xh;
     
-    @MetaData(title = "现地址", description = "指本人的常住地址")
+    @MetaData(value = "现地址", description = "指本人的常住地址")
     @EntityAutoCode(order = 20, search = true)
     private String xzz;
     
-    @MetaData(title = "邮政编码", description = "指家庭的常住地址的邮政编码")
+    @MetaData(value = "邮政编码", description = "指家庭的常住地址的邮政编码")
     @EntityAutoCode(order = 30)
     private String yzbm;
 
-    @MetaData(title = "联系电话")
+    @MetaData(value = "联系电话")
     @EntityAutoCode(order = 40)
     private String lxdh;
     
-    @MetaData(title = "通信地址",description="指包括省（自治区、直辖市）/地（市、州）/县（区、旗）/乡（镇）/街（村）/门牌")
+    @MetaData(value = "通信地址",description="指包括省（自治区、直辖市）/地（市、州）/县（区、旗）/乡（镇）/街（村）/门牌")
     @EntityAutoCode(order = 50)
     private String txdz;
     
-    @MetaData(title = "电子信箱",description="学生在互联网上的电子邮件信箱地址")
+    @MetaData(value = "电子信箱",description="学生在互联网上的电子邮件信箱地址")
     @EntityAutoCode(order = 60)
     private String dzxx;
     
-    @MetaData(title = "主页地址",description="学生在互联网上的个人主页地址")
+    @MetaData(value = "主页地址",description="学生在互联网上的个人主页地址")
     @EntityAutoCode(order = 70)
     private String zydz;
     
-    @MetaData(title = "即时通讯号")
+    @MetaData(value = "即时通讯号")
     @EntityAutoCode(order = 80)
     private String jstxh;
 

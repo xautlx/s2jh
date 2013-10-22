@@ -44,7 +44,7 @@ import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.config.entities.ActionConfig;
 import com.opensymphony.xwork2.inject.Inject;
 
-@MetaData(title = "权限")
+@MetaData(value = "权限")
 public class PrivilegeController extends BaseController<Privilege, String> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -79,7 +79,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
 
     private static List<PrivilegeUrlVO> urls;
 
-    @MetaData(title = "计算显示可控权限URL列表")
+    @MetaData(value = "计算显示可控权限URL列表")
     public HttpHeaders calcUrls() {
         if (urls == null) {
             urls = Lists.newArrayList();
@@ -99,7 +99,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                             String actionNameLabel = null;
                             MetaData actionMetaData = actionClass.getAnnotation(MetaData.class);
                             if (actionMetaData != null) {
-                                actionNameLabel = actionMetaData.title();
+                                actionNameLabel = actionMetaData.value();
                             } else {
                                 Object genericClz = actionClass.getGenericSuperclass();
                                 if (genericClz instanceof ParameterizedType) {
@@ -107,7 +107,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                                             .getGenericSuperclass()).getActualTypeArguments()[0];
                                     MetaData entityClassMetaData = (MetaData) entityClass.getAnnotation(MetaData.class);
                                     if (entityClassMetaData != null) {
-                                        actionNameLabel = entityClassMetaData.title();
+                                        actionNameLabel = entityClassMetaData.value();
                                     }
                                 }
                             }
@@ -115,7 +115,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                             String namespaceLabel = null;
                             MetaData namespaceMetaData = actionClass.getPackage().getAnnotation(MetaData.class);
                             if (namespaceMetaData != null) {
-                                namespaceLabel = namespaceMetaData.title();
+                                namespaceLabel = namespaceMetaData.value();
                             } else {
                                 namespaceLabel = namespace;
                             }
@@ -148,7 +148,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                                     privilegeUrlVO.setMethodName(method.getName());
                                     MetaData methodMetaData = method.getAnnotation(MetaData.class);
                                     if (methodMetaData != null) {
-                                        privilegeUrlVO.setMethodNameLabel(methodMetaData.title());
+                                        privilegeUrlVO.setMethodNameLabel(methodMetaData.value());
                                     }
                                     privilegeUrlVO.setUrl(url);
                                     urls.add(privilegeUrlVO);
@@ -199,7 +199,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return dataMap;
     }
 
-    @MetaData(title = "批量更新状态")
+    @MetaData(value = "批量更新状态")
     public HttpHeaders doState() {
         boolean disabled = BooleanUtils.toBoolean(this.getRequiredParameter("disabled"));
         Collection<Privilege> entities = this.getEntitiesByParameterIds();
@@ -211,7 +211,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "批量添加URL到权限列表")
+    @MetaData(value = "批量添加URL到权限列表")
     public HttpHeaders doAddBatch() {
         Set<String> ids = getParameterIds();
         for (String id : ids) {
@@ -356,7 +356,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         }
     }
 
-    @MetaData(title = "计算显示角色关联数据")
+    @MetaData(value = "计算显示角色关联数据")
     @SecurityControllIgnore
     public HttpHeaders findRelatedRoles() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Role.class, getRequest());
@@ -376,7 +376,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "更新角色关联")
+    @MetaData(value = "更新角色关联")
     @SecurityControllIgnore
     public HttpHeaders doUpdateRelatedRoleR2s() {
         String userId = this.getId();
@@ -388,25 +388,25 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }

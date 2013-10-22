@@ -21,51 +21,51 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "BIZ_XX_BJ", uniqueConstraints = { @UniqueConstraint(columnNames = { "ssxx", "bh" }) })
-@MetaData(title = "学校班级")
+@MetaData(value = "学校班级")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XxBj extends PersistableEntity<String> {
 
-    @MetaData(title = "班号")
+    @MetaData(value = "班号")
     @EntityAutoCode(order = 10, search = true)
     private String bh;
 
-    @MetaData(title = "班级名称", description = "在学校中该班级的名称")
+    @MetaData(value = "班级名称", description = "在学校中该班级的名称")
     @EntityAutoCode(order = 20, search = true)
     private String bjmc;
 
-    @MetaData(title = "年级")
+    @MetaData(value = "年级")
     @EntityAutoCode(order = 30, search = true)
     private String nj;
 
-    @MetaData(title = "所属学校")
+    @MetaData(value = "所属学校")
     @EntityAutoCode(order = 40, search = true)
     private String xxdm;
 
-    @MetaData(title = "专业码")
+    @MetaData(value = "专业码")
     @EntityAutoCode(order = 50, searchAdvance = true)
     private String zym;
 
-    @MetaData(title = "所属年级")
+    @MetaData(value = "所属年级")
     @EntityAutoCode(order = 60, searchAdvance = true)
     private String ssnj;
 
-    @MetaData(title = "学制", description = "以年为单位")
+    @MetaData(value = "学制", description = "以年为单位")
     @EntityAutoCode(order = 70, searchAdvance = true)
     private BigDecimal xz;
 
-    @MetaData(title = "是否少数民族双语教学班", description = "0-否 1-是")
+    @MetaData(value = "是否少数民族双语教学班", description = "0-否 1-是")
     @EntityAutoCode(order = 80, searchAdvance = true)
     private Boolean sfssmzsyjxb;
 
-    @MetaData(title = "双语教学模式", description = "少数民族双语教学模式：1-一类模式 2-二类模式 3-三类模式")
+    @MetaData(value = "双语教学模式", description = "少数民族双语教学模式：1-一类模式 2-二类模式 3-三类模式")
     @EntityAutoCode(order = 90, searchAdvance = true)
     private String syjxmsm;
 
-    @MetaData(title = "双语教学的少数民族语言")
+    @MetaData(value = "双语教学的少数民族语言")
     @EntityAutoCode(order = 100, searchAdvance = true)
     private String syjxssmzyym;
 
-    @MetaData(title = "班主任工号式")
+    @MetaData(value = "班主任工号式")
     @EntityAutoCode(order = 110, searchAdvance = true)
     private String bzrgh;
 

@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@MetaData(title = "学籍管理")
+@MetaData(value = "学籍管理")
 public class XsXxMgtController extends BaseBizController<XsJbxx, String> {
 
     @Autowired
@@ -58,7 +58,7 @@ public class XsXxMgtController extends BaseBizController<XsJbxx, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
@@ -67,7 +67,7 @@ public class XsXxMgtController extends BaseBizController<XsJbxx, String> {
         return AuthContextHolder.getAuthUserDetails();
     }
 
-    @MetaData(title = "用户所辖行政区域")
+    @MetaData(value = "用户所辖行政区域")
     @SecurityControllIgnore
     public HttpHeaders xxNjBjNav() {
         List<Map<String, Object>> items = Lists.newArrayList();
@@ -136,13 +136,13 @@ public class XsXxMgtController extends BaseBizController<XsJbxx, String> {
     }
 
     @Override
-    @MetaData(title = "版本数据列表")
+    @MetaData(value = "版本数据列表")
     public HttpHeaders revisionList() {
         return super.revisionList();
     }
 
     @Override
-    @MetaData(title = "版本数据对比")
+    @MetaData(value = "版本数据对比")
     public HttpHeaders revisionCompare() {
         return super.revisionCompare();
     }

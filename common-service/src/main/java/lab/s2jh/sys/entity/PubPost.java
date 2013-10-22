@@ -24,30 +24,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "T_SYS_PUB_POST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "公告", description = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
+@MetaData(value = "公告", description = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
 public class PubPost extends BaseEntity<String> {
 
-    @MetaData(title = "标题")
+    @MetaData(value = "标题")
     @EntityAutoCode(order = 20)
     private String htmlTitle;
 
-    @MetaData(title = "发布时间")
+    @MetaData(value = "发布时间")
     @EntityAutoCode(order = 30)
     private Date publishTime;
 
-    @MetaData(title = "到期时间")
+    @MetaData(value = "到期时间")
     @EntityAutoCode(order = 40)
     private Date expireTime;
 
-    @MetaData(title = "公告内容")
+    @MetaData(value = "公告内容")
     @EntityAutoCode(order = 40)
     private String htmlContent;
 
-    @MetaData(title = "总计查看用户数")
+    @MetaData(value = "总计查看用户数")
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
     
-    @MetaData(title = "关联附件")
+    @MetaData(value = "关联附件")
     @EntityAutoCode(order = 100, search = false)
     private AttachmentFile r2File;
 

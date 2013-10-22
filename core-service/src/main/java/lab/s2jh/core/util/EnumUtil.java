@@ -29,7 +29,7 @@ public class EnumUtil {
             String label = name;
             MetaData entityComment = field.getAnnotation(MetaData.class);
             if (entityComment != null) {
-                label = entityComment.title();
+                label = entityComment.value();
             }
             enumDataMap.put(name, label);
         }

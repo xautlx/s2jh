@@ -1,5 +1,5 @@
 @Namespace("/rpt")
-@MetaData(title = "报表模块")
+@MetaData(value = "报表模块")
 package lab.s2jh.rpt.web.action;
 import lab.s2jh.core.annotation.MetaData;
 

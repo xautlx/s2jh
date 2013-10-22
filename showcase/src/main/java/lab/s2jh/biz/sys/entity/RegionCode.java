@@ -18,35 +18,35 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "SYS_REGION_CODE")
-@MetaData(title = "行政区划 ")
+@MetaData(value = "行政区划 ")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class RegionCode extends PersistableEntity<String> {
 
-    @MetaData(title = "行政区划代码", description = "必须以ROLE_打头")
+    @MetaData(value = "行政区划代码", description = "必须以ROLE_打头")
     @EntityAutoCode(order = 10, search = true)
     private String regionCode;
 
-    @MetaData(title = "行政区划名称")
+    @MetaData(value = "行政区划名称")
     @EntityAutoCode(order = 20, search = true)
     private String regionDesc;
 
-    @MetaData(title = "行政区划简称")
+    @MetaData(value = "行政区划简称")
     @EntityAutoCode(order = 30, search = true)
     private String regionShort;
 
-    @MetaData(title = "教育行政部门名称")
+    @MetaData(value = "教育行政部门名称")
     @EntityAutoCode(order = 40, searchAdvance = false)
     private String regionEdu;
 
-    @MetaData(title = "父行政区划代码", description = "对应该表的region_code字段")
+    @MetaData(value = "父行政区划代码", description = "对应该表的region_code字段")
     @EntityAutoCode(order = 50, searchAdvance = false)
     private String parentcode;
 
-    @MetaData(title = "地区类型", description = "引用地区类型代码表（zd_xt_dqlx）1：西部地区 2：中部地区 3：东部地区")
+    @MetaData(value = "地区类型", description = "引用地区类型代码表（zd_xt_dqlx）1：西部地区 2：中部地区 3：东部地区")
     @EntityAutoCode(order = 60, searchAdvance = true)
     private String dqlx;
 
-    @MetaData(title = "可用状态", description = "1：可用  0：不可用")
+    @MetaData(value = "可用状态", description = "1：可用  0：不可用")
     @EntityAutoCode(order = 70, search = true)
     private Boolean enabled = Boolean.TRUE;
 

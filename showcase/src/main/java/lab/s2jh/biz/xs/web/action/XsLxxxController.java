@@ -13,7 +13,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@MetaData(title = "学生联系信息")
+@MetaData(value = "学生联系信息")
 public class XsLxxxController extends BaseBizController<XsLxxx,String> {
 
     @Autowired
@@ -54,7 +54,7 @@ public class XsLxxxController extends BaseBizController<XsLxxx,String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         XsJbxx xsJbxx = xsJbxxService.findOne(getId());
         bindingEntity.setXh(xsJbxx.getXh());

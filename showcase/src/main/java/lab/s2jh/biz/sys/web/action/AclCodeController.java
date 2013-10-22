@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Namespace("/pub")
-@MetaData(title = "机构代码")
+@MetaData(value = "机构代码")
 public class AclCodeController extends RestActionSupport implements ModelDriven<Object> {
 
     @Autowired

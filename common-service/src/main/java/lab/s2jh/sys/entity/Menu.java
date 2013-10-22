@@ -30,61 +30,61 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "T_SYS_MENU", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "PARENT_ID" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "菜单")
+@MetaData(value = "菜单")
 public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     /** 用于报表菜单项计算的固定菜单代码 */
     public static final String MENU_CODE_RPT = "MFIXRPT";
 
-    @MetaData(title = "代码")
+    @MetaData(value = "代码")
     @EntityAutoCode(order = 10, search = true)
     private String code;
 
-    @MetaData(title = "名称")
+    @MetaData(value = "名称")
     @EntityAutoCode(order = 20, search = true)
     private String title;
 
-    @MetaData(title = "描述")
+    @MetaData(value = "描述")
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(title = "禁用标识", description = "禁用菜单全局不显示")
+    @MetaData(value = "禁用标识", description = "禁用菜单全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
     /**
      * @see #type
      */
-    @MetaData(title = "菜单URL")
+    @MetaData(value = "菜单URL")
     @EntityAutoCode(order = 30, search = true)
     private String url;
 
-    @MetaData(title = "图标样式")
+    @MetaData(value = "图标样式")
     @EntityAutoCode(listHidden = true, order = 40)
     private String style;
 
-    @MetaData(title = "类型")
+    @MetaData(value = "类型")
     @EntityAutoCode(order = 30, search = true)
     private MenuTypeEnum type = MenuTypeEnum.RELC;
 
-    @MetaData(title = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 100;
 
-    @MetaData(title = "展开标识", description = "是否默认展开菜单组")
+    @MetaData(value = "展开标识", description = "是否默认展开菜单组")
     @EntityAutoCode(order = 30, search = true)
     private Boolean initOpen = Boolean.FALSE;
 
-    @MetaData(title = "父节点")
+    @MetaData(value = "父节点")
     private Menu parent;
 
-    @MetaData(title = "子节点集合")
+    @MetaData(value = "子节点集合")
     private List<Menu> children;
 
-    @MetaData(title = "子节点数", description = "冗余字段：当前节点下属子节点数目，可以用于快速确定当前是否叶子节点")
+    @MetaData(value = "子节点数", description = "冗余字段：当前节点下属子节点数目，可以用于快速确定当前是否叶子节点")
     private Integer childrenSize;
 
-    @MetaData(title = "所在层级", description = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
+    @MetaData(value = "所在层级", description = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
     private Integer inheritLevel;
 
     private String id;
@@ -103,13 +103,13 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     public static enum MenuTypeEnum {
 
-        @MetaData(title = "相对上下文")
+        @MetaData(value = "相对上下文")
         RELC,
 
-        @MetaData(title = "相对域名")
+        @MetaData(value = "相对域名")
         RELD,
 
-        @MetaData(title = "绝对路径")
+        @MetaData(value = "绝对路径")
         ABS;
 
     }

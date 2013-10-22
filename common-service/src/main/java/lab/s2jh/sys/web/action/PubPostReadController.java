@@ -9,7 +9,7 @@ import lab.s2jh.sys.service.PubPostReadService;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "公告阅读记录")
+@MetaData(value = "公告阅读记录")
 public class PubPostReadController extends BaseController<PubPostRead,String> {
 
     @Autowired
@@ -26,7 +26,7 @@ public class PubPostReadController extends BaseController<PubPostRead,String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

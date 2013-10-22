@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "T_AUTH_USER_R2_ROLE", uniqueConstraints = @UniqueConstraint(columnNames = { "USER_ID", "ROLE_ID" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "角色与权限关联")
+@MetaData(value = "角色与权限关联")
 public class UserR2Role extends BaseEntity<String> {
 
     /** 关联用户对象 */

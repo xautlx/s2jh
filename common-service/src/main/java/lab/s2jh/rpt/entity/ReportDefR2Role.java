@@ -22,13 +22,13 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "T_RPT_REPORT_DEF_R2_ROLE", uniqueConstraints = @UniqueConstraint(columnNames = { "REPORT_DEF_ID", "ROLE_ID" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "报表与角色关联")
+@MetaData(value = "报表与角色关联")
 public class ReportDefR2Role extends BaseEntity<String> {
 
-    @MetaData(title = "所属报表")
+    @MetaData(value = "所属报表")
     private ReportDef reportDef;
 
-    @MetaData(title = "关联角色对象")
+    @MetaData(value = "关联角色对象")
     private Role role;
 
     private String id;

@@ -47,12 +47,12 @@ public class XxBjController extends BaseBizController<XxBj, String> {
     }
     
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
-    @MetaData(title = "自动提示完成数据")
+    @MetaData(value = "自动提示完成数据")
     @SecurityControllIgnore
     public HttpHeaders autocomplete() {
         String val = this.getParameter(PARAM_NAME_FOR_AUTOCOMPLETE);
@@ -74,7 +74,7 @@ public class XxBjController extends BaseBizController<XxBj, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "Remote校验班号是否合法")
+    @MetaData(value = "Remote校验班号是否合法")
     @SecurityControllIgnore
     public HttpHeaders validBh() {
         String bh = this.getParameter("bh");

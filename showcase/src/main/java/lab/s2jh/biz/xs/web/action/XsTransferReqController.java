@@ -26,7 +26,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@MetaData(title = "学籍异动(转学)")
+@MetaData(value = "学籍异动(转学)")
 public class XsTransferReqController extends BaseBizController<XsTransferReq, String> {
 
     @Autowired
@@ -51,7 +51,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
     
     
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
@@ -75,7 +75,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         String userAclCode = AuthContextHolder.getAclCode();
         if (bindingEntity.getTargetXx().getXxdm().equals(userAclCode)) {
@@ -99,7 +99,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         if (isDisallowUpdate()) {
             throw new DataOperationDeniedException();
@@ -128,7 +128,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
         return false;
     }
 
-    @MetaData(title = "提请审批")
+    @MetaData(value = "提请审批")
     public HttpHeaders doSubmit() {
         if (isDisallowSubmit()) {
             throw new DataOperationDeniedException();
@@ -148,7 +148,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "操作记录")
+    @MetaData(value = "操作记录")
     public HttpHeaders logs() {
         setModel(bindingEntity);
         return buildDefaultHttpHeaders("logs");
@@ -185,7 +185,7 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
         return true;
     }
 
-    @MetaData(title = "学籍转入接收")
+    @MetaData(value = "学籍转入接收")
     public HttpHeaders doTransferIn() {
         if (isDisallowTransferIn()) {
             throw new DataOperationDeniedException();
@@ -206,13 +206,13 @@ public class XsTransferReqController extends BaseBizController<XsTransferReq, St
     }
 
     @Override
-    @MetaData(title = "版本数据列表")
+    @MetaData(value = "版本数据列表")
     public HttpHeaders revisionList() {
         return super.revisionList();
     }
 
     @Override
-    @MetaData(title = "版本数据对比")
+    @MetaData(value = "版本数据对比")
     public HttpHeaders revisionCompare() {
         return super.revisionCompare();
     }

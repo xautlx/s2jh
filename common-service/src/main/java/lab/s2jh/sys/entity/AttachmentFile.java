@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "T_SYS_ATTACHMENT_FILE")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "附件文件数据")
+@MetaData(value = "附件文件数据")
 public class AttachmentFile extends BaseEntity<String> implements FileDef{
 
     /** 附件上传文件名称 */

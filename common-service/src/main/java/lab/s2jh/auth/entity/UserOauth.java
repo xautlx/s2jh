@@ -21,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "T_AUTH_USER_OAUTH")
-@MetaData(title = "用户绑定OAUTH认证")
+@MetaData(value = "用户绑定OAUTH认证")
 public class UserOauth extends BaseEntity<String> {
 
     private User user;

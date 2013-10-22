@@ -10,7 +10,7 @@ import lab.s2jh.rpt.service.ReportParamService;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "报表参数管理")
+@MetaData(value = "报表参数管理")
 public class ReportParamController extends BaseController<ReportParam, String> {
 
     @Autowired
@@ -30,7 +30,7 @@ public class ReportParamController extends BaseController<ReportParam, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         String reportDefId = this.getRequiredParameter("reportDefId");
         bindingEntity.setReportDef(reportDefService.findOne(reportDefId));
@@ -38,19 +38,19 @@ public class ReportParamController extends BaseController<ReportParam, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

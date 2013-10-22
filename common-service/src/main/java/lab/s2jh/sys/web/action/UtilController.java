@@ -33,7 +33,7 @@ import ch.qos.logback.classic.LoggerContext;
 
 import com.opensymphony.xwork2.ModelDriven;
 
-@MetaData(title = "辅助功能")
+@MetaData(value = "辅助功能")
 public class UtilController extends RestActionSupport implements ModelDriven<Object> {
 
     protected final static Logger logger = LoggerFactory.getLogger(UtilController.class);
@@ -73,7 +73,7 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
         return datas;
     }
 
-    @MetaData(title = "刷新数据缓存")
+    @MetaData(value = "刷新数据缓存")
     public HttpHeaders dataEvictCache() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String[] cacheNames = request.getParameterValues("cacheNames");
@@ -114,7 +114,7 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
         return dataMap;
     }
 
-    @MetaData(title = "日志级别更新")
+    @MetaData(value = "日志级别更新")
     public HttpHeaders loggerLevelUpdate() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String loggerName = request.getParameter("loggerName");
@@ -131,7 +131,7 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
         return new DefaultHttpHeaders().disableCaching();
     }
 
-    @MetaData(title = "H2数据管理")
+    @MetaData(value = "H2数据管理")
     public void h2() {
         HttpServletResponse response = ServletActionContext.getResponse();
         try {

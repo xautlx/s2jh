@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "公告管理")
+@MetaData(value = "公告管理")
 public class PubPostController extends BaseController<PubPost, String> {
 
     @Autowired
@@ -31,7 +31,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         String fileId = this.getParameter("r2FileId");
         if (StringUtils.isNotBlank(fileId)) {
@@ -41,7 +41,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         String fileId = this.getParameter("r2FileId");
         if (StringUtils.isNotBlank(fileId)) {
@@ -53,13 +53,13 @@ public class PubPostController extends BaseController<PubPost, String> {
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

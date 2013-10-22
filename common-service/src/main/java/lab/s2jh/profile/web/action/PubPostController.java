@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@MetaData(title = "公告消息显示")
+@MetaData(value = "公告消息显示")
 public class PubPostController extends BaseController<PubPost, String> {
 
     private final static String READED_PUB_POST_IDS = "READED_PUB_POST_IDS";
@@ -52,7 +52,7 @@ public class PubPostController extends BaseController<PubPost, String> {
         // Nothing to do
     }
 
-    @MetaData(title = "公告列表")
+    @MetaData(value = "公告列表")
     public HttpHeaders list() {
         List<PubPost> pubPosts = pubPostService.findPublished();
         if (CollectionUtils.isNotEmpty(pubPosts)) {
@@ -72,7 +72,7 @@ public class PubPostController extends BaseController<PubPost, String> {
         return buildDefaultHttpHeaders("list");
     }
 
-    @MetaData(title="用户公告消息列表")
+    @MetaData("用户公告消息列表")
     @SecurityControllIgnore
     public HttpHeaders messages() {
         //进行Session数据缓存优化处理，避免每次查询数据库
@@ -121,7 +121,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     }
 
     @Override
-    @MetaData(title = "查看")
+    @MetaData(value = "查看")
     public HttpHeaders view() {
         User user = userService.findByUid(AuthContextHolder.getAuthUserDetails().getUid());
         PubPostRead pubPostRead = pubPostReadService.findReaded(user, bindingEntity);

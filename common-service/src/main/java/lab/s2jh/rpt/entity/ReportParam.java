@@ -22,10 +22,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "T_RPT_REPORT_PARAM", uniqueConstraints = @UniqueConstraint(columnNames = { "REPORT_DEF_ID", "CODE" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(title = "报表参数")
+@MetaData(value = "报表参数")
 public class ReportParam extends DynamicParameterDef {
 
-    @MetaData(title = "所属报表")
+    @MetaData(value = "所属报表")
     private ReportDef reportDef;
 
     private String id;

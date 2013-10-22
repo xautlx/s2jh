@@ -16,51 +16,51 @@ import org.apache.commons.lang3.StringUtils;
 @MappedSuperclass
 public abstract class DynamicParameterDef extends BaseEntity<String> {
 
-    @MetaData(title = "代码")
+    @MetaData("代码")
     @EntityAutoCode(order = 10, search = true)
     private String code;
 
-    @MetaData(title = "名称")
+    @MetaData("名称")
     @EntityAutoCode(order = 20, search = true)
     private String title;
 
-    @MetaData(title = "描述")
+    @MetaData("描述")
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(title = "必填标识")
+    @MetaData("必填标识")
     @EntityAutoCode(order = 30, search = true)
     private Boolean required = Boolean.FALSE;
 
-    @MetaData(title = "禁用标识", description = "禁用项全局不显示")
+    @MetaData(value = "禁用标识", description = "禁用项全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
-    
-    @MetaData(title = "隐藏标识", description = "隐藏项目不用用户输入，一般需要配置合理的defaultValue")
+
+    @MetaData(value = "隐藏标识", description = "隐藏项目不用用户输入，一般需要配置合理的defaultValue")
     @EntityAutoCode(order = 45, search = true)
     private Boolean hidden = Boolean.FALSE;
 
-    @MetaData(title = "参数类型")
+    @MetaData("参数类型")
     @EntityAutoCode(order = 50, search = true)
     private DynamicParameterTypeEnum type = DynamicParameterTypeEnum.STRING;
 
-    @MetaData(title = "前端UI校验规则", description = "如：{required:true,min:0,max:1000}")
+    @MetaData(value = "前端UI校验规则", description = "如：{required:true,min:0,max:1000}")
     @EntityAutoCode(order = 55, search = false)
     private String validateRules;
 
-    @MetaData(title = "缺省参数值")
+    @MetaData(value = "缺省参数值")
     @EntityAutoCode(order = 60, search = false)
     private String defaultValue;
 
-    @MetaData(title = "是否允许多选 ", description = "用于下拉框数据参数")
+    @MetaData(value = "是否允许多选 ", description = "用于下拉框数据参数")
     @EntityAutoCode(order = 70, search = false)
     private Boolean multiSelectFlag = Boolean.FALSE;
 
-    @MetaData(title = "集合数据源 ", description = "对于List类型数据的数据源指定，即定义如何提供给用户选取的数据 ")
+    @MetaData(value = "集合数据源 ", description = "对于List类型数据的数据源指定，即定义如何提供给用户选取的数据 ")
     @EntityAutoCode(order = 70, search = false)
     private String listDataSource;
 
-    @MetaData(title = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 100;
 
@@ -98,7 +98,7 @@ public abstract class DynamicParameterDef extends BaseEntity<String> {
     public void setRequired(Boolean required) {
         this.required = required;
     }
-    
+
     public Boolean getHidden() {
         return hidden;
     }
@@ -198,7 +198,5 @@ public abstract class DynamicParameterDef extends BaseEntity<String> {
             return "{" + sb.substring(0, sb.length() - 1) + "}";
         }
     }
-
-
 
 }

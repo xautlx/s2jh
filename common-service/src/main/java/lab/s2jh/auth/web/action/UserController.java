@@ -95,7 +95,7 @@ public class UserController extends BaseController<User, String> {
         return userService;
     }
 
-    @MetaData(title = "计算显示角色关联数据")
+    @MetaData(value = "计算显示角色关联数据")
     @SecurityControllIgnore
     public HttpHeaders findRelatedRoles() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Role.class, getRequest());
@@ -115,7 +115,7 @@ public class UserController extends BaseController<User, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "更新角色关联")
+    @MetaData(value = "更新角色关联")
     public HttpHeaders doUpdateRelatedRoleR2s() {
         String userId = this.getId();
         Set<String> roleIds = this.getParameterIds("r2ids");
@@ -126,7 +126,7 @@ public class UserController extends BaseController<User, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         /**
          * 判断选取的用户机构代码是否属于当前登录用户管辖范围
@@ -140,7 +140,7 @@ public class UserController extends BaseController<User, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         String newpassword = this.getParameter("newpassword");
         if (StringUtils.isNotBlank(newpassword)) {
@@ -153,7 +153,7 @@ public class UserController extends BaseController<User, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter
                 .buildGroupFilterFromHttpRequest(entityClass, getRequest());
@@ -180,12 +180,12 @@ public class UserController extends BaseController<User, String> {
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
-    @MetaData(title = "机构选取的Autocomplete数据")
+    @MetaData(value = "机构选取的Autocomplete数据")
     @SecurityControllIgnore
     public HttpHeaders aclCodes() {
         List<ValueLabelBean> lvList = Lists.newArrayList();
@@ -211,14 +211,14 @@ public class UserController extends BaseController<User, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "汇总用户关联权限集合")
+    @MetaData(value = "汇总用户关联权限集合")
     public HttpHeaders privileges() {
         List<Privilege> privileges = userService.findRelatedPrivilegesForUser(this.getId());
         setModel(buildPageResultFromList(privileges));
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "汇总用户关联菜单集合")
+    @MetaData(value = "汇总用户关联菜单集合")
     public HttpHeaders menus() {
         Set<GrantedAuthority> authsSet = new HashSet<GrantedAuthority>();
         List<Role> roles = roleService.findR2RolesForUser(this.getId());
@@ -231,13 +231,13 @@ public class UserController extends BaseController<User, String> {
     }
 
     @Override
-    @MetaData(title = "版本数据列表")
+    @MetaData(value = "版本数据列表")
     public HttpHeaders revisionList() {
         return super.revisionList();
     }
 
     @Override
-    @MetaData(title = "版本数据对比")
+    @MetaData(value = "版本数据对比")
     public HttpHeaders revisionCompare() {
         return super.revisionCompare();
     }

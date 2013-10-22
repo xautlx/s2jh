@@ -21,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "T_AUTH_ROLE_R2_PRIVILEGE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRIVILEGE_ID",
         "ROLE_ID" }))
-@MetaData(title = "角色与权限关联")
+@MetaData(value = "角色与权限关联")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleR2Privilege extends BaseEntity<String> {
 

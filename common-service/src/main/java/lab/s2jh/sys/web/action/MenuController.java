@@ -44,7 +44,7 @@ public class MenuController extends BaseController<Menu, String> {
         //Do nothing check
     }
 
-    @MetaData(title = "树形表格数据")
+    @MetaData(value = "树形表格数据")
     public HttpHeaders treeGridData() {
         Map<String, Menu> menuDatas = Maps.newLinkedHashMap();
 
@@ -90,7 +90,7 @@ public class MenuController extends BaseController<Menu, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         String parentId = this.getParameter("parentId");
         if (StringUtils.isNotBlank(parentId) && !"NULL".equalsIgnoreCase(parentId)) {
@@ -102,7 +102,7 @@ public class MenuController extends BaseController<Menu, String> {
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
@@ -116,7 +116,7 @@ public class MenuController extends BaseController<Menu, String> {
         bindingEntity.setCode("M" + RandomStringUtils.randomNumeric(6));
     }
 
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         String parentId = this.getParameter("parentId");
         if (StringUtils.isNotBlank(parentId)) {
@@ -125,7 +125,7 @@ public class MenuController extends BaseController<Menu, String> {
         return super.doCreate();
     }
 
-    @MetaData(title = "列表")
+    @MetaData(value = "列表")
     public HttpHeaders list() {
         List<Map<String, Object>> menuList = Lists.newArrayList();
         Iterable<Menu> menus = menuService.findRoots();
@@ -159,7 +159,7 @@ public class MenuController extends BaseController<Menu, String> {
         }
     }
 
-    @MetaData(title = "移动/复制")
+    @MetaData(value = "移动/复制")
     public HttpHeaders doDrag() {
         Set<Menu> operationEntities = Sets.newHashSet();
         Menu target = null;

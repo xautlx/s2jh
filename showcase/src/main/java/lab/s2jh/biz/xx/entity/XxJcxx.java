@@ -17,91 +17,91 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "BIZ_XX_JCXX")
-@MetaData(title = "学校基本信息")
+@MetaData(value = "学校基本信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XxJcxx extends PersistableEntity<String> {
 
-    @MetaData(title = "学校识别码", description = "指由教育部按照国家标准及编码规则统一编制，赋予每一个学校（机构）在全国范围内唯一的、始终不变的识别标识码。")
+    @MetaData(value = "学校识别码", description = "指由教育部按照国家标准及编码规则统一编制，赋予每一个学校（机构）在全国范围内唯一的、始终不变的识别标识码。")
     @EntityAutoCode(order = 10, search = true)
     private String xxdm;
 
-    @MetaData(title = "学校(机构)代码", description = "采用事业统计中完整的学校（机构）代码")
+    @MetaData(value = "学校(机构)代码", description = "采用事业统计中完整的学校（机构）代码")
     @EntityAutoCode(order = 20, listHidden = true)
     private String xxjgdm;
 
-    @MetaData(title = "学校名称")
+    @MetaData(value = "学校名称")
     @EntityAutoCode(order = 30, search = true)
     private String xxmc;
 
-    @MetaData(title = "学校英文名称")
+    @MetaData(value = "学校英文名称")
     @EntityAutoCode(order = 40, listHidden = true)
     private String xxywmc;
 
-    @MetaData(title = "行政区划码")
+    @MetaData(value = "行政区划码")
     @EntityAutoCode(order = 50)
     private String xzqhm;
 
-    @MetaData(title = "学校地址")
+    @MetaData(value = "学校地址")
     @EntityAutoCode(order = 60, listShow = false)
     private String xxdz;
 
-    @MetaData(title = "学校邮政编码")
+    @MetaData(value = "学校邮政编码")
     @EntityAutoCode(order = 70, listHidden = true)
     private String xxyzbm;
 
-    @MetaData(title = "属地管理教育行政部门代码")
+    @MetaData(value = "属地管理教育行政部门代码")
     @EntityAutoCode(order = 80, listHidden = true)
     private String sdgljyxzbm;
 
-    @MetaData(title = "学校所属主管教育行政部门代码")
+    @MetaData(value = "学校所属主管教育行政部门代码")
     @EntityAutoCode(order = 90, listHidden = true)
     private String sszgdwm;
 
-    @MetaData(title = "举办者代码", description = "引用学校（教育机构）举办者代码表（ZD_BB_XXJYJGJBZ)1/2/3/4/5/6/7 中央党政机关、人民团体及其他机构引用 GB/T 4657")
+    @MetaData(value = "举办者代码", description = "引用学校（教育机构）举办者代码表（ZD_BB_XXJYJGJBZ)1/2/3/4/5/6/7 中央党政机关、人民团体及其他机构引用 GB/T 4657")
     @EntityAutoCode(order = 100, listHidden = true)
     private String xxjbzm;
 
-    @MetaData(title = "办学类型代码", description = "引用办学类型代码表（ZD_BB_BXLX）")
+    @MetaData(value = "办学类型代码", description = "引用办学类型代码表（ZD_BB_BXLX）")
     @EntityAutoCode(order = 110, listHidden = true)
     private String xxbxlxm;
 
-    @MetaData(title = "城乡分类代码", description = "CELTS-29 SZDCXLX 所在地城乡类型代码")
+    @MetaData(value = "城乡分类代码", description = "CELTS-29 SZDCXLX 所在地城乡类型代码")
     @EntityAutoCode(order = 120, listHidden = true)
     private String szdcxlxm;
 
-    @MetaData(title = "学校举办者类别码", description = "CELTS-29 XXJYJGJBZ 学校（教育机构）举办者代码")
+    @MetaData(value = "学校举办者类别码", description = "CELTS-29 XXJYJGJBZ 学校（教育机构）举办者代码")
     @EntityAutoCode(order = 130, listHidden = true)
     private String xxbbm2;
 
-    @MetaData(title = "校长姓名")
+    @MetaData(value = "校长姓名")
     @EntityAutoCode(order = 140)
     private String xzxm;
 
-    @MetaData(title = "校长手机号码")
+    @MetaData(value = "校长手机号码")
     @EntityAutoCode(order = 150)
     private String xzsjhm;
 
-    @MetaData(title = "联系电话")
+    @MetaData(value = "联系电话")
     @EntityAutoCode(order = 170)
     private String lxdh;
 
-    @MetaData(title = "传真电话")
+    @MetaData(value = "传真电话")
     @EntityAutoCode(order = 180, listHidden = true)
     private String czdh;
 
-    @MetaData(title = "电子信箱")
+    @MetaData(value = "电子信箱")
     @EntityAutoCode(order = 190)
     private String dzxx;
 
-    @MetaData(title = "主页地址")
+    @MetaData(value = "主页地址")
     @EntityAutoCode(order = 200, listHidden = true)
     private String zydz;
 
-    @MetaData(title = "学校办别码", description = "CELTS-29 XXBB 学校办别代码")
+    @MetaData(value = "学校办别码", description = "CELTS-29 XXBB 学校办别代码")
     @EntityAutoCode(order = 210, listHidden = true)
     private String xxbbm;
 
-    @MetaData(title = "学校辅助信息")
+    @MetaData(value = "学校辅助信息")
     private XxFzxx xxFzxx;
 
     private String id;

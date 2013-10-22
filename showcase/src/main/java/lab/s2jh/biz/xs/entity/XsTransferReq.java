@@ -36,44 +36,44 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "BIZ_XS_TRANSFER_REQ")
-@MetaData(title = "学生异动")
+@MetaData(value = "学生异动")
 @Audited
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XsTransferReq extends BaseEntity<String> implements OperationAuditable{
 
-    @MetaData(title = "异动学生")
+    @MetaData(value = "异动学生")
     @EntityAutoCode(order = 5)
     private XsJbxx xsJbxx;
 
-    @MetaData(title = "异动新生成学生记录")
+    @MetaData(value = "异动新生成学生记录")
     @EntityAutoCode(order = 5)
     private XsJbxx newXsJbxx;
 
-    @MetaData(title = "转出学校")
+    @MetaData(value = "转出学校")
     @EntityAutoCode(order = 10)
     private XxJcxx sourceXx;
 
-    @MetaData(title = "转入学校")
+    @MetaData(value = "转入学校")
     @EntityAutoCode(order = 20)
     private XxJcxx targetXx;
 
-    @MetaData(title = "申请时间")
+    @MetaData(value = "申请时间")
     @EntityAutoCode(order = 40, edit = false)
     private Date reqTime;
 
-    @MetaData(title = "异动说明")
+    @MetaData(value = "异动说明")
     @EntityAutoCode(order = 45)
     private String reqExplain;
 
     private String reqUserId;
 
-    @MetaData(title = "最后审批时间")
+    @MetaData(value = "最后审批时间")
     @EntityAutoCode(order = 50, edit = false)
     private Date lastAuditTime;
 
     private String auditExplain;
 
-    @MetaData(title = "状态")
+    @MetaData(value = "状态")
     @EntityAutoCode(order = 60)
     private XsTransferReqStateEnum state = XsTransferReqStateEnum.S10DRAFT;
 
@@ -96,39 +96,39 @@ public class XsTransferReq extends BaseEntity<String> implements OperationAudita
     }
 
     public static enum XsTransferReqStateEnum {
-        @MetaData(title = "待提交")
+        @MetaData(value = "待提交")
         S10DRAFT,
 
-        @MetaData(title = "转出学校提交待审")
+        @MetaData(value = "转出学校提交待审")
         S20SBMTD,
 
-        @MetaData(title = "转出学校上级审核通过")
+        @MetaData(value = "转出学校上级审核通过")
         S30SRCPASSD,
 
-        @MetaData(title = "转出学校上级审核未过")
+        @MetaData(value = "转出学校上级审核未过")
         S40SRCNPASS,
 
-        @MetaData(title = "转入学校上级审核通过")
+        @MetaData(value = "转入学校上级审核通过")
         S50TGTPASSD,
 
-        @MetaData(title = "转入学校上级审核未过")
+        @MetaData(value = "转入学校上级审核未过")
         S60TGTNPASS,
 
-        @MetaData(title = "转入学校已完成接收")
+        @MetaData(value = "转入学校已完成接收")
         S80TRANSED
     }
 
     public static enum XsTransferReqEventEnum {
-        @MetaData(title = "提交")
+        @MetaData(value = "提交")
         SUBMIT,
 
-        @MetaData(title = "转出学校上级审核")
+        @MetaData(value = "转出学校上级审核")
         SRC_AUDIT,
 
-        @MetaData(title = "转入学校上级审核")
+        @MetaData(value = "转入学校上级审核")
         TGT_AUDIT,
 
-        @MetaData(title = "转入学校接收")
+        @MetaData(value = "转入学校接收")
         TRANSFER;
     }
 

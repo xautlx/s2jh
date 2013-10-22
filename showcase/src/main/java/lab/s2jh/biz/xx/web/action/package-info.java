@@ -1,5 +1,5 @@
 @Namespace("/biz/xx")
-@MetaData(title = "学校模块")
+@MetaData(value = "学校模块")
 package lab.s2jh.biz.xx.web.action;
 import lab.s2jh.core.annotation.MetaData;
 

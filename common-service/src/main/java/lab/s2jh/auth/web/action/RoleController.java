@@ -75,19 +75,19 @@ public class RoleController extends BaseController<Role, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
         if (authUserAclType != null && authUserAclType > 0) {
@@ -102,7 +102,7 @@ public class RoleController extends BaseController<Role, String> {
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
         if (authUserAclType != null) {
@@ -116,7 +116,7 @@ public class RoleController extends BaseController<Role, String> {
         return super.doCreate();
     }
 
-    @MetaData(title = "批量更新状态")
+    @MetaData(value = "批量更新状态")
     public HttpHeaders doState() {
         boolean disabled = BooleanUtils.toBoolean(this.getRequiredParameter("disabled"));
         Collection<Role> entities = this.getEntitiesByParameterIds();
@@ -128,7 +128,7 @@ public class RoleController extends BaseController<Role, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "计算显示已经关联权限列表")
+    @MetaData(value = "计算显示已经关联权限列表")
     @SecurityControllIgnore
     public HttpHeaders findRelatedRoleR2Privileges() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(RoleR2Privilege.class,
@@ -138,7 +138,7 @@ public class RoleController extends BaseController<Role, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "计算显示可选关联权限列表")
+    @MetaData(value = "计算显示可选关联权限列表")
     @SecurityControllIgnore
     public HttpHeaders findUnRelatedPrivileges() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Privilege.class,
@@ -148,7 +148,7 @@ public class RoleController extends BaseController<Role, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "添加权限关联")
+    @MetaData(value = "添加权限关联")
     public HttpHeaders doAddUnRelatedPrivilegeR2s() {
         String roleId = this.getId();
         Set<String> privilegeIds = this.getParameterIds("r2ids");
@@ -157,7 +157,7 @@ public class RoleController extends BaseController<Role, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "移除权限关联")
+    @MetaData(value = "移除权限关联")
     public HttpHeaders doDeleteRelatedPrivilegeR2s() {
         String roleId = this.getId();
         Set<String> r2Ids = this.getParameterIds("r2ids");

@@ -17,7 +17,7 @@ import org.springframework.data.domain.Page;
 
 import com.google.common.collect.Lists;
 
-@MetaData(title = "数据字典管理")
+@MetaData(value = "数据字典管理")
 public class DataDictController extends BaseController<DataDict, String> {
 
     @Autowired
@@ -34,25 +34,25 @@ public class DataDictController extends BaseController<DataDict, String> {
     }
 
     @Override
-    @MetaData(title = "创建")
+    @MetaData(value = "创建")
     public HttpHeaders doCreate() {
         return super.doCreate();
     }
 
     @Override
-    @MetaData(title = "更新")
+    @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         HttpHeaders ret = super.findByPage();
         @SuppressWarnings("unchecked")
@@ -83,7 +83,7 @@ public class DataDictController extends BaseController<DataDict, String> {
         return batchDataDicts;
     }
 
-    @MetaData(title = "批量添加")
+    @MetaData(value = "批量添加")
     public HttpHeaders doCreateBatch() {
         dataDictService.save(batchDataDicts);
         setModel(OperationResult.buildSuccessResult("批量添加完成"));

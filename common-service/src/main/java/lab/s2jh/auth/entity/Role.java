@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 
 @Entity
 @Table(name = "T_AUTH_ROLE")
-@MetaData(title = "角色")
+@MetaData(value = "角色")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseEntity<String> {
 
@@ -37,27 +37,27 @@ public class Role extends BaseEntity<String> {
     /** 通过第三方认证过来的用户，默认赋予TBD角色，以便进行后续用户绑定等操作 */
     public static final String ROLE_TBD_USER_CODE = "ROLE_TBD_USER";
 
-    @MetaData(title = "代码", description = "必须以ROLE_打头")
+    @MetaData(value = "代码", description = "必须以ROLE_打头")
     @EntityAutoCode(order = 10, search = true)
     private String code = "ROLE_";
 
-    @MetaData(title = "名称")
+    @MetaData(value = "名称")
     @EntityAutoCode(order = 20, search = true)
     private String title;
 
-    @MetaData(title = "描述")
+    @MetaData(value = "描述")
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(title = "禁用标识", description = "禁用角色不参与权限控制逻辑")
+    @MetaData(value = "禁用标识", description = "禁用角色不参与权限控制逻辑")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(title = "锁定标识", description = "对于不允许随意调整配置的角色，可以设定为锁定则只能查看无法编辑")
+    @MetaData(value = "锁定标识", description = "对于不允许随意调整配置的角色，可以设定为锁定则只能查看无法编辑")
     @EntityAutoCode(order = 40, search = true)
     private Boolean locked = Boolean.FALSE;
 
-    @MetaData(title = "角色权限关联")
+    @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
 
     private String id;

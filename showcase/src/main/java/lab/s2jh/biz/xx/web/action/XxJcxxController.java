@@ -38,7 +38,7 @@ public class XxJcxxController extends BaseBizController<XxJcxx, String> {
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }
@@ -46,7 +46,7 @@ public class XxJcxxController extends BaseBizController<XxJcxx, String> {
     /** 缓存对象 */
     private static List<ValueLabelBean> lastCachedKeyValues;
 
-    @MetaData(title = "所有学校集合数据")
+    @MetaData(value = "所有学校集合数据")
     @SecurityControllIgnore
     public HttpHeaders data() {
         List<ValueLabelBean> allCachedKeyValues = xxJcxxService.findAllCachedKeyValues();
@@ -60,7 +60,7 @@ public class XxJcxxController extends BaseBizController<XxJcxx, String> {
         }
     }
 
-    @MetaData(title = "自动提示完成数据")
+    @MetaData(value = "自动提示完成数据")
     @SecurityControllIgnore
     public HttpHeaders autocomplete() {
         String val = this.getParameter(PARAM_NAME_FOR_AUTOCOMPLETE);
@@ -80,7 +80,7 @@ public class XxJcxxController extends BaseBizController<XxJcxx, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(title = "Remote校验学校代码是否合法")
+    @MetaData(value = "Remote校验学校代码是否合法")
     @SecurityControllIgnore
     public HttpHeaders validXxdm() {
         String xxdm = this.getParameter("xxdm");

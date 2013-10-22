@@ -9,7 +9,7 @@ import lab.s2jh.core.web.BaseController;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "登录记录")
+@MetaData(value = "登录记录")
 public class UserLogonLogController extends BaseController<UserLogonLog, String> {
 
     @Autowired
@@ -26,7 +26,7 @@ public class UserLogonLogController extends BaseController<UserLogonLog, String>
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

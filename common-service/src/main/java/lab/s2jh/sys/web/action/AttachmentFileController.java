@@ -24,7 +24,7 @@ import org.springframework.util.DigestUtils;
 
 import com.google.common.collect.Lists;
 
-@MetaData(title = "附件处理")
+@MetaData(value = "附件处理")
 public class AttachmentFileController extends BaseController<AttachmentFile, String> {
 
     @Autowired
@@ -71,12 +71,12 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
     }
 
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
-    @MetaData(title = "单文件上传")
+    @MetaData(value = "单文件上传")
     public HttpHeaders uploadSingle() {
         try {
             Assert.isTrue(attachments.length == 1, "上传文件数据不合法");
@@ -101,7 +101,7 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         }
     }
 
-    @MetaData(title = "多文件上传")
+    @MetaData(value = "多文件上传")
     public HttpHeaders uploadMulti() {
         try {
             if (attachments != null && attachments.length > 0) {
@@ -129,7 +129,7 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         }
     }
 
-    @MetaData(title = "文件下载")
+    @MetaData(value = "文件下载")
     public void download() {
         AttachmentFile entity = attachmentFileService.findOne(this.getRequiredParameter("id"));
         HttpServletResponse response = ServletActionContext.getResponse();

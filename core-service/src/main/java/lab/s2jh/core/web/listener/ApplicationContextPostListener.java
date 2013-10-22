@@ -78,7 +78,7 @@ public class ApplicationContextPostListener implements ServletContextListener {
                             MetaData entityComment = enumfield.getAnnotation(MetaData.class);
                             String value = enumfield.getName();
                             if (entityComment != null) {
-                                value = entityComment.title();
+                                value = entityComment.value();
                             }
                             enumDataMap.put(Enum.valueOf(fieldClass, enumfield.getName()), value);
                         }

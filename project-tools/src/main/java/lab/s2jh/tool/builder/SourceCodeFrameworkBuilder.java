@@ -91,7 +91,7 @@ public class SourceCodeFrameworkBuilder {
             Class entityClass = Class.forName(classFullName);
             MetaData classEntityComment = (MetaData) entityClass.getAnnotation(MetaData.class);
             if (classEntityComment != null) {
-                root.put("model_title", classEntityComment.title());
+                root.put("model_title", classEntityComment.value());
             } else {
                 root.put("model_title", entityName);
             }
@@ -149,7 +149,7 @@ public class SourceCodeFrameworkBuilder {
                     entityCodeField.setEdit(entityAutoCode.edit());
                     entityCodeField.setList(entityAutoCode.listHidden() || entityAutoCode.listShow());
                     MetaData entityComment = field.getAnnotation(MetaData.class);
-                    entityCodeField.setTitle(entityComment.title());
+                    entityCodeField.setTitle(entityComment.value());
                     entityCodeField.setFieldName(field.getName());
                     if (entityAutoCode != null) {
                         entityCodeField.setOrder(entityAutoCode.order());

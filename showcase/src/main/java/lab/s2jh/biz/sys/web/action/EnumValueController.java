@@ -34,7 +34,7 @@ public class EnumValueController extends BaseBizController<EnumValue, String> {
     /** 缓存对象 */
     private static Map<String, Map<String, String>> lastCachedKeyValuesMap = Maps.newHashMap();
 
-    @MetaData(title = "缓存集合数据")
+    @MetaData(value = "缓存集合数据")
     @SecurityControllIgnore
     public HttpHeaders data() {
         String type = this.getParameter("type");

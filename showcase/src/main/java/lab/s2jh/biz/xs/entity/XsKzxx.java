@@ -22,37 +22,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "BIZ_XS_KZXX")
-@MetaData(title = "学生个人扩展信息")
+@MetaData(value = "学生个人扩展信息")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class XsKzxx extends PersistableEntity<String> {
     
     private XsJbxx xsJbxx;
 
-    @MetaData(title = "学号", description = "学生在学校内编码")
+    @MetaData(value = "学号", description = "学生在学校内编码")
     @EntityAutoCode(order = 10, search = true)
     private String xh;
     
-    @MetaData(title = "是否寄宿生")
+    @MetaData(value = "是否寄宿生")
     @EntityAutoCode(order = 20, search = true)
     private Boolean sfjss;
     
-    @MetaData(title = "是否独生子女")
+    @MetaData(value = "是否独生子女")
     @EntityAutoCode(order = 20, search = true)
     private Boolean sfdszn;
     
-    @MetaData(title = "是否流动人口")
+    @MetaData(value = "是否流动人口")
     @EntityAutoCode(order = 20, search = true)
     private Boolean sfldrk;
     
-    @MetaData(title = "是否受过学前教育 ")
+    @MetaData(value = "是否受过学前教育 ")
     @EntityAutoCode(order = 20, search = true)
     private Boolean sfsgxqjy;
     
-    @MetaData(title = "是否随迁子女 ")
+    @MetaData(value = "是否随迁子女 ")
     @EntityAutoCode(order = 20, search = true)
     private Boolean sfsqzn;
     
-    @MetaData(title = "离家最近火车站")
+    @MetaData(value = "离家最近火车站")
     @EntityAutoCode(order = 20, search = true)
     private String ljzjhcz;
 

@@ -9,7 +9,7 @@ import lab.s2jh.schedule.service.JobRunHistService;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData(title = "定时任务运行记录")
+@MetaData(value = "定时任务运行记录")
 public class JobRunHistController extends BaseController<JobRunHist,String> {
 
     @Autowired
@@ -26,13 +26,13 @@ public class JobRunHistController extends BaseController<JobRunHist,String> {
     }
     
     @Override
-    @MetaData(title = "删除")
+    @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
     }
 
     @Override
-    @MetaData(title = "查询")
+    @MetaData(value = "查询")
     public HttpHeaders findByPage() {
         return super.findByPage();
     }

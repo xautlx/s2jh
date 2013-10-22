@@ -19,39 +19,39 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "SYS_ENUM_VALUE", uniqueConstraints = { @UniqueConstraint(columnNames = { "enumType", "code" }) })
-@MetaData(title = "数据字典内容")
+@MetaData(value = "数据字典内容")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class EnumValue extends PersistableEntity<String> {
 
-    @MetaData(title = "枚举类型", description = "填写代码表的表名，如：XX_JBXX")
+    @MetaData(value = "枚举类型", description = "填写代码表的表名，如：XX_JBXX")
     @EntityAutoCode(order = 10, search = true)
     private String enumType;
 
-    @MetaData(title = "枚举值")
+    @MetaData(value = "枚举值")
     @EntityAutoCode(order = 15, search = true)
     private String code;
 
-    @MetaData(title = "描述", description = "填写代码表的中文描述，如：学校类别")
+    @MetaData(value = "描述", description = "填写代码表的中文描述，如：学校类别")
     @EntityAutoCode(order = 20, search = true)
     private String label;
 
-    @MetaData(title = "父节点")
+    @MetaData(value = "父节点")
     @EntityAutoCode(order = 35, search = false)
     private String parentCode;
 
-    @MetaData(title = "数据顺序", description = "1.国家标准  2.教育部标准  3.系统定义  4.用户定义")
+    @MetaData(value = "数据顺序", description = "1.国家标准  2.教育部标准  3.系统定义  4.用户定义")
     @EntityAutoCode(order = 40, search = true)
     private Integer codeOrder;
 
-    @MetaData(title = "是否可修改", description = "用户是否可以修改，1-可以， 2-不可以")
+    @MetaData(value = "是否可修改", description = "用户是否可以修改，1-可以， 2-不可以")
     @EntityAutoCode(order = 50, searchAdvance = true)
     private Boolean fixed = Boolean.FALSE;
 
-    @MetaData(title = "是否显示", description = "前台下拉框是否显示，1-显示， 2-不显示")
+    @MetaData(value = "是否显示", description = "前台下拉框是否显示，1-显示， 2-不显示")
     @EntityAutoCode(order = 60, searchAdvance = true)
     private Boolean display = Boolean.FALSE;
 
-    @MetaData(title = "可用状态", description = "1：可用  0：不可用")
+    @MetaData(value = "可用状态", description = "1：可用  0：不可用")
     @EntityAutoCode(order = 70, search = true)
     private Boolean enabled = Boolean.TRUE;
 

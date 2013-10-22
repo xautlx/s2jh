@@ -28,37 +28,37 @@ import com.google.common.collect.Lists;
  */
 @Entity
 @Table(name = "T_AUTH_PRIVILEGE")
-@MetaData(title = "权限")
+@MetaData(value = "权限")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Privilege extends BaseEntity<String> {
 
     public final static String DATA_DICT_PRIVILEGE_TYPE = "PRIVILEGE_TYPE";
 
-    @MetaData(title = "分类")
+    @MetaData(value = "分类")
     @EntityAutoCode(order = 5, search = true)
     private String category;
 
-    @MetaData(title = "类型")
+    @MetaData(value = "类型")
     @EntityAutoCode(order = 8, search = true)
     private String type;
 
-    @MetaData(title = "代码")
+    @MetaData(value = "代码")
     @EntityAutoCode(order = 10, search = true)
     private String code;
 
-    @MetaData(title = "名称")
+    @MetaData(value = "名称")
     @EntityAutoCode(order = 20, search = true)
     private String title;
 
-    @MetaData(title = "URL")
+    @MetaData(value = "URL")
     @EntityAutoCode(order = 30, search = true)
     private String url;
 
-    @MetaData(title = "描述")
+    @MetaData(value = "描述")
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(title = "禁用标识", description = "禁用不参与权限控制逻辑")
+    @MetaData(value = "禁用标识", description = "禁用不参与权限控制逻辑")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
@@ -66,11 +66,11 @@ public class Privilege extends BaseEntity<String> {
      * 权限控制的优先级，数字越大匹配优先级越高，大部分情况无需要考虑此属性，直接默认值即可；
      * 如果权限URL部分由包含关系需要用到此属性，具体请查看Spring Security对于URL匹配规则说明 
      */
-    @MetaData(title = "排序号", description = "权限控制的优先级，数字越大匹配优先级越高")
+    @MetaData(value = "排序号", description = "权限控制的优先级，数字越大匹配优先级越高")
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
 
-    @MetaData(title = "角色权限关联")
+    @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
 
     private String id;

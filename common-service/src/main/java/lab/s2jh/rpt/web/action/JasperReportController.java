@@ -213,7 +213,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         setModel(reportDef);
     }
 
-    @MetaData(title = "报表显示")
+    @MetaData(value = "报表显示")
     public HttpHeaders show() {
         return buildDefaultHttpHeaders("show");
     }
@@ -274,7 +274,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
                     MetaData entityComment = enumfield.getAnnotation(MetaData.class);
                     String value = enumfield.getName();
                     if (entityComment != null) {
-                        value = entityComment.title();
+                        value = entityComment.value();
                     }
                     dataMap.put(enumfield.getName(), value);
                 }
