@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -19,13 +20,21 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 
 import lab.s2jh.core.annotation.MetaData;
+import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.PersistableEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
+import lab.s2jh.core.web.json.DateJsonSerializer;
 
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Maps;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -40,6 +49,7 @@ import freemarker.template.Template;
  */
 public class SourceCodeFrameworkBuilder {
 
+    @SuppressWarnings({ "resource", "rawtypes", "unchecked" })
     public static void main(String[] args) throws Exception {
         Configuration cfg = new Configuration();
         // 设置FreeMarker的模版文件位置
@@ -92,7 +102,7 @@ public class SourceCodeFrameworkBuilder {
             root.put("table_name", "T_TODO_" + className.toUpperCase());
             root.put("base", "${base}");
             Class entityClass = Class.forName(classFullName);
-            root.put("id_type", entityClass.getMethod("getId", null).getReturnType().getSimpleName());
+            root.put("id_type", entityClass.getMethod("getId").getReturnType().getSimpleName());
             MetaData classEntityComment = (MetaData) entityClass.getAnnotation(MetaData.class);
             if (classEntityComment != null) {
                 root.put("model_title", classEntityComment.value());
@@ -102,17 +112,29 @@ public class SourceCodeFrameworkBuilder {
             debug("Entity Data Map=" + root);
 
             Set<Field> fields = new HashSet<Field>();
+
             Field[] curfields = entityClass.getDeclaredFields();
             for (Field field : curfields) {
                 fields.add(field);
             }
-            //Field[] parentfields = entityClass.getSuperclass().getDeclaredFields();
-            //for (Field field : parentfields) {
-            //    fields.add(field);
-            //}
+
+            Class superClass = entityClass.getSuperclass();
+            while (superClass != null && !superClass.equals(BaseEntity.class)) {
+                Field[] superfields = superClass.getDeclaredFields();
+                for (Field field : superfields) {
+                    fields.add(field);
+                }
+                superClass = superClass.getSuperclass();
+            }
+
+            //定义用于OneToOne关联对象的Fetch参数
+            Map<String, String> fetchJoinFields = Maps.newHashMap();
             List<EntityCodeField> entityFields = new ArrayList<EntityCodeField>();
             int cnt = 1;
             for (Field field : fields) {
+                if ((field.getModifiers() & Modifier.FINAL) != 0 || "id".equals(field.getName())) {
+                    continue;
+                }
                 debug(" - Field=" + field);
                 Class fieldType = field.getType();
 
@@ -125,8 +147,12 @@ public class SourceCodeFrameworkBuilder {
                 } else if (fieldType == Boolean.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
-                    //entityCodeField.setListWidth(60);
+                    entityCodeField.setListWidth(60);
                     entityCodeField.setListAlign("center");
+                } else if (PersistableEntity.class.isAssignableFrom(fieldType)) {
+                    entityCodeField = new EntityCodeField();
+                    entityCodeField.setFieldType("Entity");
+
                 } else if (Number.class.isAssignableFrom(fieldType)) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
@@ -134,6 +160,8 @@ public class SourceCodeFrameworkBuilder {
                     entityCodeField.setListAlign("right");
                 } else if (fieldType == String.class) {
                     entityCodeField = new EntityCodeField();
+
+                    //根据Hibernate注解的字符串类型和长度设定是否列表显示
                     Method getMethod = entityClass.getMethod("get" + StringUtils.capitalize(field.getName()));
                     Column fieldColumn = getMethod.getAnnotation(Column.class);
                     if (fieldColumn != null) {
@@ -151,7 +179,16 @@ public class SourceCodeFrameworkBuilder {
                 } else if (fieldType == Date.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
-                    //entityCodeField.setListWidth(120);
+
+                    //根据Json注解设定合理的列宽
+                    entityCodeField.setListWidth(120);
+                    Method getMethod = entityClass.getMethod("get" + StringUtils.capitalize(field.getName()));
+                    JsonSerialize fieldJsonSerialize = getMethod.getAnnotation(JsonSerialize.class);
+                    if (fieldJsonSerialize != null) {
+                        if (DateJsonSerializer.class.equals(fieldJsonSerialize.using())) {
+                            entityCodeField.setListWidth(80);
+                        }
+                    }
                     entityCodeField.setListAlign("center");
                 }
 
@@ -159,28 +196,53 @@ public class SourceCodeFrameworkBuilder {
                     if (fieldType.isEnum()) {
                         entityCodeField.setEnumField(true);
                     }
-                    entityCodeField.setFieldType(fieldType.getSimpleName());
+                    if (StringUtils.isBlank(entityCodeField.getFieldType())) {
+                        entityCodeField.setFieldType(fieldType.getSimpleName());
+                    }
                     entityCodeField.setFieldName(field.getName());
                     EntityAutoCode entityAutoCode = field.getAnnotation(EntityAutoCode.class);
                     if (entityAutoCode != null) {
-                        entityCodeField.setSearch(entityAutoCode.search());
                         entityCodeField.setListHidden(entityAutoCode.listHidden());
                         entityCodeField.setEdit(entityAutoCode.edit());
                         entityCodeField.setList(entityAutoCode.listHidden() || entityAutoCode.listShow());
-                        MetaData entityComment = field.getAnnotation(MetaData.class);
-                        entityCodeField.setTitle(entityComment.value());
-                        if (entityAutoCode != null) {
-                            entityCodeField.setOrder(entityAutoCode.order());
-                        }
+                        entityCodeField.setOrder(entityAutoCode.order());
                     } else {
                         entityCodeField.setTitle(field.getName());
                         entityCodeField.setOrder(cnt++);
                     }
+
+                    MetaData entityMetaData = field.getAnnotation(MetaData.class);
+                    if (entityMetaData != null) {
+                        entityCodeField.setTitle(entityMetaData.value());
+                    }
+
+                    Method getMethod = entityClass.getMethod("get" + StringUtils.capitalize(field.getName()));
+                    JsonProperty fieldJsonProperty = getMethod.getAnnotation(JsonProperty.class);
+                    if (fieldJsonProperty != null) {
+                        entityCodeField.setList(true);
+                    }
+
+                    
+                    if (entityCodeField.getList() || entityCodeField.getListHidden()) {
+                        JoinColumn fieldJoinColumn = getMethod.getAnnotation(JoinColumn.class);
+                        if (fieldJoinColumn != null) {
+                            if (fieldJoinColumn.nullable() == false) {
+                                fetchJoinFields.put(field.getName(), "INNER");
+                            } else {
+                                fetchJoinFields.put(field.getName(), "LEFT");
+                            }
+                        }
+                    }
+
                     entityFields.add(entityCodeField);
                 }
+
             }
             Collections.sort(entityFields);
             root.put("entityFields", entityFields);
+            if (fetchJoinFields.size() > 0) {
+                root.put("fetchJoinFields", fetchJoinFields);
+            }
 
             integrateRootPath = integrateRootPath + rootPackagePath + modelPackagePath;
             //process(cfg.getTemplate("Entity.ftl"), root, integrateRootPath + "\\entity\\", className + ".java");

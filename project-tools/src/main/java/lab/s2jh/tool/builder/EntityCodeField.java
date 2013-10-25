@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * 用于代码生成处理的辅助对象
  */
-public class EntityCodeField implements Comparable<EntityCodeField>{
+public class EntityCodeField implements Comparable<EntityCodeField> {
     /** 属性标题 */
     private String title;
     /** Java属性名称 */
@@ -14,25 +14,23 @@ public class EntityCodeField implements Comparable<EntityCodeField>{
     /** 属性描述 */
     private String description;
     /** 属性在列表jqGrid中定义的宽度 */
-    private Integer listWidth=0;
+    private Integer listWidth = 0;
     /** 在生成代码中属性的相对顺序 */
-    private Integer order=Integer.MAX_VALUE;
+    private Integer order = Integer.MAX_VALUE;
     /** 属性在列表jqGrid中定义的对齐方式：left，right，center */
-    private String listAlign="left";
+    private String listAlign = "left";
     /** 属性在列表jqGrid中定义的宽度固定模式 */
     private boolean listFixed = false;
     /** 属性在列表jqGrid中定义的默认不显示模式 */
     private boolean listHidden = false;
-    /** 属性在查询区域生成表单元素 */
-    private boolean search = false;
     /** 属性在编辑界面生成表单元素 */
     private boolean edit = true;
     /** 属性在jqGrid列表中生成column定义 */
-    private boolean list = true;
+    private boolean list = false;
     /** 标识属性是否枚举类型，根据Java属性反射获取  */
-    private Boolean enumField=false;
+    private Boolean enumField = false;
     /** 属性类型，根据Java属性反射获取 */
-    private String fieldType="String";
+    private String fieldType = "String";
 
     public String getTitle() {
         return title;
@@ -107,14 +105,6 @@ public class EntityCodeField implements Comparable<EntityCodeField>{
         this.listWidth = listWidth;
     }
 
-    public boolean isSearch() {
-        return search;
-    }
-
-    public void setSearch(boolean search) {
-        this.search = search;
-    }
-
     public String getFieldType() {
         return fieldType;
     }
@@ -130,8 +120,8 @@ public class EntityCodeField implements Comparable<EntityCodeField>{
     public void setEnumField(Boolean enumField) {
         this.enumField = enumField;
     }
-    
-    public String getUncapitalizeFieldType(){
+
+    public String getUncapitalizeFieldType() {
         return StringUtils.uncapitalize(fieldType);
     }
 
@@ -143,13 +133,12 @@ public class EntityCodeField implements Comparable<EntityCodeField>{
         this.edit = edit;
     }
 
-    public boolean isList() {
+    public boolean getList() {
         return list;
     }
 
     public void setList(boolean list) {
         this.list = list;
     }
-    
 
 }

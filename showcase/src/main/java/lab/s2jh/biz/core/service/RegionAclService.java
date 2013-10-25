@@ -38,13 +38,13 @@ public class RegionAclService implements AclService {
 
     public final static String ZY_USER_ACL_CODE = "000000"; //中央用户标识ACL CODE 
 
-    public final static Integer ACL_TYPE_ZY = 80;//中央
-    public final static Integer ACL_TYPE_SJ = 70;//省级
-    public final static Integer ACL_TYPE_DS = 60;//地市
-    public final static Integer ACL_TYPE_QX = 50;//区县
-    public final static Integer ACL_TYPE_XX = 40;//学校
+    public final static String ACL_TYPE_ZY = "80";//中央
+    public final static String ACL_TYPE_SJ = "70";//省级
+    public final static String ACL_TYPE_DS = "60";//地市
+    public final static String ACL_TYPE_QX = "50";//区县
+    public final static String ACL_TYPE_XX = "40";//学校
 
-    private static Map<Integer, String> aclTypeMap = Maps.newLinkedHashMap();
+    private static Map<String, String> aclTypeMap = Maps.newLinkedHashMap();
     static {
         aclTypeMap.put(ACL_TYPE_ZY, "中央");
         aclTypeMap.put(ACL_TYPE_SJ, "省级");
@@ -54,7 +54,7 @@ public class RegionAclService implements AclService {
     }
 
     @Override
-    public Integer aclCodeToType(String aclCode) {
+    public String aclCodeToType(String aclCode) {
         if (StringUtils.isBlank(aclCode)) {
             return null;
         }
@@ -77,7 +77,7 @@ public class RegionAclService implements AclService {
     }
 
     @Override
-    public Map<Integer, String> getAclTypeMap() {
+    public Map<String, String> getAclTypeMap() {
         return aclTypeMap;
     }
 
@@ -158,7 +158,7 @@ public class RegionAclService implements AclService {
     }
 
     @Override
-    public Integer getInitAclType() {
+    public String getInitAclType() {
         return userDao.findByInitSetupUser(true).getAclType();
     }
 

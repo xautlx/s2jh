@@ -66,16 +66,16 @@ public class UserController extends BaseController<User, String> {
         }
     }
 
-    public Map<Integer, String> getAclTypeMap() {
-        Map<Integer, String> aclTypeMap = Maps.newLinkedHashMap();
+    public Map<String, String> getAclTypeMap() {
+        Map<String, String> aclTypeMap = Maps.newLinkedHashMap();
         if (aclService != null) {
-            Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-            if (authUserAclType == null) {
+            String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+            if (StringUtils.isBlank(authUserAclType)) {
                 aclTypeMap = aclService.getAclTypeMap();
             } else {
-                Map<Integer, String> globalAclTypeMap = aclService.getAclTypeMap();
-                for (Integer aclType : globalAclTypeMap.keySet()) {
-                    if (authUserAclType >= aclType) {
+                Map<String, String> globalAclTypeMap = aclService.getAclTypeMap();
+                for (String aclType : globalAclTypeMap.keySet()) {
+                    if (authUserAclType.compareTo(aclType) >= 0) {
                         aclTypeMap.put(aclType, globalAclTypeMap.get(aclType));
                     }
                 }
@@ -162,15 +162,15 @@ public class UserController extends BaseController<User, String> {
             if (!CollectionUtils.isEmpty(aclCodePrefixs)) {
                 groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
             }
-            Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-            if (authUserAclType != null) {
+            String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+            if (StringUtils.isNotBlank(authUserAclType)) {
                 groupFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
             }
         }        
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         Page<User> page = this.getEntityService().findByPage(groupFilter, pageable);
         if (aclService != null) {
-            Map<Integer, String> globalAclTypeMap = aclService.getAclTypeMap();
+            Map<String, String> globalAclTypeMap = aclService.getAclTypeMap();
             for (User user : page.getContent()) {
                 user.addExtraAttribute("aclTypeLabel", globalAclTypeMap.get(user.getAclType()));
             }

@@ -23,6 +23,7 @@ import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -50,16 +51,16 @@ public class RoleController extends BaseController<Role, String> {
         //Do nothing check
     }
 
-    public Map<Integer, String> getAclTypeMap() {
-        Map<Integer, String> aclTypeMap = Maps.newLinkedHashMap();
+    public Map<String, String> getAclTypeMap() {
+        Map<String, String> aclTypeMap = Maps.newLinkedHashMap();
         if (aclService != null) {
-            Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+            String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
             if (authUserAclType == null) {
                 aclTypeMap = aclService.getAclTypeMap();
             } else {
-                Map<Integer, String> globalAclTypeMap = aclService.getAclTypeMap();
-                for (Integer aclType : globalAclTypeMap.keySet()) {
-                    if (authUserAclType >= aclType) {
+                Map<String, String> globalAclTypeMap = aclService.getAclTypeMap();
+                for (String aclType : globalAclTypeMap.keySet()) {
+                    if (authUserAclType.compareTo(aclType) > 0) {
                         aclTypeMap.put(aclType, globalAclTypeMap.get(aclType));
                     }
                 }
@@ -89,11 +90,11 @@ public class RoleController extends BaseController<Role, String> {
     @Override
     @MetaData(value = "创建")
     public HttpHeaders doCreate() {
-        Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (authUserAclType != null && authUserAclType > 0) {
+        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+        if (StringUtils.isNotBlank(authUserAclType)) {
             //判断选取的类型是否属于当前登录用户管辖范围
-            Integer aclType = Integer.valueOf(this.getRequiredParameter("aclType"));
-            if (authUserAclType < aclType) {
+            String aclType = this.getRequiredParameter("aclType");
+            if (authUserAclType.compareTo(aclType) < 0) {
                 throw new DataAccessDeniedException("数据访问权限不足");
             }
             bindingEntity.setAclType(aclType);
@@ -104,11 +105,11 @@ public class RoleController extends BaseController<Role, String> {
     @Override
     @MetaData(value = "更新")
     public HttpHeaders doUpdate() {
-        Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (authUserAclType != null) {
+        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+        if (StringUtils.isNotBlank(authUserAclType)) {
             //判断选取的类型是否属于当前登录用户管辖范围
-            Integer aclType = Integer.valueOf(this.getRequiredParameter("aclType"));
-            if (authUserAclType < aclType) {
+            String aclType = this.getRequiredParameter("aclType");
+            if (authUserAclType.compareTo(aclType) < 0) {
                 throw new DataAccessDeniedException("数据访问权限不足");
             }
             bindingEntity.setAclType(aclType);
@@ -173,8 +174,8 @@ public class RoleController extends BaseController<Role, String> {
      */
     protected void appendFilterProperty(List<PropertyFilter> filters) {
         //限定查询ACL所辖范围数据
-        Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (authUserAclType != null) {
+        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+        if (StringUtils.isNotBlank(authUserAclType)) {
             filters.add(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
         }
     }

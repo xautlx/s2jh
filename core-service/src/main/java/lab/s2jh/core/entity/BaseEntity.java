@@ -24,6 +24,7 @@ import org.hibernate.envers.AuditOverrides;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonInclude(Include.NON_EMPTY)
@@ -40,7 +41,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
     protected String aclCode;
 
     /** 数据访问控制类型 */
-    protected Integer aclType;
+    protected String aclType;
 
     protected String createdBy;
 
@@ -77,6 +78,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
     @Column(updatable = false, name = "created_dt")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = DateTimeJsonSerializer.class)
+    @JsonProperty
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -123,17 +125,18 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
         this.aclCode = aclCode;
     }
 
-    public Integer getAclType() {
+    public String getAclType() {
         return aclType;
     }
 
     @SkipParamBind
-    public void setAclType(Integer aclType) {
+    public void setAclType(String aclType) {
         this.aclType = aclType;
     }
 
     @Version
     @Column(nullable = true)
+    @JsonProperty
     public int getVersion() {
         return version;
     }

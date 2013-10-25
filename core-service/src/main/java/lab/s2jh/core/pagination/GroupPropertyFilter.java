@@ -8,17 +8,20 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.exception.ServiceException;
-import lab.s2jh.core.web.json.JacksonMapperFactory;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 /**
  * 用于jqGrid自定义高级查询条件封装条件组合
  */
 public class GroupPropertyFilter {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
     public static final String GROUP_OPERATION_AND = "and";
     public static final String GROUP_OPERATION_OR = "or";
 
@@ -102,8 +105,7 @@ public class GroupPropertyFilter {
             GroupPropertyFilter groupPropertyFilter = new GroupPropertyFilter();
 
             if (StringUtils.isNotBlank(filtersJson)) {
-                JqGridSearchFilter jqFilter = JacksonMapperFactory.getObjectMapper().readValue(filtersJson,
-                        JqGridSearchFilter.class);
+                JqGridSearchFilter jqFilter = objectMapper.readValue(filtersJson, JqGridSearchFilter.class);
                 convertJqGridToFilter(entityClass, groupPropertyFilter, jqFilter);
             }
 

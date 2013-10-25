@@ -10,14 +10,14 @@ public interface AclService {
      * @param aclCode
      * @return
      */
-    Integer aclCodeToType(String aclCode);
+    String aclCodeToType(String aclCode);
 
     /**
      * 获取所有ACL Type类型定义Map
      * 
      * @return
      */
-    Map<Integer, String> getAclTypeMap();
+    Map<String, String> getAclTypeMap();
 
     /**
      * 获取所有ACL Code Map结构数据
@@ -52,7 +52,7 @@ public interface AclService {
      * 获取初始化用户对应ACL Type，用于标识当前系统的ACL Type
      * @return
      */
-    Integer getInitAclType();
+    String getInitAclType();
 
     /**
      * 获取初始化用户对应ACL Code，用于标识当前系统的ACL Code

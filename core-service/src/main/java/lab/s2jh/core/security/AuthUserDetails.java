@@ -51,7 +51,7 @@ public class AuthUserDetails implements UserDetails {
     private String aclCode;
     
     /** 数据访问控制类型(数字大权限包含数字小) */
-    private Integer aclType;
+    private String aclType;
     
     /** 扩展属性容器，如CAS Oauth认证返回用户信息 */
     private Map<String, Object> attributes;
@@ -323,11 +323,11 @@ public class AuthUserDetails implements UserDetails {
     }
     
 
-    public Integer getAclType() {
+    public String getAclType() {
         return aclType;
     }
 
-    public void setAclType(Integer aclType) {
+    public void setAclType(String aclType) {
         this.aclType = aclType;
     }
 

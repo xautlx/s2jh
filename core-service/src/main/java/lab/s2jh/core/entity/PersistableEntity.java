@@ -12,6 +12,7 @@ import org.springframework.data.domain.Persistable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Maps;
 
 @MappedSuperclass
@@ -20,8 +21,9 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
 
     /** Entity本身无用，主要用于UI层辅助参数传递 */
     private Map<String, Object> extraAttributes;
-
+    
     @Transient
+    @JsonProperty
     public String getDisplayId() {
         Serializable id = getId();
         if (id == null) {

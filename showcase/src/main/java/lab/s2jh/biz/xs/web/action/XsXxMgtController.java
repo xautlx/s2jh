@@ -75,7 +75,7 @@ public class XsXxMgtController extends BaseBizController<XsJbxx, String> {
         String regionCode = this.getParameter("regionCode");
         String authUserAclCode = AuthContextHolder.getAclCode();
         if (StringUtils.isBlank(type)) {
-            Integer authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+            String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
             if (RegionAclService.ACL_TYPE_XX.equals(authUserAclType)) {
                 List<ValueLabelBean> valueLabelBeans = xxJcxxService.findNjsOfXxdm(authUserAclCode);
                 for (ValueLabelBean vlb : valueLabelBeans) {

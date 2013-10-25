@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
-import lab.s2jh.core.web.json.JacksonMapperFactory;
+import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 
 import org.apache.struts2.StrutsConstants;
 import org.apache.struts2.rest.handler.ContentTypeHandler;
@@ -18,13 +18,12 @@ public class Jackson2LibHandler implements ContentTypeHandler {
     private String defaultEncoding = "UTF-8";
 
     public void toObject(Reader in, Object target) throws IOException {
-
-        ObjectReader or = JacksonMapperFactory.getObjectMapper().readerForUpdating(target);
+        ObjectReader or = HibernateAwareObjectMapper.getInstance().readerForUpdating(target);
         or.readValue(in); //, new TypeReference<clazz>);
     }
 
     public String fromObject(Object obj, String resultCode, Writer stream) throws IOException {
-        JacksonMapperFactory.getObjectMapper().writeValue(stream, obj);
+        HibernateAwareObjectMapper.getInstance().writeValue(stream, obj);
         return null;
     }
 

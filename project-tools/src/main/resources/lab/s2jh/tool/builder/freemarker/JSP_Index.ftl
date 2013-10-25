@@ -42,7 +42,7 @@
         $(function() {
             $("#${entity_name_uncapitalize}ListDiv").grid({
                 url: '${base}${model_path}/${entity_name_field}!findByPage',
-                colNames : [ '操作',<#list entityFields as entityField><#if entityField.list><#if entityField_index != 0>,</#if>'${entityField.title}'</#if></#list>,'创建时间','版本号'],
+                colNames : [ '操作','流水号'<#list entityFields as entityField><#if entityField.list>,'${entityField.title}'</#if></#list>],
                 colModel : [ {
                     name : 'operation',
                     align : 'center',
@@ -61,11 +61,24 @@
                             icon : "icon-book",
                             onclick : "$.popupViewDialog('${base}${model_path}/${entity_name_field}!viewTabs?id=" + options.rowId + "')"
                         } ]);
-                    }                 
+                    } 
+                }, {
+                    name : 'displayId',
+                    index : 'id'                                    
                 <#list entityFields as entityField> 
-                <#if entityField.list>                      
+                <#if entityField.list>    
+                <#if entityField.enumField>
+                }, {
+                    name : '${entityField.fieldName}.title',
+                    index : '${entityField.fieldName}',
+                <#elseif entityField.fieldType=='Entity'>
+                }, {
+                    name : '${entityField.fieldName}.displayLabel',
+                    index : '${entityField.fieldName}',
+                <#else>    
                 }, {
                     name : '${entityField.fieldName}',
+                </#if>              
                 <#if entityField.listWidth!=0>  
                     width : ${entityField.listWidth},
                 </#if>
@@ -87,17 +100,14 @@
                     align : '${entityField.listAlign}'
                 </#if>
                 </#list>
-                }, {
-                   name : 'createdDt',
-                   width : 120,
-                   fixed : true,
-                   hidden : true,
-                   align : 'center'
-                }, {
-                   name : 'version',
-                   hidden : true,
-                   hidedlg : true
                 } ],
+                <#if fetchJoinFields?exists>
+                postData: {
+                   <#list fetchJoinFields?keys as key> 
+                   "search['FETCH_${key}']" : "${fetchJoinFields[key]}"<#if (key_has_next)>,</#if>
+                   </#list>
+                },
+                </#if>                
                 delRow : {
                     url : "${base}${model_path}/${entity_name_field}!doDelete"
                 },
@@ -106,7 +116,7 @@
                 },
                 editRow : {
                     url : "${base}${model_path}/${entity_name_field}!inputTabs",
-                    labelCol : 'TODO'
+                    labelCol : 'displayId'
                 },                
                 caption:"${model_title}列表"
             }); 

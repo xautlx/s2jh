@@ -32,8 +32,8 @@ public abstract class BaseBizController<T extends PersistableEntity<ID>, ID exte
      * @return
      */
     public boolean isShowRegionNavForAuthUser() {
-        Integer aclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (aclType != null && aclType >= RegionAclService.ACL_TYPE_DS) {
+        String aclType = AuthContextHolder.getAuthUserDetails().getAclType();
+        if (StringUtils.isNotBlank(aclType) && aclType.compareTo(RegionAclService.ACL_TYPE_DS) >= 0) {
             return true;
         }
         return false;
@@ -44,7 +44,7 @@ public abstract class BaseBizController<T extends PersistableEntity<ID>, ID exte
     }
 
     public Map<String, String> findProvinceRegions() {
-        
+
         Map<String, String> dataMap = Maps.newLinkedHashMap();
         List<ValueLabelBean> valueLabelBeans = regionCodeService.findProvinces();
         for (ValueLabelBean valueLabelBean : valueLabelBeans) {
