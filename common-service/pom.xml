@@ -49,7 +49,7 @@
 			<artifactId>jasperreports-extension</artifactId>
 			<version>${s2jh.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -98,6 +98,10 @@
 			<artifactId>quartz-oracle</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+		</dependency>
 	</dependencies>
 
 
