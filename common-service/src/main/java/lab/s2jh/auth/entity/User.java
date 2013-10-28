@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 
 @Entity
-@Table(name = "T_AUTH_USER", uniqueConstraints = @UniqueConstraint(columnNames = { "aclCode", "signinid" }))
+@Table(name = "tbl_AUTH_USER", uniqueConstraints = @UniqueConstraint(columnNames = { "aclCode", "signinid" }))
 @MetaData(value = "用户")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Audited

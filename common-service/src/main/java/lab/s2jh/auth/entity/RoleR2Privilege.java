@@ -19,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "T_AUTH_ROLE_R2_PRIVILEGE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRIVILEGE_ID",
+@Table(name = "tbl_AUTH_ROLE_R2_PRIVILEGE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRIVILEGE_ID",
         "ROLE_ID" }))
 @MetaData(value = "角色与权限关联")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

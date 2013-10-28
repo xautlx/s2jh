@@ -28,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_SYS_MENU", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "PARENT_ID" }))
+@Table(name = "tbl_SYS_MENU", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "PARENT_ID" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "菜单")
 public class Menu extends BaseEntity<String> implements Comparable<Menu> {

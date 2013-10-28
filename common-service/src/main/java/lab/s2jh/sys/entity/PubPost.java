@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_SYS_PUB_POST")
+@Table(name = "tbl_SYS_PUB_POST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "公告", description = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
 public class PubPost extends BaseEntity<String> {

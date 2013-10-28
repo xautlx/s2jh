@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
 @Entity
-@Table(name = "T_RPT_REPORT_DEF")
+@Table(name = "tbl_RPT_REPORT_DEF")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "报表定义")
 public class ReportDef extends BaseEntity<String> {

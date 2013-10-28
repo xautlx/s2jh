@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
  * 
  */
 @Entity
-@Table(name = "T_AUTH_PRIVILEGE")
+@Table(name = "tbl_AUTH_PRIVILEGE")
 @MetaData(value = "权限")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Privilege extends BaseEntity<String> {

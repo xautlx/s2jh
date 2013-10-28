@@ -24,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_SYS_PUB_POST_READ", uniqueConstraints = @UniqueConstraint(columnNames = { "pub_post_id",
+@Table(name = "tbl_SYS_PUB_POST_READ", uniqueConstraints = @UniqueConstraint(columnNames = { "pub_post_id",
         "read_user_id" }))
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @MetaData(value = "公告阅读记录")

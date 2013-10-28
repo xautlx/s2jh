@@ -26,7 +26,7 @@ import org.hibernate.annotations.Type;
  */
 @MetaData(value = "定时任务运行记录")
 @Entity
-@Table(name = "T_JOB_RUN_HIST")
+@Table(name = "tbl_JOB_RUN_HIST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class JobRunHist extends BaseEntity<String> {
 

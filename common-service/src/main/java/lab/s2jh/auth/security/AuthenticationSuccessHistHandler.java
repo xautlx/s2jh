@@ -71,7 +71,7 @@ public class AuthenticationSuccessHistHandler extends SavedRequestAwareAuthentic
         //Hack RememberMe时不能正常返回认证之前的请求
         //参考：https://jira.springsource.org/browse/SEC-1991
         String url = request.getServletPath();
-        if (url != null && url.indexOf("j_spring_security") == -1) {
+        if (url != null && url.indexOf("j_spring") == -1) {
             HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
             requestCache.saveRequest(request, response);
         }

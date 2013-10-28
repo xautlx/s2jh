@@ -19,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "T_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "category", "key1Value",
+@Table(name = "tbl_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "category", "key1Value",
         "key2Value" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "数据字典")

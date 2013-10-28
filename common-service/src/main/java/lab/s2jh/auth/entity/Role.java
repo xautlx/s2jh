@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
 @Entity
-@Table(name = "T_AUTH_ROLE")
+@Table(name = "tbl_AUTH_ROLE")
 @MetaData(value = "角色")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseEntity<String> {

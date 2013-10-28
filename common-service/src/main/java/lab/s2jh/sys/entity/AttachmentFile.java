@@ -21,7 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_SYS_ATTACHMENT_FILE")
+@Table(name = "tbl_SYS_ATTACHMENT_FILE")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "附件文件数据")
 public class AttachmentFile extends BaseEntity<String> implements FileDef{

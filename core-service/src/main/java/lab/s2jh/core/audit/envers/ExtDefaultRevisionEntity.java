@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * @see http://docs.jboss.org/hibernate/orm/4.2/devguide/en-US/html/ch15.html
  */
 @Entity
-@Table(name = "T_AUD_REVINFO")
+@Table(name = "tbl_AUD_REVINFO")
 @RevisionEntity(ExtRevisionListener.class)
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "javassistLazyInitializer", "revisionEntity", "handler" }, ignoreUnknown = true)
 public class ExtDefaultRevisionEntity {

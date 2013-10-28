@@ -71,7 +71,7 @@ ul.marquee li {
 					<div class="nav-collapse collapse navbar-responsive-collapse">
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
-							<li><a href="javascript:void(0)"><s:property value="%{authUserDetails.username}" /></a></li>
+							<li><a href="javascript:void(0)"><s:property value="%{authUserDetails.usernameDisplay}" /></a></li>
 							<li><a href="javascript:void(0)" id="switchLayout"><i class="icon-fullscreen"></i>
 									切换显示</a></li>
 							<li><a href="javascript:void(0)" id="changePasswd"><i class="icon-lock"></i> 修改密码</a></li>

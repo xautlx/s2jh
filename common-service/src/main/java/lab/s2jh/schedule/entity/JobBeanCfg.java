@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @MetaData(value = "定时任务配置")
 @Entity
-@Table(name = "T_JOB_BEAN_CFG")
+@Table(name = "tbl_JOB_BEAN_CFG")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class JobBeanCfg extends BaseEntity<String> {
 

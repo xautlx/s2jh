@@ -20,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_RPT_REPORT_PARAM", uniqueConstraints = @UniqueConstraint(columnNames = { "REPORT_DEF_ID", "CODE" }))
+@Table(name = "tbl_RPT_REPORT_PARAM", uniqueConstraints = @UniqueConstraint(columnNames = { "REPORT_DEF_ID", "CODE" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "报表参数")
 public class ReportParam extends DynamicParameterDef {

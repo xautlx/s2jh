@@ -25,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@Table(name = "T_AUTH_LOGON_LOG")
+@Table(name = "tbl_AUTH_LOGON_LOG")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 @MetaData(value = "用户登录登出历史记录")
 public class UserLogonLog extends BaseEntity<String> {

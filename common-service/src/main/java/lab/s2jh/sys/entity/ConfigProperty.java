@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "T_SYS_CFG_PROP")
+@Table(name = "tbl_SYS_CFG_PROP")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "配置属性")
 public class ConfigProperty extends BaseEntity<String> {

@@ -1,1 +1,1 @@
-INSERT INTO t_job_bean_cfg (id, version, auto_startup, cron_expression, job_class, log_run_hist, run_within_cluster) VALUES ('402880c5414a56a701414a599cd50003', 0, 1, '0 0 * * * ?','lab.s2jh.biz.xs.job.DupStatJob',1,1);
+INSERT INTO tbl_job_bean_cfg (id, version, auto_startup, cron_expression, job_class, log_run_hist, run_within_cluster) VALUES ('402880c5414a56a701414a599cd50003', 0, 1, '0 0 * * * ?','lab.s2jh.biz.xs.job.DupStatJob',1,1);

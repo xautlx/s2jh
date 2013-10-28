@@ -99,7 +99,7 @@ public class SourceCodeFrameworkBuilder {
             root.put("entity_name_field", nameField);
             root.put("root_package", rootPackage + "." + modelName);
             root.put("action_package", rootPackage);
-            root.put("table_name", "T_TODO_" + className.toUpperCase());
+            root.put("table_name", "tbl_TODO_" + className.toUpperCase());
             root.put("base", "${base}");
             Class entityClass = Class.forName(classFullName);
             root.put("id_type", entityClass.getMethod("getId").getReturnType().getSimpleName());
