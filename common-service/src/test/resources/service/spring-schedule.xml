@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
@@ -15,14 +15,12 @@
 	<!-- 用于增强Spring @Async 注解在异步模式能捕捉到异常日志 -->
 	<bean id="handlingAsyncTaskExecutor" class="lab.s2jh.core.context.async.HandlingAsyncTaskExecutor" />
 	<!-- 建议只定义@Async注解使用，尽量不用@Scheduled而改用后面的Quartz方式便于文本定义调整定时策略 -->
-	<task:annotation-driven executor="handlingAsyncTaskExecutor"
-		scheduler="springScheduler" />
+	<task:annotation-driven executor="handlingAsyncTaskExecutor" scheduler="springScheduler" />
 
 	<!-- 基于Spring Schedule XML配置的定时任务列表，适合定义在每台服务器节点执行并且无需日志记录、无需管理界面干预等功能支持的任务 -->
 	<task:scheduled-tasks scheduler="springScheduler">
 		<!-- 固定间隔触发任务，单位毫秒 -->
-		<task:scheduled ref="systemSechduleService" method="pubPostCacheRefreshTimely"
-			fixed-rate="300000" />
+		<task:scheduled ref="systemSechduleService" method="pubPostCacheRefreshTimely" fixed-rate="300000" />
 	</task:scheduled-tasks>
 
 
@@ -42,12 +40,11 @@
 		<property name="triggers">
 			<list>
 				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.ServerStatJob.Trigger"
-					class="org.springframework.scheduling.quartz.CronTriggerBean">
+				<bean id="lab.s2jh.schedule.job.ServerStatJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.ServerStatJob"
-							class="org.springframework.scheduling.quartz.JobDetailBean">
+						<bean name="lab.s2jh.schedule.job.ServerStatJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 							<property name="jobClass" value="lab.s2jh.schedule.job.ServerStatJob" />
+							<property name="durability" value="true" />
 						</bean>
 					</property>
 					<property name="cronExpression" value="0 0 7-23 * * ?" />
@@ -78,12 +75,11 @@
 		<property name="triggers">
 			<list>
 				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.DatabaseStatJob.Trigger"
-					class="org.springframework.scheduling.quartz.CronTriggerBean">
+				<bean id="lab.s2jh.schedule.job.DatabaseStatJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.DatabaseStatJob"
-							class="org.springframework.scheduling.quartz.JobDetailBean">
+						<bean name="lab.s2jh.schedule.job.DatabaseStatJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 							<property name="jobClass" value="lab.s2jh.schedule.job.DatabaseStatJob" />
+							<property name="durability" value="true" />
 						</bean>
 					</property>
 					<property name="cronExpression" value="0 0 0 * * ?" />

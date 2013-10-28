@@ -61,6 +61,9 @@ public class ExtSchedulerFactoryBean extends SchedulerFactoryBean {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Trigger> triggers = (List<Trigger>) FieldUtils.readField(this, "triggers", true);
+			if (triggers == null) {
+				triggers = Lists.newArrayList();
+			}
 			for (Trigger trigger : triggers) {
 				allTriggers.add(trigger);
 			}

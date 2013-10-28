@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(locations = { "classpath:/service/spring-schedule.xml" })
-public class JobBeanCfgServiceTest extends SpringTransactionalTestCase {
+public class JobBeanCfgServiceNoAutoTest extends SpringTransactionalTestCase {
 
     @Autowired
     private JobBeanCfgService jobBeanCfgService;

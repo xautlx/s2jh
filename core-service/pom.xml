@@ -288,8 +288,7 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itextasian</artifactId>
 			<version>1.5.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/jars/itextasian-1.5.2.jar</systemPath>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -307,6 +306,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<goals>

@@ -69,18 +69,4 @@ public class MenuServiceTest extends SpringTransactionalTestCase {
         items = menuService.findByPage(groupPropertyFilter, pageable);
         Assert.assertTrue(items.getContent().size() == 2);
     }
-
-    @Test
-    public void findEntityRevisions() {
-        Menu entity = TestObjectUtils.buildMockObject(Menu.class);
-        entity.setTitle("AAA");
-        menuService.save(entity);
-        entityManager.flush();
-
-        entity.setTitle("BBB");
-        menuService.save(entity);
-        entityManager.flush();
-
-        menuService.findEntityRevisions(entity.getId(), null, null);
-    }
 }
