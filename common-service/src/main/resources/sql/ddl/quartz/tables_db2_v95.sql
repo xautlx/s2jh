@@ -1,13 +1,3 @@
-#
-# Updated by Claudiu Crisan (claudiu.crisan@schartner.net)
-# SQL scripts for DB2 ver 8.1
-#
-# Changes:
-# - "varchar(1)" replaced with "integer"
-# - "field_name varchar(xxx) not null" replaced with "field_name varchar(xxx)"
-#
-
-
 DROP TABLE QRTZ_FIRED_TRIGGERS;
 DROP TABLE QRTZ_PAUSED_TRIGGER_GRPS;
 DROP TABLE QRTZ_SCHEDULER_STATE;
@@ -81,17 +71,17 @@ CREATE TABLE qrtz_simprop_triggers
     sched_name varchar(120) not null,
     TRIGGER_NAME VARCHAR(200) NOT NULL,
     TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    STR_PROP_1 VARCHAR(512) NULL,
-    STR_PROP_2 VARCHAR(512) NULL,
-    STR_PROP_3 VARCHAR(512) NULL,
-    INT_PROP_1 INT NULL,
-    INT_PROP_2 INT NULL,
-    LONG_PROP_1 BIGINT NULL,
-    LONG_PROP_2 BIGINT NULL,
-    DEC_PROP_1 NUMERIC(13,4) NULL,
-    DEC_PROP_2 NUMERIC(13,4) NULL,
-    BOOL_PROP_1 VARCHAR(1) NULL,
-    BOOL_PROP_2 VARCHAR(1) NULL,
+    STR_PROP_1 VARCHAR(512),
+    STR_PROP_2 VARCHAR(512),
+    STR_PROP_3 VARCHAR(512),
+    INT_PROP_1 INT,
+    INT_PROP_2 INT,
+    LONG_PROP_1 BIGINT,
+    LONG_PROP_2 BIGINT,
+    DEC_PROP_1 NUMERIC(13,4),
+    DEC_PROP_2 NUMERIC(13,4),
+    BOOL_PROP_1 VARCHAR(1),
+    BOOL_PROP_2 VARCHAR(1),
     PRIMARY KEY (sched_name,TRIGGER_NAME,TRIGGER_GROUP),
     FOREIGN KEY (sched_name,TRIGGER_NAME,TRIGGER_GROUP) 
     REFERENCES QRTZ_TRIGGERS(sched_name,TRIGGER_NAME,TRIGGER_GROUP)

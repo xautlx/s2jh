@@ -199,10 +199,10 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-hibernate4</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+		</dependency>
 		<!-- joda -->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -269,6 +269,12 @@
 		</dependency>
 
 		<!-- TEST begin -->
+
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

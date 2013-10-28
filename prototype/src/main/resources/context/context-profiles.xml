@@ -16,7 +16,7 @@
 			</property>
 			<property name="ignoreResourceNotFound" value="true" />
 			<property name="dataSource" ref="dataSource" />
-			<property name="tableName" value="T_SYS_CFG_PROP" />
+			<property name="tableName" value="TBL_SYS_CFG_PROP" />
 			<property name="nameColumn" value="prop_key" />
 			<property name="valueColumn" value="simple_value" />
 		</bean>
