@@ -284,12 +284,8 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itextasian</artifactId>
-			<version>1.5.2</version>
-			<scope>runtime</scope>
-		</dependency>
+		<!-- 由于没有找到itextasian可用的在线资源库，暂时注释次依赖。实际开发使用过程，可先自行在本地资源库添加maven jar，然后取消此段注释即可 <dependency> <groupId>com.lowagie</groupId> 
+			<artifactId>itextasian</artifactId> <version>1.5.2</version> <scope>runtime</scope> </dependency> -->
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>

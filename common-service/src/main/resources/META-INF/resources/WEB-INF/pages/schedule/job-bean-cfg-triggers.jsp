@@ -34,7 +34,7 @@
                 width : 120,
                 align : 'right'  
             }, {
-                name : 'stateLabel',
+                name : 'stateLabel.name',
                 width : 60,
                 align : 'center'                  
             }, {
@@ -54,7 +54,6 @@
                 align : 'center'                   
             }],
             rowNum: -1,
-            pager: false,
             loadonce: true,
             caption : "定时任务配置列表"
         });
