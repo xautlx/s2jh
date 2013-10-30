@@ -56,15 +56,11 @@
                             title : "编辑",
                             icon : "icon-pencil",
                             onclick : "$('#" + $(this).attr("id") + "').jqGrid('editRow','" + rowdata.id + "')"
-                        }, {
-                            title : "查看",
-                            icon : "icon-book",
-                            onclick : "$.popupViewDialog('${base}${model_path}/${entity_name_field}!viewTabs?id=" + options.rowId + "')"
                         } ]);
                     } 
                 }, {
                     name : 'displayId',
-                    index : 'id'                                    
+                    index : 'id'                            
                 <#list entityFields as entityField> 
                 <#if entityField.list>    
                 <#if entityField.enumField>
@@ -107,7 +103,10 @@
                    "search['FETCH_${key}']" : "${fetchJoinFields[key]}"<#if (key_has_next)>,</#if>
                    </#list>
                 },
-                </#if>                
+                </#if>  
+                viewRow : {
+                    url : "${base}${model_path}/${entity_name_field}!viewTabs"
+                },                              
                 delRow : {
                     url : "${base}${model_path}/${entity_name_field}!doDelete"
                 },
