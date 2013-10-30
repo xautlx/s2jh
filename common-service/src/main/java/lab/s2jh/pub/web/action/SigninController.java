@@ -1,5 +1,7 @@
 package lab.s2jh.pub.web.action;
 
+import javax.servlet.http.HttpServletRequest;
+
 import lab.s2jh.core.context.KernelConfigParameters;
 
 import org.apache.struts2.ServletActionContext;
@@ -28,9 +30,15 @@ public class SigninController extends RestActionSupport {
 	private CasAuthenticationEntryPoint casAuthenticationEntryPoint;
 
 	public String getCasRedirectUrl() {
-		final String urlEncodedService = CommonUtils.constructServiceUrl(null, ServletActionContext.getResponse(),
-				casAuthenticationEntryPoint.getServiceProperties().getService(), null, casAuthenticationEntryPoint
-						.getServiceProperties().getArtifactParameter(), true);
+		HttpServletRequest request = ServletActionContext.getRequest();
+		final StringBuilder buffer = new StringBuilder();
+		buffer.append(request.isSecure() ? "https://" : "http://");
+		buffer.append(request.getServerName());
+		buffer.append(request.getServerPort() == 80 ? "" : ":" + request.getServerPort());
+		buffer.append(request.getContextPath());
+		buffer.append("/j_spring_cas_security_check");
+
+		final String urlEncodedService = ServletActionContext.getResponse().encodeURL(buffer.toString());
 		final String redirectUrl = CommonUtils.constructRedirectUrl(casAuthenticationEntryPoint.getLoginUrl(),
 				casAuthenticationEntryPoint.getServiceProperties().getServiceParameter(), urlEncodedService,
 				casAuthenticationEntryPoint.getServiceProperties().isSendRenew(), false);
