@@ -22,7 +22,7 @@ import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.entity.def.OperationAuditable;
-import lab.s2jh.core.util.EnumUtil;
+import lab.s2jh.core.util.EnumUtils;
 import lab.s2jh.core.web.json.JodaDateJsonSerializer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -246,12 +246,12 @@ public class XsTransferReq extends BaseEntity<String> implements OperationAudita
 
     @Override
     public String convertStateToDisplay(String rawState) {
-        return EnumUtil.getEnumDataMap(XsTransferReqStateEnum.class).get(rawState);
+        return EnumUtils.getEnumDataMap(XsTransferReqStateEnum.class).get(rawState);
     }
 
     @Override
     public String convertEventToDisplay(String rawEvent) {
-        return EnumUtil.getEnumDataMap(XsTransferReqEventEnum.class).get(rawEvent);
+        return EnumUtils.getEnumDataMap(XsTransferReqEventEnum.class).get(rawEvent);
     }
 
 }

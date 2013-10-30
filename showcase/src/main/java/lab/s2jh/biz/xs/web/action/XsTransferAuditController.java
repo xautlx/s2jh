@@ -18,7 +18,7 @@ import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.util.EnumUtil;
+import lab.s2jh.core.util.EnumUtils;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -75,7 +75,7 @@ public class XsTransferAuditController extends BaseBizController<XsTransferReq, 
 
     public Map<String, String> getXsTransferReqAuditStateMap() {
         Map<String, String> enumDataMap = Maps.newLinkedHashMap();
-        enumDataMap.putAll(EnumUtil.getEnumDataMap(XsTransferReqStateEnum.class));
+        enumDataMap.putAll(EnumUtils.getEnumDataMap(XsTransferReqStateEnum.class));
         enumDataMap.remove(XsTransferReqStateEnum.S10DRAFT.name());
         return enumDataMap;
     }

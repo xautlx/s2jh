@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -44,6 +45,9 @@ public class JobBeanCfg extends BaseEntity<String> {
     @MetaData(value = "描述")
     @EntityAutoCode(order = 50, listShow = false)
     private String description;
+    
+    @MetaData(value = "结果模板文本")
+    private String resultTemplate;
 
     private String id;
 
@@ -115,4 +119,13 @@ public class JobBeanCfg extends BaseEntity<String> {
     public void setRunWithinCluster(Boolean runWithinCluster) {
         this.runWithinCluster = runWithinCluster;
     }
+
+    @Lob
+	public String getResultTemplate() {
+		return resultTemplate;
+	}
+
+	public void setResultTemplate(String resultTemplate) {
+		this.resultTemplate = resultTemplate;
+	}
 }
