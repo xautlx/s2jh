@@ -6,7 +6,6 @@ import java.util.Map;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.entity.DataDict;
 import lab.s2jh.sys.service.DataDictService;
@@ -66,13 +65,7 @@ public class DataDictController extends BaseController<DataDict, String> {
     public Map<String, String> getCategoryMap() {
         return dataDictService.findDistinctCategories();
     }
-    
-    @SecurityControllIgnore
-    public HttpHeaders distinctCategoriesData() {
-        setModel(getCategoryMap());
-        return buildDefaultHttpHeaders();
-    }
-
+  
     private List<DataDict> batchDataDicts = Lists.newArrayList();
 
     public void setBatchDataDicts(List<DataDict> batchDataDicts) {

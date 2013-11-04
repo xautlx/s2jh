@@ -241,18 +241,8 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return dataMap;
     }
 
-    public HttpHeaders distinctCategories() {
-        setModel(getDistinctCategories());
-        return buildDefaultHttpHeaders();
-    }
-
     public Map<String, String> getTypes() {
         return dataDictService.findMapDataByCategory(Privilege.DATA_DICT_PRIVILEGE_TYPE);
-    }
-
-    public HttpHeaders types() {
-        setModel(getTypes());
-        return buildDefaultHttpHeaders();
     }
 
     /**

@@ -19,99 +19,107 @@ import com.google.common.collect.Maps;
 @JsonInclude(Include.NON_NULL)
 public abstract class PersistableEntity<ID extends Serializable> implements Persistable<ID> {
 
-    /** Entity本身无用，主要用于UI层辅助参数传递 */
-    private Map<String, Object> extraAttributes;
-    
-    @Transient
-    @JsonProperty
-    public String getDisplayId() {
-        Serializable id = getId();
-        if (id == null) {
-            return "";
-        }
-        if (id != null && id instanceof String) {
-            String idStr = (String) id;
-            if (StringUtils.isNotBlank(idStr)) {
-                int length = idStr.length();
-                return idStr.substring(length - 10, length);
-            }
-        }
-        return id.toString();
-    }
+	public static final String EXTRA_ATTRIBUTE_GRID_TREE_LEVEL = "level";
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.data.domain.Persistable#isNew()
-     */
-    @Transient
-    @JsonIgnore
-    public boolean isNew() {
-        Serializable id = getId();
-        return id == null || StringUtils.isBlank(String.valueOf(id));
-    }
+	/**
+	 * 在批量提交处理数据时，标识对象操作类型。@see RevisionType
+	 */
+	public static final String EXTRA_ATTRIBUTE_OPERATION = "operation";
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    public boolean equals(Object obj) {
-        if (null == obj) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        if (!getClass().equals(obj.getClass())) {
-            return false;
-        }
-        Persistable that = (Persistable) obj;
-        return null == this.getId() ? false : this.getId().equals(that.getId());
-    }
+	/** Entity本身无用，主要用于UI层辅助参数传递 */
+	private Map<String, Object> extraAttributes;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int hashCode = 17;
-        hashCode += null == getId() ? 0 : getId().hashCode() * 31;
-        return hashCode;
-    }
+	@Transient
+	@JsonProperty
+	public String getDisplayId() {
+		Serializable id = getId();
+		if (id == null) {
+			return "";
+		}
+		if (id != null && id instanceof String) {
+			String idStr = (String) id;
+			if (StringUtils.isNotBlank(idStr)) {
+				int length = idStr.length();
+				return idStr.substring(length - 10, length);
+			}
+		}
+		return id.toString();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return String.format("Entity of type %s with id: %s", this.getClass().getName(), getId());
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.data.domain.Persistable#isNew()
+	 */
+	@Transient
+	@JsonIgnore
+	public boolean isNew() {
+		Serializable id = getId();
+		return id == null || StringUtils.isBlank(String.valueOf(id));
+	}
 
-    @Transient
-    public abstract String getDisplayLabel();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object obj) {
+		if (null == obj) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		Persistable that = (Persistable) obj;
+		return null == this.getId() ? false : this.getId().equals(that.getId());
+	}
 
-    @Transient
-    public Map<String, Object> getExtraAttributes() {
-        return extraAttributes;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		int hashCode = 17;
+		hashCode += null == getId() ? 0 : getId().hashCode() * 31;
+		return hashCode;
+	}
 
-    @Transient
-    public void setExtraAttributes(Map<String, Object> extraAttributes) {
-        this.extraAttributes = extraAttributes;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("Entity of type %s with id: %s", this.getClass().getName(), getId());
+	}
 
-    @Transient
-    public void addExtraAttribute(String key, Object value) {
-        if (extraAttributes == null) {
-            extraAttributes = Maps.newHashMap();
-        }
-        extraAttributes.put(key, value);
-    }
+	@Transient
+	public abstract String getDisplayLabel();
+
+	@Transient
+	@JsonProperty
+	public Map<String, Object> getExtraAttributes() {
+		return extraAttributes;
+	}
+
+	@Transient
+	public void setExtraAttributes(Map<String, Object> extraAttributes) {
+		this.extraAttributes = extraAttributes;
+	}
+
+	@Transient
+	public void addExtraAttribute(String key, Object value) {
+		if (extraAttributes == null) {
+			extraAttributes = Maps.newHashMap();
+		}
+		extraAttributes.put(key, value);
+	}
 }

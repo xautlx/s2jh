@@ -167,6 +167,9 @@ public class UserService extends BaseService<User, String> {
 
 	@Async
 	public void userLogonLog(UserLogonLog userLogonLog) {
+		if (userLogonLogDao.findByHttpSessionId(userLogonLog.getHttpSessionId()) != null) {
+			return;
+		}
 		User user = userDao.findByUid(userLogonLog.getUserid());
 		if (user.getLogonTimes() == null) {
 			user.setLogonTimes(1L);
