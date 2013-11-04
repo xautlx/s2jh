@@ -60,13 +60,9 @@
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
 				encoding="UTF-8" />
-			<jdbc:script location="classpath:sql/data/t_auth_user.sql"
-				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_privilege.sql"
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_role.sql"
-				encoding="UTF-8" />
-			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql"
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/t_rpt_report_def.sql"
@@ -164,13 +160,9 @@
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql"
 				encoding="UTF-8" />
-			<jdbc:script location="classpath:sql/data/t_auth_user.sql"
-				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_privilege.sql"
 				encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_role.sql"
-				encoding="UTF-8" />
-			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql"
 				encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/t_rpt_report_def.sql"

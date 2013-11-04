@@ -24,6 +24,7 @@ import lab.s2jh.core.service.R2OperationEnum;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ import org.springframework.util.CollectionUtils;
 
 @Service
 @Transactional
-public class UserService extends BaseService<User, String> {
+public class UserService extends BaseService<User, Long> {
 
 	@Autowired
 	private UserDao userDao;
@@ -57,10 +58,14 @@ public class UserService extends BaseService<User, String> {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired(required = false)
+	@Value("${auth.admin.password}")
+	private String adminPassword;
+
+	@Autowired(required = false)
 	private AclService aclService;
 
 	@Override
-	protected BaseDao<User, String> getEntityDao() {
+	protected BaseDao<User, Long> getEntityDao() {
 		return userDao;
 	}
 
@@ -152,17 +157,17 @@ public class UserService extends BaseService<User, String> {
 	}
 
 	@Transactional(readOnly = true)
-	public List<UserR2Role> findRelatedUserR2RolesForUser(String userId) {
-		return userR2RoleDao.findByUser_Id(userId);
+	public List<UserR2Role> findRelatedUserR2RolesForUser(User user) {
+		return userR2RoleDao.findByUser(user);
 	}
 
-	public void updateRelatedRoleR2s(String id, Collection<String> roleIds, R2OperationEnum op) {
+	public void updateRelatedRoleR2s(Long id, Collection<String> roleIds, R2OperationEnum op) {
 		updateRelatedR2s(id, roleIds, "userR2Roles", "role", op);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Privilege> findRelatedPrivilegesForUser(String userId) {
-		return privilegeDao.findPrivilegesForUser(userId);
+	public List<Privilege> findRelatedPrivilegesForUser(User user) {
+		return privilegeDao.findPrivilegesForUser(user);
 	}
 
 	@Async
@@ -191,5 +196,9 @@ public class UserService extends BaseService<User, String> {
 		} else {
 			return userOauth.getUser();
 		}
+	}
+
+	public String getAdminPassword() {
+		return adminPassword;
 	}
 }

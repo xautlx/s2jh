@@ -15,6 +15,7 @@ import lab.s2jh.auth.dao.UserR2RoleDao;
 import lab.s2jh.auth.entity.Privilege;
 import lab.s2jh.auth.entity.Role;
 import lab.s2jh.auth.entity.RoleR2Privilege;
+import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.entity.UserR2Role;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
@@ -57,9 +58,9 @@ public class RoleService extends BaseService<Role, String> {
     }
 
     @Transactional(readOnly = true)
-    public List<Role> findR2RolesForUser(String userId) {
+    public List<Role> findR2RolesForUser(User user) {
         List<Role> roles = Lists.newArrayList();
-        Iterable<UserR2Role> r2s = userR2RoleDao.findEnabledRolesForUser(userId);
+        Iterable<UserR2Role> r2s = userR2RoleDao.findEnabledRolesForUser(user);
         for (UserR2Role r2 : r2s) {
             roles.add(r2.getRole());
         }

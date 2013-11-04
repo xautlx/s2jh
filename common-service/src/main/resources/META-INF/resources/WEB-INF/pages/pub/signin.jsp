@@ -135,7 +135,7 @@ input[type="text"],input[type="password"] {
                             </script>
 							<div class="control-group">
 								<small>开发测试登录快速入口:<a href="javascript:void(0)" class=""
-									onclick="setupDevUser('','admin','123')">admin</a>
+									onclick="setupDevUser('','admin','admin')">admin</a>
 								</small>
 							</div>
 						</s:if>

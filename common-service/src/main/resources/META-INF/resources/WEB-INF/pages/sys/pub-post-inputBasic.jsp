@@ -31,7 +31,7 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-					<s2:kindeditor name="htmlTitle" label="标题" rows="2" items="simple" />
+					<s2:textfield name="htmlTitle" label="标题"/>
 				</div>
 			</div>
 			<div class="row-fluid">

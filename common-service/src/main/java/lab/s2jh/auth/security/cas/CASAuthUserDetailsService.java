@@ -75,7 +75,7 @@ public class CASAuthUserDetailsService extends AbstractCasAssertionUserDetailsSe
 			throw new UsernameNotFoundException("User '" + username + "' not found");
 		}
 
-		boolean enabled = user.getDisabled() == null ? true : !user.getDisabled();
+		boolean enabled = user.getEnabled() == null ? true : user.getEnabled();
 		boolean accountNonLocked = user.getAccountNonLocked() == null ? true : user.getAccountNonLocked();
 		Date now = new Date();
 		boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user
@@ -97,7 +97,7 @@ public class CASAuthUserDetailsService extends AbstractCasAssertionUserDetailsSe
 
 		Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
 		boolean superAdminUser = false;
-		List<Role> roles = roleService.findR2RolesForUser(user.getId());
+		List<Role> roles = roleService.findR2RolesForUser(user);
 		for (Role role : roles) {
 			String roleCode = role.getCode();
 			dbAuthsSet.add(new SimpleGrantedAuthority(roleCode));
@@ -127,7 +127,7 @@ public class CASAuthUserDetailsService extends AbstractCasAssertionUserDetailsSe
 				privilegeCodeSet.add(privilege.getCode().trim());
 			}
 		} else {
-			List<Privilege> privileges = userService.findRelatedPrivilegesForUser(user.getId());
+			List<Privilege> privileges = userService.findRelatedPrivilegesForUser(user);
 			for (Privilege privilege : privileges) {
 				privilegeCodeSet.add(privilege.getCode().trim());
 			}

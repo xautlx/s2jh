@@ -85,7 +85,7 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <s2:radio name="disabled" list="#application.enums.booleanLabel" label="禁用标识" />
+                    <s2:radio name="enabled" list="#application.enums.booleanLabel" label="启用标识" />
                 </div>
                 <div class="span6">
                     <s2:datetextfield name="accountExpireTime" label="账号失效日期" format="date" />

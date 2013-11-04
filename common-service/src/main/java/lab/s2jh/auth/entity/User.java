@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
@@ -23,10 +22,10 @@ import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.web.json.DateJsonSerializer;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.validator.constraints.Email;
@@ -36,240 +35,242 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 
 @Entity
-@Table(name = "tbl_AUTH_USER", uniqueConstraints = @UniqueConstraint(columnNames = { "aclCode", "signinid" }))
+@Table(name = "T_AUTH_USER")
 @MetaData(value = "用户")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Audited
-public class User extends BaseEntity<String> {
+public class User extends BaseEntity<Long> {
 
-    @MetaData(value = "登录账号")
-    @EntityAutoCode(order = 10, search = true)
-    private String signinid;
+	public final static String[] PROTECTED_USER_NAMES = new String[] { "admin", "super" };
 
-    @MetaData(value = "登录密码")
-    @EntityAutoCode(order = 10, listShow = false)
-    private String password;
+	@MetaData(value = "登录账号")
+	@EntityAutoCode(order = 10, search = true)
+	private String signinid;
 
-    @MetaData(value = "昵称")
-    @EntityAutoCode(order = 20, search = true)
-    private String nick;
+	@MetaData(value = "登录密码")
+	@EntityAutoCode(order = 10, listShow = false)
+	private String password;
 
-    @MetaData(value = "电子邮件")
-    @EntityAutoCode(order = 30, search = true)
-    private String email;
+	@MetaData(value = "昵称")
+	@EntityAutoCode(order = 20, search = true)
+	private String nick;
 
-    @MetaData(value = "禁用标识", description = "禁用之后则不能登录访问系统")
-    @EntityAutoCode(order = 40, search = true)
-    private Boolean disabled = Boolean.FALSE;
+	@MetaData(value = "电子邮件")
+	@EntityAutoCode(order = 30, search = true)
+	private String email;
 
-    @MetaData(value = "注册时间")
-    @EntityAutoCode(order = 40, edit = false, listHidden = true)
-    private Date signupTime;
+	@MetaData(value = "启用标识", description = "禁用之后则不能登录访问系统")
+	@EntityAutoCode(order = 40, search = true)
+	private Boolean enabled = Boolean.TRUE;
 
-    @MetaData(value = "账户未锁定标志")
-    @EntityAutoCode(order = 50, search = false, listHidden = true)
-    private Boolean accountNonLocked = Boolean.TRUE;
+	@MetaData(value = "注册时间")
+	@EntityAutoCode(order = 40, edit = false, listHidden = true)
+	private Date signupTime;
 
-    @MetaData(value = "失效日期")
-    @EntityAutoCode(order = 50, search = true)
-    private Date accountExpireTime;
+	@MetaData(value = "账户未锁定标志")
+	@EntityAutoCode(order = 50, search = false, listHidden = true)
+	private Boolean accountNonLocked = Boolean.TRUE;
 
-    @MetaData(value = "账户密码过期时间")
-    @EntityAutoCode(order = 50, search = false, listHidden = true)
-    private Date credentialsExpireTime;
+	@MetaData(value = "失效日期")
+	@EntityAutoCode(order = 50, search = true)
+	private Date accountExpireTime;
 
-    @MetaData(value = "角色关联")
-    private List<UserR2Role> userR2Roles = Lists.newArrayList();
+	@MetaData(value = "账户密码过期时间")
+	@EntityAutoCode(order = 50, search = false, listHidden = true)
+	private Date credentialsExpireTime;
 
-    @MetaData(value = "初始化用户标识")
-    private Boolean initSetupUser;
+	@MetaData(value = "角色关联")
+	private List<UserR2Role> userR2Roles = Lists.newArrayList();
 
-    @MetaData(value = "用户唯一标识号")
-    private String uid;
+	@MetaData(value = "初始化用户标识")
+	private Boolean initSetupUser;
 
-    private Date lastLogonTime;
+	@MetaData(value = "用户唯一标识号")
+	private String uid;
 
-    private String lastLogonIP;
+	@MetaData(value = "最后登录时间")
+	private Date lastLogonTime;
 
-    private String lastLogonHost;
-    
-    private Long logonTimes;
-    
-    private String id;
+	@MetaData(value = "最后登录IP")
+	private String lastLogonIP;
 
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
+	@MetaData(value = "最后登录主机名")
+	private String lastLogonHost;
 
-    public void setId(final String id) {
-        //容错处理id以空字符提交参数时修改为null避免hibernate主键无效修改
-        if (id == null || StringUtils.isBlank(id)) {
-            this.id = null;
-        } else {
-            this.id = id;
-        }
-    }
+	@MetaData(value = "总计登录次数")
+	private Long logonTimes;
 
-    @Size(min = 3, max = 30)
-    @Column(length = 128, unique = true, nullable = false, updatable = false)
-    public String getSigninid() {
-        return signinid;
-    }
+	private Long id;
 
-    public void setSigninid(String signinid) {
-        this.signinid = signinid;
-    }
+	@Id
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "native")
+	@Column(name = "sid")
+	public Long getId() {
+		return id;
+	}
 
-    @Column(length = 128)
-    public String getPassword() {
-        return password;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	@Size(min = 3, max = 30)
+	@Column(length = 128, unique = true, nullable = false, updatable = false, name = "user_id")
+	public String getSigninid() {
+		return signinid;
+	}
 
-    @Column(length = 64)
-    public String getNick() {
-        return nick;
-    }
+	public void setSigninid(String signinid) {
+		this.signinid = signinid;
+	}
 
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
+	@Column(length = 128)
+	public String getPassword() {
+		return password;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
-    @JsonSerialize(using = DateTimeJsonSerializer.class)
-    public Date getSignupTime() {
-        return signupTime;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    @SkipParamBind
-    public void setSignupTime(Date signupTime) {
-        this.signupTime = signupTime;
-    }
+	@Column(length = 64)
+	public String getNick() {
+		return nick;
+	}
 
-    @Email
-    @Column(length = 128)
-    public String getEmail() {
-        return email;
-    }
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
+	@JsonSerialize(using = DateTimeJsonSerializer.class)
+	public Date getSignupTime() {
+		return signupTime;
+	}
 
-    @Column(nullable = false)
-    public Boolean getDisabled() {
-        return disabled;
-    }
+	@SkipParamBind
+	public void setSignupTime(Date signupTime) {
+		this.signupTime = signupTime;
+	}
 
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
-    }
+	@Email
+	@Column(length = 128)
+	public String getEmail() {
+		return email;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = DateJsonSerializer.class)
-    public Date getAccountExpireTime() {
-        return accountExpireTime;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setAccountExpireTime(Date accountExpireTime) {
-        this.accountExpireTime = accountExpireTime;
-    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = DateJsonSerializer.class)
-    public Date getCredentialsExpireTime() {
-        return credentialsExpireTime;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using = DateJsonSerializer.class)
+	public Date getAccountExpireTime() {
+		return accountExpireTime;
+	}
 
-    public void setCredentialsExpireTime(Date credentialsExpireTime) {
-        this.credentialsExpireTime = credentialsExpireTime;
-    }
+	public void setAccountExpireTime(Date accountExpireTime) {
+		this.accountExpireTime = accountExpireTime;
+	}
 
-    public Boolean getAccountNonLocked() {
-        return accountNonLocked;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using = DateJsonSerializer.class)
+	public Date getCredentialsExpireTime() {
+		return credentialsExpireTime;
+	}
 
-    public void setAccountNonLocked(Boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
+	public void setCredentialsExpireTime(Date credentialsExpireTime) {
+		this.credentialsExpireTime = credentialsExpireTime;
+	}
 
-    @Override
-    @Transient
-    public String getDisplayLabel() {
-        return (this.getAclCode() == null ? "" : this.getAclCode() + "/") + signinid
-                + (this.getNick() == null ? "" : "/" + this.getNick());
-    }
+	public Boolean getAccountNonLocked() {
+		return accountNonLocked;
+	}
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @NotAudited
-    @JsonIgnore
-    public List<UserR2Role> getUserR2Roles() {
-        return userR2Roles;
-    }
+	public void setAccountNonLocked(Boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
 
-    public void setUserR2Roles(List<UserR2Role> userR2Roles) {
-        this.userR2Roles = userR2Roles;
-    }
+	@Override
+	@Transient
+	public String getDisplayLabel() {
+		return (this.getAclCode() == null ? "" : this.getAclCode() + "/") + signinid
+				+ (this.getNick() == null ? "" : "/" + this.getNick());
+	}
 
-    @Column(updatable = false)
-    public Boolean getInitSetupUser() {
-        return initSetupUser;
-    }
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@NotAudited
+	@JsonIgnore
+	public List<UserR2Role> getUserR2Roles() {
+		return userR2Roles;
+	}
 
-    public void setInitSetupUser(Boolean initSetupUser) {
-        this.initSetupUser = initSetupUser;
-    }
+	public void setUserR2Roles(List<UserR2Role> userR2Roles) {
+		this.userR2Roles = userR2Roles;
+	}
 
-    @Column(updatable = false, length = 32, unique = true, nullable = false, name = "USER_ID")
-    public String getUid() {
-        return uid;
-    }
+	@Column(updatable = false)
+	public Boolean getInitSetupUser() {
+		return initSetupUser;
+	}
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+	public void setInitSetupUser(Boolean initSetupUser) {
+		this.initSetupUser = initSetupUser;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = DateTimeJsonSerializer.class)
-    public Date getLastLogonTime() {
-        return lastLogonTime;
-    }
+	@Column(updatable = false, length = 64, unique = true, nullable = false)
+	public String getUid() {
+		return uid;
+	}
 
-    public void setLastLogonTime(Date lastLogonTime) {
-        this.lastLogonTime = lastLogonTime;
-    }
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
-    @Column(length = 128, nullable = true)
-    public String getLastLogonIP() {
-        return lastLogonIP;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using = DateTimeJsonSerializer.class)
+	public Date getLastLogonTime() {
+		return lastLogonTime;
+	}
 
-    public void setLastLogonIP(String lastLogonIP) {
-        this.lastLogonIP = lastLogonIP;
-    }
+	public void setLastLogonTime(Date lastLogonTime) {
+		this.lastLogonTime = lastLogonTime;
+	}
 
-    @Column(length = 128, nullable = true)
-    public String getLastLogonHost() {
-        return lastLogonHost;
-    }
+	@Column(length = 128, nullable = true)
+	public String getLastLogonIP() {
+		return lastLogonIP;
+	}
 
-    public void setLastLogonHost(String lastLogonHost) {
-        this.lastLogonHost = lastLogonHost;
-    }
+	public void setLastLogonIP(String lastLogonIP) {
+		this.lastLogonIP = lastLogonIP;
+	}
 
-    public Long getLogonTimes() {
-        return logonTimes;
-    }
+	@Column(length = 128, nullable = true)
+	public String getLastLogonHost() {
+		return lastLogonHost;
+	}
 
-    public void setLogonTimes(Long logonTimes) {
-        this.logonTimes = logonTimes;
-    }
+	public void setLastLogonHost(String lastLogonHost) {
+		this.lastLogonHost = lastLogonHost;
+	}
+
+	public Long getLogonTimes() {
+		return logonTimes;
+	}
+
+	public void setLogonTimes(Long logonTimes) {
+		this.logonTimes = logonTimes;
+	}
+
+	@Type(type = "yes_no")
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }

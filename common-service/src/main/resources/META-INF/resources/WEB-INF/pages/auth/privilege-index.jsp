@@ -70,8 +70,8 @@
                     width : 80,
                     stype : 'select',
                     searchoptions : {
-                        dataUrl : '${base}/auth/privilege!types.json',
-                    }              
+                        value : <s:property value="%{convertToJson(types)}" escape="false"/>
+                    }             
                 }, {
                     name : 'code',
                     align : 'left',
@@ -85,7 +85,7 @@
                     width : 80,
                     stype : 'select',
                     searchoptions : {
-                        dataUrl : '${base}/auth/privilege!distinctCategories.json',
+                        value : <s:property value="%{convertToJson(distinctCategories)}" escape="false"/>
                     }
                 }, {
                     name : 'url',

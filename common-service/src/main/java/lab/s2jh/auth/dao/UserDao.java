@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDao extends BaseDao<User, String> {
+public interface UserDao extends BaseDao<User, Long> {
 
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     User findByAclCodeAndSigninid(String aclCode, String signid);

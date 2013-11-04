@@ -22,8 +22,7 @@
 								<i class="icon-trash"></i> 删除
 							</button>
 							<div class="btn-group pull-right">
-								<button type="button" class="btn" title="高级查询"
-									onclick="$('#userListDiv').jqGrid('advSearch');">
+								<button type="button" class="btn" title="高级查询" onclick="$('#userListDiv').jqGrid('advSearch');">
 									<i class="icon-search"></i>
 								</button>
 							</div>
@@ -42,7 +41,7 @@
         $(function() {
             $("#userListDiv").grid({
                 url : '${base}/auth/user!findByPage',
-                colNames : [ '操作', '机构代码', '登录账号', '昵称', '电子邮件', '禁用标识', '注册时间', '失效日期' ],
+                colNames : [ '操作', '机构代码', '登录账号', '昵称', '电子邮件', '启用标识', '注册时间', '失效日期' ],
                 colModel : [ {
                     name : 'operation',
                     align : 'center',
@@ -75,15 +74,16 @@
                     name : 'email',
                     align : 'left'
                 }, {
-                    name : 'disabled',
-                    formatter : disabledFormatter
+                    name : 'enabled',
+                    width : 50,
+                    align : 'center'
                 }, {
                     name : 'signupTime',
-                    sorttype: 'date'
+                    sorttype : 'date'
                 }, {
                     name : 'expireDate',
                     width : 80,
-                    sorttype: 'date',
+                    sorttype : 'date',
                     hidden : true
                 } ],
                 delRow : {

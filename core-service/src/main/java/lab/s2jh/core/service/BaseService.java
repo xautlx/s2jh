@@ -621,7 +621,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 	 * @param op
 	 *            关联操作类型，如add、del等， @see #R2OperationEnum
 	 */
-	protected void updateRelatedR2s(ID id, Collection<ID> r2EntityIds, String r2PropertyName,
+	protected void updateRelatedR2s(ID id, Collection<? extends Serializable> r2EntityIds, String r2PropertyName,
 			String r2EntityPropertyName, R2OperationEnum op) {
 		try {
 			T entity = findOne(id);
@@ -649,7 +649,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
 			if (R2OperationEnum.update.equals(op) || R2OperationEnum.add.equals(op)) {
 				// 双循环处理需要新增关联的项目
-				for (ID r2EntityId : r2EntityIds) {
+				for (Serializable r2EntityId : r2EntityIds) {
 					Object r2Entity = entityManager.find(r2EntityClass, r2EntityId);
 					boolean tobeAdd = true;
 					for (Object r2 : oldR2s) {
@@ -672,7 +672,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 				List tobeDleteList = Lists.newArrayList();
 				for (Object r2 : oldR2s) {
 					boolean tobeDlete = true;
-					for (ID r2EntityId : r2EntityIds) {
+					for (Serializable r2EntityId : r2EntityIds) {
 						Object r2Entity = entityManager.find(r2EntityClass, r2EntityId);
 						if (FieldUtils.readDeclaredField(r2, r2EntityPropertyName, true).equals(r2Entity)) {
 							tobeDlete = false;
@@ -691,7 +691,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 				List tobeDleteList = Lists.newArrayList();
 				for (Object r2 : oldR2s) {
 					boolean tobeDlete = false;
-					for (ID r2EntityId : r2EntityIds) {
+					for (Serializable r2EntityId : r2EntityIds) {
 						Object r2Entity = entityManager.find(r2EntityClass, r2EntityId);
 						if (FieldUtils.readDeclaredField(r2, r2EntityPropertyName, true).equals(r2Entity)) {
 							tobeDlete = true;

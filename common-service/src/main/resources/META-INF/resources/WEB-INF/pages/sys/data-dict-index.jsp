@@ -73,7 +73,7 @@
                     width : 200,
                     stype : 'select',
                     searchoptions : {
-                        dataUrl : '${base}/sys/data-dict!distinctCategoriesData.json',
+                        value : <s:property value="%{convertToJson(categoryMap)}" escape="false"/>
                     }
                 }, {
                     name : 'key1Value',
