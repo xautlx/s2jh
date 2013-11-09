@@ -22,4 +22,4 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index.gif)
 
-> Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
+> 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
