@@ -23,3 +23,11 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index.gif)
 
 > 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
+
+## Reference
+
+* [关于作者](AboutAuthor)： 作者联系方式及个人资料简介
+* [![link](images/link.gif)SpringSide](https://github.com/springside/) - “SpringSide是以Spring Framework为核心的，Pragmatic风格的JavaEE应用参考示例，是JavaEE世界中的主流技术选型，最佳实践的总结与演示”。
+本框架其中一些技术选型和整合也充分借鉴参考了SpringSide的最佳实践，如果说SpringSide是一把精巧多功能的瑞士军刀，那可以理解本框架目标是以此雕刻出一个面向企业应用开发的半成品工程。
+* [![link](images/link.gif)Nutch Htmlunit Plugin](https://github.com/xautlx/nutch-htmlunit) - 作者项目：基于Htmlunit扩展的Nutch支持AJAX页面抓取插件
+* [![link](images/link.gif)12306 Hunter](https://github.com/xautlx/12306-hunter) - 作者项目：Java Swing C/S版本12306订票助手，用处你懂的
