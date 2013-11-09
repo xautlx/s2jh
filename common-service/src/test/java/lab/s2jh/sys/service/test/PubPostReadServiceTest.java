@@ -31,7 +31,9 @@ public class PubPostReadServiceTest extends SpringTransactionalTestCase {
 		pubPostService.save(entity);
 
 		User user = TestObjectUtils.buildMockObject(User.class);
+		//以下特点属性设置为了通过注解验证
 		user.setEmail(RandomStringUtils.randomAlphabetic(10) + "@s2jh.com");
+		user.setSigninid(RandomStringUtils.randomAlphabetic(10));
 		userService.save(user);
 
 		pubPostReadService.findReaded(user, Lists.newArrayList(entity));
