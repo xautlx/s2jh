@@ -16,7 +16,10 @@ $(function() {
         minHeight: '60px',
 <#if parameters.dynamicAttributes["items"]??>
         items : ${parameters.dynamicAttributes["items"]?string},
-</#if>        
+</#if>   
+<#if parameters.dynamicAttributes["height"]??>
+        height : '${parameters.dynamicAttributes["height"]?string}',
+</#if>       
         afterBlur : function() {
             this.sync();
         }

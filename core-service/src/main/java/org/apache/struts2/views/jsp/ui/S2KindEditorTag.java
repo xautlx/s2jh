@@ -16,6 +16,8 @@ public class S2KindEditorTag extends TextareaTag {
      * 未提供参数取组件默认配置项，内置“simple”表示简单配置项，其余可按照组件文档提供配置项定义
      */
     protected String items;
+    
+    protected String height;
 
     protected void populateParams() {
 
@@ -41,9 +43,17 @@ public class S2KindEditorTag extends TextareaTag {
             }
             dynamicAttributes.put("items", items);
         }
+        
+        if (StringUtils.isNotBlank(height)) {
+            dynamicAttributes.put("height", height);
+        }
     }
 
     public void setItems(String items) {
         this.items = items;
     }
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
 }

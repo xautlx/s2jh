@@ -359,3 +359,7 @@ span.highlight {
 .evennumber {
     background: #f8f8f8;
 }
+
+.ui-widget-content .well{
+	padding: 3px;
+}
