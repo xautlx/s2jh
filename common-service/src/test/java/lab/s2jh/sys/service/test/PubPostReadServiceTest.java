@@ -8,31 +8,32 @@ import lab.s2jh.sys.entity.PubPost;
 import lab.s2jh.sys.service.PubPostReadService;
 import lab.s2jh.sys.service.PubPostService;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
 
-
 public class PubPostReadServiceTest extends SpringTransactionalTestCase {
 
-    @Autowired
-    private PubPostReadService pubPostReadService;
+	@Autowired
+	private PubPostReadService pubPostReadService;
 
-    @Autowired
-    private PubPostService pubPostService;
+	@Autowired
+	private PubPostService pubPostService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Test
-    public void findReaded() {
-        PubPost entity = TestObjectUtils.buildMockObject(PubPost.class);
-        pubPostService.save(entity);
+	@Test
+	public void findReaded() {
+		PubPost entity = TestObjectUtils.buildMockObject(PubPost.class);
+		pubPostService.save(entity);
 
-        User user = TestObjectUtils.buildMockObject(User.class);
-        userService.save(user);
+		User user = TestObjectUtils.buildMockObject(User.class);
+		user.setEmail(RandomStringUtils.randomAlphabetic(10) + "@s2jh.com");
+		userService.save(user);
 
-        pubPostReadService.findReaded(user, Lists.newArrayList(entity));
-    }
+		pubPostReadService.findReaded(user, Lists.newArrayList(entity));
+	}
 }
