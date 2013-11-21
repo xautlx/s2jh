@@ -36,7 +36,7 @@
 
 <script src="${base}/components/zebra-dialog/1.2/javascript/zebra_dialog.js?_=${buildVersion}"></script>
 
-<script src="${base}/components/kindeditor/4.1.7/kindeditor-all.js?_=${buildVersion}"></script>
+<script src="${base}/components/kindeditor/4.1.7/kindeditor-ext.js?_=${buildVersion}"></script>
 
 <!-- Pines Notify -->
 <script src="${base}/components/jquery.pnotify/1.2.2/jquery.pnotify.js?_=${buildVersion}"></script>
