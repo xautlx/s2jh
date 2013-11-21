@@ -16,6 +16,7 @@ $(function() {
         width: '100%',
         minWidth: '200px',
         minHeight: '60px',
+        newlineTag: 'br',
 <#if parameters.dynamicAttributes["items"]??>
         items : ${parameters.dynamicAttributes["items"]?string},
 </#if>   
