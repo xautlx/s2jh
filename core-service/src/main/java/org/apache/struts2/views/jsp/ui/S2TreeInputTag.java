@@ -85,6 +85,7 @@ public class S2TreeInputTag extends TextFieldTag {
         if (this.cssClass == null) {
             uiBean.setCssClass("input-fluid");
         }
+        
         if (this.theme == null) {
             uiBean.setTheme("bootstrap");
         }

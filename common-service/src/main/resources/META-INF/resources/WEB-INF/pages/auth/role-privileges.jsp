@@ -112,27 +112,21 @@
 </script>
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span11">
+		<div class="span6">
 			<table id="roleRelatedPrivilegeListDiv<s:property value='#parameters.id'/>"></table>
 			<div id="roleRelatedPrivilegeListDiv<s:property value='#parameters.id'/>Pager"></div>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="toolbar">
-			<div class="toolbar-inner">
-				<button type="button" class="btn btn-primary"
-					id="roleUnRelatedPrivilegeAddBtn<s:property value='#parameters.id'/>">
-					<i class="icon-arrow-up"></i> 添加
-				</button>
-				<button type="button" class="btn btn-primary"
-					id="roleRelatedPrivilegeDeleteBtn<s:property value='#parameters.id'/>">
-					<i class="icon-arrow-down"></i> 移除
-				</button>
-			</div>
+		<div class="span1">
+			<button type="button" class="btn" id="roleUnRelatedPrivilegeAddBtn<s:property value='#parameters.id'/>"
+				style="margin-top: 30px">
+				<i class="icon-arrow-left"></i> 添加
+			</button>
+			<button type="button" class="btn" id="roleRelatedPrivilegeDeleteBtn<s:property value='#parameters.id'/>"
+				style="margin-top: 30px">
+				移除 <i class="icon-arrow-right"></i>
+			</button>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="span11">
+		<div class="span5">
 			<table id="roleUnRelatedPrivilegeListDiv<s:property value='#parameters.id'/>"></table>
 			<div id="roleUnRelatedPrivilegeListDiv<s:property value='#parameters.id'/>Pager"></div>
 		</div>

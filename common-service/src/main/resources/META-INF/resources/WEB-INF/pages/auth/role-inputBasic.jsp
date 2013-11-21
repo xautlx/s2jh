@@ -9,8 +9,7 @@
 		<div class="row-fluid">
 			<div class="toolbar">
 				<div class="toolbar-inner">
-					<button type="button" class="btn btn-submit" callback-tab="roleIndexTabs"
-						callback-grid="roleListDiv">
+					<button type="button" class="btn btn-submit" callback-tab="roleIndexTabs" callback-grid="roleListDiv">
 						<i class="icon-ok"></i> 保存
 					</button>
 					<button type="button" class="btn btn-submit submit-post-close" callback-tab="roleIndexTabs"
@@ -23,7 +22,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="well">
+		<s2:div cssClass="well" stretch="true">
 			<div class="row-fluid">
 				<div class="span6">
 					<s2:textfield name="code" label="代码" />
@@ -46,9 +45,9 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span6">
-					<s2:textarea name="description" label="描述" rows="2"/>
+					<s2:textarea name="description" label="描述" rows="2" />
 				</div>
 			</div>
-		</div>
+		</s2:div>
 	</s2:form>
 </div>

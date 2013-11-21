@@ -1,5 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="toolbar">
+			<div class="toolbar-inner">
+				<button type="button" class="btn" id="privilegeAddBatchBtn">
+					<i class="icon-list"></i> 批量创建权限
+				</button>
+				<button type="button" class="btn" id="privilegeAddSingleBtn">
+					<i class="icon-share"></i> 参考创建权限
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<table id="privilegeCalcUrlListDiv"></table>
+		<div id="privilegeCalcUrlListDivPager"></div>
+	</div>
+</div>
 <script type="text/javascript">
 
     function addSingle(rowid) {
@@ -110,21 +128,3 @@
         });
     });
 </script>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="toolbar">
-			<div class="toolbar-inner">
-				<button type="button" class="btn" id="privilegeAddBatchBtn">
-					<i class="icon-list"></i> 批量创建权限
-				</button>
-				<button type="button" class="btn" id="privilegeAddSingleBtn">
-					<i class="icon-share"></i> 参考创建权限
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="row-fluid">
-		<table id="privilegeCalcUrlListDiv"></table>
-		<div id="privilegeCalcUrlListDivPager"></div>
-	</div>
-</div>

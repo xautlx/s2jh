@@ -16,15 +16,16 @@ body {
 	scrollbar-arrow-color: #006699;
 	font-size: 12px;
 	background-color: #FAFAFA;
+	overflow: hidden;
 }
 
-.ui-datepicker select.ui-datepicker-month,
-.ui-datepicker select.ui-datepicker-year {
-    width: 43%;
+.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year
+	{
+	width: 43%;
 }
 
-.ui-datepicker-trigger{
-	vertical-align:middle;
+.ui-datepicker-trigger {
+	vertical-align: middle;
 }
 
 .ui-progressbar {
@@ -232,7 +233,7 @@ select,input[type="text"],input[type="password"],input[type="datetime"],input[ty
 	{
 	line-height: 24px;
 	height: 24px;
-	padding: 0px 0px 0px 2px;
+	padding: 0px 0px 0px 0px;
 	min-height: 1px;
 }
 
@@ -324,7 +325,8 @@ span.highlight {
 	height: 100px;
 }
 
-.searchFilter input.add-rule,input.delete-rule,input.add-group,input.delete-group {
+.searchFilter input.add-rule,input.delete-rule,input.add-group,input.delete-group
+	{
 	height: 25px;
 	width: 25px;
 	margin-left: 2px;
@@ -339,27 +341,31 @@ span.highlight {
 	height: 30px;
 }
 
-.searchFilter td.first{
-    width: 16px
+.searchFilter td.first {
+	width: 16px
 }
 
-.control-group .controls .input-append{
+.control-group .controls .input-append {
 	width: 93%
 }
 
-.hero-unit{
+.hero-unit {
 	margin-bottom: 0px
 }
 
-.alert{
-    margin-bottom: 0px
+.alert {
+	margin-bottom: 0px
 }
 
 /*偶数行颜色#f8f8f8  奇数行颜色与北京颜色相同为#f1f1f1   选中状态颜色#96c0e3   鼠标滑过状态颜色#d5e6f4；*/
 .evennumber {
-    background: #f8f8f8;
+	background: #f8f8f8;
 }
 
-.ui-widget-content .well{
+.ui-widget-content .well {
 	padding: 3px;
+}
+
+.ui-jqgrid-btable input.editable {
+	padding-left: 0px;
 }

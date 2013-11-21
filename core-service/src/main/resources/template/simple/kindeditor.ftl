@@ -22,7 +22,7 @@ $(function() {
 <#if parameters.dynamicAttributes["height"]??>
         height : '${parameters.dynamicAttributes["height"]?string}',
 <#else>
-        height : $('#${parameters.id?html}').parents("div.ui-tabs-panel").first().height()-95,
+        height : $('#${parameters.id?html}').parent('div[stretch="true"]').height(),
 </#if>       
         afterBlur : function() {
             this.sync();
