@@ -26,7 +26,8 @@
 	<constant name="struts.rest.handlerOverride.json" value="jackson" />
 
 	<!-- struts2-rest-plugin，参考http://struts.apache.org/2.x/docs/rest-plugin.html -->
-	<constant name="struts.mapper.class" value="rest" />
+	<bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="ext-rest" class="org.apache.struts2.rest.ExtRestActionMapper" />
+	<constant name="struts.mapper.class" value="ext-rest" />
 	<constant name="struts.convention.action.suffix" value="Controller" />
 	<constant name="struts.convention.action.mapAllMatches" value="true" />
 	<constant name="struts.rest.defaultExtension" value="xhtml" />
