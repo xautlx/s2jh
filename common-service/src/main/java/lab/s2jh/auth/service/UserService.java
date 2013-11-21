@@ -102,10 +102,6 @@ public class UserService extends BaseService<User, Long> {
 		return userDao.findByUid(uid);
 	}
 
-	public long findCount() {
-		return userDao.count();
-	}
-
 	/**
 	 * 用户注册
 	 * 
@@ -137,18 +133,12 @@ public class UserService extends BaseService<User, Long> {
 	 * @return
 	 */
 	public User initSetupUser(User user, String rawPassword) {
-		long count = findCount();
+		long count = findUserCount();
 		Assert.isTrue(count == 0);
 		user.setInitSetupUser(true);
+		user.setEnabled(true);
 		save(user, rawPassword);
 		Role role = roleDao.findByCode(Role.ROLE_ADMIN_CODE);
-		if (role == null) {
-			role = new Role();
-			role.setCode(Role.ROLE_ADMIN_CODE);
-			role.setTitle("预置系统管理员");
-			role.setDescription("预置角色,不可删除");
-			roleDao.save(role);
-		}
 		UserR2Role r2 = new UserR2Role();
 		r2.setUser(user);
 		r2.setRole(role);
@@ -176,6 +166,9 @@ public class UserService extends BaseService<User, Long> {
 			return;
 		}
 		User user = userDao.findByUid(userLogonLog.getUserid());
+		if (user == null) {
+			return;
+		}
 		if (user.getLogonTimes() == null) {
 			user.setLogonTimes(1L);
 		} else {
@@ -200,5 +193,9 @@ public class UserService extends BaseService<User, Long> {
 
 	public String getAdminPassword() {
 		return adminPassword;
+	}
+	
+	public Long findUserCount(){
+		return userDao.findUserCount();
 	}
 }
