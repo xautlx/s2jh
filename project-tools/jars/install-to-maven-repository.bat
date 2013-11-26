@@ -1,0 +1,2 @@
+mvn install:install-file -DgroupId=com.lowagie -DartifactId=itextasian -Dversion=1.5.2 -Dpackaging=jar -Dfile=./itextasian-1.5.2.jar
+mvn install:install-file -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc -Dversion=4.0.2206.100 -Dpackaging=jar -Dfile=./sqljdbc-4.0.2206.100.jar

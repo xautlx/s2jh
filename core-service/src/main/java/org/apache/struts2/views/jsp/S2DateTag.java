@@ -46,7 +46,25 @@ public class S2DateTag extends DateTag {
                 }
             }
         }
+        //文本前后追加label便于样式控制
+        try {
+            writer.write("<label class='property-value'>");
+        } catch (IOException e) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Could not print out pre tag", e);
+            }
+        }
+        
         component.end(writer, getBody());
+        
+        try {
+            writer.write("</label>");
+        } catch (IOException e) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Could not print out pre tag", e);
+            }
+        }
+        
         if (label != null) {
             try {
                 writer.write("</div></div>");

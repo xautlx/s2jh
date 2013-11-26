@@ -61,7 +61,26 @@ public class S2PropertyTag extends PropertyTag {
                 }
             }
         }
+        
+        //文本前后追加label便于样式控制
+        try {
+        	writer.write("<label class='property-value'>");
+        } catch (IOException e) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Could not print out pre tag", e);
+            }
+        }
+        
         boolean evalBody = component.start(writer);
+        
+        try {
+            writer.write("</label>");
+        } catch (IOException e) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Could not print out pre tag", e);
+            }
+        }
+        
         if("true".equalsIgnoreCase(pre)){
             try {
                 writer.write("</pre>");
