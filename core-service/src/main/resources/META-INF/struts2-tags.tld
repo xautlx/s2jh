@@ -4824,6 +4824,12 @@
 		<tag-class>org.apache.struts2.views.jsp.ui.S2TreeInputTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
+			<description><![CDATA[Set the html maxHeight attribute on rendered html element]]></description>
+			<name>maxHeight</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>		
+		<attribute>
 			<description><![CDATA[Set the html treeDataUrl attribute on rendered html element]]></description>
 			<name>treeDataUrl</name>
 			<required>true</required>

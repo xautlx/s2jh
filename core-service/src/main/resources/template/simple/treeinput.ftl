@@ -9,7 +9,8 @@ $(function() {
     $("#${parameters.id?html}").treeinput({
         url: '${request.contextPath}${parameters.dynamicAttributes["treeDataUrl"]?default("false")?html}',
         hiddenName: '${parameters.dynamicAttributes["hiddenName"]?default("")?html}',
-        hiddenValue: '${parameters.dynamicAttributes["hiddenValue"]?default("")?html}'
+        hiddenValue: '${parameters.dynamicAttributes["hiddenValue"]?default("")?html}',
+        maxHeight: '${parameters.dynamicAttributes["maxHeight"]?default("200px")?html}'
     });
 })
 </script>
