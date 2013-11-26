@@ -173,7 +173,13 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     public void prepare() {
         String id = this.getParameter("id");
         if (StringUtils.isNotBlank(id)) {
-            bindingEntity = getEntityService().findOne(getId());
+        	//如果是以POST方式请求数据，则获取Detach状态的对象，其他则保留Session方式以便获取Lazy属性
+        	HttpServletRequest request = this.getRequest();
+        	if(request.getMethod().equalsIgnoreCase("POST")){
+        		bindingEntity = getEntityService().findDetachedOne(getId());
+        	}else{
+        		bindingEntity = getEntityService().findOne(getId());
+        	}
             if (bindingEntity != null) {
                 checkEntityAclPermission(bindingEntity);
             }

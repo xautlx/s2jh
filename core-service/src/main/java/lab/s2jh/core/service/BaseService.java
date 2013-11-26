@@ -140,6 +140,20 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 		Assert.notNull(id);
 		return getEntityDao().findOne(id);
 	}
+	
+	/**
+	 * 基于主键查询单一数据对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public T findDetachedOne(ID id) {
+		Assert.notNull(id);
+		T entity=getEntityDao().findOne(id);
+		entityManager.detach(entity);
+		return entity;
+	}
 
 	/**
 	 * 基于主键集合查询集合数据对象
