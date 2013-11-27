@@ -29,6 +29,7 @@ import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
@@ -140,17 +141,30 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 		Assert.notNull(id);
 		return getEntityDao().findOne(id);
 	}
-	
+
 	/**
 	 * 基于主键查询单一数据对象
 	 * 
-	 * @param id
+	 * @param id 主键
+	 * @param initLazyPropertyNames 需要预先初始化的lazy集合属性名称
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public T findDetachedOne(ID id) {
+	public T findDetachedOne(ID id, String... initLazyPropertyNames) {
 		Assert.notNull(id);
-		T entity=getEntityDao().findOne(id);
+		T entity = getEntityDao().findOne(id);
+		if (initLazyPropertyNames != null && initLazyPropertyNames.length > 0) {
+			for (String name : initLazyPropertyNames) {
+				try {
+					Object propValue = MethodUtils.invokeMethod(entity, "get" + StringUtils.capitalize(name));
+					if (propValue != null && propValue instanceof Collection<?>) {
+						((Collection<?>) propValue).size();
+					}
+				} catch (Exception e) {
+					throw new ServiceException("error.init.detached.entity", e);
+				}
+			}
+		}
 		entityManager.detach(entity);
 		return entity;
 	}
