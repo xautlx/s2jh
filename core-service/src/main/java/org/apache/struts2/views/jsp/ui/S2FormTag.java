@@ -31,7 +31,10 @@ public class S2FormTag extends FormTag {
         UIBean uiBean = ((UIBean) component);
 
         if (id == null) {
-            uiBean.setId("form_" + RandomStringUtils.randomAlphabetic(10));
+            String formid = "form_" + RandomStringUtils.randomAlphabetic(10);
+            uiBean.setId(formid);
+            //将id属性设置到pageContext中，便于前端JS代码进行对象分组控制
+            pageContext.setAttribute("closestFormId", formid);
         }
         if (this.theme == null) {
             uiBean.setTheme("bootstrap");
