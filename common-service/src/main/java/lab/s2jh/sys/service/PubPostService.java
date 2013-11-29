@@ -30,6 +30,7 @@ public class PubPostService extends BaseService<PubPost, String> {
         return pubPostDao;
     }
 
+    @Transactional(readOnly = true)
     @Cacheable("PubPostSpringCache")
     public List<PubPost> findPublished() {
         logger.debug("Finding published post message...");
