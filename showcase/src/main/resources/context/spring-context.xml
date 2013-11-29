@@ -96,4 +96,10 @@
 		<property name="shared" value="true" />
 	</bean>
 
+	<task:scheduler id="springScheduler" pool-size="10" />
+	<!-- 用于增强Spring @Async 注解在异步模式能捕捉到异常日志 -->
+	<bean id="handlingAsyncTaskExecutor" class="lab.s2jh.core.context.async.HandlingAsyncTaskExecutor" />
+	<!-- 建议只定义@Async注解使用，尽量不用@Scheduled而改用后面的Quartz方式便于文本定义调整定时策略 -->
+	<task:annotation-driven executor="handlingAsyncTaskExecutor" scheduler="springScheduler" />
+
 </beans>
