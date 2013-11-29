@@ -25,7 +25,8 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
  * 
  */
 @ActiveProfiles("test")
-@ContextConfiguration(locations = { "classpath:/context/context-profiles.xml", "classpath:/context/spring*.xml" })
+@ContextConfiguration(locations = { "classpath:/context/context-profiles.xml", "classpath:/context/spring*.xml",
+        "classpath:/service/spring*.xml" })
 public abstract class SpringTransactionalTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
