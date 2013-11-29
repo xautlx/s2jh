@@ -32,6 +32,7 @@
 		<module>core-service</module>
 		<module>project-tools</module>
 		<module>common-service</module>
+		<module>crawl-service</module>
 		<module>showcase</module>
 		<module>prototype</module>
 	</modules>
