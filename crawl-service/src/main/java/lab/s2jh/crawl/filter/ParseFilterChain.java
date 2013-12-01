@@ -8,9 +8,17 @@ import java.util.List;
  */
 public class ParseFilterChain implements ParseFilter {
 
-    List<ParseFilter> filters = new ArrayList<ParseFilter>();
+    private List<ParseFilter> filters;
 
     private int i = 0;
+
+    public ParseFilterChain() {
+        filters = new ArrayList<ParseFilter>();
+    }
+
+    public ParseFilterChain(List<ParseFilter> filters, boolean async) {
+        this.filters = filters;
+    }
 
     public ParseFilterChain addFilter(ParseFilter filter) {
         filters.add(filter);
@@ -23,9 +31,5 @@ public class ParseFilterChain implements ParseFilter {
             return;
         }
         filters.get(i++).doFilter(url, filterChain);
-    }
-
-    public void reset() {
-        i = 0;
     }
 }

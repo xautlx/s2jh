@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36}[%line] - %msg %mdc %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="CrawlInfo" class="ch.qos.logback.core.FileAppender">
+		<file>${user.dir}/crawl-info.log</file>
+		<append>false</append>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="lab.s2jh.crawl.info" level="INFO" additivity="false">
+		<appender-ref ref="CrawlInfo" />
+	</logger>
+	<logger name="lab.s2jh" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="com.gargoylesoftware.htmlunit" level="ERROR" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration> 

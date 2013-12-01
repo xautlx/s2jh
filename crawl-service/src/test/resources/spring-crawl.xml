@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+	default-lazy-init="false" default-autowire="no">
+
+	<bean id="htmlunitService" class="lab.s2jh.crawl.service.HtmlunitService">
+		<!-- 默认会把各ParseFilter的urlMatchRegex添加到fetchUrlRules，因此只需添加其他抓取规则 -->
+		<property name="fetchUrlRules">
+			<set>
+				<value>-\.(gif|GIF|jpg|JPG|png|PNG|ico|ICO|css|CSS|sit|SIT|eps|EPS|wmf|WMF|zip|ZIP|ppt|PPT|mpg|MPG|xls|XLS|gz|GZ|rpm|RPM|tgz|TGZ|mov|MOV|exe|EXE|jpeg|JPEG|bmp|BMP)$
+				</value>
+
+				<value>^http://detail.tmall</value>
+				<value>^http://l.tbcdn.cn/</value>
+				<value>^http://a.tbcdn.cn/</value>
+				<value>^http://g.tbcdn.cn/</value>
+				<value>^http://dsc.taobaocdn.com</value>
+				<value>^http://jump.taobao.com</value>
+				<value>^http://pass.tmall</value>
+				<value>^http://mdskip.taobao.com</value>
+				<value>http://.*aliyuncdn.com.*</value>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="abstractParseFilter" abstract="true" class="lab.s2jh.crawl.filter.AbstractParseFilter">
+		<property name="crawlService" ref="crawlService" />
+	</bean>
+
+	<bean id="crawlService" class="lab.s2jh.crawl.service.CrawlService">
+		<property name="asyncCrawlService" ref="asyncCrawlService" />
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="parseFilters">
+			<list>
+				<bean class="lab.s2jh.crawl.demo.TMallSingleParseFilter" parent="abstractParseFilter">
+					<property name="urlMatchRegex" value="http://detail.tmall.*item.htm\?.*id=(.*)&amp;rn=.*" />
+
+				</bean>
+				<bean class="lab.s2jh.crawl.demo.TMallCategoryParseFilter" parent="abstractParseFilter">
+					<property name="urlMatchRegex" value="http://.*.tmall.com/category.htm.*pageNo=.*" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

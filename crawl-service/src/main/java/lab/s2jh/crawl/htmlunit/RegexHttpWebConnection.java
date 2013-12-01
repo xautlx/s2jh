@@ -61,11 +61,11 @@ public class RegexHttpWebConnection extends HttpWebConnection {
     public WebResponse getResponse(final WebRequest request) throws IOException {
         final URL url = request.getUrl();
         if (StringUtils.isBlank(filter(url.toString())) || url.toString().indexOf("robots.txt") > -1) {
-            logger.info("Thread: {}, - Http Excluding URL: {}", Thread.currentThread().getId(), url);
+            logger.trace("Thread: {}, --- Http Excluding URL: {}", Thread.currentThread().getId(), url);
             return new StringWebResponse("", url);
         }
         if (logger.isInfoEnabled()) {
-            logger.info("Thread: {}, + Http Fetching URL: {}", Thread.currentThread().getId(), url);
+            logger.info("Thread: {}, +++ Http Fetching URL: {}", Thread.currentThread().getId(), url);
         }
         return super.getResponse(request);
     }
