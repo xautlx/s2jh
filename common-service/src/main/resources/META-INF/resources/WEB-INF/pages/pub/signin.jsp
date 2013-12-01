@@ -21,7 +21,7 @@ input[type="text"],input[type="password"] {
 }
 </style>
 </head>
-<body>
+<body style="overflow: auto">
 	<div class="container-fluid">
 		<div class="navbar">
 			<div class="navbar-inner">
