@@ -48,6 +48,7 @@ public class CrawlService {
     /**
      * 以同步等待方式执行批量URL抓取，方法会一直等待所有爬虫处理完成才返回
      * @param urls 待爬取的种子URL列表
+     * @return 爬取处理'成功'的URL集合
      */
     public Set<String> startSyncCrawl(String... urls) {
         if (startTime == null) {
