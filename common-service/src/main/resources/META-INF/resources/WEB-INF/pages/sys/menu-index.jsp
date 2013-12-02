@@ -67,7 +67,7 @@
                             icon : "icon-pencil",
                             onclick : "$('#" + $(this).attr("id") + "').jqGrid('editRow','" + rowdata.id + "')"
                         } ]);
-                    },
+                    }
                 }, {
                     name : 'code',
                     align : 'center',

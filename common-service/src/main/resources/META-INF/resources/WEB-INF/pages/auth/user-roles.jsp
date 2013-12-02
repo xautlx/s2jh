@@ -19,7 +19,7 @@
                 name : 'code',
                 align : 'left',
                 fixed : true,
-                width : 120,
+                width : 150,
                 formatter : function(cellValue, options, rowdata, action) {
                     return $.jgrid.buildLink({
                         text : cellValue,
@@ -88,6 +88,8 @@
 			</button>
 		</div>
 	</div>
-	<table id="userRelatedRoleListDiv<s:property value='#parameters.id'/>"></table>
-	<div id="userRelatedRoleListDiv<s:property value='#parameters.id'/>Pager"></div>
+	<div class="row-fluid">
+		<table id="userRelatedRoleListDiv<s:property value='#parameters.id'/>"></table>
+		<div id="userRelatedRoleListDiv<s:property value='#parameters.id'/>Pager"></div>
+	</div>
 </div>
