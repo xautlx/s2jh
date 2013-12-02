@@ -10,6 +10,7 @@ import lab.s2jh.crawl.filter.ParseFilterChain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -45,10 +46,10 @@ public class CrawlService {
     }
 
     /**
-     * 同步执行URL集合数据抓取
-     * @param urls
+     * 以同步等待方式执行批量URL抓取，方法会一直等待所有爬虫处理完成才返回
+     * @param urls 待爬取的种子URL列表
      */
-    public Set<String> scheduleCrawl(String... urls) {
+    public Set<String> startSyncCrawl(String... urls) {
         if (startTime == null) {
             startTime = new Date();
         }
@@ -74,6 +75,15 @@ public class CrawlService {
         }
         printLog();
         return successUrls;
+    }
+
+    /**
+     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
+     * @param urls 待爬取的种子URL列表
+     */
+    @Async
+    public void startAsyncCrawl(String... urls) {
+        startSyncCrawl(urls);
     }
 
     /**

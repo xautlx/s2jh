@@ -58,7 +58,7 @@ public class TMallCategoryParseFilter extends AbstractParseFilter {
                         pageUrls.add(href);
                     }
                 }
-                crawlService.scheduleCrawl(pageUrls.toArray(new String[] {}));
+                crawlService.startSyncCrawl(pageUrls.toArray(new String[] {}));
             }
         } while (continueLoop);
     }
