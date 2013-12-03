@@ -16,7 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public abstract class AbstractParseFilter implements ParseFilter {
 
-    public static final Logger logger = LoggerFactory.getLogger(AbstractParseFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractParseFilter.class);
 
     protected Pattern urlMatchPattern;
 
