@@ -196,7 +196,7 @@ public class SourceCodeFrameworkBuilder {
                     if (fieldType.isEnum()) {
                         entityCodeField.setEnumField(true);
                     }
-                    if (StringUtils.isBlank(entityCodeField.getFieldType())) {
+                    if (!"Entity".equals(entityCodeField.getFieldType())) {
                         entityCodeField.setFieldType(fieldType.getSimpleName());
                     }
                     entityCodeField.setFieldName(field.getName());
@@ -222,7 +222,6 @@ public class SourceCodeFrameworkBuilder {
                         entityCodeField.setList(true);
                     }
 
-                    
                     if (entityCodeField.getList() || entityCodeField.getListHidden()) {
                         JoinColumn fieldJoinColumn = getMethod.getAnnotation(JoinColumn.class);
                         if (fieldJoinColumn != null) {
@@ -322,4 +321,23 @@ public class SourceCodeFrameworkBuilder {
         }
         return sb.toString().toUpperCase();
     }
+
+    public static class DemoEntity {
+
+        private TestEnum testEnum;
+
+        public enum TestEnum {
+            Abc,
+            Xyz
+        }
+
+        public TestEnum getTestEnum() {
+            return testEnum;
+        }
+
+        public void setTestEnum(TestEnum testEnum) {
+            this.testEnum = testEnum;
+        }
+    }
+
 }
