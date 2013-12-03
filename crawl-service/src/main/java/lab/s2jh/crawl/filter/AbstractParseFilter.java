@@ -18,7 +18,7 @@ public abstract class AbstractParseFilter implements ParseFilter {
 
     public static final Logger logger = LoggerFactory.getLogger(AbstractParseFilter.class);
 
-    private Pattern urlMatchPattern;
+    protected Pattern urlMatchPattern;
 
     protected CrawlService crawlService;
 
