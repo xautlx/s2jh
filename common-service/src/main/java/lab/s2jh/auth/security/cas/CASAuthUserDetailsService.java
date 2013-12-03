@@ -110,7 +110,6 @@ public class CASAuthUserDetailsService extends AbstractCasAssertionUserDetailsSe
 		AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, dbAuthsSet);
 		authUserDetails.setUid(user.getUid());
-		authUserDetails.setUsernameDisplay(user.getNick());
 		authUserDetails.setAclCode(user.getAclCode());
 		authUserDetails.setAclType(user.getAclType());
 		authUserDetails.setEmail(user.getEmail());

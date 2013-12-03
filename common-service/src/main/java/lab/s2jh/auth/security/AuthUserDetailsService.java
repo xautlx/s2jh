@@ -68,7 +68,6 @@ public class AuthUserDetailsService implements UserDetailsService {
 					dbAuthsSet);
 
 			authUserDetails.setUid("admin");
-			authUserDetails.setUsernameDisplay("Administrator");
 
 		} else {
 			String[] usernameSplits = username.split("#");
@@ -103,7 +102,6 @@ public class AuthUserDetailsService implements UserDetailsService {
 					credentialsNonExpired, accountNonLocked, dbAuthsSet);
 
 			authUserDetails.setUid(user.getUid());
-			authUserDetails.setUsernameDisplay(user.getNick());
 			authUserDetails.setAclCode(user.getAclCode());
 			authUserDetails.setAclType(user.getAclType());
 			authUserDetails.setEmail(user.getEmail());

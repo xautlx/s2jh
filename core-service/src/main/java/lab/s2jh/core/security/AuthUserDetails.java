@@ -44,9 +44,6 @@ public class AuthUserDetails implements UserDetails {
 	/** The privilege codes. */
 	private Collection<String> privilegeCodes;
 	
-	/** (中文)显示名称 */
-	private String usernameDisplay;
-	
     /** 数据访问控制代码 */
     private String aclCode;
     
@@ -308,12 +305,9 @@ public class AuthUserDetails implements UserDetails {
 	}
 
     public String getUsernameDisplay() {
-        return usernameDisplay;
+        return username;
     }
 
-    public void setUsernameDisplay(String usernameDisplay) {
-        this.usernameDisplay = usernameDisplay;
-    }
     public String getAclCode() {
         return aclCode;
     }
