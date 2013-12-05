@@ -1,6 +1,5 @@
 package lab.s2jh.crawl.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -11,7 +10,6 @@ import lab.s2jh.crawl.filter.ParseFilterChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.google.common.collect.Sets;
@@ -31,8 +29,6 @@ public class CrawlService {
 
     private AsyncCrawlService asyncCrawlService;
 
-    private Date startTime;
-
     public void setAsyncCrawlService(AsyncCrawlService asyncCrawlService) {
         this.asyncCrawlService = asyncCrawlService;
     }
@@ -51,9 +47,6 @@ public class CrawlService {
      * @return 爬取处理'成功'的URL集合
      */
     public Set<String> startSyncCrawl(String... urls) {
-        if (startTime == null) {
-            startTime = new Date();
-        }
         Set<String> successUrls = Sets.newHashSet();
         Set<Future<String>> futures = scheduleAsyncCrawl(urls);
         //定时检测Future返回状态，直到所有线程都返回后才最终返回方法调用
@@ -74,7 +67,6 @@ public class CrawlService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        printLog();
         return successUrls;
     }
 
@@ -115,15 +107,5 @@ public class CrawlService {
             }
         }
         return successUrls;
-    }
-
-    /**
-     * 定时任务接口用于定时打印爬虫统计信息
-     */
-    @Scheduled(fixedRate = 3000)
-    public void printLog() {
-        if (startTime != null) {
-            HtmlunitService.printLog(startTime);
-        }
     }
 }

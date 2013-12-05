@@ -75,7 +75,6 @@ public class RegexHttpWebConnection extends HttpWebConnection {
             return url;
         }
         for (Rule rule : rules) {
-            //LOG.info("rule=" + rule + ", url=" + url);
             if (rule.match(url)) {
                 return rule.accept() ? url : null;
             }

@@ -34,6 +34,7 @@ public class HtmlunitService {
     private static Set<String> fetchUrlRules = Sets.newHashSet();
 
     private static int totalFetchedCount = 0;
+    private static int totalFetchTimes = 0;
 
     //全局的cookie值
     public static String COOKIE;
@@ -83,12 +84,17 @@ public class HtmlunitService {
      */
     public static HtmlPage fetchHtmlPage(String url, Map<String, String> additionalHeaders) {
         try {
+            long start = new Date().getTime();
+            LOG.info("Fetching: {}", url);
             WebRequest webRequest = new WebRequest(new URL(url));
             if (additionalHeaders != null) {
                 webRequest.setAdditionalHeaders(additionalHeaders);
             }
             HtmlPage page = buildWebClient().getPage(webRequest);
+            long end = new Date().getTime();
+            totalFetchTimes += (end - start);
             totalFetchedCount++;
+            printLog();
             return page;
         } catch (Exception e) {
             throw new RuntimeException("htmlunit.page.error", e);
@@ -96,12 +102,11 @@ public class HtmlunitService {
     }
 
     /**
-     * 打印统计日志信息， 用于定时接口调用  @see CrawlService#printLog()
-     * @param startTime
+     * 打印统计日志信息
      */
-    public static void printLog(Date startTime) {
-        long times = (new Date().getTime() - startTime.getTime()) / 1000;
-        LOG.info("Total fetched pages: {}, use time: {} seconds, avg speed: {} pages/second ", totalFetchedCount, times,
-                Float.valueOf(totalFetchedCount) / times);
+    private static void printLog() {
+        long dur = totalFetchTimes / 1000;
+        LOG.info("Total fetched pages: {}, use time: {} seconds, avg speed: {} pages/second ", totalFetchedCount, dur,
+                Float.valueOf(totalFetchedCount) / dur);
     }
 }
