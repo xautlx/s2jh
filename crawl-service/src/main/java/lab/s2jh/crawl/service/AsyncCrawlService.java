@@ -19,7 +19,7 @@ public class AsyncCrawlService {
      * 异步执行URL集合数据抓取
      * 
      */
-    @Async
+    @Async("crawlTaskExecutor")
     public Future<String> startAsyncCrawl(String url, ParseFilterChain parseFilterChain) {
         parseFilterChain.doFilter(url, parseFilterChain);
         return new AsyncResult<String>(url);

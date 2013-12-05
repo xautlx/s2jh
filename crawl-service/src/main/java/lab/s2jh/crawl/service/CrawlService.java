@@ -23,7 +23,7 @@ public class CrawlService {
 
     private final Logger logger = LoggerFactory.getLogger(CrawlService.class);
 
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor crawlTaskExecutor;
 
     private List<ParseFilter> parseFilters;
 
@@ -37,8 +37,8 @@ public class CrawlService {
         this.parseFilters = parseFilters;
     }
 
-    public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
-        this.taskExecutor = taskExecutor;
+    public void setCrawlTaskExecutor(ThreadPoolTaskExecutor crawlTaskExecutor) {
+        this.crawlTaskExecutor = crawlTaskExecutor;
     }
 
     /**
@@ -88,11 +88,11 @@ public class CrawlService {
         Set<Future<String>> successUrls = Sets.newHashSet();
         for (String url : urls) {
             try {
-                while (taskExecutor.getActiveCount() >= taskExecutor.getMaxPoolSize()) {
+                while (crawlTaskExecutor.getActiveCount() >= crawlTaskExecutor.getMaxPoolSize()) {
                     try {
                         logger.info("No available thread: {}/{}/{}, sleep a moment and try to schedule again.",
-                                taskExecutor.getActiveCount(), taskExecutor.getPoolSize(),
-                                taskExecutor.getMaxPoolSize());
+                                crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
+                                crawlTaskExecutor.getMaxPoolSize());
                         Thread.sleep(1000);
                     } catch (Exception e) {
                         throw new RuntimeException(e);

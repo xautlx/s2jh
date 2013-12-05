@@ -34,7 +34,7 @@
 
 	<bean id="crawlService" class="lab.s2jh.crawl.service.CrawlService">
 		<property name="asyncCrawlService" ref="asyncCrawlService" />
-		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="crawlTaskExecutor" ref="crawlTaskExecutor" />
 		<property name="parseFilters">
 			<list>
 				<bean class="lab.s2jh.crawl.demo.TMallSingleParseFilter" parent="abstractParseFilter">
