@@ -45,7 +45,7 @@
 						<div class="controls data-view">
 							<a href="javascript:void(0)" title="查看"
 								onclick="$.popupViewDialog('${base}/biz/xs/xs-jbxx!viewTabs?id==<s:property value='xsJbxx.id'/>')"><s:property
-									value="xsJbxx.displayLabel" /></a>
+									value="xsJbxx.display" /></a>
 						</div>
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 						<div class="controls data-view">
 							<a href="javascript:void(0)" title="查看"
 								onclick="$.popupViewDialog('${base}/biz/xx/xx-jcxx!viewTabs?id=<s:property value='sourceXx.id'/>')"><s:property
-									value="sourceXx.displayLabel" /></a>
+									value="sourceXx.display" /></a>
 						</div>
 					</div>
 				</div>
@@ -77,7 +77,7 @@
 						<div class="controls data-view">
 							<a href="javascript:void(0)" title="查看"
 								onclick="$.popupViewDialog('${base}/biz/xx/xx-jcxx!viewTabs?id=<s:property value='targetXx.id'/>')"><s:property
-									value="targetXx.displayLabel" /></a>
+									value="targetXx.display" /></a>
 						</div>
 					</div>
 				</div>

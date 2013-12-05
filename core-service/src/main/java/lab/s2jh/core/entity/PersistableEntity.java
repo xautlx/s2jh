@@ -102,7 +102,7 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
     }
 
     @Transient
-    public abstract String getDisplayLabel();
+    public abstract String getDisplay();
 
     @Transient
     @JsonProperty

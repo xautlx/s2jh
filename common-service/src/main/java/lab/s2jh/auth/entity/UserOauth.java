@@ -96,7 +96,7 @@ public class UserOauth extends BaseEntity<String> {
 
 	@Override
 	@Transient
-	public String getDisplayLabel() {
+	public String getDisplay() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -149,8 +149,8 @@ public class XxFzxx extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
-        return xxJcxx.getDisplayLabel();
+    public String getDisplay() {
+        return xxJcxx.getDisplay();
     }
 
     @Column(nullable = false, length = 10)

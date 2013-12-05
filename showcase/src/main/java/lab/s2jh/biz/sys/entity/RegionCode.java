@@ -130,7 +130,7 @@ public class RegionCode extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return this.regionDesc;
     }
 

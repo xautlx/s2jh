@@ -64,7 +64,7 @@ public class EnumType extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return enumType;
     }
 

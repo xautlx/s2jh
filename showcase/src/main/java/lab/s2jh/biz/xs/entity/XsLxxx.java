@@ -84,7 +84,7 @@ public class XsLxxx extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return xh;
     }
 

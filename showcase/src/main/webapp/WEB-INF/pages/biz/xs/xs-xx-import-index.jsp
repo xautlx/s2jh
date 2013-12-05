@@ -160,7 +160,7 @@
                         hidedlg : true
                     } ],
                     ondblClickEnabledRow : function(rowid, iRow, iCol, e, rowdata) {
-                        $("#xsXxImportIndexTabs").tabs("add", '${base}/biz/xs/xs-xx-import!inputTabs?id=' + rowid, "编辑-" + eraseCellValueLink(rowdata.displayLabel));
+                        $("#xsXxImportIndexTabs").tabs("add", '${base}/biz/xs/xs-xx-import!inputTabs?id=' + rowid, "编辑-" + eraseCellValueLink(rowdata.display));
                     },
                     rowNum : 10,
                     sortorder : "asc",

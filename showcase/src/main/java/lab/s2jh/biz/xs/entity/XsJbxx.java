@@ -150,7 +150,7 @@ public class XsJbxx extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return xh + "/" + xm;
     }
 

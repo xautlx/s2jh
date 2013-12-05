@@ -67,7 +67,7 @@ public class PubPost extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return htmlTitle;
     }
 

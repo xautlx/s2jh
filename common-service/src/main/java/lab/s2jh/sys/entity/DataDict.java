@@ -195,7 +195,7 @@ public class DataDict extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return category + "[" + key1Value + ":" + data1Value + "]";
     }
 }

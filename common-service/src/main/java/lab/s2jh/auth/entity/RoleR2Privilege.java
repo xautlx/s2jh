@@ -30,7 +30,7 @@ public class RoleR2Privilege extends BaseEntity<String> {
 
     /** 关联角色对象 */
     private Role role;
-    
+
     private String id;
 
     @Id
@@ -69,9 +69,9 @@ public class RoleR2Privilege extends BaseEntity<String> {
         this.role = role;
     }
 
-    @Override
     @Transient
-    public String getDisplayLabel() {
-        return null;
+    @Override
+    public String getDisplay() {
+        return privilege.getDisplay() + "_" + role.getDisplay();
     }
 }

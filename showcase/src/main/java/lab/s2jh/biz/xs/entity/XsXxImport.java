@@ -160,7 +160,7 @@ public class XsXxImport extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return xm;
     }
 

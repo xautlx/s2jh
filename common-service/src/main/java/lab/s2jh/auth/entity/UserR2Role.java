@@ -69,9 +69,9 @@ public class UserR2Role extends BaseEntity<String> {
         this.role = role;
     }
     
-    @Override
     @Transient
-    public String getDisplayLabel() {
-        return null;
+    @Override
+    public String getDisplay() {
+        return user.getDisplay() + "_" + role.getDisplay();
     }
 }

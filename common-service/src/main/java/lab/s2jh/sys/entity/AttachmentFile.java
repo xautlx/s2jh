@@ -124,7 +124,7 @@ public class AttachmentFile extends BaseEntity<String> implements FileDef{
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return fileRealName;
     }
 

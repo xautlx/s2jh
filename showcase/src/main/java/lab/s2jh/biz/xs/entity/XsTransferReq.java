@@ -134,8 +134,8 @@ public class XsTransferReq extends BaseEntity<String> implements OperationAudita
 
     @Override
     @Transient
-    public String getDisplayLabel() {
-        return xsJbxx.getDisplayLabel();
+    public String getDisplay() {
+        return xsJbxx.getDisplay();
     }
 
     @OneToOne(optional = false)

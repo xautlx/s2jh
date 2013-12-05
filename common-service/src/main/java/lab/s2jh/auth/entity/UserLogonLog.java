@@ -257,7 +257,7 @@ public class UserLogonLog extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return username;
     }
 

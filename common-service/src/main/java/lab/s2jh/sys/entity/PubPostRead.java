@@ -66,7 +66,7 @@ public class PubPostRead extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return null;
     }
 
@@ -94,7 +94,7 @@ public class PubPostRead extends BaseEntity<String> {
 
     @Transient
     public String getReadUserLabel() {
-        return readUser.getDisplayLabel();
+        return readUser.getDisplay();
     }
 
     @Column(nullable = false)

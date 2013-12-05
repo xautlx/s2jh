@@ -195,7 +195,7 @@ public class User extends BaseEntity<Long> {
 
 	@Override
 	@Transient
-	public String getDisplayLabel() {
+	public String getDisplay() {
 		return (this.getAclCode() == null ? "" : this.getAclCode() + "/") + signinid
 				+ (this.getNick() == null ? "" : "/" + this.getNick());
 	}

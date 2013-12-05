@@ -198,7 +198,7 @@ public class JobRunHist extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return jobClass;
     }
 

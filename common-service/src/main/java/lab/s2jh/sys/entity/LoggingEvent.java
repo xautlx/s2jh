@@ -329,7 +329,7 @@ public class LoggingEvent extends PersistableEntity<Long> implements DefaultAudi
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return formattedMessage;
     }
 

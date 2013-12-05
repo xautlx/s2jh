@@ -81,7 +81,7 @@ public class XsKzxx extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return xh;
     }
 

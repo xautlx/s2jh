@@ -919,7 +919,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 			PersistableEntity persistableEntity = (PersistableEntity) value;
 			String label = "N/A";
 			try {
-				label = persistableEntity.getDisplayLabel();
+				label = persistableEntity.getDisplay();
 			} catch (EntityNotFoundException e) {
 				//Hibernate Envers默认始终查询对应Audit版本数据，有可能关联对象之前没有Audit记录，从而会导致Envers抛出未找到数据异常
 				//此处做Hack处理：如果没有找到关联Audit记录，则查询关联主对象记录
@@ -931,7 +931,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 					Serializable id = jli.getIdentifier();
 					Object obj = getEntityService().findEntity(entityClass, id);
 					PersistableEntity auditTargetEntity = (PersistableEntity) obj;
-					label = auditTargetEntity.getDisplayLabel();
+					label = auditTargetEntity.getDisplay();
 				} catch (IllegalAccessException iae) {
 					logger.warn(e.getMessage());
 				}

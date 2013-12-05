@@ -44,7 +44,7 @@ public class ReportParam extends DynamicParameterDef {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return getTitle();
     }
 

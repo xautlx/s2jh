@@ -63,7 +63,7 @@ public class ConfigProperty extends BaseEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return propKey;
     }
 

@@ -52,7 +52,7 @@ public class AclCodeController extends RestActionSupport implements ModelDriven<
         String value = request.getParameter("value");
         RegionCode regionCode = regionCodeService.findByRegionCode(value);
         if (regionCode != null) {
-            model=regionCode.getDisplayLabel();
+            model=regionCode.getDisplay();
         }
         return new DefaultHttpHeaders().disableCaching();
     }

@@ -225,7 +225,7 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return title;
     }
 

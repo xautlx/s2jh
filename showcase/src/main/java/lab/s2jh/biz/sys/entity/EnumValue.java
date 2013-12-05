@@ -49,7 +49,7 @@ public class EnumValue extends PersistableEntity<String> {
 
     @MetaData(value = "是否显示", description = "前台下拉框是否显示，1-显示， 2-不显示")
     @EntityAutoCode(order = 60, searchAdvance = true)
-    private Boolean display = Boolean.FALSE;
+    private Boolean show = Boolean.FALSE;
 
     @MetaData(value = "可用状态", description = "1：可用  0：不可用")
     @EntityAutoCode(order = 70, search = true)
@@ -81,7 +81,7 @@ public class EnumValue extends PersistableEntity<String> {
 
     @Override
     @Transient
-    public String getDisplayLabel() {
+    public String getDisplay() {
         return enumType;
     }
 
@@ -141,11 +141,11 @@ public class EnumValue extends PersistableEntity<String> {
 
     @Type(type = "lab.s2jh.biz.core.hib.Boolean1T2FUserType")
     @Column(nullable = true, length = 1, name = "IS_DISPLAY")
-    public Boolean getDisplay() {
-        return display;
+    public Boolean getShow() {
+        return show;
     }
 
-    public void setDisplay(Boolean display) {
-        this.display = display;
+    public void setShow(Boolean show) {
+        this.show = show;
     }
 }
