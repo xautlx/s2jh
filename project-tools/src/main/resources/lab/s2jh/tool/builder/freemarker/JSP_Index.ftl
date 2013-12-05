@@ -41,7 +41,7 @@
     <script type="text/javascript">
         $(function() {
             $("#${entity_name_uncapitalize}ListDiv").grid({
-                url: '${base}${model_path}/${entity_name_field}!findByPage',
+                url: '${entity_name_field}!findByPage',
                 colNames : [ '操作','流水号'<#list entityFields as entityField><#if entityField.list>,'${entityField.title}'</#if></#list>],
                 colModel : [ {
                     name : 'operation',
@@ -105,16 +105,16 @@
                 },
                 </#if>  
                 viewRow : {
-                    url : "${base}${model_path}/${entity_name_field}!viewTabs"
+                    url : "${entity_name_field}!viewTabs"
                 },                              
                 delRow : {
-                    url : "${base}${model_path}/${entity_name_field}!doDelete"
+                    url : "${entity_name_field}!doDelete"
                 },
                 addRow : {
-                    url : "${base}${model_path}/${entity_name_field}!inputTabs"
+                    url : "${entity_name_field}!inputTabs"
                 },
                 editRow : {
-                    url : "${base}${model_path}/${entity_name_field}!inputTabs",
+                    url : "${entity_name_field}!inputTabs",
                     labelCol : 'displayId'
                 },                
                 caption:"${model_title}列表"
