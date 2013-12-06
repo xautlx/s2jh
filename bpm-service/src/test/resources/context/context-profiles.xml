@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:cloud="http://schema.cloudfoundry.org/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+    http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring-0.8.xsd">
+
+	<!-- unit test环境 -->
+	<beans profile="test">
+		<!-- 缺省PropertyPlaceholder定义 -->
+		<bean
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations">
+				<list>
+					<value>classpath:/application-test.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="true" />
+		</bean>
+
+		<!-- 嵌入式内存中数据库 -->
+		<jdbc:embedded-database id="dataSourceSpied"
+			type="H2">
+			<jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql"
+				encoding="UTF-8" />
+		</jdbc:embedded-database>
+
+		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+
+		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource"
+			depends-on="extSlf4jSpyLogDelegator">
+			<constructor-arg>
+				<ref bean="dataSourceSpied" />
+			</constructor-arg>
+		</bean>
+	</beans>
+</beans>
