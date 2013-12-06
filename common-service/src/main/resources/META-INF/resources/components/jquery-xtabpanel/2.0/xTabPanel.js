@@ -174,7 +174,9 @@ TabPanel.prototype = {
         this.tabContent.height(this.jTabPanel.outerHeight() - this.tabContrlWrap.outerHeight() - this.border_h);
         this._updateWhere();
         for ( var i = 0; i < window.frames.length; i++) {
-            window.frames[i].$.resetCalculateGridWidth();
+            try{
+                window.frames[i].$.resetCalculateGridWidth();
+            }catch(e){}
         }
     },
     /**
