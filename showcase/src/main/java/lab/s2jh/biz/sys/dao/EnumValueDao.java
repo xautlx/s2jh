@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface EnumValueDao extends BaseDao<EnumValue, String> {
 
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
-    List<EnumValue> findByEnumTypeAndDisplay(String enumType, Boolean display);
+    List<EnumValue> findByEnumTypeAndShow(String enumType, Boolean display);
     
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     List<EnumValue> findByEnumType(String enumType);

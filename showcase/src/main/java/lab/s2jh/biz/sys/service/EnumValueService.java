@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import lab.s2jh.biz.sys.dao.EnumValueDao;
-import lab.s2jh.biz.sys.entity.EnumValue;
 import lab.s2jh.biz.sys.entity.EnumType.EnumTypes;
+import lab.s2jh.biz.sys.entity.EnumValue;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.service.BaseService;
 
@@ -38,7 +38,7 @@ public class EnumValueService extends BaseService<EnumValue, String> {
     @Cacheable(value = "EnumValueSpringCache")
     public Map<String, String> findDisplayItemsByEnumType(String enumType) {
         Map<String, String> dataMap = Maps.newLinkedHashMap();
-        List<EnumValue> enumValues = enumValueDao.findByEnumTypeAndDisplay(enumType, true);
+        List<EnumValue> enumValues = enumValueDao.findByEnumTypeAndShow(enumType, true);
         for (EnumValue enumValue : enumValues) {
             dataMap.put(enumValue.getCode(), enumValue.getLabel());
         }
