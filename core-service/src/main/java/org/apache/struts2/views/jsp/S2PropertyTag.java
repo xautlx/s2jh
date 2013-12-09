@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
-import org.apache.struts2.components.Property;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts2.dispatcher.Dispatcher;
 
 import com.opensymphony.xwork2.inject.Container;
@@ -27,10 +27,6 @@ public class S2PropertyTag extends PropertyTag {
     /** Bootstrap样式label属性定义 */
     private String label;
 
-    protected void populateParams() {
-        super.populateParams();
-        Property uiBean = ((Property) component);
-    }
 
     public int doStartTag() throws JspException {
         component = getBean(getStack(), (HttpServletRequest) pageContext.getRequest(),
@@ -44,7 +40,7 @@ public class S2PropertyTag extends PropertyTag {
         if (label != null) {
             try {
                 writer.write("<div class='control-group'><label class='control-label'>");
-                writer.write(label);
+                writer.write(String.valueOf(ObjectUtils.defaultIfNull(findValue(label.toString()), label)));
                 writer.write("</label><div class='controls'>");
             } catch (IOException e) {
                 if (LOG.isInfoEnabled()) {
