@@ -62,7 +62,15 @@ public abstract class AbstractParseFilter implements ParseFilter {
      * @return
      */
     protected String getSingleTextByXPath(HtmlPage htmlPage, String xpath) {
-        return ((HtmlElement) htmlPage.getFirstByXPath(xpath)).asText().trim();
+        HtmlElement el = htmlPage.getFirstByXPath(xpath);
+        if (el == null) {
+            return "";
+        }
+        String text = el.asText();
+        if (text == null) {
+            return "";
+        }
+        return text.trim();
     }
 
     /**
