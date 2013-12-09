@@ -7,8 +7,7 @@
 <%@ include file="/common/index-header.jsp"%>
 <title><s:property value="%{systemTitle}" /></title>
 <script src="${base}/components/jquery-xtabpanel/2.0/xTabPanel.js?_=${buildVersion}"></script>
-<link rel="stylesheet" type="text/css"
-	href="${base}/components/jquery-xtabpanel/2.0/xTabPanel.css?_=${buildVersion}">
+<link rel="stylesheet" type="text/css" href="${base}/components/jquery-xtabpanel/2.0/xTabPanel.css?_=${buildVersion}">
 
 <script src="${base}/components/jquery-address/1.5/jquery.address-1.5.js?_=${pageScope.buildVersion}"></script>
 
@@ -31,7 +30,7 @@ ul.marquee {
 }
 
 ul.marquee i {
-    margin-top: 5px;
+	margin-top: 5px;
 }
 
 ul.marquee li {
@@ -72,13 +71,12 @@ ul.marquee li {
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
 							<li><a href="javascript:void(0)"><s:property value="%{authUserDetails.usernameDisplay}" /></a></li>
-							<li><a href="javascript:void(0)" id="switchLayout"><i class="icon-fullscreen"></i>
-									切换显示</a></li>
+							<li><a href="javascript:void(0)" id="switchLayout"><i class="icon-fullscreen"></i> 切换显示</a></li>
 							<li><a href="javascript:void(0)" id="changePasswd"><i class="icon-lock"></i> 修改密码</a></li>
 							<li class="divider-vertical"></li>
 							<li><a href="javascript:void(0)"
-								onclick="if(confirm('确认注销登录吗？')){window.location.href='${base}/j_spring_security_logout';}">
-									<i class="icon-off"></i> 注销登录
+								onclick="if(confirm('确认注销登录吗？')){window.location.href='${base}/j_spring_security_logout';}"> <i
+									class="icon-off"></i> 注销登录
 							</a></li>
 						</ul>
 						<ul class="marquee pull-right" id="marquee">
@@ -261,7 +259,7 @@ ul.marquee li {
             window.clearInterval(window.thread);
             $('#progressBar').progressbar('option', 'value', 0);
         }
-        
+
         //更新公告
         function updatePubPost() {
             var $marquee = $("#marquee");
@@ -289,7 +287,8 @@ ul.marquee li {
 
                     $.each(data, function(i, item) {
                         if ($marquee.find("> li[id='" + item.id + "']").length == 0) {
-                            $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.publishTime +' ' + item.htmlTitle + '</a></li>'));
+                            $marquee.append($('<li id="'+item.id+'"><a href="javascript:void(0)">' + item.publishTime + ' ' + item.htmlTitle
+                                    + '</a></li>'));
                         }
                     });
                     $marquee.marquee("update");
@@ -300,9 +299,9 @@ ul.marquee li {
                     }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(window.pubPostTimer){
+                    if (window.pubPostTimer) {
                         clearInterval(window.pubPostTimer);
-                    }                    
+                    }
                     alert('系统检测到请求异常，请尝试刷新页面');
                 }
             });
@@ -313,98 +312,101 @@ ul.marquee li {
          *     ON PAGE LOAD
          *#######################
          */
-        $(document).ready(function() {
+        $(document)
+                .ready(
+                        function() {
 
-            // create the OUTER LAYOUT
-            outerLayout = $("body").layout(layoutSettings_Outer);
+                            // create the OUTER LAYOUT
+                            outerLayout = $("body").layout(layoutSettings_Outer);
 
-            /*******************************
-             ***  CUSTOM LAYOUT BUTTONS  ***
-             *******************************
-             *
-             * Add SPANs to the east/west panes for customer "close" and "pin" buttons
-             *
-             * COULD have hard-coded span, div, button, image, or any element to use as a 'button'...
-             * ... but instead am adding SPANs via script - THEN attaching the layout-events to them
-             *
-             * CSS will size and position the spans, as well as set the background-images
-             */
+                            /*******************************
+                             ***  CUSTOM LAYOUT BUTTONS  ***
+                             *******************************
+                             *
+                             * Add SPANs to the east/west panes for customer "close" and "pin" buttons
+                             *
+                             * COULD have hard-coded span, div, button, image, or any element to use as a 'button'...
+                             * ... but instead am adding SPANs via script - THEN attaching the layout-events to them
+                             *
+                             * CSS will size and position the spans, as well as set the background-images
+                             */
 
-            // save selector strings to vars so we don't have to repeat it
-            // must prefix paneClass with "body > " to target ONLY the outerLayout panes
-            var westSelector = "body > .ui-layout-west"; // outer-west pane
-            var eastSelector = "body > .ui-layout-east"; // outer-east pane
+                            // save selector strings to vars so we don't have to repeat it
+                            // must prefix paneClass with "body > " to target ONLY the outerLayout panes
+                            var westSelector = "body > .ui-layout-west"; // outer-west pane
+                            var eastSelector = "body > .ui-layout-east"; // outer-east pane
 
-            // CREATE SPANs for pin-buttons - using a generic class as identifiers
-            $("<span></span>").addClass("pin-button").prependTo(westSelector);
-            $("<span></span>").addClass("pin-button").prependTo(eastSelector);
-            // BIND events to pin-buttons to make them functional
-            outerLayout.addPinBtn(westSelector + " .pin-button", "west");
-            outerLayout.addPinBtn(eastSelector + " .pin-button", "east");
+                            // CREATE SPANs for pin-buttons - using a generic class as identifiers
+                            $("<span></span>").addClass("pin-button").prependTo(westSelector);
+                            $("<span></span>").addClass("pin-button").prependTo(eastSelector);
+                            // BIND events to pin-buttons to make them functional
+                            outerLayout.addPinBtn(westSelector + " .pin-button", "west");
+                            outerLayout.addPinBtn(eastSelector + " .pin-button", "east");
 
-            // CREATE SPANs for close-buttons - using unique IDs as identifiers
-            $("<span></span>").attr("id", "west-closer").prependTo(westSelector);
-            $("<span></span>").attr("id", "east-closer").prependTo(eastSelector);
-            // BIND layout events to close-buttons to make them functional
-            outerLayout.addCloseBtn("#west-closer", "west");
-            outerLayout.addCloseBtn("#east-closer", "east");
+                            // CREATE SPANs for close-buttons - using unique IDs as identifiers
+                            $("<span></span>").attr("id", "west-closer").prependTo(westSelector);
+                            $("<span></span>").attr("id", "east-closer").prependTo(eastSelector);
+                            // BIND layout events to close-buttons to make them functional
+                            outerLayout.addCloseBtn("#west-closer", "west");
+                            outerLayout.addCloseBtn("#east-closer", "east");
 
-            // DEMO HELPER: prevent hyperlinks from reloadin page when 'base.href' is set
-            $("a").each(function() {
-                var path = document.location.href;
-                if (path.substr(path.length - 1) == "#")
-                    path = path.substr(0, path.length - 1);
-                if (this.href.substr(this.href.length - 1) == "#")
-                    this.href = path + "#";
-            });
+                            // DEMO HELPER: prevent hyperlinks from reloadin page when 'base.href' is set
+                            $("a").each(function() {
+                                var path = document.location.href;
+                                if (path.substr(path.length - 1) == "#")
+                                    path = path.substr(0, path.length - 1);
+                                if (this.href.substr(this.href.length - 1) == "#")
+                                    this.href = path + "#";
+                            });
 
-            $("#menuContentDiv").height($("#menuContentDiv").parent("div").height() - 28);
-            $("#menuContentDiv").ajaxGetUrl("${base}/layout!menu");
+                            $("#menuContentDiv").height($("#menuContentDiv").parent("div").height() - 28);
+                            $("#menuContentDiv").ajaxGetUrl("${base}/layout!menu");
 
-            tabpanel = new TabPanel({
-                id : 'jTabPanel',
-                renderTo : 'mainContent',
-                border : false,
-                autoResize : true,
-                defaultTab : 0,
-                items : [ {
-                    id : 'tabpanel_workspace',
-                    title : '工作空间',
-                    closable : false,
-                    html : '<iframe src="${base}/layout!welcome" width="100%" height="100%" frameborder="0" id="tabpanel_workspaceFrame" name="tabpanel_workspaceFrame"></iframe>'
-                } ]
-            });
+                            tabpanel = new TabPanel(
+                                    {
+                                        id : 'jTabPanel',
+                                        renderTo : 'mainContent',
+                                        border : false,
+                                        autoResize : true,
+                                        defaultTab : 0,
+                                        items : [ {
+                                            id : 'tabpanel_workspace',
+                                            title : '工作空间',
+                                            closable : false,
+                                            html : '<iframe src="${base}/layout!welcome" width="100%" height="100%" frameborder="0" id="tabpanel_workspaceFrame" name="tabpanel_workspaceFrame"></iframe>'
+                                        } ]
+                                    });
 
-            $("#switchLayout").click(function() {
-                if (outerLayout.state.west.isClosed) {
-                    outerLayout.open('north');
-                    outerLayout.open('west');
-                } else {
-                    outerLayout.close('north');
-                    outerLayout.close('west');
-                }
-            })
+                            $("#switchLayout").click(function() {
+                                if (outerLayout.state.west.isClosed) {
+                                    outerLayout.open('north');
+                                    outerLayout.open('west');
+                                } else {
+                                    outerLayout.close('north');
+                                    outerLayout.close('west');
+                                }
+                            })
 
-            $("#changePasswd").click(function() {
-                $.popupDialog({
-                    dialogId : 'changePasswdDialog',
-                    url : "${base}/auth/profile!passwd",
-                    title : "修改登录密码",
-                    width : 600,
-                    height : 350
-                })
-            })
+                            $("#changePasswd").click(function() {
+                                $.popupDialog({
+                                    dialogId : 'changePasswdDialog',
+                                    url : "${base}/auth/profile!passwd",
+                                    title : "修改登录密码",
+                                    width : 600,
+                                    height : 350
+                                })
+                            })
 
-            window.pubPostTimer = setInterval(updatePubPost, 5 * 60 * 1000);
-            updatePubPost();
+                            window.pubPostTimer = setInterval(updatePubPost, 5 * 60 * 1000);
+                            updatePubPost();
 
-            $("#marquee").delegate("li", "click", function() {
-                var id = $(this).attr("id");
-                $.popupViewDialog('${base}/profile/pub-post!view?id=' + id);
-            });
+                            $("#marquee").delegate("li", "click", function() {
+                                var id = $(this).attr("id");
+                                $.popupViewDialog('${base}/profile/pub-post!view?id=' + id);
+                            });
 
-            $("#marquee").marquee();
-        });
+                            $("#marquee").marquee();
+                        });
 
         //系统时间显示
         var curDateTime = new Date(
@@ -432,6 +434,16 @@ ul.marquee li {
             var showTime = h1 + ":" + m1 + ":" + s1;
             $("#timerDisplayBar").html(showDate + "   " + showTime);
         }, 1000);
+
+        function addPanelTab(options) {
+            tabpanel.addTab({
+                id : 'tabpanel_' + options.id,
+                title : options.title,
+                closable : true,
+                html : '<iframe src="' + options.url + '" width="100%" height="100%" frameborder="0" id="' + 'tabpanel_' + options.id
+                        + 'Frame" name="' + 'tabpanel_' + options.id + 'Frame"></iframe>'
+            });
+        }
     </script>
 </body>
 </html>
