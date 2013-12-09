@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.util.DateUtils;
+import lab.s2jh.core.web.view.OperationResult;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -28,9 +31,13 @@ import org.apache.struts2.rest.RestActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-public class BpmTaskController extends RestActionSupport {
+import com.opensymphony.xwork2.ModelDriven;
+
+public class BpmTaskController extends RestActionSupport implements ModelDriven<Object> {
 
     private final static String DYNA_FORM_KEY = "/bpm/bpm-task!dynaForm";
+
+    private Object model;
 
     @Autowired
     private RepositoryService repositoryService;
@@ -52,6 +59,11 @@ public class BpmTaskController extends RestActionSupport {
 
     @Autowired
     private ManagementService managementService;
+
+    @Override
+    public Object getModel() {
+        return model;
+    }
 
     private Map<String, Object> packageTaskInfo(Task task) {
 
@@ -105,16 +117,55 @@ public class BpmTaskController extends RestActionSupport {
         HttpServletRequest request = ServletActionContext.getRequest();
         String taskId = request.getParameter("id");
         Assert.notNull(taskId);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        request.setAttribute("task", task);
+
         TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
         String formKey = taskFormData.getFormKey();
         if (StringUtils.isBlank(formKey)) {
-            formKey = DYNA_FORM_KEY;
+            formKey = DYNA_FORM_KEY + "?id=" + taskId;
         }
         request.setAttribute("formKey", formKey);
         return new DefaultHttpHeaders("show").disableCaching();
     }
 
     public HttpHeaders dynaForm() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String taskId = request.getParameter("id");
+        TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
+        request.setAttribute("taskFormData", taskFormData);
         return new DefaultHttpHeaders("form").disableCaching();
+    }
+
+    public HttpHeaders claim() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String userpin = AuthContextHolder.getAuthUserPin();
+        String taskId = request.getParameter("id");
+        taskService.claim(taskId, userpin);
+        model = OperationResult.buildSuccessResult("任务签收成功");
+        return new DefaultHttpHeaders().disableCaching();
+    }
+
+    public HttpHeaders complete() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String userpin = AuthContextHolder.getAuthUserPin();
+        String taskId = request.getParameter("id");
+
+        Map<String, String> formProperties = new HashMap<String, String>();
+        // 从request中读取参数然后转换
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
+        for (Entry<String, String[]> entry : entrySet) {
+            String key = entry.getKey();
+            // fp_的意思是form paremeter
+            if (StringUtils.defaultString(key).startsWith("fp_")) {
+                formProperties.put(key.split("_")[1], entry.getValue()[0]);
+            }
+        }
+        identityService.setAuthenticatedUserId(userpin);
+        formService.submitTaskFormData(taskId, formProperties);
+        model = OperationResult.buildSuccessResult("任务处理成功");
+        return new DefaultHttpHeaders().disableCaching();
     }
 }
