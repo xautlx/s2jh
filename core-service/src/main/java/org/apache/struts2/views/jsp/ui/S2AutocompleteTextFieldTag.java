@@ -20,6 +20,8 @@ public class S2AutocompleteTextFieldTag extends TextFieldTag {
     protected String source;
     /** 初始化显示的字面值 */
     protected String labelValue;
+    /** 隐藏hidden元素接收id属性值 */
+    protected String hiddenName;
 
     /** 
      * 如果在元素中未定义此属性，则按照属性的类型、JSR303 Validator注解、Hibernate Entity注解等自动组合生成JQuery Validator校验语法字符串
@@ -35,6 +37,9 @@ public class S2AutocompleteTextFieldTag extends TextFieldTag {
             }
             if (StringUtils.isNotBlank(minLength)) {
                 this.setDynamicAttribute(null, "minLength", minLength);
+            }
+            if (StringUtils.isNotBlank(hiddenName)) {
+                this.setDynamicAttribute(null, "hiddenName", hiddenName);
             }
             Object realLabelValue = null;
             if (this.labelValue != null) {
@@ -80,6 +85,10 @@ public class S2AutocompleteTextFieldTag extends TextFieldTag {
 
     public void setValidator(String validator) {
         this.validator = validator;
+    }
+
+    public void setHiddenName(String hiddenName) {
+        this.hiddenName = hiddenName;
     }
 
 }
