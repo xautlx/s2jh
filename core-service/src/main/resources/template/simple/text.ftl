@@ -56,3 +56,15 @@
 <#include "/${parameters.templateDir}/simple/common-attributes.ftl" />
 <#include "/${parameters.templateDir}/simple/dynamic-attributes.ftl" />
 />
+
+<#if parameters.dynamicAttributes["hiddenName"]??>
+<input type="hidden"   
+ name="${parameters.dynamicAttributes["hiddenName"]?html}"<#rt/>
+<#if parameters.dynamicAttributes["hiddenValue"]??>
+ value="${parameters.dynamicAttributes["hiddenValue"]?html}"<#rt/>
+</#if>
+<#if parameters.dynamicAttributes["hiddenCssClass"]??>
+ class="${parameters.dynamicAttributes["hiddenCssClass"]?html}"<#rt/>
+</#if>
+ />
+</#if>

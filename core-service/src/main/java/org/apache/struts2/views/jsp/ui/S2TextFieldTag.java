@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.components.Component;
 import org.apache.struts2.components.TextField;
 import org.apache.struts2.components.UIBean;
@@ -43,11 +44,37 @@ public class S2TextFieldTag extends TextFieldTag {
      */
     protected String validator;
 
+    /** 隐藏hidden元素接收id属性值 */
+    protected String hiddenName;
+    /** 隐藏hidden元素接收value属性值 */
+    protected String hiddenValue;
+    /** 隐藏hidden元素接收class属性值 */
+    protected String hiddenCssClass;
+
     public Component getBean(ValueStack stack, HttpServletRequest req, HttpServletResponse res) {
         return new TextField(stack, req, res);
     }
 
     protected void populateParams() {
+        if (StringUtils.isNotBlank(hiddenName)) {
+            dynamicAttributes.put("hiddenName", hiddenName);
+            
+            Object realHiddenValue = null;
+            if (this.hiddenValue != null) {
+                realHiddenValue = findValue(this.hiddenValue);
+            } else {
+                realHiddenValue = findValue(this.hiddenName);
+            }
+            if (realHiddenValue == null) {
+                realHiddenValue = "";
+            }
+            dynamicAttributes.put("hiddenValue", realHiddenValue);
+            
+            if (StringUtils.isNotBlank(hiddenCssClass)) {
+                dynamicAttributes.put("hiddenCssClass", hiddenCssClass);
+            }
+        }
+        
         super.populateParams();
         UIBean uiBean = ((UIBean) component);
         TagValidatorAttributeBuilder.buildValidatorAttribute(validator, this, this.getStack(),
@@ -61,10 +88,22 @@ public class S2TextFieldTag extends TextFieldTag {
         if (this.id == null) {
             uiBean.setId("text_" + RandomStringUtils.randomAlphabetic(10));
         }
-        
+
     }
 
     public void setValidator(String validator) {
         this.validator = validator;
+    }
+
+    public void setHiddenName(String hiddenName) {
+        this.hiddenName = hiddenName;
+    }
+
+    public void setHiddenValue(String hiddenValue) {
+        this.hiddenValue = hiddenValue;
+    }
+
+    public void setHiddenCssClass(String hiddenCssClass) {
+        this.hiddenCssClass = hiddenCssClass;
     }
 }
