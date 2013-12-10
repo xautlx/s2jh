@@ -45,9 +45,10 @@ public class RegexHttpWebConnection extends HttpWebConnection {
                     sign = false;
                     regex = line.substring(1);
                 } else if ('+' == first) {
-                    sign = false;
+                    sign = true;
                     regex = line.substring(1);
                 } else {
+                    sign = true;
                     regex = line;
                 }
                 Rule rule = new Rule(sign, regex);
