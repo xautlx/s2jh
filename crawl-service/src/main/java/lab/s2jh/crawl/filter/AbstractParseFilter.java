@@ -87,5 +87,5 @@ public abstract class AbstractParseFilter implements ParseFilter {
      * @param url
      * @param filterChain
      */
-    public abstract void doFilterInternal(String url, ParseFilterChain filterChain);
+    public abstract void doFilterInternal(String url, ParseFilterChain filterChain) throws Exception;
 }

@@ -41,15 +41,24 @@ public class CrawlService {
      * @param urls 待爬取的种子URL列表
      */
     public void startSyncCrawl(String... urls) {
+        startSyncCrawlWithImgRootDir(null, urls);
+    }
+
+    /**
+     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
+     * @param urls 待爬取的种子URL列表
+     */
+    public void startSyncCrawlWithImgRootDir(String imgRootDir, String... urls) {
         logger.debug("Main sync thread: {}", Thread.currentThread().getId());
-        scheduleAsyncCrawl(urls);
+        scheduleAsyncCrawl(imgRootDir, urls);
         //定时检测Future返回状态，直到所有线程都返回后才最终返回方法调用
         try {
             boolean tobeWait = true;
             while (tobeWait) {
                 Thread.sleep(1000);
-                logger.info("Main sync thread is sleep for waiting..., crawlTaskExecutor stat info: {}/{}/{}", crawlTaskExecutor.getActiveCount(),
-                        crawlTaskExecutor.getPoolSize(), crawlTaskExecutor.getMaxPoolSize());
+                logger.info("Main sync thread is sleep for waiting..., crawlTaskExecutor stat info: {}/{}/{}",
+                        crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
+                        crawlTaskExecutor.getMaxPoolSize());
                 if (crawlTaskExecutor.getPoolSize() > 0 && crawlTaskExecutor.getActiveCount() == 0) {
                     tobeWait = false;
                 }
@@ -64,14 +73,22 @@ public class CrawlService {
      * @param urls 待爬取的种子URL列表
      */
     public void startAsyncCrawl(String... urls) {
-        scheduleAsyncCrawl(urls);
+        startAsyncCrawlWithImgRootDir(null, urls);
+    }
+
+    /**
+     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
+     * @param urls 待爬取的种子URL列表
+     */
+    public void startAsyncCrawlWithImgRootDir(String imgRootDir, String... urls) {
+        scheduleAsyncCrawl(imgRootDir, urls);
     }
 
     /**
      * 内部以线程池方式安排页面爬取作业
      * @param urls
      */
-    private void scheduleAsyncCrawl(String... urls) {
+    private void scheduleAsyncCrawl(String imgRootDir, String... urls) {
         logger.debug("Prepare to add {} urls to crawl queue.", urls.length);
         for (String url : urls) {
             try {
@@ -79,6 +96,9 @@ public class CrawlService {
                         crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
                         crawlTaskExecutor.getMaxPoolSize());
                 ParseFilterChain parseFilterChain = new ParseFilterChain(parseFilters, true);
+                if (imgRootDir != null) {
+                    parseFilterChain.addParam(ParseFilterChain.IMG_ROOT_DIR, imgRootDir);
+                }
                 asyncCrawlService.startAsyncCrawl(url, parseFilterChain);
             } catch (Exception e) {
                 //Just logger error to continue next url crawl
