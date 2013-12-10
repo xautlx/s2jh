@@ -129,6 +129,7 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
      * @return
      */
     @Transient
+    @JsonIgnore
     public boolean isMarkedRemove() {
         if (extraAttributes == null) {
             return false;
