@@ -9,12 +9,11 @@
 		<div class="row-fluid">
 			<div class="toolbar">
 				<div class="toolbar-inner">
-					<button type="button" class="btn btn-submit" callback-tab="privilegeIndexTabs"
-						callback-grid="privilegeListDiv">
+					<button type="button" class="btn btn-submit" callback-tab="privilegeIndexTabs" callback-grid="privilegeListDiv">
 						<i class="icon-ok"></i> 保存
 					</button>
-					<button type="button" class="btn btn-submit submit-post-close"
-						callback-tab="privilegeIndexTabs" callback-grid="privilegeListDiv">
+					<button type="button" class="btn btn-submit submit-post-close" callback-tab="privilegeIndexTabs"
+						callback-grid="privilegeListDiv">
 						<i class="icon-check"></i> 保存并关闭
 					</button>
 					<button type="reset" class="btn">
@@ -46,7 +45,7 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span6">
-					<s2:textfield name="url" label="URL" />
+					<s2:textarea name="url" label="URL" rows="3" />
 				</div>
 			</div>
 			<div class="row-fluid">
