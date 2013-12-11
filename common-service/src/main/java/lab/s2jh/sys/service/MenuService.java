@@ -117,6 +117,9 @@ public class MenuService extends BaseService<Menu, String> {
                 for (ConfigAttribute configAttribute : configAttributes) {
                     for (GrantedAuthority authority : authorities) {
                         if (authority.getAuthority().equals(configAttribute.getAttribute())) {
+                            item.setShow(true);
+                            logger.debug("Found matched and granted authority for URL: {}, authority: {}", menuURL,
+                                    authority.getAuthority());
                             matched = true;
                             break;
                         }
@@ -127,9 +130,6 @@ public class MenuService extends BaseService<Menu, String> {
                 }
                 if (!matched) {
                     logger.debug("Requird but NO granted authority for URL: {}", menuURL);
-                } else {
-                    item.setShow(true);
-                    logger.debug("Found matched and granted authority for URL: {}", menuURL);
                 }
             }
 
