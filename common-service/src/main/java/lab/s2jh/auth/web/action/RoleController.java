@@ -1,7 +1,6 @@
 package lab.s2jh.auth.web.action;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -172,11 +171,12 @@ public class RoleController extends BaseController<Role, String> {
      * 
      * @param filters
      */
-    protected void appendFilterProperty(List<PropertyFilter> filters) {
+    @Override
+    protected void appendFilterProperty(GroupPropertyFilter groupPropertyFilter) {
         //限定查询ACL所辖范围数据
         String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
         if (StringUtils.isNotBlank(authUserAclType)) {
-            filters.add(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
+            groupPropertyFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
         }
     }
 
