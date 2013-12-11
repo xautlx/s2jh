@@ -6,8 +6,8 @@
 		</encoder>
 	</appender>
 
-	<appender name="CrawlInfo" class="ch.qos.logback.core.FileAppender">
-		<file>${user.dir}/crawl-info.log</file>
+	<appender name="CrawlRunInfo" class="ch.qos.logback.core.FileAppender">
+		<file>${user.dir}/log/crawl-info.log</file>
 		<append>false</append>
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>INFO</level>
@@ -21,17 +21,75 @@
 		</encoder>
 	</appender>
 
-	<logger name="lab.s2jh.crawl.info" level="INFO" additivity="false">
-		<appender-ref ref="CrawlInfo" />
+	<appender name="CrawlError" class="ch.qos.logback.core.FileAppender">
+		<file>${user.dir}/log/crawl-error.log</file>
+		<append>false</append>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} %-5level %logger{36}[%line] - %msg %mdc %n
+			</pattern>
+		</encoder>
+	</appender>	
+
+	<appender name="CrawlDataInfo" class="ch.qos.logback.core.FileAppender">
+		<file>${user.dir}/log/crawl-data-info.log</file>
+		<append>false</append>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="CrawlDataError" class="ch.qos.logback.core.FileAppender">
+		<file>${user.dir}/log/crawl-data-error.log</file>
+		<append>false</append>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoder>
+			<pattern>
+				%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="lab.s2jh.crawl.run.info" level="INFO" additivity="false">
+		<appender-ref ref="CrawlRunInfo" />
 	</logger>
+	<logger name="lab.s2jh.crawl.data.info" level="INFO" additivity="false">
+		<appender-ref ref="CrawlDataInfo" />
+	</logger>
+	<logger name="lab.s2jh.crawl.data.error" level="INFO" additivity="false">
+		<appender-ref ref="CrawlDataError" />
+	</logger>
+
+	<logger name="lab.s2jh.crawl.htmlunit" level="TRACE" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="CrawlError" />
+	</logger>	
 	<logger name="lab.s2jh" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="CrawlError" />
 	</logger>
 	<logger name="com.gargoylesoftware.htmlunit" level="ERROR" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="CrawlError" />
 	</root>
 </configuration> 

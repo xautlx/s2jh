@@ -2,6 +2,7 @@ package lab.s2jh.crawl.filter;
 
 import java.util.regex.Pattern;
 
+import lab.s2jh.crawl.CrawlLogger;
 import lab.s2jh.crawl.service.CrawlService;
 import lab.s2jh.crawl.service.HtmlunitService;
 
@@ -48,6 +49,7 @@ public abstract class AbstractParseFilter implements ParseFilter {
             try {
                 doFilterInternal(url, filterChain);
             } catch (Exception e) {
+                CrawlLogger.LOG_DATA_ERROR.error(url);
                 logger.error("error.parse.url: " + url, e);
             }
         } else {

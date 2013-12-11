@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import lab.s2jh.crawl.CrawlLogger;
 import lab.s2jh.crawl.htmlunit.ExtHtmlunitCache;
 import lab.s2jh.crawl.htmlunit.RegexHttpWebConnection;
 
@@ -24,9 +25,6 @@ import com.google.common.collect.Sets;
 public class HtmlunitService {
 
     private static final Logger logger = LoggerFactory.getLogger(CrawlService.class);
-
-    //采集信息定时输出日志
-    private static final Logger LOG = LoggerFactory.getLogger("lab.s2jh.crawl.info");
 
     private static ThreadLocal<WebClient> threadWebClient = new ThreadLocal<WebClient>();
 
@@ -84,8 +82,10 @@ public class HtmlunitService {
      */
     public static HtmlPage fetchHtmlPage(String url, Map<String, String> additionalHeaders) {
         try {
+            totalFetchedCount++;
+
             long start = new Date().getTime();
-            LOG.info("Fetching: {}", url);
+            CrawlLogger.LOG_RUN_INFO.info("No.: {}, Fetching: {}", totalFetchedCount, url);
             WebRequest webRequest = new WebRequest(new URL(url));
             if (additionalHeaders != null) {
                 webRequest.setAdditionalHeaders(additionalHeaders);
@@ -93,7 +93,7 @@ public class HtmlunitService {
             HtmlPage page = buildWebClient().getPage(webRequest);
             long end = new Date().getTime();
             totalFetchTimes += (end - start);
-            totalFetchedCount++;
+
             printLog();
             return page;
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class HtmlunitService {
      */
     private static void printLog() {
         long dur = totalFetchTimes / 1000;
-        LOG.info("Total fetched pages: {}, use time: {} seconds, avg speed: {} pages/second ", totalFetchedCount, dur,
-                Float.valueOf(totalFetchedCount) / dur);
+        CrawlLogger.LOG_RUN_INFO.info("Total fetched pages: {}, use time: {} seconds, avg speed: {} pages/second ",
+                totalFetchedCount, dur, Float.valueOf(totalFetchedCount) / dur);
     }
 }
