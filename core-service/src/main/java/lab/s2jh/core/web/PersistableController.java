@@ -95,7 +95,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
     /** ModelDriven对象 */
     protected Object model = null;
-    
+
     /** 前端表单一些不需要处理的表单元素的name设置为ignore，以抑制Struts参数绑定OGNL异常 */
     protected String ignore = null;
 
@@ -444,13 +444,13 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             logger.error(e.getMessage(), e);
         }
     }
-    
+
     /**
      * 对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
      * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
      * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
      */
-    private void hackEmtpyOneToOneEntity(){
+    private void hackEmtpyOneToOneEntity() {
         try {
             Field[] fields = bindingEntity.getClass().getDeclaredFields();
             for (Field field : fields) {
@@ -618,6 +618,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         Set<T> enableDeleteEntities = Sets.newHashSet();
         Collection<T> entities = this.getEntitiesByParameterIds();
         for (T entity : entities) {
+            //基础ACL访问权限检查
+            checkEntityAclPermission(entity);
             //添加检查逻辑：当前对象是否允许被删除，如状态检查
             if (!isDisallowDelete(entity)) {
                 enableDeleteEntities.add(entity);
@@ -649,7 +651,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         GroupPropertyFilter groupFilter = GroupPropertyFilter
                 .buildGroupFilterFromHttpRequest(entityClass, getRequest());
-
+        appendFilterProperty(groupFilter);
         String foramt = this.getParameter(PARAM_NAME_FOR_EXPORT_FORMAT);
         if ("xls".equalsIgnoreCase(foramt)) {
             exportXlsForGrid(groupFilter, pageable.getSort());
