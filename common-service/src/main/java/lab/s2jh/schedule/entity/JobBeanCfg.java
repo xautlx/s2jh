@@ -32,20 +32,20 @@ public class JobBeanCfg extends BaseEntity<String> {
 
     @MetaData(value = "自动初始运行")
     @EntityAutoCode(order = 20)
-    private Boolean autoStartup;
+    private Boolean autoStartup = Boolean.TRUE;
 
-    @MetaData(value = "启用运行记录",description="每次运行会写入历史记录表，对于运行频率很高或业务监控意义不大的任务建议关闭")
+    @MetaData(value = "启用运行记录", description = "每次运行会写入历史记录表，对于运行频率很高或业务监控意义不大的任务建议关闭")
     @EntityAutoCode(order = 30)
-    private Boolean logRunHist;
-    
-    @MetaData(value = "集群运行模式",description="如果为true，则在一组集群部署环境中同一任务只会在一个节点触发；否则在每个节点各自独立运行")
+    private Boolean logRunHist = Boolean.TRUE;
+
+    @MetaData(value = "集群运行模式", description = "如果为true，则在一组集群部署环境中同一任务只会在一个节点触发；否则在每个节点各自独立运行")
     @EntityAutoCode(order = 40)
-    private Boolean runWithinCluster;
+    private Boolean runWithinCluster = Boolean.TRUE;
 
     @MetaData(value = "描述")
     @EntityAutoCode(order = 50, listShow = false)
     private String description;
-    
+
     @MetaData(value = "结果模板文本")
     private String resultTemplate;
 
@@ -90,6 +90,7 @@ public class JobBeanCfg extends BaseEntity<String> {
         this.description = description;
     }
 
+    @Column(nullable = false)
     public Boolean getAutoStartup() {
         return autoStartup;
     }
@@ -104,6 +105,7 @@ public class JobBeanCfg extends BaseEntity<String> {
         return jobClass + ":" + cronExpression;
     }
 
+    @Column(nullable = false)
     public Boolean getLogRunHist() {
         return logRunHist;
     }
@@ -112,6 +114,7 @@ public class JobBeanCfg extends BaseEntity<String> {
         this.logRunHist = logRunHist;
     }
 
+    @Column(nullable = false)
     public Boolean getRunWithinCluster() {
         return runWithinCluster;
     }
@@ -121,11 +124,11 @@ public class JobBeanCfg extends BaseEntity<String> {
     }
 
     @Lob
-	public String getResultTemplate() {
-		return resultTemplate;
-	}
+    public String getResultTemplate() {
+        return resultTemplate;
+    }
 
-	public void setResultTemplate(String resultTemplate) {
-		this.resultTemplate = resultTemplate;
-	}
+    public void setResultTemplate(String resultTemplate) {
+        this.resultTemplate = resultTemplate;
+    }
 }
