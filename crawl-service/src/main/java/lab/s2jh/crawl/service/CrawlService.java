@@ -106,4 +106,9 @@ public class CrawlService {
             }
         }
     }
+
+    public void forceTerminalExecutor() {
+        logger.debug("Prepare shutdown executor...");
+        crawlTaskExecutor.shutdown();
+    }
 }
