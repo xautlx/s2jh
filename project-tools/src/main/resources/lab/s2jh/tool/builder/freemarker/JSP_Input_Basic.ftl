@@ -46,3 +46,4 @@
         </#list>            
     </s2:div>   
 </s2:form>
+<%@ include file="/common/page-footer.jsp"%>
