@@ -2,19 +2,19 @@
 
 A Java/J2EE development framework for enterprise system based on Struts/Spring/JPA/Hibernate and jquery/bootstrap
 
+## Introduction
+
+集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
+
 以下两个站点代码和文档同步更新，请自由选择一个访问速度较快的站点即可：
 
 * 主站： https://github.com/xautlx/s2jh，文档：https://github.com/xautlx/s2jh/wiki/Index
 
 * 主站：http://git.oschina.net/xautlx/s2jh，文档：http://git.oschina.net/xautlx/s2jh/wikis/Index
 
-## Introduction
+* 项目推广主页：http://www.oschina.net/p/s2jh，个人空间：http://my.oschina.net/s2jh
 
-集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
-
-> 欢迎关注的朋友在各大项目推广平台以提问、分享、收藏、点赞、投票等多种形式推广支持项目，以便更多人共同关注、问题反馈、功能优化等，不断提升整个项目质量，彼此共同受益：
-
-* 开源中国  - 项目主页：http://www.oschina.net/p/s2jh 镜像托管：http://git.oschina.net/xautlx/s2jh
+> 欢迎关注的朋友在各大项目推广平台以提问、分享、收藏、点赞、投票等多种形式推广支持项目，以便更多人共同关注、问题反馈、功能优化等，不断提升整个项目质量，彼此共同受益。
 
 ## Features
 
