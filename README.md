@@ -4,6 +4,10 @@ A Java/J2EE development framework for enterprise system based on Struts/Spring/J
 
 **项目详细WIKI文档**： [https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/Index)
 
+本项目同步更新至https://github.com/xautlx/s2jh和http://git.oschina.net/xautlx/s2jh两个资源库
+
+由于GitHub在国内访问比较慢而且不稳定，建议大家优先访问  **http://git.oschina.net/xautlx/s2jh**
+
 ## Introduction
 
 集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
