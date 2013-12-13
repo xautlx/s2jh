@@ -2,11 +2,11 @@
 
 A Java/J2EE development framework for enterprise system based on Struts/Spring/JPA/Hibernate and jquery/bootstrap
 
-**项目详细WIKI文档**： [https://github.com/xautlx/s2jh/wiki/Index](https://github.com/xautlx/s2jh/wiki/Index)
+以下两个站点代码和文档同步更新，请自由选择一个访问速度较快的站点即可：
 
-本项目同步更新至 https://github.com/xautlx/s2jh 和 http://git.oschina.net/xautlx/s2jh 两个资源库站点
+* 主站： https://github.com/xautlx/s2jh，文档：https://github.com/xautlx/s2jh/wiki/Index
 
-由于GitHub在国内访问比较慢而且不稳定，建议大家优先访问  **http://git.oschina.net/xautlx/s2jh**
+* 主站：http://git.oschina.net/xautlx/s2jh，文档：http://git.oschina.net/xautlx/s2jh/wikis/Index
 
 ## Introduction
 
