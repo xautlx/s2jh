@@ -12,6 +12,7 @@
 	<packaging>war</packaging>
 	<name>s2jh :: showcase</name>
 
+
 	<dependencies>
 		<dependency>
 			<groupId>lab.s2jh</groupId>
