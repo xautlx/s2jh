@@ -1,6 +1,5 @@
 package lab.s2jh.sys.web.action;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -9,13 +8,14 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import lab.s2jh.core.annotation.MetaData;
+import lab.s2jh.core.context.SpringContextHolder;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -43,9 +44,6 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
 
     @Autowired
     private CacheManager cacheManager;
-
-    @Autowired(required = false)
-    private Server h2Server;
 
     private Object model;
 
@@ -131,17 +129,19 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
         return new DefaultHttpHeaders().disableCaching();
     }
 
+    private static Server h2Server;
+
     @MetaData(value = "H2数据管理")
-    public void h2() {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        try {
-            if (h2Server != null) {
-                response.sendRedirect("http://localhost:" + h2Server.getPort() + "/login.jsp");
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "H2 Server not start");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public HttpHeaders h2() throws Exception {
+        EmbeddedDatabaseFactoryBean db = SpringContextHolder.getBean(EmbeddedDatabaseFactoryBean.class);
+        String databaseName = (String) FieldUtils.readField(db, "databaseName", true);
+        logger.info("databaseName: {}", databaseName);
+        if (h2Server == null) {
+            h2Server = Server.createWebServer().start();
         }
+        HttpServletRequest request = ServletActionContext.getRequest();
+        request.setAttribute("h2LoginUrl", "http://localhost:" + h2Server.getPort() + "/login.jsp");
+        request.setAttribute("h2DatabaseName", databaseName);
+        return new DefaultHttpHeaders("h2");
     }
 }
