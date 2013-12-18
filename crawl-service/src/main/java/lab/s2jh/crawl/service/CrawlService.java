@@ -94,6 +94,7 @@ public class CrawlService {
     }
 
     public void forceTerminalExecutor() {
+        //TODO 此实现有问题
         logger.debug("Prepare shutdown executor...");
         crawlTaskExecutor.shutdown();
     }
