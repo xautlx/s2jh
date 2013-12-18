@@ -61,9 +61,7 @@ public class AuthUserDetailsService implements UserDetailsService {
         //处理用户拥有的权限代码集合
         Set<String> privilegeCodeSet = new HashSet<String>();
         {
-            String[] usernameSplits = username.split("#");
-            User user = userService.findByAclCodeAndSigninid(usernameSplits.length == 1 ? null : usernameSplits[0],
-                    usernameSplits.length == 1 ? usernameSplits[0] : usernameSplits[1]);
+            User user = userService.findBySigninid(username);
             if (user == null) {
                 throw new UsernameNotFoundException("User '" + username + "' not found");
             }

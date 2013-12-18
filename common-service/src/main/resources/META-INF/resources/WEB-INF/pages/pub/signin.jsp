@@ -25,9 +25,7 @@ input[type="text"],input[type="password"] {
 	<div class="container-fluid">
 		<div class="navbar">
 			<div class="navbar-inner">
-				<a class="brand" href='javascript:void(0)'>&nbsp;S2JH - <small>A Java/J2EE
-						development framework for enterprise system based on Struts/Spring/JPA/Hibernate and
-						jquery/bootstrap</small></a>
+				<a class="brand" href='javascript:void(0)'>&nbsp;<s:property value="systemTitle" /></a>
 			</div>
 		</div>
 		<div class="hero-unit">
@@ -36,7 +34,6 @@ input[type="text"],input[type="password"] {
 				<div class="row-fluid">
 					<div class="span4">
 						<form id="loginForm" action="${base}/j_spring_security_check" method="post">
-							<input type="hidden" name="j_username" id="j_username" />
 							<%
 							    Exception e = (Exception) session
 												.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -77,17 +74,9 @@ input[type="text"],input[type="password"] {
 							    }
 							%>
 							<div class="control-group">
-								<label class="control-label" for="login_AclCode"><i class="icon-list-alt"></i>机构代码</label>
+								<label class="control-label" for="j_username"><i class="icon-user"></i>登录账号</label>
 								<div class="controls">
-									<input class="span12" id="login_AclCode" name="login_AclCode"
-										value="${sessionScope['login_AclCode']}" type="text"> <span
-										id="login_AclCode_text"></span>
-								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label" for="login_AclCode"><i class="icon-user"></i>登录账号</label>
-								<div class="controls">
-									<input class="span12" id="login_Username" name="login_Username" type="text"
+									<input class="span12" id="j_username" name="j_username" type="text"
 										value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}">
 								</div>
 							</div>
@@ -101,8 +90,8 @@ input[type="text"],input[type="password"] {
 								<label class="control-label"><i class="icon-qrcode"></i>验证码</label>
 								<div class="controls">
 									<div class="input-prepend">
-										<input class="span6" name="j_captcha" value="" type="text" /> <span> <img
-											alt="验证码" style="cursor: point" name="j_captcha"
+										<input class="span6" name="j_captcha" value="" type="text" /> <span> <img alt="验证码"
+											style="cursor: point" name="j_captcha"
 											onclick="this.src='${base}/pub/jcaptcha.servlet?_='+new Date().getTime();return false"
 											src="${base}/pub/jcaptcha.servlet" title="看不清？点击刷新" /></span>
 									</div>
@@ -110,9 +99,8 @@ input[type="text"],input[type="password"] {
 							</div>
 							<div class="control-group">
 								<div class="controls">
-									<label class="checkbox span6"><input type="checkbox"
-										name="_spring_security_remember_me" checked="true">记住我(两周内自动登录)</label> <label
-										class="pull-right">
+									<label class="checkbox span6"><input type="checkbox" name="_spring_security_remember_me" checked="true">记住我(两周内自动登录)</label>
+									<label class="pull-right">
 										<button type="reset" class="btn btn-large">重置</button>
 										<button type="submit" class="btn btn-primary btn-large">登 录</button>
 									</label>
@@ -125,17 +113,15 @@ input[type="text"],input[type="password"] {
 					<div class="span12">
 						<s:if test="%{devMode}">
 							<script type="text/javascript">
-                                function setupDevUser(aclCode, user, password) {
-                                    $("#login_AclCode").val(aclCode);
-                                    $("#login_Username").val(user);
+                                function setupDevUser(user, password) {
+                                    $("#j_username").val(user);
                                     $("#j_password").val(password);
                                     $("#j_captcha").val('admin');
                                     $("#loginForm").submit();
                                 }
                             </script>
 							<div class="control-group">
-								<small>开发测试登录快速入口:<a href="javascript:void(0)" class=""
-									onclick="setupDevUser('','admin','admin')">admin</a>
+								<small>开发测试登录快速入口:<a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
 								</small>
 							</div>
 						</s:if>
@@ -143,39 +129,12 @@ input[type="text"],input[type="password"] {
 				</div>
 			</fieldset>
 		</div>
-		<div class="modal-footer">
-			<p>
-				<span class="pull-left"> <a href="mailto:xautlx@hotmail.com" target="_blank">Contact
-						Me</a>
-				</span> ©2013 by S2JH
-			</p>
-		</div>
+		<%@ include file="footer.jsp"%>
 	</div>
 	<%@ include file="/common/index-footer.jsp"%>
 	<script type="text/javascript">
         $().ready(function() {
-
-            $("#login_AclCode").autocomplete({
-                minLength : 2,
-                source : WEB_ROOT + '/pub/acl-code!autocomplete.json',
-                select : function(event, ui) {
-                    $("#login_AclCode_text").html(ui.item.label);
-                    $("#login_AclCode").val(ui.item.value);
-                    return false;
-                }
-            }).data("ui-autocomplete")._renderItem = function(ul, item) {
-                return $("<li>").append("<a><b>" + item.value + "</b> " + item.label + "</a>").appendTo(ul);
-            };
-
-            $("#loginForm").submit(function() {
-                if ($("#login_AclCode").val() != "") {
-                    $("#j_username").val($("#login_AclCode").val() + "#" + $("#login_Username").val());
-                } else {
-                    $("#j_username").val($("#login_Username").val());
-                }
-            });
-
-            $("#login_Username").focus();
+            $("#j_username").focus();
         });
     </script>
 </body>

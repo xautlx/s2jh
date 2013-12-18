@@ -30,7 +30,6 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 @Service
 @Transactional
@@ -82,16 +81,8 @@ public class UserService extends BaseService<User, Long> {
         super.preUpdate(entity);
     }
 
-    public User findByAclCodeAndSigninid(String aclCode, String signid) {
-        if (StringUtils.isBlank(aclCode)) {
-            List<User> users = userDao.findBySigninid(signid);
-            if (CollectionUtils.isEmpty(users)) {
-                return null;
-            }
-            Assert.isTrue(users.size() == 1);
-            return users.get(0);
-        }
-        return userDao.findByAclCodeAndSigninid(aclCode, signid);
+    public User findBySigninid(String signinid) {
+        return findByProperty("signinid", signinid);
     }
 
     public User findLogonUser() {
