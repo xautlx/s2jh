@@ -1,7 +1,5 @@
 package lab.s2jh.sys.entity;
 
-import java.util.Properties;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +8,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import lab.s2jh.cfg.DynamicPropertyPlaceholderConfigurer;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
@@ -112,11 +109,5 @@ public class ConfigProperty extends BaseEntity<String> {
 
     public void setHtmlValue(String htmlValue) {
         this.htmlValue = htmlValue;
-    }
-
-    @Transient
-    public String getStaticConfigValue() {
-        Properties properties = DynamicPropertyPlaceholderConfigurer.getPropertiesContainer();
-        return properties.getProperty(propKey);
     }
 }
