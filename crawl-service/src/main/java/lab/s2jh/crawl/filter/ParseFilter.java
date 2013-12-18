@@ -11,4 +11,6 @@ import lab.s2jh.crawl.service.HtmlunitService;
 public interface ParseFilter {
 
     void doFilter(String url, ParseFilterChain filterChain);
+    
+    boolean isAcceptUrl(String url);
 }

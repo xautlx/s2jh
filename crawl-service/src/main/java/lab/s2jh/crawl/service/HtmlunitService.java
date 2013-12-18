@@ -17,6 +17,7 @@ import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.google.common.collect.Sets;
 
 /**
@@ -35,7 +36,7 @@ public class HtmlunitService {
     private static int totalFetchTimes = 0;
 
     //全局的cookie值
-    public static String COOKIE;
+    public static Set<Cookie> GLOBAL_COOKIES;
 
     public void setFetchUrlRules(Set<String> fetchUrlRules) {
         HtmlunitService.fetchUrlRules.addAll(fetchUrlRules);
@@ -48,19 +49,26 @@ public class HtmlunitService {
     public static WebClient buildWebClient() {
         WebClient webClient = threadWebClient.get();
         if (webClient == null) {
-            logger.info("Initing web client for thread: {}", Thread.currentThread().getId());
-            webClient = new WebClient(BrowserVersion.FIREFOX_17);
-            webClient.getOptions().setCssEnabled(false);
-            webClient.getOptions().setAppletEnabled(false);
-            webClient.getOptions().setThrowExceptionOnScriptError(false);
-            // AJAX support
-            webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-            // Use extension version htmlunit cache process
-            webClient.setCache(new ExtHtmlunitCache());
-            // Enhanced WebConnection based on urlfilter
-            webClient.setWebConnection(new RegexHttpWebConnection(webClient, fetchUrlRules));
-            webClient.waitForBackgroundJavaScript(600 * 1000);
-            threadWebClient.set(webClient);
+            synchronized (threadWebClient) {
+                logger.info("Initing web client for thread: {}", Thread.currentThread().getId());
+                webClient = new WebClient(BrowserVersion.FIREFOX_17);
+                webClient.getOptions().setCssEnabled(false);
+                webClient.getOptions().setAppletEnabled(false);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                // AJAX support
+                webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+                // Use extension version htmlunit cache process
+                webClient.setCache(new ExtHtmlunitCache());
+                // Enhanced WebConnection based on urlfilter
+                webClient.setWebConnection(new RegexHttpWebConnection(webClient, fetchUrlRules));
+                if (GLOBAL_COOKIES != null) {
+                    for (Cookie cookie : GLOBAL_COOKIES) {
+                        webClient.getCookieManager().addCookie(cookie);
+                    }
+                }
+                webClient.waitForBackgroundJavaScript(600 * 1000);
+                threadWebClient.set(webClient);
+            }
         }
         return webClient;
     }
@@ -85,7 +93,8 @@ public class HtmlunitService {
             totalFetchedCount++;
 
             long start = new Date().getTime();
-            CrawlLogger.LOG_RUN_INFO.info("No.: {}, Fetching: {}", totalFetchedCount, url);
+            CrawlLogger.LOG_RUN_INFO.info("Thread: {}, No.: {}, Fetching: {}", Thread.currentThread().getId(),
+                    totalFetchedCount, url);
             WebRequest webRequest = new WebRequest(new URL(url));
             if (additionalHeaders != null) {
                 webRequest.setAdditionalHeaders(additionalHeaders);

@@ -54,4 +54,9 @@ public class ParseFilterChain implements ParseFilter {
         }
         params.put(key, value);
     }
+
+    @Override
+    public boolean isAcceptUrl(String url) {
+        return false;
+    }
 }

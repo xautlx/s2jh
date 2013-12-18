@@ -24,6 +24,8 @@ public class CrawlService {
 
     private AsyncCrawlService asyncCrawlService;
 
+    private String imageRootDir;
+
     public void setAsyncCrawlService(AsyncCrawlService asyncCrawlService) {
         this.asyncCrawlService = asyncCrawlService;
     }
@@ -37,20 +39,12 @@ public class CrawlService {
     }
 
     /**
-     * 以同步等待方式执行批量URL抓取，方法会一直等待所有爬虫处理完成才返回
-     * @param urls 待爬取的种子URL列表
-     */
-    public void startSyncCrawl(String... urls) {
-        startSyncCrawlWithImgRootDir(null, urls);
-    }
-
-    /**
      * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
      * @param urls 待爬取的种子URL列表
      */
-    public void startSyncCrawlWithImgRootDir(String imgRootDir, String... urls) {
+    public void startSyncCrawl(String... urls) {
         logger.debug("Main sync thread: {}", Thread.currentThread().getId());
-        scheduleAsyncCrawl(imgRootDir, urls);
+        scheduleAsyncCrawl(urls);
         //定时检测Future返回状态，直到所有线程都返回后才最终返回方法调用
         try {
             boolean tobeWait = true;
@@ -73,22 +67,14 @@ public class CrawlService {
      * @param urls 待爬取的种子URL列表
      */
     public void startAsyncCrawl(String... urls) {
-        startAsyncCrawlWithImgRootDir(null, urls);
-    }
-
-    /**
-     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
-     * @param urls 待爬取的种子URL列表
-     */
-    public void startAsyncCrawlWithImgRootDir(String imgRootDir, String... urls) {
-        scheduleAsyncCrawl(imgRootDir, urls);
+        scheduleAsyncCrawl(urls);
     }
 
     /**
      * 内部以线程池方式安排页面爬取作业
      * @param urls
      */
-    private void scheduleAsyncCrawl(String imgRootDir, String... urls) {
+    private void scheduleAsyncCrawl(String... urls) {
         logger.debug("Prepare to add {} urls to crawl queue.", urls.length);
         for (String url : urls) {
             try {
@@ -96,8 +82,8 @@ public class CrawlService {
                         crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
                         crawlTaskExecutor.getMaxPoolSize());
                 ParseFilterChain parseFilterChain = new ParseFilterChain(parseFilters, true);
-                if (imgRootDir != null) {
-                    parseFilterChain.addParam(ParseFilterChain.IMG_ROOT_DIR, imgRootDir);
+                if (imageRootDir != null) {
+                    parseFilterChain.addParam(ParseFilterChain.IMG_ROOT_DIR, imageRootDir);
                 }
                 asyncCrawlService.startAsyncCrawl(url, parseFilterChain);
             } catch (Exception e) {
@@ -110,5 +96,13 @@ public class CrawlService {
     public void forceTerminalExecutor() {
         logger.debug("Prepare shutdown executor...");
         crawlTaskExecutor.shutdown();
+    }
+
+    public void setImageRootDir(String imageRootDir) {
+        this.imageRootDir = imageRootDir;
+    }
+
+    public List<ParseFilter> getParseFilters() {
+        return parseFilters;
     }
 }

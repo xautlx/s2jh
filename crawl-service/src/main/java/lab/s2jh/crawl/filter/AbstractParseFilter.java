@@ -42,9 +42,18 @@ public abstract class AbstractParseFilter implements ParseFilter {
     }
 
     @Override
-    public void doFilter(String url, ParseFilterChain filterChain) {
+    public boolean isAcceptUrl(String url) {
         //基于UIRL和配置的正则表达式进行比对判断是否执行当前解析逻辑
         if (urlMatchPattern.matcher(url).find()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void doFilter(String url, ParseFilterChain filterChain) {
+        //基于UIRL和配置的正则表达式进行比对判断是否执行当前解析逻辑
+        if (isAcceptUrl(url)) {
             logger.debug("Thread: {}, Invoking Filter: {}", Thread.currentThread().getId(), this.getClass());
             try {
                 doFilterInternal(url, filterChain);
