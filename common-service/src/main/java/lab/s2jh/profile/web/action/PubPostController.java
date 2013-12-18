@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
@@ -56,7 +55,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     public HttpHeaders list() {
         List<PubPost> pubPosts = pubPostService.findPublished();
         if (CollectionUtils.isNotEmpty(pubPosts)) {
-            User user = userService.findByUid(AuthContextHolder.getAuthUserDetails().getUid());
+            User user = userService.findLogonUser();
             List<PubPostRead> pubPostReads = pubPostReadService.findReaded(user, pubPosts);
             for (PubPost pubPost : pubPosts) {
                 pubPost.addExtraAttribute("readed", false);
@@ -97,7 +96,7 @@ public class PubPostController extends BaseController<PubPost, String> {
             }
 
             if (needRetriveReads) {
-                User user = userService.findByUid(AuthContextHolder.getAuthUserDetails().getUid());
+                User user = userService.findLogonUser();
                 List<PubPostRead> pubPostReads = pubPostReadService.findReaded(user, pubPosts);
                 for (PubPost pubPost : pubPosts) {
                     idMaps.put(pubPost.getId(), Boolean.FALSE);
@@ -109,7 +108,7 @@ public class PubPostController extends BaseController<PubPost, String> {
                     }
                 }
             }
-            
+
             for (PubPost pubPost : pubPosts) {
                 if (Boolean.FALSE.equals(idMaps.get(pubPost.getId()))) {
                     notifyList.add(pubPost);
@@ -123,7 +122,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     @Override
     @MetaData(value = "查看")
     public HttpHeaders view() {
-        User user = userService.findByUid(AuthContextHolder.getAuthUserDetails().getUid());
+        User user = userService.findLogonUser();
         PubPostRead pubPostRead = pubPostReadService.findReaded(user, bindingEntity);
         if (pubPostRead == null) {
             pubPostRead = new PubPostRead();

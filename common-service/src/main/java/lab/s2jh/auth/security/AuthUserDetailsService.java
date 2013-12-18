@@ -29,118 +29,93 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class AuthUserDetailsService implements UserDetailsService {
 
-	private UserService userService;
+    private UserService userService;
 
-	private PrivilegeService privilegeService;
+    private PrivilegeService privilegeService;
 
-	private RoleService roleService;
+    private RoleService roleService;
 
-	private AclService aclService;
+    private AclService aclService;
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
-	public void setPrivilegeService(PrivilegeService privilegeService) {
-		this.privilegeService = privilegeService;
-	}
+    public void setPrivilegeService(PrivilegeService privilegeService) {
+        this.privilegeService = privilegeService;
+    }
 
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
-	public void setAclService(AclService aclService) {
-		this.aclService = aclService;
-	}
+    public void setAclService(AclService aclService) {
+        this.aclService = aclService;
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		boolean superAdminUser = false;
-		AuthUserDetails authUserDetails = null;
-		//角色代码集合
-		Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
-		//处理用户拥有的权限代码集合
-		Set<String> privilegeCodeSet = new HashSet<String>();
-		if (username.equalsIgnoreCase("admin")) {
-			superAdminUser = true;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AuthUserDetails authUserDetails = null;
+        //角色代码集合
+        Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
+        //处理用户拥有的权限代码集合
+        Set<String> privilegeCodeSet = new HashSet<String>();
+        {
+            String[] usernameSplits = username.split("#");
+            User user = userService.findByAclCodeAndSigninid(usernameSplits.length == 1 ? null : usernameSplits[0],
+                    usernameSplits.length == 1 ? usernameSplits[0] : usernameSplits[1]);
+            if (user == null) {
+                throw new UsernameNotFoundException("User '" + username + "' not found");
+            }
 
-			authUserDetails = new AuthUserDetails(username, userService.getAdminPassword(), true, true, true, true,
-					dbAuthsSet);
+            boolean enabled = user.getEnabled() == null ? true : user.getEnabled();
+            boolean accountNonLocked = user.getAccountNonLocked() == null ? true : user.getAccountNonLocked();
+            Date now = new Date();
+            boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user
+                    .getCredentialsExpireTime().after(now);
+            boolean accountNonExpired = user.getAccountExpireTime() == null ? true : user.getAccountExpireTime().after(
+                    now);
 
-			authUserDetails.setUid("admin");
+            if (!enabled) {
+                throw new DisabledException("User '" + username + "' disabled");
+            }
+            if (!credentialsNonExpired) {
+                throw new CredentialsExpiredException("User '" + username + "' credentials expired");
+            }
+            if (!accountNonLocked) {
+                throw new LockedException("User '" + username + "' account locked");
+            }
+            if (!accountNonExpired) {
+                throw new AccountExpiredException("User '" + username + "' account expired");
+            }
 
-		} else {
-			String[] usernameSplits = username.split("#");
-			User user = userService.findByAclCodeAndSigninid(usernameSplits.length == 1 ? null : usernameSplits[0],
-					usernameSplits.length == 1 ? usernameSplits[0] : usernameSplits[1]);
-			if (user == null) {
-				throw new UsernameNotFoundException("User '" + username + "' not found");
-			}
+            authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
+                    credentialsNonExpired, accountNonLocked, dbAuthsSet);
 
-			boolean enabled = user.getEnabled() == null ? true : user.getEnabled();
-			boolean accountNonLocked = user.getAccountNonLocked() == null ? true : user.getAccountNonLocked();
-			Date now = new Date();
-			boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user
-					.getCredentialsExpireTime().after(now);
-			boolean accountNonExpired = user.getAccountExpireTime() == null ? true : user.getAccountExpireTime().after(
-					now);
+            authUserDetails.setUid(user.getUid());
+            authUserDetails.setAclCode(user.getAclCode());
+            authUserDetails.setAclType(user.getAclType());
+            authUserDetails.setEmail(user.getEmail());
 
-			if (!enabled) {
-				throw new DisabledException("User '" + username + "' disabled");
-			}
-			if (!credentialsNonExpired) {
-				throw new CredentialsExpiredException("User '" + username + "' credentials expired");
-			}
-			if (!accountNonLocked) {
-				throw new LockedException("User '" + username + "' account locked");
-			}
-			if (!accountNonExpired) {
-				throw new AccountExpiredException("User '" + username + "' account expired");
-			}
+            List<Role> roles = roleService.findR2RolesForUser(user);
+            for (Role role : roles) {
+                String roleCode = role.getCode();
+                dbAuthsSet.add(new SimpleGrantedAuthority(roleCode));
+            }
 
-			authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
-					credentialsNonExpired, accountNonLocked, dbAuthsSet);
+            if (aclService != null) {
+                authUserDetails.setAclCodePrefixs(aclService.getStatAclCodePrefixs(user.getAclCode()));
+            }
 
-			authUserDetails.setUid(user.getUid());
-			authUserDetails.setAclCode(user.getAclCode());
-			authUserDetails.setAclType(user.getAclType());
-			authUserDetails.setEmail(user.getEmail());
+            List<Privilege> privileges = userService.findRelatedPrivilegesForUser(user);
+            for (Privilege privilege : privileges) {
+                privilegeCodeSet.add(privilege.getCode().trim());
+            }
+        }
 
-			List<Role> roles = roleService.findR2RolesForUser(user);
-			for (Role role : roles) {
-				String roleCode = role.getCode();
-				dbAuthsSet.add(new SimpleGrantedAuthority(roleCode));
-				if (Role.ROLE_ADMIN_CODE.equals(roleCode)) {
-					superAdminUser = true;
-				}
-			}
+        dbAuthsSet.add(new SimpleGrantedAuthority(Role.ROLE_ANONYMOUSLY_CODE));
+        authUserDetails.setPrivilegeCodes(privilegeCodeSet);
 
-			if (aclService != null) {
-				authUserDetails.setAclCodePrefixs(aclService.getStatAclCodePrefixs(user.getAclCode()));
-			}
-
-			List<Privilege> privileges = userService.findRelatedPrivilegesForUser(user);
-			for (Privilege privilege : privileges) {
-				privilegeCodeSet.add(privilege.getCode().trim());
-			}
-		}
-
-		dbAuthsSet.add(new SimpleGrantedAuthority(Role.ROLE_ANONYMOUSLY_CODE));
-
-		if (superAdminUser) {
-			List<Privilege> privileges = privilegeService.findAllCached();
-			for (Privilege privilege : privileges) {
-				privilegeCodeSet.add(privilege.getCode().trim());
-			}
-
-			List<Role> roles = roleService.findAllCached();
-			for (Role role : roles) {
-				String roleCode = role.getCode();
-				dbAuthsSet.add(new SimpleGrantedAuthority(roleCode));
-			}
-		}
-		authUserDetails.setPrivilegeCodes(privilegeCodeSet);
-
-		return authUserDetails;
-	}
+        return authUserDetails;
+    }
 }

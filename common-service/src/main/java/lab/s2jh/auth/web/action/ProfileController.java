@@ -49,7 +49,7 @@ public class ProfileController extends RestActionSupport implements ModelDriven<
         Assert.isTrue(StringUtils.isNotBlank(oldpasswd));
         Assert.isTrue(StringUtils.isNotBlank(newpasswd));
 
-        User user = userService.findByUid(authUserDetails.getUid());
+        User user = userService.findLogonUser();
         String encodedPasswd = userService.encodeUserPasswd(user, oldpasswd);
         if (!encodedPasswd.equals(user.getPassword())) {
             setModel(OperationResult.buildFailureResult("原密码不正确,请重新输入"));
