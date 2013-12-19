@@ -47,8 +47,6 @@
 	<beans:bean id="userDetailsService"
 		class="lab.s2jh.auth.security.AuthUserDetailsService">
 		<beans:property name="userService" ref="userService" />
-		<beans:property name="privilegeService" ref="privilegeService" />
-		<beans:property name="roleService" ref="roleService" />
 	</beans:bean>
 
 	<authentication-manager alias="authenticationManager">
