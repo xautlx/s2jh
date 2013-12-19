@@ -237,6 +237,13 @@ public class UserService extends BaseService<User, Long> {
         }
         dbAuthsSet.add(new SimpleGrantedAuthority(Role.ROLE_ANONYMOUSLY_CODE));
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("User role list for: {}", username);
+            for (GrantedAuthority ga : dbAuthsSet) {
+                logger.debug(" - " + ga.getAuthority());
+            }
+        }
+
         AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
                 credentialsNonExpired, accountNonLocked, dbAuthsSet);
         authUserDetails.setUid(user.getUid());
