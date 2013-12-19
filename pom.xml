@@ -34,7 +34,6 @@
 		<module>common-service</module>
 		<module>crawl-service</module>
 		<module>bpm-service</module>
-		<module>showcase</module>
 		<module>prototype</module>
 	</modules>
 
