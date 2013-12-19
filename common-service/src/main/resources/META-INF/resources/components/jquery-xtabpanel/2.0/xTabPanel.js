@@ -231,7 +231,9 @@ TabPanel.prototype = {
         item.tabTitle.click(function() {
             $tabEntity.show(item.id);
             for ( var i = 0; i < window.frames.length; i++) {
+                try{
                 window.frames[i].$.resetCalculateGridWidth();
+                }catch(e){}
             }
         })
         this._updateTabItem(item);

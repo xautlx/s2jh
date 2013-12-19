@@ -6,31 +6,30 @@
     http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
 
 	<beans profile="default">
-		<!-- 定制扩展PropertyPlaceholder，实现从数据库加载覆盖属性配置 -->
-		<bean class="lab.s2jh.cfg.DynamicPropertyPlaceholderConfigurer">
+		<!-- 缺省PropertyPlaceholder定义 -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations">
 				<list>
 					<value>classpath:/application.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="true" />
-			<property name="dataSource" ref="dataSource" />
-			<property name="tableName" value="TBL_SYS_CFG_PROP" />
-			<property name="nameColumn" value="prop_key" />
-			<property name="valueColumn" value="simple_value" />
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		</bean>
 
 		<!-- H2文件模式数据库，实际开发替换成其他MySQL、Oracle等数据库配置即可，注意别忘了在pom.xml中添加对应数据库驱动的依赖 -->
 		<bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
-			<property name="databaseName" value="c:\\h2\\prototype" />
+			<property name="databaseName" value="${user.dir}\h2\prototype" />
 			<property name="databaseConfigurer">
 				<bean class="org.springframework.jdbc.datasource.embedded.H2EmbeddedFileDatabaseConfigurer" factory-method="getInstance">
 				</bean>
 			</property>
 		</bean>
 
+		<!-- 定制log4jdbc做一些输出SQL信息的微调 -->
 		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
+		<!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
 		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
 			<constructor-arg>
 				<ref bean="dataSourceSpied" />
@@ -46,6 +45,9 @@
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_privilege.sql" encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_auth_role.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
 		</jdbc:initialize-database>
 	</beans>
 
@@ -60,6 +62,7 @@
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="true" />
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		</bean>
 
 		<!-- 嵌入式内存中数据库 -->
