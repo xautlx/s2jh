@@ -139,3 +139,6 @@ input[type="text"],input[type="password"] {
     </script>
 </body>
 </html>
+<!-- 
+<%@ include file="/common/app-ver.jsp"%>
+ -->
