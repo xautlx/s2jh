@@ -185,6 +185,7 @@ public class User extends BaseEntity<Long> {
 		this.credentialsExpireTime = credentialsExpireTime;
 	}
 
+	@Type(type = "yes_no")
 	public Boolean getAccountNonLocked() {
 		return accountNonLocked;
 	}
