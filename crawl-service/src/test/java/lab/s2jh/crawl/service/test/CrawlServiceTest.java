@@ -20,11 +20,11 @@ public class CrawlServiceTest extends AbstractJUnit4SpringContextTests {
         String url = "http://disney.tmall.com/category.htm?spm=a1z10.5.w4011-2440936552.401.4aSw9J&mid=w-2440936552-0&pageNo=1#anchor";
 
         logger.debug("Start sync crawl...");
-        crawlService.startSyncCrawl(url);
+        crawlService.injectUrls(url).startCrawlSync();;
         logger.debug("End sync crawl.");
 
         logger.debug("Start async crawl...");
-        crawlService.startAsyncCrawl(url);
+        crawlService.injectUrls(url).startCrawlAsync();;
         logger.debug("Return async crawl.");
     }
 
