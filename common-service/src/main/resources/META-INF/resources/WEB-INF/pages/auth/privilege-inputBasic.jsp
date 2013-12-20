@@ -25,7 +25,7 @@
 		<div class="well">
 			<div class="row-fluid">
 				<div class="span6">
-					<s2:textfield name="category" label="分类" />
+					<s2:combotext name="category" label="分类" list="distinctCategories" />
 				</div>
 			</div>
 			<div class="row-fluid">
