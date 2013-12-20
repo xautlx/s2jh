@@ -1,6 +1,7 @@
 package lab.s2jh.crawl.service;
 
 import java.util.List;
+import java.util.Set;
 
 import lab.s2jh.crawl.filter.ParseFilter;
 import lab.s2jh.crawl.filter.ParseFilterChain;
@@ -8,6 +9,8 @@ import lab.s2jh.crawl.filter.ParseFilterChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import com.gargoylesoftware.htmlunit.util.Cookie;
 
 /**
  * 爬虫主服务
@@ -26,6 +29,8 @@ public class CrawlService {
 
     private String imageRootDir;
 
+    private boolean stopUrlInject;
+
     public void setAsyncCrawlService(AsyncCrawlService asyncCrawlService) {
         this.asyncCrawlService = asyncCrawlService;
     }
@@ -38,19 +43,19 @@ public class CrawlService {
         this.crawlTaskExecutor = crawlTaskExecutor;
     }
 
-    /**
-     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
-     * @param urls 待爬取的种子URL列表
-     */
-    public void startSyncCrawl(String... urls) {
-        logger.debug("Main sync thread: {}", Thread.currentThread().getId());
-        scheduleAsyncCrawl(urls);
+    public void startCrawlAsync() {
+        stopUrlInject = false;
+    }
+
+    public void startCrawlSync() {
+        stopUrlInject = false;
         //定时检测Future返回状态，直到所有线程都返回后才最终返回方法调用
         try {
             boolean tobeWait = true;
             while (tobeWait) {
                 Thread.sleep(1000);
-                logger.info("Main sync thread is sleep for waiting..., crawlTaskExecutor stat info: {}/{}/{}",
+                logger.info("Main sync thread [{}] is waiting to complete...", Thread.currentThread().getId());
+                logger.info("CrawlTaskExecutor ActiveCount/PoolSize/MaxPoolSize: {}/{}/{}",
                         crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
                         crawlTaskExecutor.getMaxPoolSize());
                 if (crawlTaskExecutor.getPoolSize() > 0 && crawlTaskExecutor.getActiveCount() == 0) {
@@ -63,27 +68,38 @@ public class CrawlService {
     }
 
     /**
-     * 以异步处理方式执行批量URL抓取，方法会在提交安排后台爬虫作业后立即返回（即不会等待爬虫执行完毕）
-     * @param urls 待爬取的种子URL列表
+     * 如果不涉及登录调用此接口注入待爬取URL集合
+     * @param urls
+     * @return
      */
-    public void startAsyncCrawl(String... urls) {
-        scheduleAsyncCrawl(urls);
+    public CrawlService injectUrls(String... urls) {
+        return injectUrls(null, urls);
     }
 
     /**
-     * 内部以线程池方式安排页面爬取作业
+     * 如果涉及登录调用此接口注入外部登录获取的cookies数据和待爬取URL集合
+     * @param cookies 
      * @param urls
+     * @return
      */
-    private void scheduleAsyncCrawl(String... urls) {
+    public CrawlService injectUrls(Set<Cookie> cookies, String... urls) {
+        if (stopUrlInject) {
+            logger.debug("URL inject rejected as user request.");
+        }
         logger.debug("Prepare to add {} urls to crawl queue.", urls.length);
         for (String url : urls) {
             try {
-                logger.info("Scheduled crawl url: {}, crawlTaskExecutor stat info: {}/{}/{}", url,
+                url = url.trim();
+                logger.info("Injected crawl url: {}", url);
+                logger.info("CrawlTaskExecutor ActiveCount/PoolSize/MaxPoolSize: {}/{}/{}",
                         crawlTaskExecutor.getActiveCount(), crawlTaskExecutor.getPoolSize(),
                         crawlTaskExecutor.getMaxPoolSize());
                 ParseFilterChain parseFilterChain = new ParseFilterChain(parseFilters, true);
                 if (imageRootDir != null) {
-                    parseFilterChain.addParam(ParseFilterChain.IMG_ROOT_DIR, imageRootDir);
+                    parseFilterChain.addParam(ParseFilterChain.KEY_IMG_ROOT_DIR, imageRootDir);
+                }
+                if (cookies != null) {
+                    parseFilterChain.addParam(ParseFilterChain.KEY_LOGIN_COOKIES, cookies);
                 }
                 asyncCrawlService.startAsyncCrawl(url, parseFilterChain);
             } catch (Exception e) {
@@ -91,13 +107,12 @@ public class CrawlService {
                 logger.error("htmlunit.page.error", e);
             }
         }
+        return this;
     }
 
-    public void forceTerminalExecutor() {
-        //TODO 此实现有问题
-        
-        logger.debug("Prepare shutdown executor...");
-        crawlTaskExecutor.shutdown();
+    public void stopCrawl() {
+        logger.info("Stop crawl signal received.");
+        stopUrlInject = true;
     }
 
     public void setImageRootDir(String imageRootDir) {

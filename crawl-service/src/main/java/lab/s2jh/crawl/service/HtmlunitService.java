@@ -35,9 +35,6 @@ public class HtmlunitService {
     private static int totalFetchedCount = 0;
     private static int totalFetchTimes = 0;
 
-    //全局的cookie值
-    public static Set<Cookie> GLOBAL_COOKIES;
-
     public void setFetchUrlRules(Set<String> fetchUrlRules) {
         HtmlunitService.fetchUrlRules.addAll(fetchUrlRules);
     }
@@ -61,11 +58,6 @@ public class HtmlunitService {
                 webClient.setCache(new ExtHtmlunitCache());
                 // Enhanced WebConnection based on urlfilter
                 webClient.setWebConnection(new RegexHttpWebConnection(webClient, fetchUrlRules));
-                if (GLOBAL_COOKIES != null) {
-                    for (Cookie cookie : GLOBAL_COOKIES) {
-                        webClient.getCookieManager().addCookie(cookie);
-                    }
-                }
                 webClient.waitForBackgroundJavaScript(600 * 1000);
                 threadWebClient.set(webClient);
             }
@@ -79,7 +71,17 @@ public class HtmlunitService {
      * @return
      */
     public static HtmlPage fetchHtmlPage(String url) {
-        return fetchHtmlPage(url, null);
+        return fetchHtmlPage(url, null, null);
+    }
+
+    /**
+     * 基于指定URL及特定请求头信息抓取页面，如设置了reference、host等特定服务器需要的头信息
+     * @param url
+     * @param additionalHeaders
+     * @return
+     */
+    public static HtmlPage fetchHtmlPage(String url, Map<String, String> additionalHeaders) {
+        return fetchHtmlPage(url, null, additionalHeaders);
     }
 
     /**
@@ -88,7 +90,7 @@ public class HtmlunitService {
      * @param additionalHeaders
      * @return
      */
-    public static HtmlPage fetchHtmlPage(String url, Map<String, String> additionalHeaders) {
+    public static HtmlPage fetchHtmlPage(String url, Set<Cookie> cookies, Map<String, String> additionalHeaders) {
         try {
             totalFetchedCount++;
 
@@ -99,7 +101,13 @@ public class HtmlunitService {
             if (additionalHeaders != null) {
                 webRequest.setAdditionalHeaders(additionalHeaders);
             }
-            HtmlPage page = buildWebClient().getPage(webRequest);
+            WebClient webClient = buildWebClient();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    webClient.getCookieManager().addCookie(cookie);
+                }
+            }
+            HtmlPage page = webClient.getPage(webRequest);
             long end = new Date().getTime();
             totalFetchTimes += (end - start);
 

@@ -3,7 +3,9 @@ package lab.s2jh.crawl.filter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.google.common.collect.Maps;
 
 /**
@@ -11,8 +13,10 @@ import com.google.common.collect.Maps;
  */
 public class ParseFilterChain implements ParseFilter {
 
-    public final static String IMG_ROOT_DIR = "IMG_ROOT_DIR";
-
+    public final static String KEY_IMG_ROOT_DIR = "KEY_IMG_ROOT_DIR";
+    
+    public final static String KEY_LOGIN_COOKIES = "KEY_LOGIN_COOKIES";
+    
     private List<ParseFilter> filters;
 
     private Map<String, Object> params;
@@ -45,10 +49,14 @@ public class ParseFilterChain implements ParseFilter {
      * @return
      */
     public String getImgRootDir() {
-        return (String) params.get(IMG_ROOT_DIR);
+        return (String) params.get(KEY_IMG_ROOT_DIR);
+    }
+    
+    public Set<Cookie> getLoginCookies() {
+        return (Set<Cookie>) params.get(KEY_LOGIN_COOKIES);
     }
 
-    public void addParam(String key, String value) {
+    public void addParam(String key, Object value) {
         if (params == null) {
             params = Maps.newHashMap();
         }
