@@ -66,6 +66,14 @@ public class LayoutController extends RestActionSupport implements ModelDriven<O
         return new DefaultHttpHeaders("/layout/welcome").disableCaching();
     }
 
+    public HttpHeaders start() {
+        return new DefaultHttpHeaders("/layout/layout-start").disableCaching();
+    }
+
+    public HttpHeaders dashboard() {
+        return new DefaultHttpHeaders("/layout/layout-dashboard").disableCaching();
+    }
+
     @Override
     public Object getModel() {
         return model;

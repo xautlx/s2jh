@@ -470,11 +470,41 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
+    public void prepareEdit() {
+        String id = this.getParameter("id");
+        if (StringUtils.isBlank(id)) {
+            newBindingEntity();
+        }
+    }
+
+    /**
+     * 编辑对象显示页面，在通用的prepare接口方法中已经准备好相关的binding对象
+     * 如果对象不需要区分create和update权限控制，则可以用此宽泛的编辑显示逻辑
+     * @return
+     */
+    public HttpHeaders edit() {
+        return buildDefaultHttpHeaders("inputBasic");
+    }
+
+    /**
+     * 检查当前对象是否禁止create创建操作
+     * 默认子类已经强制实现 @see #checkEntityAclPermission 方法
+     * 则子类只需根据业务需要添加checkEntityAclPermission之外的create操作检查权限逻辑
+     * 一般子类其他业务方法需要create对象，则需要根据情况调用此方法进行create检查
+     * 此方法除了在prepareDoCreate方法中调用进行更新检查用途外,还可以用于前端页面以OGNL方式控制"创建"操作按钮的disabled状态
+     * @param entity 待create可操作性检查对象
+     * @return 是否禁止创建
+     */
+    public boolean isDisallowCreate() {
+        return false;
+    }
+
     /**
      * doCreate调用之前的Preparable接口自动回调方法
      * 准备new实体对象以备ParametersInterceptor进行参数绑定
      */
     public void prepareDoCreate() {
+        Assert.isTrue(!isDisallowCreate(), "数据访问权限不足");
         newBindingEntity();
     }
 
@@ -540,6 +570,29 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("更新操作成功", bindingEntity));
+        return buildDefaultHttpHeaders();
+    }
+
+    public void prepareDoSave() {
+        String id = this.getParameter("id");
+        if (StringUtils.isBlank(id)) {
+            newBindingEntity();
+            Assert.isTrue(!isDisallowCreate(), "数据访问权限不足");
+        } else {
+            Assert.isTrue(!isDisallowUpdate(), "数据访问权限不足");
+        }
+    }
+
+    @MetaData(value = "保存")
+    protected HttpHeaders doSave() {
+        if (bindingEntity.isNew()) {
+            ExtRevisionListener.setOperationEvent(RevisionType.ADD.name());
+        } else {
+            ExtRevisionListener.setOperationEvent(RevisionType.MOD.name());
+        }
+        hackEmtpyOneToOneEntity();
+        getEntityService().save(bindingEntity);
+        setModel(OperationResult.buildSuccessResult("数据保存成功", bindingEntity));
         return buildDefaultHttpHeaders();
     }
 
