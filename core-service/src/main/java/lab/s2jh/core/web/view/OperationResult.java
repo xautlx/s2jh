@@ -14,7 +14,9 @@ public class OperationResult {
 
     /** 标识操作成功与否 */
     public enum OPERATION_RESULT_TYPE {
-        success, failure, error;
+        success,
+        warning,
+        failure
     }
 
     /** 返回success或failure操作标识 */
@@ -24,14 +26,18 @@ public class OperationResult {
     /** 补充的数据 */
     private Object userdata;
 
-    public static OperationResult buildSuccessResult(String message, Object entity) {
-        return new OperationResult(OPERATION_RESULT_TYPE.success, message, entity);
+    public static OperationResult buildSuccessResult(String message, Object userdata) {
+        return new OperationResult(OPERATION_RESULT_TYPE.success, message, userdata);
     }
 
     public static OperationResult buildSuccessResult(String message) {
         return new OperationResult(OPERATION_RESULT_TYPE.success, message);
     }
-    
+
+    public static OperationResult buildWarningResult(String message, Object userdata) {
+        return new OperationResult(OPERATION_RESULT_TYPE.warning, message, userdata);
+    }
+
     public static OperationResult buildFailureResult(String message) {
         return new OperationResult(OPERATION_RESULT_TYPE.failure, message);
     }

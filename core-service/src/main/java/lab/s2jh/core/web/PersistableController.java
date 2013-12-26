@@ -181,7 +181,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             //如果是以POST方式请求数据，则获取Detach状态的对象，其他则保留Session方式以便获取Lazy属性
             HttpServletRequest request = this.getRequest();
             if (request.getMethod().equalsIgnoreCase("POST")) {
-                setupDetachedBindingEntity();
+                setupDetachedBindingEntity(getId());
             } else {
                 bindingEntity = getEntityService().findOne(getId());
             }
@@ -191,8 +191,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
-    protected void setupDetachedBindingEntity() {
-        bindingEntity = getEntityService().findDetachedOne(getId());
+    protected void setupDetachedBindingEntity(ID id) {
+        bindingEntity = getEntityService().findDetachedOne(id);
     }
 
     /**
@@ -323,9 +323,18 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 另外，页面也会以Struts标签获取显示当前操作对象的ID值
      * @return ID泛型对象实例
      */
-    @SuppressWarnings("unchecked")
     public ID getId() {
-        String entityId = this.getParameter("id");
+        return getId("id");
+    }
+
+    /**
+     * 将指定参数转换为ID泛型对应的主键变量实例
+     * 另外，页面也会以Struts标签获取显示当前操作对象的ID值
+     * @return ID泛型对象实例
+     */
+    @SuppressWarnings("unchecked")
+    public ID getId(String paramName) {
+        String entityId = this.getParameter(paramName);
         if (StringUtils.isBlank(entityId)) {
             return null;
         }
@@ -493,10 +502,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 一般子类其他业务方法需要create对象，则需要根据情况调用此方法进行create检查
      * 此方法除了在prepareDoCreate方法中调用进行更新检查用途外,还可以用于前端页面以OGNL方式控制"创建"操作按钮的disabled状态
      * @param entity 待create可操作性检查对象
-     * @return 是否禁止创建
+     * @return 返回不允许操作错误提示消息，如果为空则表示允许操作
      */
-    public boolean isDisallowCreate() {
-        return false;
+    public String isDisallowCreate() {
+        return null;
     }
 
     /**
@@ -504,7 +513,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 准备new实体对象以备ParametersInterceptor进行参数绑定
      */
     public void prepareDoCreate() {
-        Assert.isTrue(!isDisallowCreate(), "数据访问权限不足");
+        Assert.isNull(isDisallowCreate(), "数据访问权限不足");
         newBindingEntity();
     }
 
@@ -542,10 +551,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 一般子类其他业务方法需要更新对象，则需要根据情况调用此方法进行update更新检查
      * 此方法除了在prepareDoUpdate方法中调用进行更新检查用途外,还可以用于前端页面以OGNL方式控制"更新"操作按钮的disabled状态
      * @param entity 待update可操作性检查对象
-     * @return 是否禁止更新
+     * @return 返回不允许操作错误提示消息，如果为空则表示允许操作
      */
-    public boolean isDisallowUpdate() {
-        return false;
+    public String isDisallowUpdate() {
+        return null;
     }
 
     /**
@@ -557,7 +566,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 同理：子类在其他业务方法处理时，如果也需要进行额外的数据检查时，也要注意此规则应该在对应的prepare回调方法中进行，而不是业务执行方法中
      */
     public void prepareDoUpdate() {
-        Assert.isTrue(!isDisallowUpdate(), "数据访问权限不足");
+        Assert.isNull(isDisallowUpdate(), "数据访问权限不足");
     }
 
     /**
@@ -577,9 +586,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         String id = this.getParameter("id");
         if (StringUtils.isBlank(id)) {
             newBindingEntity();
-            Assert.isTrue(!isDisallowCreate(), "数据访问权限不足");
+            Assert.isNull(isDisallowCreate(), "数据访问权限不足");
         } else {
-            Assert.isTrue(!isDisallowUpdate(), "数据访问权限不足");
+            Assert.isNull(isDisallowUpdate(), "数据访问权限不足");
         }
     }
 
@@ -656,10 +665,13 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 一般子类其他业务方法需要删除对象，则需要根据情况调用此方法进行delete检查
      * 此方法除了在delete方法中调用进行更新检查用途外,还可以用于前端页面以OGNL方式控制"删除"操作按钮的disabled状态
      * @param entity 待delete可操作性检查对象
-     * @return 是否禁止删除
+     * @return 返回不允许删除错误提示消息，如果为空则表示可以删除
      */
-    protected boolean isDisallowDelete(T entity) {
-        return entity.isNew();
+    protected String isDisallowDelete(T entity) {
+        if (entity.isNew()) {
+            return "未保存数据";
+        }
+        return null;
     }
 
     /**
@@ -668,14 +680,20 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @MetaData(value = "删除")
     protected HttpHeaders doDelete() {
+        //删除失败的id和对应消息以Map结构返回，可用于前端批量显示错误提示和计算表格组件更新删除行项
+        Map<ID, String> errorMessageMap = Maps.newLinkedHashMap();
+
         Set<T> enableDeleteEntities = Sets.newHashSet();
         Collection<T> entities = this.getEntitiesByParameterIds();
         for (T entity : entities) {
             //基础ACL访问权限检查
             checkEntityAclPermission(entity);
             //添加检查逻辑：当前对象是否允许被删除，如状态检查
-            if (!isDisallowDelete(entity)) {
+            String msg = isDisallowDelete(entity);
+            if (StringUtils.isBlank(msg)) {
                 enableDeleteEntities.add(entity);
+            } else {
+                errorMessageMap.put(entity.getId(), msg);
             }
         }
         ExtRevisionListener.setOperationEvent(RevisionType.DEL.name());
@@ -683,11 +701,25 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         //这样可以方便某些对象删除失败不影响其他对象删除
         //如果业务逻辑需要确保批量对象删除在同一个事务则请子类覆写调用Service的批量删除接口
         for (T entity : enableDeleteEntities) {
-            getEntityService().delete(entity);
+            try {
+                getEntityService().delete(entity);
+            } catch (Exception e) {
+                logger.warn("entity delete failure", e);
+                errorMessageMap.put(entity.getId(), e.getMessage());
+            }
         }
-        int rejectSize = entities.size() - enableDeleteEntities.size();
-        setModel(OperationResult.buildSuccessResult("删除操作完成.删除:" + enableDeleteEntities.size() + "条"
-                + (rejectSize > 0 ? ",拒绝:" + rejectSize + "条" : "")));
+        int rejectSize = errorMessageMap.size();
+        if (rejectSize == 0) {
+            setModel(OperationResult.buildSuccessResult("成功删除所选选取记录:" + entities.size() + "条"));
+        } else {
+            if (rejectSize == entities.size()) {
+                setModel(OperationResult.buildFailureResult("所有选取记录删除操作失败"));
+            } else {
+                setModel(OperationResult.buildWarningResult("删除操作已处理. 成功:" + (entities.size() - rejectSize) + "条"
+                        + ",失败:" + rejectSize + "条", errorMessageMap));
+            }
+        }
+
         return buildDefaultHttpHeaders();
     }
 
