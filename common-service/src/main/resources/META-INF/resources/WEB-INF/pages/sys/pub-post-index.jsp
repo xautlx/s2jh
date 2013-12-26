@@ -22,8 +22,7 @@
 								<i class="icon-trash"></i> 删除
 							</button>
 							<div class="btn-group pull-right">
-								<button type="button" class="btn" title="高级查询"
-									onclick="$('#userListDiv').jqGrid('advSearch');">
+								<button type="button" class="btn" title="高级查询" onclick="$('#userListDiv').jqGrid('advSearch');">
 									<i class="icon-search"></i>
 								</button>
 							</div>
@@ -42,7 +41,7 @@
         $(function() {
             $("#pubPostListDiv").grid({
                 url : '${base}/sys/pub-post!findByPage',
-                colNames : [ '操作', '阅读人数', '标题', '生效时间', '到期时间', '创建时间', '版本号' ],
+                colNames : [ '操作', '阅读人数', '标题', '外部链接', '前端显示', '后端显示', '排序号', '生效时间', '到期时间', '创建时间', '版本号' ],
                 colModel : [ {
                     name : 'operation',
                     align : 'center',
@@ -62,10 +61,25 @@
                     name : 'readUserCount',
                     width : 60,
                     fixed : true,
-                    align : 'center'                
+                    align : 'center'
                 }, {
                     name : 'htmlTitle',
                     align : 'left'
+                }, {
+                    name : 'externalLink',
+                    align : 'left'
+                }, {
+                    name : 'frontendShow',
+                    width : 60,
+                    formatter : booleanFormatter
+                }, {
+                    name : 'backendShow',
+                    width : 60,
+                    formatter : booleanFormatter
+                }, {
+                    name : 'orderRank',
+                    width : 60,
+                    sorttype : 'number'
                 }, {
                     name : 'publishTime',
                     fixed : true,

@@ -9,12 +9,11 @@
 		<div class="row-fluid">
 			<div class="toolbar">
 				<div class="toolbar-inner">
-					<s2:button type="button" cssClass="btn btn-submit" callback-tab="pubPostIndexTabs"
-						callback-grid="pubPostListDiv">
+					<s2:button type="button" cssClass="btn btn-submit" callback-tab="pubPostIndexTabs" callback-grid="pubPostListDiv">
 						<i class="icon-ok"></i> 保存
 					</s2:button>
-					<s2:button type="button" cssClass="btn btn-submit submit-post-close"
-						callback-tab="pubPostIndexTabs" callback-grid="pubPostListDiv">
+					<s2:button type="button" cssClass="btn btn-submit submit-post-close" callback-tab="pubPostIndexTabs"
+						callback-grid="pubPostListDiv">
 						<i class="icon-check"></i> 保存并关闭
 					</s2:button>
 					<s2:button type="reset" cssClass="btn" disabled="disallowUpdate">
@@ -31,7 +30,7 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-					<s2:textfield name="htmlTitle" label="标题"/>
+					<s2:textfield name="htmlTitle" label="标题" />
 				</div>
 			</div>
 			<div class="row-fluid">
@@ -43,14 +42,30 @@
 				</div>
 			</div>
 			<div class="row-fluid">
+				<div class="span4">
+					<s2:textfield name="orderRank" label="排序号" />
+				</div>
+				<div class="span4">
+					<s2:radio name="frontendShow" list="#application.enums.booleanLabel" label="前端显示" />
+				</div>
+				<div class="span4">
+					<s2:radio name="backendShow" list="#application.enums.booleanLabel" label="后端显示" />
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<s2:textfield name="externalLink" label="外部链接" />
+				</div>
+			</div>
+			<div class="row-fluid">
 				<div class="span12">
 					<s2:kindeditor name="htmlContent" label="公告内容" rows="10" />
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-					<s2:singlefile name="r2FileId" labelValue="%{r2File.fileRealName}" label="关联附件"
-						value="%{r2File.id}" tooltip="多文件请首先压缩打包为<strong>单个文件</strong>上传" />
+					<s2:singlefile name="r2FileId" labelValue="%{r2File.fileRealName}" label="关联附件" value="%{r2File.id}"
+						tooltip="多文件请首先压缩打包为<strong>单个文件</strong>上传" />
 				</div>
 			</div>
 		</div>

@@ -28,24 +28,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class PubPost extends BaseEntity<String> {
 
     @MetaData(value = "标题")
-    @EntityAutoCode(order = 20)
     private String htmlTitle;
 
     @MetaData(value = "发布时间")
-    @EntityAutoCode(order = 30)
     private Date publishTime;
 
     @MetaData(value = "到期时间")
-    @EntityAutoCode(order = 40)
     private Date expireTime;
+    
+    @MetaData(value = "前端显示")
+    private Boolean frontendShow = Boolean.FALSE;
+    
+    @MetaData(value = "后台显示")
+    private Boolean backendShow = Boolean.FALSE;
+    
+    @MetaData(value = "外部链接")
+    @EntityAutoCode(order = 40)
+    private String externalLink;
 
     @MetaData(value = "公告内容")
-    @EntityAutoCode(order = 40)
+    @EntityAutoCode(order = 45)
     private String htmlContent;
 
     @MetaData(value = "总计查看用户数")
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
+    
+    @MetaData(value = "排序号", description = "数字越大匹配优先级越高")
+    @EntityAutoCode(order = 50)
+    private Integer orderRank = 100;
     
     @MetaData(value = "关联附件")
     @EntityAutoCode(order = 100, search = false)
@@ -121,5 +132,37 @@ public class PubPost extends BaseEntity<String> {
 
     public void setR2File(AttachmentFile r2File) {
         this.r2File = r2File;
+    }
+    
+    public String getExternalLink() {
+        return externalLink;
+    }
+
+    public void setExternalLink(String externalLink) {
+        this.externalLink = externalLink;
+    }
+
+    public Boolean getFrontendShow() {
+        return frontendShow;
+    }
+
+    public void setFrontendShow(Boolean frontendShow) {
+        this.frontendShow = frontendShow;
+    }
+
+    public Boolean getBackendShow() {
+        return backendShow;
+    }
+
+    public void setBackendShow(Boolean backendShow) {
+        this.backendShow = backendShow;
+    }
+
+    public Integer getOrderRank() {
+        return orderRank;
+    }
+
+    public void setOrderRank(Integer orderRank) {
+        this.orderRank = orderRank;
     }
 }
