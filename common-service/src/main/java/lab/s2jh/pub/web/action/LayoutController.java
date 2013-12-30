@@ -67,6 +67,10 @@ public class LayoutController extends RestActionSupport implements ModelDriven<O
     }
 
     public HttpHeaders start() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        List<NavMenuVO> menus = menuService.authUserMenu(AuthContextHolder.getAuthUserDetails().getAuthorities(),
+                request.getContextPath());
+        request.setAttribute("rootMenus", menus);
         return new DefaultHttpHeaders("/layout/layout-start").disableCaching();
     }
 

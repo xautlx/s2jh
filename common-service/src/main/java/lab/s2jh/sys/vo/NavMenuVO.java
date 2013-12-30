@@ -88,4 +88,8 @@ public class NavMenuVO {
     public Boolean getShow() {
         return show;
     }
+
+    public int getChildrenSize() {
+        return children == null ? 0 : children.size();
+    }
 }
