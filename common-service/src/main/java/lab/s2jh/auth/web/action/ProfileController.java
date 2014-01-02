@@ -3,6 +3,7 @@ package lab.s2jh.auth.web.action;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.auth.entity.User;
+import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
@@ -49,7 +50,7 @@ public class ProfileController extends RestActionSupport implements ModelDriven<
         Assert.isTrue(StringUtils.isNotBlank(oldpasswd));
         Assert.isTrue(StringUtils.isNotBlank(newpasswd));
 
-        User user = userService.findLogonUser();
+        User user = AuthUserHolder.getLogonUser();
         String encodedPasswd = userService.encodeUserPasswd(user, oldpasswd);
         if (!encodedPasswd.equals(user.getPassword())) {
             setModel(OperationResult.buildFailureResult("原密码不正确,请重新输入"));

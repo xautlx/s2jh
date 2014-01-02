@@ -20,7 +20,6 @@ import lab.s2jh.auth.entity.UserOauth;
 import lab.s2jh.auth.entity.UserR2Role;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.security.AclService;
-import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.service.R2OperationEnum;
@@ -98,10 +97,6 @@ public class UserService extends BaseService<User, Long> {
 
     public User findBySigninid(String signinid) {
         return findByProperty("signinid", signinid);
-    }
-
-    public User findLogonUser() {
-        return userDao.findByUid(AuthContextHolder.getAuthUserDetails().getUid());
     }
 
     /**

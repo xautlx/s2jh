@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lab.s2jh.auth.entity.User;
-import lab.s2jh.auth.service.UserService;
+import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
@@ -38,9 +38,6 @@ public class PubPostController extends BaseController<PubPost, String> {
     @Autowired
     private PubPostReadService pubPostReadService;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     protected BaseService<PubPost, String> getEntityService() {
         return pubPostService;
@@ -55,7 +52,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     public HttpHeaders list() {
         List<PubPost> pubPosts = pubPostService.findPublished();
         if (CollectionUtils.isNotEmpty(pubPosts)) {
-            User user = userService.findLogonUser();
+            User user = AuthUserHolder.getLogonUser();
             List<PubPostRead> pubPostReads = pubPostReadService.findReaded(user, pubPosts);
             for (PubPost pubPost : pubPosts) {
                 pubPost.addExtraAttribute("readed", false);
@@ -96,7 +93,7 @@ public class PubPostController extends BaseController<PubPost, String> {
             }
 
             if (needRetriveReads) {
-                User user = userService.findLogonUser();
+                User user = AuthUserHolder.getLogonUser();
                 List<PubPostRead> pubPostReads = pubPostReadService.findReaded(user, pubPosts);
                 for (PubPost pubPost : pubPosts) {
                     idMaps.put(pubPost.getId(), Boolean.FALSE);
@@ -122,7 +119,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     @Override
     @MetaData(value = "查看")
     public HttpHeaders view() {
-        User user = userService.findLogonUser();
+        User user = AuthUserHolder.getLogonUser();
         PubPostRead pubPostRead = pubPostReadService.findReaded(user, bindingEntity);
         if (pubPostRead == null) {
             pubPostRead = new PubPostRead();
