@@ -253,6 +253,12 @@ public class UserService extends BaseService<User, Long> {
         // 处理用户拥有的权限代码集合
         Set<String> privilegeCodeSet = new HashSet<String>();
         List<Privilege> privileges = privilegeDao.findPrivilegesForUser(user);
+        if (logger.isDebugEnabled()) {
+            logger.debug("User privilege list for: {}", username);
+            for (Privilege privilege : privileges) {
+                logger.debug(" - {} : {}", privilege.getCode(), privilege.getUrl());
+            }
+        }
         for (Privilege privilege : privileges) {
             privilegeCodeSet.add(privilege.getCode().trim());
         }
