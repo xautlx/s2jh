@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.security.AuthContextHolder;
-import lab.s2jh.core.util.DateUtils;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.activiti.engine.FormService;
@@ -74,7 +73,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         Map<String, Object> singleTask = new HashMap<String, Object>();
         singleTask.put("id", task.getId());
         singleTask.put("name", task.getName());
-        singleTask.put("createTime", DateUtils.formatTime(task.getCreateTime()));
+        singleTask.put("createTime", task.getCreateTime());
         singleTask.put("pdname", processDefinition.getName());
         singleTask.put("pdversion", processDefinition.getVersion());
         singleTask.put("pid", task.getProcessInstanceId());

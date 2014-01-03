@@ -12,9 +12,4 @@ public interface OperationAuditable {
      */
     public abstract String convertStateToDisplay(String rawState);
 
-    /**
-     * 转换操作事件数据值为字面显示字符串
-     * @return
-     */
-    public abstract String convertEventToDisplay(String rawEvent);
 }

@@ -459,7 +459,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
      * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
      */
-    private void hackEmtpyOneToOneEntity() {
+    protected void hackEmtpyOneToOneEntity() {
         try {
             Field[] fields = bindingEntity.getClass().getDeclaredFields();
             for (Field field : fields) {
@@ -575,7 +575,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @MetaData(value = "更新")
     protected HttpHeaders doUpdate() {
-        ExtRevisionListener.setOperationEvent(RevisionType.MOD.name());
         hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("更新操作成功", bindingEntity));
@@ -594,11 +593,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
     @MetaData(value = "保存")
     protected HttpHeaders doSave() {
-        if (bindingEntity.isNew()) {
-            ExtRevisionListener.setOperationEvent(RevisionType.ADD.name());
-        } else {
-            ExtRevisionListener.setOperationEvent(RevisionType.MOD.name());
-        }
         hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("数据保存成功", bindingEntity));
@@ -696,7 +690,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 errorMessageMap.put(entity.getId(), msg);
             }
         }
-        ExtRevisionListener.setOperationEvent(RevisionType.DEL.name());
         //对于批量删除,循环每个对象调用Service接口删除,则各对象删除事务分离
         //这样可以方便某些对象删除失败不影响其他对象删除
         //如果业务逻辑需要确保批量对象删除在同一个事务则请子类覆写调用Service的批量删除接口
@@ -961,7 +954,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 OperationAuditable aae = (OperationAuditable) entity;
                 revEntity.setOldStateDisplay(aae.convertStateToDisplay(revEntity.getOldState()));
                 revEntity.setNewStateDisplay(aae.convertStateToDisplay(revEntity.getNewState()));
-                revEntity.setOperationEventDisplay(aae.convertEventToDisplay(revEntity.getOperationEvent()));
+                revEntity.setOperationEventDisplay(revEntity.getOperationEvent());
             }
         }
         setModel(buildPageResultFromList(entityRevisions));
