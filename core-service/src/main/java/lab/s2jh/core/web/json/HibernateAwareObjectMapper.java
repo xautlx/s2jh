@@ -13,7 +13,6 @@ public class HibernateAwareObjectMapper extends ObjectMapper {
         registerModule(hibernate4Module);
 
         SimpleModule myModule = new SimpleModule("MyModule", new Version(1, 0, 0, null, null, null));
-        myModule.addSerializer(new EnumJsonSerializer());
         myModule.addSerializer(new DateTimeJsonSerializer());
         registerModule(myModule);
 
