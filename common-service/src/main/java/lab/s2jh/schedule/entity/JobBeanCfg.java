@@ -63,7 +63,7 @@ public class JobBeanCfg extends BaseEntity<String> {
         this.id = id;
     }
 
-    @Column(length = 512, nullable = false, unique = true)
+    @Column(length = 128, nullable = false, unique = true)
     public String getJobClass() {
         return jobClass;
     }
