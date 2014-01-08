@@ -116,6 +116,12 @@ public class RoleController extends BaseController<Role, String> {
         return super.doCreate();
     }
 
+    @Override
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
+    }
+
     @MetaData(value = "批量更新状态")
     public HttpHeaders doState() {
         boolean disabled = BooleanUtils.toBoolean(this.getRequiredParameter("disabled"));

@@ -40,7 +40,7 @@ public class Privilege extends BaseEntity<String> {
 
     @MetaData(value = "类型")
     @EntityAutoCode(order = 8, search = true)
-    private String type;
+    private String type = "URL";
 
     @MetaData(value = "代码")
     @EntityAutoCode(order = 10, search = true)

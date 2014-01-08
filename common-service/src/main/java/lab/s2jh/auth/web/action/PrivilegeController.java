@@ -396,6 +396,12 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     }
 
     @Override
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
+    }
+    
+    @Override
     @MetaData(value = "删除")
     public HttpHeaders doDelete() {
         return super.doDelete();
