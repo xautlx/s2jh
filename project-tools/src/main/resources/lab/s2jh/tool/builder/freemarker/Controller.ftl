@@ -44,6 +44,12 @@ public class ${entity_name}Controller extends BaseController<${entity_name},${id
     public HttpHeaders doUpdate() {
         return super.doUpdate();
     }
+    
+    @Override
+    @MetaData("保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
+    }
 
     @Override
     @MetaData("删除")
