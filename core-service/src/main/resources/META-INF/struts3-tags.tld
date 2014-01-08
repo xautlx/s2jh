@@ -10,14 +10,8 @@
 	<tag>
 		<description><![CDATA[Render a select element]]></description>
 		<name>select</name>
-		<tag-class>org.apache.struts2.views.jsp.ui.S2SelectTag</tag-class>
+		<tag-class>org.apache.struts2.views.jsp.ui.S3SelectTag</tag-class>
 		<body-content>JSP</body-content>
-		<attribute>
-			<description><![CDATA[Set the html validator attribute on rendered html element]]></description>
-			<name>validator</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
 		<attribute>
 			<description><![CDATA[Set the html accesskey attribute on rendered html element]]></description>
 			<name>accesskey</name>
@@ -2723,14 +2717,8 @@
 	<tag>
 		<description><![CDATA[Render HTML textarea tag.]]></description>
 		<name>textarea</name>
-		<tag-class>org.apache.struts2.views.jsp.ui.S2TextareaTag</tag-class>
+		<tag-class>org.apache.struts2.views.jsp.ui.S3TextareaTag</tag-class>
 		<body-content>JSP</body-content>
-		<attribute>
-			<description><![CDATA[Set the html validator attribute on rendered html element]]></description>
-			<name>validator</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
 		<attribute>
 			<description><![CDATA[Set the html accesskey attribute on rendered html element]]></description>
 			<name>accesskey</name>
@@ -3303,14 +3291,8 @@
 	<tag>
 		<description><![CDATA[Render a list of checkboxes]]></description>
 		<name>checkboxlist</name>
-		<tag-class>org.apache.struts2.views.jsp.ui.CheckboxListTag</tag-class>
+		<tag-class>org.apache.struts2.views.jsp.ui.S3CheckboxListTag</tag-class>
 		<body-content>JSP</body-content>
-		<attribute>
-			<description><![CDATA[Set the html validator attribute on rendered html element]]></description>
-			<name>validator</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
 		<attribute>
 			<description><![CDATA[Set the html accesskey attribute on rendered html element]]></description>
 			<name>accesskey</name>
