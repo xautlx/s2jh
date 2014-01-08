@@ -39,14 +39,14 @@ public class ExtDefaultRevisionEntity {
     /** 全局唯一的用户ID，确保明确与唯一操作用户关联 */
     private String uid;
     /** 基于ThreadLocal方式记录前端Web界面用户填写的操作说明 */
-    private String operationExplain;  
+    private String operationExplain;
     /** 基于ThreadLocal方式记录操作事件记录 */
     private String operationEvent;
     /** 基于ThreadLocal方式记录对象旧状态 */
     private String oldState;
     /** 基于ThreadLocal方式记录对象新状态 */
     private String newState;
-    
+
     /** 辅助属性:显示数据对应中文描述文本 */
     private String operationEventDisplay;
     /** 辅助属性:显示数据对应中文描述文本 */
@@ -76,9 +76,6 @@ public class ExtDefaultRevisionEntity {
         this.revstmp = revstmp;
     }
 
-    
-
-
     @Column(length = 128, name = "user_id")
     public String getUid() {
         return uid;
@@ -106,7 +103,7 @@ public class ExtDefaultRevisionEntity {
         this.operationExplain = operationExplain;
     }
 
-    @Column(length = 32)
+    @Column(length = 128)
     public String getOperationEvent() {
         return operationEvent;
     }
