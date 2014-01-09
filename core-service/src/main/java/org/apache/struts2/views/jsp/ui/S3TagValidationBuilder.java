@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -79,7 +80,9 @@ public class S3TagValidationBuilder {
                 }
 
                 if (method != null) {
+                    Class<?> retType = method.getReturnType();
                     Column column = method.getAnnotation(Column.class);
+
                     if (column != null) {
                         if (column.nullable() == false) {
                             if (tag.requiredLabel == null) {
@@ -89,9 +92,12 @@ public class S3TagValidationBuilder {
                         if (column.unique() == true) {
                             setupDynamicAttribute(dynamicAttributes, "data-rule-unique", "true");
                         }
+                        if (column.length() > 0 && retType == String.class && method.getAnnotation(Lob.class) == null) {
+                            setupDynamicAttribute(dynamicAttributes, "maxlength", column.length());
+                            setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength", column.length());
+                        }
                     }
 
-                    Class<?> retType = method.getReturnType();
                     if (retType == Date.class) {
                         JsonSerialize jsonSerialize = method.getAnnotation(JsonSerialize.class);
                         if (jsonSerialize != null) {
@@ -115,6 +121,7 @@ public class S3TagValidationBuilder {
                             setupDynamicAttribute(dynamicAttributes, "data-rule-minlength", size.min());
                         }
                         if (size.max() < Integer.MAX_VALUE) {
+                            setupDynamicAttribute(dynamicAttributes, "maxlength", size.max());
                             setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength", size.max());
                         }
                     }
