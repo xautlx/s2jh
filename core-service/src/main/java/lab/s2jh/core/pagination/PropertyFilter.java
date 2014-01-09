@@ -63,6 +63,12 @@ public class PropertyFilter {
 
 	/** 属性匹配比较类型. */
 	public enum MatchType {
+	    /** "name": "bk", "description": "is blank", "operator":"IS NULL OR ==''" */
+        BK,
+
+        /** "name": "nb", "description": "is not blank", "operator":"IS NOT NULL AND !=''" */
+        NB,
+	    
 		/** "name": "nu", "description": "is null", "operator":"IS NULL" */
 		NU,
 

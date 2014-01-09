@@ -423,6 +423,12 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             }
             predicate = builder.notEqual(expression, matchValue);
             break;
+        case BK:
+            predicate = builder.or(builder.isNull(expression), builder.equal(expression, ""));
+            break;
+        case NB:
+            predicate = builder.and(builder.isNotNull(expression), builder.notEqual(expression, ""));
+            break;
         case NU:
             predicate = builder.isNull(expression);
             break;
