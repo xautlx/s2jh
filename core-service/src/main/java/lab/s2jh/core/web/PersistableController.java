@@ -188,6 +188,11 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             if (bindingEntity != null) {
                 checkEntityAclPermission(bindingEntity);
             }
+        } else {
+            String prepare = this.getParameter("prepare");
+            if (BooleanUtils.toBoolean(prepare)) {
+                newBindingEntity();
+            }
         }
     }
 
