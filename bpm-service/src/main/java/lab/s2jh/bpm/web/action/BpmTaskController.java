@@ -91,7 +91,8 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
 
         List<Map<String, Object>> tasks = new ArrayList<Map<String, Object>>();
 
-        List<Task> todoList = taskService.createTaskQuery().taskAssignee(userpin).active().list();
+        List<Task> todoList = taskService.createTaskQuery().taskAssignee(userpin).active().orderByTaskCreateTime()
+                .desc().list();
         for (Task task : todoList) {
             Map<String, Object> singleTask = packageTaskInfo(task);
             singleTask.put("needClaim", false);
@@ -99,7 +100,8 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         }
 
         // 等待签收的任务
-        List<Task> toClaimList = taskService.createTaskQuery().taskCandidateUser(userpin).active().list();
+        List<Task> toClaimList = taskService.createTaskQuery().taskCandidateUser(userpin).active()
+                .orderByTaskCreateTime().desc().list();
         for (Task task : toClaimList) {
             Map<String, Object> singleTask = packageTaskInfo(task);
             singleTask.put("needClaim", true);
@@ -124,6 +126,8 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         String formKey = taskFormData.getFormKey();
         if (StringUtils.isBlank(formKey)) {
             formKey = DYNA_FORM_KEY + "?id=" + taskId;
+        } else {
+            formKey = formKey + (formKey.indexOf("?") > -1 ? "&" : "?") + "taskId=" + taskId;
         }
         request.setAttribute("formKey", formKey);
         return new DefaultHttpHeaders("show").disableCaching();
