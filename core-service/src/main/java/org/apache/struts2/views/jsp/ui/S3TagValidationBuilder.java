@@ -23,6 +23,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.struts2.components.UIBean;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.data.domain.Persistable;
+import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.opensymphony.xwork2.ActionSupport;
@@ -55,6 +56,7 @@ public class S3TagValidationBuilder {
         if (entity != null) {
             try {
                 String tagName = tag.name;
+                Assert.notNull(tagName, "'name' attribute for tag is required.");
                 Method method = OgnlRuntime.getGetMethod((OgnlContext) stack.getContext(), entity.getClass(), tagName);
                 if (method == null) {
                     String[] tagNameSplits = StringUtils.split(tagName, ".");
@@ -86,7 +88,7 @@ public class S3TagValidationBuilder {
                     if (column != null) {
                         if (column.nullable() == false) {
                             if (tag.requiredLabel == null) {
-                                tag.setRequiredLabel("true");
+                                uiBean.setRequiredLabel("true");
                             }
                         }
                         if (column.unique() == true) {
