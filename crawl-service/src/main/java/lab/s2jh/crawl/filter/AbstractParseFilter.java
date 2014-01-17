@@ -9,7 +9,7 @@ import lab.s2jh.crawl.service.HtmlunitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
@@ -73,7 +73,7 @@ public abstract class AbstractParseFilter implements ParseFilter {
      * @return
      */
     protected String getSingleTextByXPath(HtmlPage htmlPage, String xpath) {
-        HtmlElement el = htmlPage.getFirstByXPath(xpath);
+        DomNode el = htmlPage.getFirstByXPath(xpath);
         if (el == null) {
             return "";
         }
