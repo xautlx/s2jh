@@ -95,8 +95,9 @@ public class S3TagValidationBuilder {
                             setupDynamicAttribute(dynamicAttributes, "data-rule-unique", "true");
                         }
                         if (column.length() > 0 && retType == String.class && method.getAnnotation(Lob.class) == null) {
-                            setupDynamicAttribute(dynamicAttributes, "maxlength", column.length());
-                            setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength", column.length());
+                            setupDynamicAttribute(dynamicAttributes, "maxlength", Integer.toString(column.length()));
+                            setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength",
+                                    Integer.toString(column.length()));
                         }
                     }
 
@@ -123,8 +124,9 @@ public class S3TagValidationBuilder {
                             setupDynamicAttribute(dynamicAttributes, "data-rule-minlength", size.min());
                         }
                         if (size.max() < Integer.MAX_VALUE) {
-                            setupDynamicAttribute(dynamicAttributes, "maxlength", size.max());
-                            setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength", size.max());
+                            setupDynamicAttribute(dynamicAttributes, "maxlength", Integer.toString(size.max()));
+                            setupDynamicAttribute(dynamicAttributes, "data-rule-maxlength",
+                                    Integer.toString(size.max()));
                         }
                     }
 
