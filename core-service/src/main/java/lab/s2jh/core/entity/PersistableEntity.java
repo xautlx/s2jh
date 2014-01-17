@@ -59,6 +59,15 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
     }
 
     /*
+     * 用于快速判断对象是否编辑状态
+     */
+    @Transient
+    @JsonIgnore
+    public boolean isNotNew() {
+        return !isNew();
+    }
+
+    /*
      * (non-Javadoc)
      * 
      * @see java.lang.Object#equals(java.lang.Object)
