@@ -7,9 +7,6 @@ import java.util.Set;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.cons.TreeNodeConstant;
-import lab.s2jh.core.pagination.GroupPropertyFilter;
-import lab.s2jh.core.pagination.PropertyFilter;
-import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
@@ -21,8 +18,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
@@ -47,46 +42,26 @@ public class MenuController extends BaseController<Menu, String> {
     @MetaData(value = "树形表格数据")
     public HttpHeaders treeGridData() {
         Map<String, Menu> menuDatas = Maps.newLinkedHashMap();
-
-        String nodeid = this.getParameter("nodeid");
-        if (StringUtils.isNotBlank(nodeid)) {
-            Menu parent = menuService.findOne(nodeid);
-            List<Menu> children = menuService.findChildren(parent);
-            for (Menu menu : children) {
-                menu.addExtraAttribute("level", menu.getLevel());
-                menu.addExtraAttribute("parent", nodeid);
-                menu.addExtraAttribute("isLeaf", CollectionUtils.isEmpty(menuService.findChildren(menu)) ? true : false);
-                menu.addExtraAttribute("expanded", false);
-                menu.addExtraAttribute("loaded", true);
-                menuDatas.put(menu.getId(), menu);
-            }
-        } else {
-            GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(entityClass,
-                    getRequest());
-            if (groupFilter.isEmpty()) {
-                groupFilter.and(new PropertyFilter(MatchType.NU, "parent", true));
-            }
-            List<Menu> menus = menuService.findByFilters(groupFilter, new Sort(Direction.DESC, "parent", "orderRank"));
-            for (Menu menu : menus) {
-                loopTreeGridData(menuDatas, menu, false);
-            }
-        }
+        List<Menu> roots = menuService.findRoots();
+        loopTreeGridData(menuDatas, roots);
         setModel(menuDatas.values());
         return buildDefaultHttpHeaders();
     }
 
-    private void loopTreeGridData(Map<String, Menu> menuDatas, Menu menu, boolean expanded) {
-        Menu parent = menu.getParent();
-        if (parent != null && !menuDatas.containsKey(parent.getId())) {
-            loopTreeGridData(menuDatas, parent, true);
+    private void loopTreeGridData(Map<String, Menu> menuDatas, List<Menu> menus) {
+        for (Menu menu : menus) {
+            Menu parent = menu.getParent();
+            List<Menu> children = menuService.findChildren(menu);
+            menu.addExtraAttribute("level", menu.getLevel());
+            menu.addExtraAttribute("parent", parent == null ? "" : parent.getId());
+            menu.addExtraAttribute("isLeaf", CollectionUtils.isEmpty(children) ? true : false);
+            menu.addExtraAttribute("expanded", true);
+            menu.addExtraAttribute("loaded", true);
+            menuDatas.put(menu.getId(), menu);
+            if (!CollectionUtils.isEmpty(children)) {
+                loopTreeGridData(menuDatas, children);
+            }
         }
-        List<Menu> children = menuService.findChildren(menu);
-        menu.addExtraAttribute("level", menu.getLevel());
-        menu.addExtraAttribute("parent", parent == null ? "" : parent.getId());
-        menu.addExtraAttribute("isLeaf", CollectionUtils.isEmpty(children) ? true : false);
-        menu.addExtraAttribute("expanded", expanded);
-        menu.addExtraAttribute("loaded", true);
-        menuDatas.put(menu.getId(), menu);
     }
 
     @Override
@@ -99,6 +74,12 @@ public class MenuController extends BaseController<Menu, String> {
             bindingEntity.setParent(null);
         }
         return super.doUpdate();
+    }
+
+    @Override
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
     }
 
     @Override

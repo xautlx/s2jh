@@ -2,6 +2,7 @@ package lab.s2jh.sys.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -114,7 +115,7 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "PARENT_ID")
     @JsonIgnore
     public Menu getParent() {

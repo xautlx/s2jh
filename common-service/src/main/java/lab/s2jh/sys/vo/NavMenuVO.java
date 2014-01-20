@@ -3,6 +3,8 @@ package lab.s2jh.sys.vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The Class MenuVO.
  */
@@ -12,6 +14,9 @@ public class NavMenuVO {
 
     /** 菜单名称，菜单显示的字面值. */
     private String name;
+
+    /** 图标，基于Bootstrap3，如fa-user */
+    private String icon;
 
     /**
      * 菜单URL.
@@ -91,5 +96,17 @@ public class NavMenuVO {
 
     public int getChildrenSize() {
         return children == null ? 0 : children.size();
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public boolean isHasIcon() {
+        return StringUtils.isNotBlank(icon);
     }
 }
