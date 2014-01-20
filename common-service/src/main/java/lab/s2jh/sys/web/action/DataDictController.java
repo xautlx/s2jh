@@ -17,13 +17,13 @@ import org.springframework.data.domain.Page;
 import com.google.common.collect.Lists;
 
 @MetaData(value = "数据字典管理")
-public class DataDictController extends BaseController<DataDict, String> {
+public class DataDictController extends BaseController<DataDict, Long> {
 
     @Autowired
     private DataDictService dataDictService;
 
     @Override
-    protected BaseService<DataDict, String> getEntityService() {
+    protected BaseService<DataDict, Long> getEntityService() {
         return dataDictService;
     }
 

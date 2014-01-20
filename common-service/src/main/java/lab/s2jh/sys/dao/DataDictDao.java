@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DataDictDao extends BaseDao<DataDict, String> {
+public interface DataDictDao extends BaseDao<DataDict, Long> {
 
     @Query("select distinct d.category from DataDict d order by d.category asc")
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })

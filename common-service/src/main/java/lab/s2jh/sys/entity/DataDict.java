@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -19,11 +18,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "tbl_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "category", "key1Value",
+@Table(name = "T_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "category", "key1Value",
         "key2Value" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "数据字典")
-public class DataDict extends BaseEntity<String> {
+public class DataDict extends BaseEntity<Long> {
 
     /** 类别定义。分类代码对应中文描述在dataDictCategory国际化资源文件中定义。具体使用说明请参考 
      * {@link DataDictService#findDataDictByCategory(String)} 
@@ -91,17 +90,17 @@ public class DataDict extends BaseEntity<String> {
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 10;
 
-    private String id;
+    private Long id;
 
     @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
+    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "native")
+    @Column(name = "sid")
+    public Long getId() {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -168,7 +167,8 @@ public class DataDict extends BaseEntity<String> {
         this.data2Value = data2Value;
     }
 
-    @Lob
+    //兼容遗留项目，取消LOB定义
+    //@Lob
     public String getData3Value() {
         return data3Value;
     }

@@ -18,7 +18,7 @@ import com.google.common.collect.Maps;
 
 @Service
 @Transactional
-public class DataDictService extends BaseService<DataDict, String> {
+public class DataDictService extends BaseService<DataDict, Long> {
 
     private final static String MESSAGE_RESOURCE_PREFIX = "data.dict.category.";
 
@@ -29,7 +29,7 @@ public class DataDictService extends BaseService<DataDict, String> {
     private MessageSource messageSource;
 
     @Override
-    protected BaseDao<DataDict, String> getEntityDao() {
+    protected BaseDao<DataDict, Long> getEntityDao() {
         return dataDictDao;
     }
 
