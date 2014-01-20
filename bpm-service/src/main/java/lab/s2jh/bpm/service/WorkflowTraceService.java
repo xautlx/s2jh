@@ -24,11 +24,15 @@ import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.collect.Lists;
 
 @Component
 public class WorkflowTraceService {
@@ -217,5 +221,24 @@ public class WorkflowTraceService {
     private void setPosition(ActivityImpl activity, Map<String, Object> activityInfo) {
         activityInfo.put("x", activity.getX());
         activityInfo.put("y", activity.getY());
+    }
+
+    /**
+     * 查询业务对象当前活动任务名称
+     */
+    public String findActiveTaskNames(String bizKey) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceBusinessKey(bizKey).singleResult();
+        List<String> ids = runtimeService.getActiveActivityIds(processInstance.getId());
+        ProcessDefinitionEntity pde = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processInstance
+                .getProcessDefinitionId());
+        List<ActivityImpl> activityImpls = pde.getActivities();
+        List<String> activeActs = Lists.newArrayList();
+        for (ActivityImpl activityImpl : activityImpls) {
+            if (ids.contains(activityImpl.getId())) {
+                activeActs.add(ObjectUtils.toString(activityImpl.getProperty("name")));
+            }
+        }
+        return StringUtils.join(activeActs, ",");
     }
 }
