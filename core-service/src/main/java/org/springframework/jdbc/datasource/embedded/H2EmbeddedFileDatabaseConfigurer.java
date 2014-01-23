@@ -2,6 +2,8 @@ package org.springframework.jdbc.datasource.embedded;
 
 import java.sql.Driver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -10,7 +12,7 @@ import org.springframework.util.ClassUtils;
  * 在实际配置过程中注意以databaseName指定H2数据绝对路径文件， 配置示例:
         <bean id="dataSource"
             class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
-            <property name="databaseName" value="c:\\dev" />
+            <property name="databaseName" value="${user.dir}\h2\prototype" />
             <property name="databaseConfigurer">
                 <bean
                     class="org.springframework.jdbc.datasource.embedded.H2EmbeddedFileDatabaseConfigurer"
@@ -20,6 +22,8 @@ import org.springframework.util.ClassUtils;
         </bean>     
  */
 public class H2EmbeddedFileDatabaseConfigurer extends AbstractEmbeddedDatabaseConfigurer {
+
+    private static Logger logger = LoggerFactory.getLogger("lab.s2jh.jdbc.h2");
 
     private static H2EmbeddedFileDatabaseConfigurer INSTANCE;
 
@@ -45,6 +49,7 @@ public class H2EmbeddedFileDatabaseConfigurer extends AbstractEmbeddedDatabaseCo
 
     public void configureConnectionProperties(ConnectionProperties properties, String databaseName) {
         properties.setDriverClass(this.driverClass);
+        logger.info("Using H2 EmbeddedFileDatabase: {}", databaseName);
         properties.setUrl(String.format("jdbc:h2:file:%s;DB_CLOSE_DELAY=-1", databaseName));
         properties.setUsername("sa");
         properties.setPassword("");
