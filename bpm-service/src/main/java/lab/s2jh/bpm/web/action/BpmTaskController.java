@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.web.view.OperationResult;
 
@@ -20,8 +21,11 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.form.TaskFormDataImpl;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
@@ -30,6 +34,7 @@ import org.apache.struts2.rest.RestActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ModelDriven;
 
 public class BpmTaskController extends RestActionSupport implements ModelDriven<Object> {
@@ -59,6 +64,9 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
     @Autowired
     private ManagementService managementService;
 
+    @Autowired
+    protected ActivitiService activitiService;
+
     @Override
     public Object getModel() {
         return model;
@@ -69,6 +77,8 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         String processDefinitionId = task.getProcessDefinitionId();
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
                 .processDefinitionId(processDefinitionId).singleResult();
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId(task.getProcessInstanceId()).singleResult();
 
         Map<String, Object> singleTask = new HashMap<String, Object>();
         singleTask.put("id", task.getId());
@@ -77,6 +87,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         singleTask.put("pdname", processDefinition.getName());
         singleTask.put("pdversion", processDefinition.getVersion());
         singleTask.put("pid", task.getProcessInstanceId());
+        singleTask.put("bizKey", processInstance.getBusinessKey());
 
         return singleTask;
     }
@@ -169,6 +180,26 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         identityService.setAuthenticatedUserId(userpin);
         formService.submitTaskFormData(taskId, formProperties);
         model = OperationResult.buildSuccessResult("任务处理成功");
+        return new DefaultHttpHeaders().disableCaching();
+    }
+
+    public Map<String, String> getBackActivities() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String taskId = request.getParameter("id");
+        List<ActivityImpl> activityImpls = activitiService.findBackActivities(taskId);
+        Map<String, String> dataMap = Maps.newLinkedHashMap();
+        for (ActivityImpl activityImpl : activityImpls) {
+            dataMap.put(activityImpl.getId(), ObjectUtils.toString(activityImpl.getProperty("name")));
+        }
+        return dataMap;
+    }
+
+    public HttpHeaders backActivity() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String taskId = request.getParameter("id");
+        String activityId = request.getParameter("activityId");
+        activitiService.backActivity(taskId, activityId);
+        model = OperationResult.buildSuccessResult("流程实例跳转请求处理成功");
         return new DefaultHttpHeaders().disableCaching();
     }
 }
