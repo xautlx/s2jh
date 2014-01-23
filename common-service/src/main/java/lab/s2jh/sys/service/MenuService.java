@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import lab.s2jh.auth.entity.Privilege;
+import lab.s2jh.auth.entity.Privilege.PrivilegeTypeEnum;
 import lab.s2jh.auth.service.PrivilegeService;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.service.BaseService;
@@ -280,7 +281,7 @@ public class MenuService extends BaseService<Menu, String> {
                 if (privilegeService.findByProperty("url", url) == null) {
                     Privilege privilege = new Privilege();
                     privilege.setCategory("菜单权限");
-                    privilege.setType("MENU");
+                    privilege.setType(PrivilegeTypeEnum.MENU);
                     privilege.setCode("P" + entity.getCode());
                     privilege.setTitle(entity.getTitle());
                     privilege.setDescription("创建菜单自动创建对应权限");

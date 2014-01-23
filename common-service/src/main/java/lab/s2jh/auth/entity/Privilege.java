@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -40,7 +42,7 @@ public class Privilege extends BaseEntity<String> {
 
     @MetaData(value = "类型")
     @EntityAutoCode(order = 8, search = true)
-    private String type = "URL";
+    private PrivilegeTypeEnum type = PrivilegeTypeEnum.URL;
 
     @MetaData(value = "代码")
     @EntityAutoCode(order = 10, search = true)
@@ -75,6 +77,19 @@ public class Privilege extends BaseEntity<String> {
 
     private String id;
 
+    public static enum PrivilegeTypeEnum {
+
+        @MetaData(value = "URL")
+        URL,
+
+        @MetaData(value = "按钮")
+        BTN,
+
+        @MetaData(value = "菜单")
+        MENU;
+
+    }
+
     @Id
     @Column(length = 40)
     @GeneratedValue(generator = "hibernate-uuid")
@@ -87,12 +102,13 @@ public class Privilege extends BaseEntity<String> {
         this.id = id;
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = true, length = 128)
-    public String getType() {
+    public PrivilegeTypeEnum getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PrivilegeTypeEnum type) {
         this.type = type;
     }
 

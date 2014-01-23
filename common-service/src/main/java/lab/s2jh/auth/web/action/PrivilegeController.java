@@ -241,10 +241,6 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return dataMap;
     }
 
-    public Map<String, String> getTypes() {
-        return dataDictService.findMapDataByCategory(Privilege.DATA_DICT_PRIVILEGE_TYPE);
-    }
-
     /**
      * 用于计算存储基于Controller方法列表的URL列表数据VO对象
      * 
