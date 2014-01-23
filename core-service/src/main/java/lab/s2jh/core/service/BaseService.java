@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -340,6 +342,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     private <X> Predicate buildPredicate(String propertyName, PropertyFilter filter, Root<X> root,
             CriteriaQuery<?> query, CriteriaBuilder builder) {
         Object matchValue = filter.getMatchValue();
+        String[] names = StringUtils.split(propertyName, ".");
+
         if (matchValue == null) {
             return null;
         }
@@ -350,27 +354,54 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         }
 
         if (filter.getMatchType().equals(MatchType.FETCH)) {
-            JoinType joinType = JoinType.INNER;
-            if (matchValue != null) {
+            if (names.length == 1) {
+                JoinType joinType = JoinType.INNER;
                 if (matchValue instanceof String) {
                     joinType = Enum.valueOf(JoinType.class, (String) matchValue);
                 } else {
                     joinType = (JoinType) filter.getMatchValue();
                 }
-            }
-            // Hack for Bug: https://jira.springsource.org/browse/DATAJPA-105
-            // 如果是在count计算总记录，则添加join；否则说明正常分页查询添加fetch
-            if (!Long.class.isAssignableFrom(query.getResultType())) {
-                root.fetch(propertyName, joinType);
+
+                // Hack for Bug: https://jira.springsource.org/browse/DATAJPA-105
+                // 如果是在count计算总记录，则添加join；否则说明正常分页查询添加fetch
+                if (!Long.class.isAssignableFrom(query.getResultType())) {
+                    root.fetch(names[0], joinType);
+                } else {
+                    root.join(names[0], joinType);
+                }
             } else {
-                root.join(propertyName, joinType);
+                JoinType[] joinTypes = new JoinType[names.length];
+                if (matchValue instanceof String) {
+                    String[] joinTypeSplits = StringUtils.split(String.valueOf(matchValue), ".");
+                    Assert.isTrue(joinTypeSplits.length == names.length);
+                    for (int i = 0; i < joinTypeSplits.length; i++) {
+                        joinTypes[i] = Enum.valueOf(JoinType.class, joinTypeSplits[i].trim());
+                    }
+                } else {
+                    joinTypes = (JoinType[]) filter.getMatchValue();
+                    Assert.isTrue(joinTypes.length == names.length);
+                }
+
+                // Hack for Bug: https://jira.springsource.org/browse/DATAJPA-105
+                // 如果是在count计算总记录，则添加join；否则说明正常分页查询添加fetch
+                if (!Long.class.isAssignableFrom(query.getResultType())) {
+                    Fetch fetch = root.fetch(names[0], joinTypes[0]);
+                    for (int i = 1; i < names.length; i++) {
+                        fetch.fetch(names[i], joinTypes[i]);
+                    }
+                } else {
+                    Join join = root.join(names[0], joinTypes[0]);
+                    for (int i = 1; i < names.length; i++) {
+                        join.join(names[i], joinTypes[i]);
+                    }
+                }
             }
+
             return null;
         }
 
         Predicate predicate = null;
         Path expression = null;
-        String[] names = StringUtils.split(propertyName, ".");
 
         // 处理集合子查询
         Subquery<Long> subquery = null;
