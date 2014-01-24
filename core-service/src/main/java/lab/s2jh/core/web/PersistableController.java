@@ -53,7 +53,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.util.Assert;
@@ -194,6 +193,11 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 newBindingEntity();
             }
         }
+    }
+    
+
+    private void hackEmtpyOneToOneEntity() {
+ 
     }
 
     protected void setupDetachedBindingEntity(ID id) {
@@ -456,31 +460,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             logger.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
             logger.error(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * 对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
-     * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
-     * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
-     */
-    protected void hackEmtpyOneToOneEntity() {
-        try {
-            Field[] fields = bindingEntity.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if (Persistable.class.isAssignableFrom(field.getType())) {
-                    Object value = FieldUtils.readDeclaredField(bindingEntity, field.getName(), true);
-                    if (value != null) {
-                        @SuppressWarnings("rawtypes")
-                        Persistable persistable = (Persistable) value;
-                        if (persistable.getId() == null || persistable.getId().toString().trim() == "") {
-                            FieldUtils.writeDeclaredField(bindingEntity, field.getName(), null, true);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new WebException("error.hack.empty.onetoone.entity", e);
         }
     }
 
