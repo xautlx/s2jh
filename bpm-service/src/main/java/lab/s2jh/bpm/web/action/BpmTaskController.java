@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.bpm.service.ActivitiService;
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.web.view.OperationResult;
 
@@ -92,10 +93,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         return singleTask;
     }
 
-    /**
-     * 用户待办任务列表
-     * @return
-     */
+    @MetaData(value = "用户待办任务列表")
     public HttpHeaders userTasks() {
         // 已经签收的任务
         String userpin = AuthContextHolder.getAuthUserPin();
@@ -106,7 +104,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
                 .desc().list();
         for (Task task : todoList) {
             Map<String, Object> singleTask = packageTaskInfo(task);
-            singleTask.put("needClaim", false);
+            singleTask.put("candidate", false);
             tasks.add(singleTask);
         }
 
@@ -115,7 +113,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
                 .orderByTaskCreateTime().desc().list();
         for (Task task : toClaimList) {
             Map<String, Object> singleTask = packageTaskInfo(task);
-            singleTask.put("needClaim", true);
+            singleTask.put("candidate", true);
             tasks.add(singleTask);
         }
 
@@ -125,23 +123,51 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         return new DefaultHttpHeaders("list").disableCaching();
     }
 
+    /**
+     * 基于任务参数查询Task实例，其中追加当前登录用户条件确保不会出现非法数据访问
+     * @param taskId
+     * @param candidate
+     * @return
+     */
+    private Task getUserTaskByRequest() {
+        String userpin = AuthContextHolder.getAuthUserPin();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String taskId = request.getParameter("taskId");
+        Assert.notNull(taskId);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        if (task.getAssignee() == null) {
+            task = taskService.createTaskQuery().taskId(taskId).taskCandidateUser(userpin).singleResult();
+            Assert.notNull(task, "BPM Task access denied");
+        } else {
+            Assert.isTrue(task.getAssignee().equals(userpin));
+        }
+        return task;
+    }
+
+    @MetaData(value = "任务显示")
     public HttpHeaders show() {
         HttpServletRequest request = ServletActionContext.getRequest();
-        String taskId = request.getParameter("id");
-        Assert.notNull(taskId);
-
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        Task task = getUserTaskByRequest();
         request.setAttribute("task", task);
 
-        TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(taskId);
+        TaskFormDataImpl taskFormData = (TaskFormDataImpl) formService.getTaskFormData(task.getId());
         String formKey = taskFormData.getFormKey();
         if (StringUtils.isBlank(formKey)) {
-            formKey = DYNA_FORM_KEY + "?id=" + taskId;
+            formKey = DYNA_FORM_KEY + "?id=" + task.getId();
         } else {
-            formKey = formKey + (formKey.indexOf("?") > -1 ? "&" : "?") + "taskId=" + taskId;
+            formKey = formKey + (formKey.indexOf("?") > -1 ? "&" : "?") + "taskId=" + task.getId();
         }
         request.setAttribute("formKey", formKey);
         return new DefaultHttpHeaders("show").disableCaching();
+    }
+
+    @MetaData(value = "任务变量清单显示")
+    public HttpHeaders variables() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        Task task = getUserTaskByRequest();
+        Map<String, Object> variables = taskService.getVariables(task.getId());
+        request.setAttribute("variables", variables);
+        return new DefaultHttpHeaders("variables").disableCaching();
     }
 
     public HttpHeaders dynaForm() {
@@ -152,6 +178,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         return new DefaultHttpHeaders("form").disableCaching();
     }
 
+    @MetaData(value = "任务签收")
     public HttpHeaders claim() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String userpin = AuthContextHolder.getAuthUserPin();
@@ -183,22 +210,28 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         return new DefaultHttpHeaders().disableCaching();
     }
 
-    public Map<String, String> getBackActivities() {
+    @MetaData(value = "任务回退表单显示")
+    public HttpHeaders backActivity() {
         HttpServletRequest request = ServletActionContext.getRequest();
-        String taskId = request.getParameter("id");
-        List<ActivityImpl> activityImpls = activitiService.findBackActivities(taskId);
+        Task task = getUserTaskByRequest();
+        List<ActivityImpl> activityImpls = activitiService.findBackActivities(task.getId());
         Map<String, String> dataMap = Maps.newLinkedHashMap();
         for (ActivityImpl activityImpl : activityImpls) {
             dataMap.put(activityImpl.getId(), ObjectUtils.toString(activityImpl.getProperty("name")));
         }
-        return dataMap;
+        request.setAttribute("task", task);
+        request.setAttribute("backActivities", dataMap);
+        return new DefaultHttpHeaders("backActivity").disableCaching();
     }
 
-    public HttpHeaders backActivity() {
+    @MetaData(value = "任务回退处理")
+    public HttpHeaders doBackActivity() {
         HttpServletRequest request = ServletActionContext.getRequest();
-        String taskId = request.getParameter("id");
+        Task task = getUserTaskByRequest();
         String activityId = request.getParameter("activityId");
-        activitiService.backActivity(taskId, activityId);
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("backActivityExplain", request.getParameter("backActivityExplain"));
+        activitiService.backActivity(task.getId(), activityId, variables);
         model = OperationResult.buildSuccessResult("流程实例跳转请求处理成功");
         return new DefaultHttpHeaders().disableCaching();
     }
