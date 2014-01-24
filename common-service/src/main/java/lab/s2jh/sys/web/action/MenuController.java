@@ -7,6 +7,7 @@ import java.util.Set;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.cons.TreeNodeConstant;
+import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
@@ -18,6 +19,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
@@ -42,8 +45,18 @@ public class MenuController extends BaseController<Menu, String> {
     @MetaData(value = "树形表格数据")
     public HttpHeaders treeGridData() {
         Map<String, Menu> menuDatas = Maps.newLinkedHashMap();
-        List<Menu> roots = menuService.findRoots();
-        loopTreeGridData(menuDatas, roots);
+        GroupPropertyFilter groupFilter = GroupPropertyFilter
+                .buildGroupFilterFromHttpRequest(entityClass, getRequest());
+        List<Menu> menus = null;
+        if (groupFilter.isEmpty()) {
+            menus = menuService.findRoots();
+            loopTreeGridData(menuDatas, menus);
+        } else {
+            menus = menuService.findByFilters(groupFilter, new Sort(Direction.DESC, "parent22", "orderRank"));
+            //TODO: 优化显示查询节点的上下级节点
+            loopTreeGridData(menuDatas, menus);
+        }
+
         setModel(menuDatas.values());
         return buildDefaultHttpHeaders();
     }
