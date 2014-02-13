@@ -142,8 +142,13 @@ public class ActivitiService {
      * @return
      */
     public String findActiveTaskNames(String bizKey) {
+        Assert.notNull(bizKey);
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceBusinessKey(bizKey).singleResult();
+        //流程已完结，直接返回null
+        if (processInstance == null) {
+            return null;
+        }
         List<String> ids = runtimeService.getActiveActivityIds(processInstance.getId());
         ProcessDefinitionEntity pde = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processInstance
                 .getProcessDefinitionId());
