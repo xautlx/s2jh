@@ -1,15 +1,11 @@
 package lab.s2jh.core.web;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import lab.s2jh.core.entity.BaseEntity;
-import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.inject.Inject;
 
 public abstract class BaseController<T extends BaseEntity<ID>, ID extends Serializable> extends
@@ -40,16 +36,4 @@ public abstract class BaseController<T extends BaseEntity<ID>, ID extends Serial
             }
         }
     }
-
-    public String convertToJson(Map<String, Serializable> dataMap) {
-        try {
-            Map<String, Object> displayMap = Maps.newLinkedHashMap();
-            displayMap.put("", "");
-            displayMap.putAll(dataMap);
-            return HibernateAwareObjectMapper.getInstance().writeValueAsString(displayMap);
-        } catch (JsonProcessingException e) {
-            return "{\"\":\"ERROR\"}";
-        }
-    }
-
 }

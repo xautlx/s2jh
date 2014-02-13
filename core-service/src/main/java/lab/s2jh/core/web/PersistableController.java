@@ -31,6 +31,7 @@ import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.util.DateUtils;
 import lab.s2jh.core.util.ExtStringUtils;
+import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 import lab.s2jh.core.web.view.OperationResult;
 import net.sf.jxls.transformer.XLSTransformer;
 
@@ -40,9 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
 import org.slf4j.Logger;
@@ -57,14 +56,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 
 public abstract class PersistableController<T extends PersistableEntity<ID>, ID extends Serializable> extends
-        RestActionSupport implements ModelDriven<Object>, Preparable {
+        SimpleController implements Preparable {
 
     private final Logger logger = LoggerFactory.getLogger(PersistableController.class);
 
@@ -91,12 +90,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
     /** 用于批量操作的数据绑定的Entity对象实例集合 */
     protected Collection<T> bindingEntities;
-
-    /** ModelDriven对象 */
-    protected Object model = null;
-
-    /** 前端表单一些不需要处理的表单元素的name设置为ignore，以抑制Struts参数绑定OGNL异常 */
-    protected String ignore = null;
 
     public String getActionName() {
 
@@ -194,10 +187,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             }
         }
     }
-    
 
     private void hackEmtpyOneToOneEntity() {
- 
+
     }
 
     protected void setupDetachedBindingEntity(ID id) {
@@ -237,97 +229,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     }
 
     /**
-     * 用于子类方法修改设置返回的ModelDriven模型对象
-     * @param model
-     */
-    protected void setModel(Object model) {
-        this.model = model;
-    }
-
-    /**
-     * 构造默认的REST返回响应，一般用于直接JSON数据输出
-     * @return
-     */
-    protected DefaultHttpHeaders buildDefaultHttpHeaders() {
-        return new DefaultHttpHeaders().disableCaching();
-    }
-
-    /**
-     * 基于code参数构造默认的REST返回响应，一般用于JSP页面转向显示数据
-     * @return
-     */
-    protected DefaultHttpHeaders buildDefaultHttpHeaders(String code) {
-        String to = this.getParameter(PARAM_NAME_FOR_FORWARD_TO);
-        if (StringUtils.isNotBlank(to)) {
-            code = to;
-        }
-        return new DefaultHttpHeaders(code).disableCaching();
-    }
-
-    /**
-     * 帮助类方法，方便获取HttpServletRequest
-     * 
-     * @return
-     */
-    protected HttpServletRequest getRequest() {
-        HttpServletRequest request = ServletActionContext.getRequest();
-        return request;
-    }
-
-    /**
-     * 帮助类方法，方便获取HttpServletResponse
-     * 
-     * @return
-     */
-    protected HttpServletResponse getResponse() {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        return response;
-    }
-
-    // ----------------------------------  
-    // -----------请求参数处理帮助类方法--------
-    // ----------------------------------
-
-    /**
-     * 获取必须参数值,如果参数为空则抛出异常
-     * 
-     * @param name 参数名称
-     * @return 参数值
-     */
-    protected String getRequiredParameter(String name) {
-        String value = getRequest().getParameter(name);
-        if (StringUtils.isBlank(value)) {
-            throw new WebException("web.param.disallow.empty: " + name);
-        }
-        return value;
-    }
-
-    /**
-     * 获取参数值,如果未空白则返回缺省值
-     * 
-     * @param name 参数名称
-     * @param name 如果参数为空返回的默认值
-     * @return 参数值
-     */
-    protected String getParameter(String name, String defaultValue) {
-        String value = getRequest().getParameter(name);
-        if (StringUtils.isBlank(value)) {
-            value = defaultValue;
-        }
-        return value;
-    }
-
-    /**
-     * 常规方式获取请求参数值
-     * 
-     * @param name  参数名称
-     * @return 参数值
-     */
-    protected String getParameter(String name) {
-        return getRequest().getParameter(name);
-    }
-
-    /**
      * 将id=123格式的字符串id参数转换为ID泛型对应的主键变量实例
      * 另外，页面也会以Struts标签获取显示当前操作对象的ID值
      * @return ID泛型对象实例
@@ -356,49 +257,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
-    // ----------------------------------  
-    // -----------OGNL处理帮助类方法---------
-    // ----------------------------------
-    /**
-     * 用于OGNL判断字符串不为Blank
-     * @param str 判断字符串
-     * @return
-     */
-    public boolean isNotBlank(String str) {
-        return StringUtils.isNotBlank(str);
-    }
-
-    /**
-     * 用于OGNL判断字符串为Blank
-     * @param str 判断字符串
-     * @return
-     */
-    public boolean isBlank(String str) {
-        return StringUtils.isBlank(str);
-    }
-
     // -------------------------------------
     // -----------通用的页面转向处理方法------------
     // -------------------------------------
-    /**
-     * 显示默认Index主界面
-     * @return
-     */
-    public HttpHeaders index() {
-        return buildDefaultHttpHeaders("index");
-    }
-
-    /**
-     * 通用forwar转向方法，根据to转向到对应的JSP页面 如果to参数为空，则抛出必要参数缺失异常
-     * 
-     * @return
-     */
-    public String forward() {
-        String to = this.getRequiredParameter(PARAM_NAME_FOR_FORWARD_TO);
-        logger.debug("Direct forward to: {}", to);
-        return to;
-    }
-
     /**
      * 用于创建或更新时转向通用的Tabs页面
      * 一般创建是Tabs页面只有第一个Tab可编辑，其余为Disabled的状态
@@ -1037,7 +898,20 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         return String.valueOf(value);
     }
 
-    public void setIgnore(String ignore) {
-        this.ignore = ignore;
+
+    /**
+     * 将Map数据转换为JSON字符串，一般用于Grid组件构建select下拉框所需JSON数据
+     * @param dataMap
+     * @return
+     */
+    public String convertToJson(Map<String, Serializable> dataMap) {
+        try {
+            Map<String, Object> displayMap = Maps.newLinkedHashMap();
+            displayMap.put("", "");
+            displayMap.putAll(dataMap);
+            return HibernateAwareObjectMapper.getInstance().writeValueAsString(displayMap);
+        } catch (JsonProcessingException e) {
+            return "{\"\":\"ERROR\"}";
+        }
     }
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.context.SpringContextHolder;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,6 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.h2.tools.Server;
 import org.hibernate.SessionFactory;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
@@ -32,10 +31,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
-import com.opensymphony.xwork2.ModelDriven;
-
 @MetaData(value = "辅助功能")
-public class UtilController extends RestActionSupport implements ModelDriven<Object> {
+public class UtilController extends SimpleController {
 
     protected final static Logger logger = LoggerFactory.getLogger(UtilController.class);
 
@@ -44,23 +41,6 @@ public class UtilController extends RestActionSupport implements ModelDriven<Obj
 
     @Autowired
     private CacheManager cacheManager;
-
-    private Object model;
-
-    @Override
-    public Object getModel() {
-        return model;
-    }
-
-    @SecurityControllIgnore
-    public HttpHeaders index() {
-        return new DefaultHttpHeaders("index");
-    }
-
-    @SecurityControllIgnore
-    public HttpHeaders logger() {
-        return new DefaultHttpHeaders("logger");
-    }
 
     public List<String> getCacheNames() {
         List<String> datas = new ArrayList<String>();
