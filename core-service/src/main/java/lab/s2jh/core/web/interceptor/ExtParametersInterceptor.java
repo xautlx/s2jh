@@ -148,14 +148,8 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
 
                                 if (cascadeTypes == null || cascadeTypes.length == 0
                                         || ArrayUtils.contains(cascadeTypes, CascadeType.DETACH)) {
-                                    BaseEntity one = (BaseEntity) method.invoke(model);
-                                    if (one != null && one.getCreatedDate() != null) {
-                                        if (one.getId() == null || one.getId().toString().trim() == "") {
-                                            logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model,
-                                                    name);
-                                            FieldUtils.writeDeclaredField(model, name, null, true);
-                                        }
-                                    }
+                                    logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model, name);
+                                    FieldUtils.writeDeclaredField(model, name, null, true);
                                 }
                             } else if (key.endsWith(".extraAttributes.operation")) {
                                 //汇总需要进行remove处理的集合元素属性
