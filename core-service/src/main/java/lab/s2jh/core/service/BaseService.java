@@ -302,6 +302,12 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return getEntityDao().findAll(spec, sort);
     }
 
+    @Transactional(readOnly = true)
+    public <X> List<X> findByFilters(Class<X> clazz, GroupPropertyFilter groupPropertyFilter, Sort sort) {
+        Specification<X> spec = buildSpecification(groupPropertyFilter);
+        return ((BaseDao) spec).findAll(spec, sort);
+    }
+
     /**
     * 基于动态组合条件对象和排序定义，限制查询数查询数据集合
     * 主要用于Autocomplete这样的查询避免返回太多数据
@@ -324,7 +330,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      */
     @Transactional(readOnly = true)
     public Page<T> findByPage(GroupPropertyFilter groupPropertyFilter, Pageable pageable) {
-        return getEntityDao().findAll(buildSpecification(groupPropertyFilter), pageable);
+        return getEntityDao().findAll((Specification<T>) buildSpecification(groupPropertyFilter), pageable);
     }
 
     /**
@@ -568,10 +574,10 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return predicates;
     }
 
-    private Specification<T> buildSpecification(final GroupPropertyFilter groupPropertyFilter) {
-        return new Specification<T>() {
+    private <X> Specification<X> buildSpecification(final GroupPropertyFilter groupPropertyFilter) {
+        return new Specification<X>() {
             @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+            public Predicate toPredicate(Root<X> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 if (groupPropertyFilter != null) {
                     return buildPredicatesFromFilters(groupPropertyFilter, root, query, builder);
                 } else {
