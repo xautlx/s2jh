@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lab.s2jh.auth.entity.User;
+import lab.s2jh.auth.service.UserService;
 import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
@@ -67,6 +69,9 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
 
     @Autowired
     protected ActivitiService activitiService;
+
+    @Autowired
+    protected UserService userService;
 
     @Override
     public Object getModel() {
@@ -185,6 +190,21 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
         String taskId = request.getParameter("id");
         taskService.claim(taskId, userpin);
         model = OperationResult.buildSuccessResult("任务签收成功");
+        return new DefaultHttpHeaders().disableCaching();
+    }
+
+    @MetaData(value = "任务转办")
+    public HttpHeaders trasfer() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String taskId = request.getParameter("id");
+        String assignee = request.getParameter("assignee");
+        User user = userService.findBySigninid(assignee);
+        if (user == null) {
+            model = OperationResult.buildFailureResult("未找到匹配登录账号：" + assignee);
+        } else {
+            taskService.setAssignee(taskId, assignee);
+            model = OperationResult.buildSuccessResult("任务转办操作成功");
+        }
         return new DefaultHttpHeaders().disableCaching();
     }
 
