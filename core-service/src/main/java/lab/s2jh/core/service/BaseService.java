@@ -303,7 +303,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     }
 
     @Transactional(readOnly = true)
-    public <X> List<X> findByFilters(Class<X> clazz, GroupPropertyFilter groupPropertyFilter, Sort sort) {
+    public <X extends Persistable> List<X> findByFilters(Class<X> clazz, GroupPropertyFilter groupPropertyFilter, Sort sort) {
         Specification<X> spec = buildSpecification(groupPropertyFilter);
         return ((BaseDao) spec).findAll(spec, sort);
     }
@@ -330,7 +330,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      */
     @Transactional(readOnly = true)
     public Page<T> findByPage(GroupPropertyFilter groupPropertyFilter, Pageable pageable) {
-        return getEntityDao().findAll((Specification<T>) buildSpecification(groupPropertyFilter), pageable);
+        Specification<T> specifications = buildSpecification(groupPropertyFilter);
+        return getEntityDao().findAll(specifications, pageable);
     }
 
     /**
@@ -574,7 +575,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return predicates;
     }
 
-    private <X> Specification<X> buildSpecification(final GroupPropertyFilter groupPropertyFilter) {
+    private <X extends Persistable> Specification<X> buildSpecification(final GroupPropertyFilter groupPropertyFilter) {
         return new Specification<X>() {
             @Override
             public Predicate toPredicate(Root<X> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
