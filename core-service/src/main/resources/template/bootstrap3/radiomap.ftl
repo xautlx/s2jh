@@ -1,4 +1,3 @@
-<div class="radio-list">
 <@s.iterator value="parameters.list">
     <#if parameters.listKey??>
         <#assign itemKey = stack.findValue(parameters.listKey)/>
@@ -79,4 +78,3 @@
 			${itemValue}
 	</label>
 </@s.iterator>   
-</div> 

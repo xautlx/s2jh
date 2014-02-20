@@ -56,7 +56,7 @@
         </#if>
     </#if>
     <#assign itemKeyStr=itemKey.toString() />
-    <label class="checkbox inline">
+    <label class="checkbox-inline">
 <input type="checkbox" name="${parameters.name?html}" value="${itemKeyStr?html}"
        id="${parameters.name?html}-${itemCount}"<#rt/>
     <#if tag.contains(parameters.nameValue, itemKey)>
