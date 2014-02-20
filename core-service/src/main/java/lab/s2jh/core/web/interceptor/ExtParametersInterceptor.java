@@ -83,13 +83,15 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
         Map<String, Object> params = ac.getParameters();
         Object idValue = params.get("id");
         if (idValue != null) {
+            //jqGrid inline edit新增数据传入id=-1标识 
             if (idValue instanceof String) {
-                if (StringUtils.isBlank(String.valueOf(idValue))) {
+                if (StringUtils.isBlank(String.valueOf(idValue)) || "-1".equals(idValue)) {
                     params.remove("id");
                 }
             } else {
                 Object[] ids = (Object[]) idValue;
-                if (ids.length == 0 || StringUtils.isBlank(String.valueOf(ids[0]))) {
+                if (ids.length == 0 || StringUtils.isBlank(String.valueOf(ids[0]))
+                        || "-1".equals(String.valueOf(ids[0]))) {
                     params.remove("id");
                 }
             }
