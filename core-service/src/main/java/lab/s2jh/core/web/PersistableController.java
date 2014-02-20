@@ -168,10 +168,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @Override
     public void prepare() {
-        String id = this.getParameter("id");
-        if (StringUtils.isNotBlank(id)) {
+        ID id = getId("id");
+        HttpServletRequest request = this.getRequest();
+        if (id != null) {
             //如果是以POST方式请求数据，则获取Detach状态的对象，其他则保留Session方式以便获取Lazy属性
-            HttpServletRequest request = this.getRequest();
             if (request.getMethod().equalsIgnoreCase("POST")) {
                 setupDetachedBindingEntity(getId());
             } else {
@@ -181,8 +181,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 checkEntityAclPermission(bindingEntity);
             }
         } else {
-            String prepare = this.getParameter("prepare");
-            if (BooleanUtils.toBoolean(prepare)) {
+            if (request.getMethod().equalsIgnoreCase("POST")) {
                 newBindingEntity();
             }
         }
@@ -245,7 +244,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     @SuppressWarnings("unchecked")
     public ID getId(String paramName) {
         String entityId = this.getParameter(paramName);
-        if (StringUtils.isBlank(entityId)) {
+        //jqGrid inline edit新增数据传入id=-1标识 
+        if (StringUtils.isBlank(entityId) || "-1".equals(entityId)) {
             return null;
         }
         if (String.class.isAssignableFrom(entityIdClass)) {
@@ -427,8 +427,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     }
 
     public void prepareDoSave() {
-        String id = this.getParameter("id");
-        if (StringUtils.isBlank(id)) {
+        ID id = getId("id");
+        if (id == null) {
             newBindingEntity();
             Assert.isNull(isDisallowCreate(), "数据访问权限不足");
         } else {
@@ -897,7 +897,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
         return String.valueOf(value);
     }
-
 
     /**
      * 将Map数据转换为JSON字符串，一般用于Grid组件构建select下拉框所需JSON数据
