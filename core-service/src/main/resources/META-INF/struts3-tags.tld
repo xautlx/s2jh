@@ -5799,7 +5799,7 @@
     </attribute>
     <attribute>
       <description><![CDATA[If set to true, the rendered element will indicate that input is required]]></description>
-      <name>required</name>
+      <name>requiredLabel</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
@@ -6047,7 +6047,7 @@
     </attribute>
     <attribute>
       <description><![CDATA[If set to true, the rendered element will indicate that input is required]]></description>
-      <name>required</name>
+      <name>requiredLabel</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
     </attribute>
