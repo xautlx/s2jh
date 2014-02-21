@@ -8,6 +8,8 @@ import java.util.Set;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.cons.TreeNodeConstant;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
+import lab.s2jh.core.pagination.PropertyFilter;
+import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
@@ -52,7 +54,7 @@ public class MenuController extends BaseController<Menu, String> {
             menus = menuService.findRoots();
             loopTreeGridData(menuDatas, menus);
         } else {
-            menus = menuService.findByFilters(groupFilter, new Sort(Direction.DESC, "parent22", "orderRank"));
+            menus = menuService.findByFilters(groupFilter, new Sort(Direction.DESC, "parent", "orderRank"));
             //TODO: 优化显示查询节点的上下级节点
             loopTreeGridData(menuDatas, menus);
         }
@@ -71,10 +73,22 @@ public class MenuController extends BaseController<Menu, String> {
             menu.addExtraAttribute("expanded", true);
             menu.addExtraAttribute("loaded", true);
             menuDatas.put(menu.getId(), menu);
-            if (!CollectionUtils.isEmpty(children)) {
-                loopTreeGridData(menuDatas, children);
-            }
+
         }
+    }
+
+    @Override
+    protected void appendFilterProperty(GroupPropertyFilter groupPropertyFilter) {
+        if (groupPropertyFilter.isEmpty()) {
+            groupPropertyFilter.and(new PropertyFilter(MatchType.NU, "parent.id", true));
+        }
+        super.appendFilterProperty(groupPropertyFilter);
+    }
+
+    @Override
+    @MetaData(value = "查询")
+    public HttpHeaders findByPage() {
+        return super.findByPage();
     }
 
     @Override
