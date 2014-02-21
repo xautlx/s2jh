@@ -43,6 +43,10 @@
                 if (sqlMessage != null && (sqlMessage.indexOf("FK") > -1 || sqlMessage.startsWith("ORA-02292"))) {
                     errorMessage = "该数据已被关联使用，请求的操作无效。若有疑问请联系系统管理员。";
                     skipLog = true;
+                } else if (sqlMessage != null
+                        && (sqlMessage.indexOf("UNIQUE") > -1 || sqlMessage.startsWith("ORA-02292"))) {
+                    errorMessage = "违反唯一性约束，请检查修正数据。若有疑问请联系系统管理员。";
+                    skipLog = true;
                 }
             }
         }
