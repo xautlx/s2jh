@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Fetch;
@@ -32,14 +34,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.hibernate.SQLQuery;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
+import org.hibernate.transform.Transformers;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
@@ -303,7 +308,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     }
 
     @Transactional(readOnly = true)
-    public <X extends Persistable> List<X> findByFilters(Class<X> clazz, GroupPropertyFilter groupPropertyFilter, Sort sort) {
+    public <X extends Persistable> List<X> findByFilters(Class<X> clazz, GroupPropertyFilter groupPropertyFilter,
+            Sort sort) {
         Specification<X> spec = buildSpecification(groupPropertyFilter);
         return ((BaseDao) spec).findAll(spec, sort);
     }
@@ -332,6 +338,24 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     public Page<T> findByPage(GroupPropertyFilter groupPropertyFilter, Pageable pageable) {
         Specification<T> specifications = buildSpecification(groupPropertyFilter);
         return getEntityDao().findAll(specifications, pageable);
+    }
+
+    /**
+     * 基于Native SQL和分页(不含排序，排序直接在native sql中定义)对象查询数据集合
+     * 
+     * @param pageable 分页(不含排序，排序直接在native sql中定义)对象
+     * @param sql Native SQL(自行组装好动态条件和排序的原生SQL语句)
+     * @return Map结构的集合分页对象
+     */
+    @Transactional(readOnly = true)
+    public Page<Map> findByPageNativeSQL(Pageable pageable, String sql) {
+        Query query = entityManager.createNativeQuery(sql);
+        query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ")");
+        query.setFirstResult(pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+        Object count = queryCount.getSingleResult();
+        return new PageImpl(query.getResultList(), pageable, Long.valueOf(count.toString()));
     }
 
     /**
