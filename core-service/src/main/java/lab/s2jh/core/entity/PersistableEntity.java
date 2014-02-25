@@ -40,7 +40,7 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
             String idStr = (String) id;
             if (StringUtils.isNotBlank(idStr)) {
                 int length = idStr.length();
-                return idStr.substring(length - 10, length);
+                return idStr.substring(length - 8, length);
             }
         }
         return id.toString();
