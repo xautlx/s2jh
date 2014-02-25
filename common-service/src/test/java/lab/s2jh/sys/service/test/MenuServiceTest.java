@@ -1,5 +1,8 @@
 package lab.s2jh.sys.service.test;
 
+import java.util.List;
+import java.util.Map;
+
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter.MatchType;
@@ -68,5 +71,13 @@ public class MenuServiceTest extends SpringTransactionalTestCase {
         pageable = new PageRequest(0, 10, new Sort(Direction.DESC, "id"));
         items = menuService.findByPage(groupPropertyFilter, pageable);
         Assert.assertTrue(items.getContent().size() == 2);
+
+        //findByPageNativeSQL
+        pageable = new PageRequest(0, 2);
+        String sql = "select * from TBL_SYS_MENU";
+        List<Map> nativeItems = menuService.findByPageNativeSQL(pageable, sql).getContent();
+        for (Map item : nativeItems) {
+            logger.debug("Item: {}", item);
+        }
     }
 }
