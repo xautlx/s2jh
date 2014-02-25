@@ -97,6 +97,8 @@ public class SourceCodeFrameworkBuilder {
             root.put("entity_name", className);
             root.put("entity_name_uncapitalize", StringUtils.uncapitalize(className));
             root.put("entity_name_field", nameField);
+            root.put("full_entity_name_field", modelPath.replaceAll("/", "-").substring(1, modelPath.length()) + "-"
+                    + nameField);
             root.put("root_package", rootPackage + "." + modelName);
             root.put("action_package", rootPackage);
             root.put("table_name", "tbl_TODO_" + className.toUpperCase());
@@ -168,8 +170,8 @@ public class SourceCodeFrameworkBuilder {
                         int length = fieldColumn.length();
                         if (length > 255) {
                             entityCodeField.setList(false);
-                            entityCodeField.setListWidth(length);
                         }
+                        entityCodeField.setListWidth(length);
                     }
                     Lob fieldLob = getMethod.getAnnotation(Lob.class);
                     if (fieldLob != null) {

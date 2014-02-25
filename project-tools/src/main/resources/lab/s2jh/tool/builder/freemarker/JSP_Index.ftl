@@ -1,139 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<%@ include file="/common/index-header.jsp"%>
-</head>
-<body>
-    <div class="container-fluid">
-        <s2:tabbedpanel id="${entity_name_uncapitalize}IndexTabs">
-            <ul>
-                <li><a href="#${entity_name_uncapitalize}IndexListTab"><span>列表查询</span></a></li>
-            </ul>
-            <div id="${entity_name_uncapitalize}IndexListTab">
-                <div class="row-fluid">
-                    <form id="${entity_name_uncapitalize}SearchForm" action="${entity_name_field}!findByPage" class="form-inline" method="get">
-	                    <div class="toolbar">
-	                        <div class="toolbar-inner">
-	                            <button type="button" class="btn" id="${entity_name_uncapitalize}AddBtn">
-	                                <i class="icon-plus-sign"></i> 添加
-	                            </button>
-	                            <button type="button" class="btn" id="${entity_name_uncapitalize}DeleteBtn">
-	                                <i class="icon-trash"></i> 删除
-	                            </button>
-	                            <div class="btn-group pull-right">
-	                                <button type="button" class="btn" title="高级查询"
-	                                    onclick="$('#${entity_name_uncapitalize}ListDiv').jqGrid('advSearch');">
-	                                    <i class="icon-search"></i>
-	                                </button>
-	                            </div>                            
-	                        </div>
-	                    </div>
-                    </form>
-                </div>
-                <div class="row-fluid">
-                    <table id="${entity_name_uncapitalize}ListDiv"></table>
-                    <div id="${entity_name_uncapitalize}ListDivPager"></div>
-                </div>
-            </div>
-        </s2:tabbedpanel>
-    </div>                    
-	<%@ include file="/common/index-footer.jsp"%>
-    <script type="text/javascript">
-        $(function() {
-            $("#${entity_name_uncapitalize}SearchForm").formvalidate({
-                initSubmit : true,
-                submitHandler : function(form) {        
-		            $("#${entity_name_uncapitalize}ListDiv").grid({
-		                queryForm : $(form),
-		                colNames : [ '操作','流水号'<#list entityFields as entityField><#if entityField.list>,'${entityField.title}'</#if></#list>],
-		                colModel : [ {
-		                    name : 'operation',
-		                    align : 'center',
-		                    fixed : true,
-		                    sortable : false,
-		                    hidedlg : true,
-		                    search : false,
-		                    width : 40,
-		                    formatter : function(cellValue, options, rowdata, action) {
-		                        return $.jgrid.buildButtons([ {
-		                            title : "编辑",
-		                            icon : "icon-pencil",
-		                            onclick : "$('#" + $(this).attr("id") + "').jqGrid('editRow','" + rowdata.id + "')"
-		                        } ]);
-		                    } 
-		                }, {
-		                    name : 'displayId',
-		                    index : 'id'                            
-		                <#list entityFields as entityField> 
-		                <#if entityField.list>    
-		                <#if entityField.enumField>
-		                }, {
-		                    name : '${entityField.fieldName}.title',
-		                    index : '${entityField.fieldName}',
-		                <#elseif entityField.fieldType=='Entity'>
-		                }, {
-		                    name : '${entityField.fieldName}.displayLabel',
-		                    index : '${entityField.fieldName}',
-		                <#else>    
-		                }, {
-		                    name : '${entityField.fieldName}',
-		                </#if>              
-		                <#if entityField.listWidth!=0>  
-		                    width : ${entityField.listWidth},
-		                </#if>
-		                <#if entityField.listFixed>
-		                    fixed : true,
-		                </#if>                  
-		                <#if entityField.listHidden>    
-		                    hidden : true,
-		                </#if>  
-		                <#if entityField.fieldType=='Boolean'>          
-		                    formatter : booleanFormatter,
-		                </#if>  
-		                <#if entityField.fieldType=='Date'>          
-		                    sorttype: 'date',
-		                </#if>
-		                <#if entityField.fieldType=='BigDecimal'>          
-		                    sorttype: 'number',
-		                </#if>                                                                       
-		                    align : '${entityField.listAlign}'
-		                </#if>
-		                </#list>
-		                } ],
-		                <#if fetchJoinFields?exists>
-		                postData: {
-		                   <#list fetchJoinFields?keys as key> 
-		                   "search['FETCH_${key}']" : "${fetchJoinFields[key]}"<#if (key_has_next)>,</#if>
-		                   </#list>
-		                },
-		                </#if>  
-		                viewRow : {
-		                    url : "${entity_name_field}!viewTabs"
-		                },                              
-		                delRow : {
-		                    url : "${entity_name_field}!doDelete"
-		                },
-		                addRow : {
-		                    url : "${entity_name_field}!inputTabs"
-		                },
-		                editRow : {
-		                    url : "${entity_name_field}!inputTabs",
-		                    labelCol : 'displayId'
-		                },                
-		                caption:"${model_title}列表"
-		            });	 
+<div class="tabbable tabbable-primary">
+	<ul class="nav nav-pills">
+		<li class="active"><a class="tab-default" data-toggle="tab" href="#tab-auto">列表查询</a></li>
+		<li class="tools pull-right"><a class="btn default reload" href="javascript:;"><i class="fa fa-refresh"></i></a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane fade active in">
+			<div class="row search-form-default">
+				<div class="col-md-12">
+					<form action="#" method="get" class="form-inline form-validation form-search form-search-init"
+						data-grid-search=".grid-${full_entity_name_field}">
+						<div class="input-group">
+							<div class="input-cont">
+								<input type="text" name="search['CN_code']" class="form-control" placeholder="代码...">
+							</div>
+							<span class="input-group-btn">
+								<button class="btn green" type="submmit">
+									<i class="m-icon-swapright m-icon-white"></i>&nbsp; 查&nbsp;询
+								</button>
+								<button class="btn default hidden-inline-xs" type="reset">
+									<i class="fa fa-undo"></i>&nbsp; 重&nbsp;置
+								</button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="grid-${full_entity_name_field}"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $(".grid-${full_entity_name_field}").data("gridOptions", {
+            url : '${base}${model_path}/${entity_name_field}!findByPage',
+            colNames : [ '流水号'<#list entityFields as entityField><#if entityField.list>,'${entityField.title}'</#if></#list>],
+	        colModel : [ {
+	            name : 'displayId',
+	            index : 'id'                            
+	        <#list entityFields as entityField> 
+	        <#if entityField.list>    
+	        <#if entityField.enumField>
+	        }, {
+                stype : 'select',
+                searchoptions : {
+                    value : $.parseJSON('<s:property value="%{convertToJson(#application.enums.${entityField.fieldName}Enum)}" escape="false"/>')
                 }
-            });
-            $("#${entity_name_uncapitalize}AddBtn").click(function() {
-                $("#${entity_name_uncapitalize}ListDiv").jqGrid('addRow');
-            });
-            
-            $("#${entity_name_uncapitalize}DeleteBtn").click(function() {
-                $("#${entity_name_uncapitalize}ListDiv").jqGrid('delRow');
-            });                         
-         });
-    </script>	
-</body>
-</html>
+	        <#elseif entityField.fieldType=='Entity'>
+	        }, {
+	            name : '${entityField.fieldName}.display',
+	            index : '${entityField.fieldName}',
+	        <#else>    
+	        }, {
+	            name : '${entityField.fieldName}',
+	        </#if>              
+	        <#if entityField.listWidth!=0>  
+	            width : ${entityField.listWidth},
+	        </#if>               
+	        <#if entityField.listHidden>    
+	            hidden : true,
+	        </#if>  
+	        <#if entityField.fieldType=='Boolean'>          
+	            formatter : booleanFormatter,
+	        </#if>  
+	        <#if entityField.fieldType=='Date'>          
+	            sorttype: 'date',
+	        </#if>
+	        <#if entityField.fieldType=='BigDecimal'>          
+	            sorttype: 'number',
+	        </#if>                                                                       
+	            align : '${entityField.listAlign}'
+	        </#if>
+	        </#list>
+	        } ],
+	        <#if fetchJoinFields?exists>
+	        postData: {
+	           <#list fetchJoinFields?keys as key> 
+	           "search['FETCH_${key}']" : "${fetchJoinFields[key]}"<#if (key_has_next)>,</#if>
+	           </#list>
+	        },
+	        </#if>  
+            editurl : "${base}${model_path}/${entity_name_field}!doSave",
+            delurl : "${base}${model_path}/${entity_name_field}!doDelete",
+            fullediturl : "${base}${model_path}/${entity_name_field}!inputTabs"
+        });
+    });
+</script>
+<%@ include file="/common/ajax-footer.jsp"%>
