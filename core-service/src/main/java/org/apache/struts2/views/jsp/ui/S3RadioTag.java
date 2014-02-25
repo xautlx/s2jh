@@ -35,10 +35,7 @@ public class S3RadioTag extends RadioTag {
         super.populateParams();
         UIBean uiBean = ((UIBean) component);
         S3TagValidationBuilder.build(this, this.getStack(), (HttpServletRequest) this.pageContext.getRequest(), uiBean);
-        
-        if (this.cssClass == null) {
-            uiBean.setCssClass("form-control");
-        }
+ 
         if (this.theme == null) {
             uiBean.setTheme("bootstrap3");
         }
