@@ -20,7 +20,6 @@ import javax.persistence.UniqueConstraint;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
-import lab.s2jh.core.web.json.EntityIdSerializer;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.annotations.Cache;
@@ -28,7 +27,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "tbl_SYS_MENU", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "PARENT_ID" }))
@@ -119,7 +117,7 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "PARENT_ID")
-    @JsonSerialize(using = EntityIdSerializer.class)
+    @JsonIgnore
     public Menu getParent() {
         return parent;
     }
