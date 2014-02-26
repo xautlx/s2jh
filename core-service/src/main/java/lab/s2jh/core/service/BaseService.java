@@ -349,14 +349,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      */
     @Transactional(readOnly = true)
     public Page<Map> findByPageNativeSQL(Pageable pageable, String sql) {
-        Query query = entityManager.createNativeQuery(sql);
-        query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-
-        Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ")");
-        query.setFirstResult(pageable.getOffset());
-        query.setMaxResults(pageable.getPageSize());
-        Object count = queryCount.getSingleResult();
-        return new PageImpl(query.getResultList(), pageable, Long.valueOf(count.toString()));
+        return findByPageNativeSQL(pageable, sql, null);
     }
 
     /**
@@ -376,7 +369,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             query = entityManager.createNativeQuery(sql);
         }
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ")");
+        Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ") cnt");
         query.setFirstResult(pageable.getOffset());
         query.setMaxResults(pageable.getPageSize());
         Object count = queryCount.getSingleResult();
