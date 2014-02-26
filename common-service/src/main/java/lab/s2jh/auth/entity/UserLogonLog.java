@@ -58,9 +58,9 @@ public class UserLogonLog extends BaseEntity<String> {
     @EntityAutoCode(order = 32, search = false, listHidden = true)
     private String userAgent;
 
-    @MetaData(value = "xForwardFor")
+    @MetaData(value = "xforwardFor")
     @EntityAutoCode(order = 36, search = false)
-    private String xForwardFor;
+    private String xforwardFor;
 
     @MetaData(value = "localAddr")
     @EntityAutoCode(order = 40, search = false, listHidden = true)
@@ -160,12 +160,12 @@ public class UserLogonLog extends BaseEntity<String> {
     }
 
     @Column(length = 1024, nullable = true)
-    public String getxForwardFor() {
-        return xForwardFor;
+    public String getXforwardFor() {
+        return xforwardFor;
     }
 
-    public void setxForwardFor(String xForwardFor) {
-        this.xForwardFor = xForwardFor;
+    public void setXforwardFor(String xforwardFor) {
+        this.xforwardFor = xforwardFor;
     }
 
     @Column(length = 128, nullable = false)

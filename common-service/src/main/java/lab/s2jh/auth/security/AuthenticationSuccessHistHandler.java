@@ -59,7 +59,7 @@ public class AuthenticationSuccessHistHandler extends SavedRequestAwareAuthentic
             userLogonLog.setServerIP(IPAddrFetcher.getGuessUniqueIP());
             userLogonLog.setHttpSessionId(request.getSession().getId());
             userLogonLog.setUserAgent(request.getHeader("User-Agent"));
-            userLogonLog.setxForwardFor(request.getHeader("X-Forward-For"));
+            userLogonLog.setXforwardFor(request.getHeader("X-Forward-For"));
             userLogonLog.setUserid(authUserDetails.getUid());
             userLogonLog.setUsername(authUserDetails.getUsername());
             userService.userLogonLog(userLogonLog);
