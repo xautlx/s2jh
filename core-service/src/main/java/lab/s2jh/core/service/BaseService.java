@@ -344,12 +344,37 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * 基于Native SQL和分页(不含排序，排序直接在native sql中定义)对象查询数据集合
      * 
      * @param pageable 分页(不含排序，排序直接在native sql中定义)对象
-     * @param sql Native SQL(自行组装好动态条件和排序的原生SQL语句)
+     * @param sql Native SQL(自行组装好动态条件和排序的原生SQL语句，不含order by部分)
      * @return Map结构的集合分页对象
      */
     @Transactional(readOnly = true)
     public Page<Map> findByPageNativeSQL(Pageable pageable, String sql) {
         Query query = entityManager.createNativeQuery(sql);
+        query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ")");
+        query.setFirstResult(pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+        Object count = queryCount.getSingleResult();
+        return new PageImpl(query.getResultList(), pageable, Long.valueOf(count.toString()));
+    }
+
+    /**
+     * 基于Native SQL和分页(不含排序，排序直接在native sql中定义)对象查询数据集合
+     * 
+     * @param pageable 分页(不含排序，排序直接在native sql中定义)对象
+     * @param sql Native SQL(自行组装好动态条件和排序的原生SQL语句，不含order by部分)
+     * @param orderby order by部分
+     * @return Map结构的集合分页对象
+     */
+    @Transactional(readOnly = true)
+    public Page<Map> findByPageNativeSQL(Pageable pageable, String sql, String orderby) {
+        Query query = null;
+        if (StringUtils.isNotBlank(orderby)) {
+            query = entityManager.createNativeQuery(sql + " " + orderby);
+        } else {
+            query = entityManager.createNativeQuery(sql);
+        }
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         Query queryCount = entityManager.createNativeQuery("select count(*) from (" + sql + ")");
         query.setFirstResult(pageable.getOffset());
