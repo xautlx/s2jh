@@ -244,8 +244,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     @SuppressWarnings("unchecked")
     public ID getId(String paramName) {
         String entityId = this.getParameter(paramName);
-        //jqGrid inline edit新增数据传入id=-1标识 
-        if (StringUtils.isBlank(entityId) || "-1".equals(entityId)) {
+        //jqGrid inline edit新增数据传入id=负数标识 
+        if (StringUtils.isBlank(entityId) || entityId.startsWith("-")) {
             return null;
         }
         if (String.class.isAssignableFrom(entityIdClass)) {
