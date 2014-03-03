@@ -7,10 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.entity.BaseEntity;
@@ -23,7 +19,6 @@ import ognl.OgnlContext;
 import ognl.OgnlException;
 import ognl.OgnlRuntime;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.struts2.ServletActionContext;
@@ -109,70 +104,59 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                 Object model = pc.getModel();
                 if (model != null && model instanceof Persistable) {
                     try {
-                        Set<String> needRemoveElementsPropertyNames = Sets.newHashSet();
-                        for (String key : parameters.keySet()) {
-                            if (key.endsWith(".id")) {
-                                /**
-                                 * 对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
-                                 * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
-                                 * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
-                                 */
-                                String name = StringUtils.substringBeforeLast(key, ".id");
-                                if (name.indexOf(".") > -1) {
-                                    continue;
-                                }
-                                String value = request.getParameter(key);
-                                if (StringUtils.isNotBlank(value)) {
-                                    continue;
-                                }
-                                Method method = OgnlRuntime.getGetMethod(null, model.getClass(), name);
+                        Persistable entity = (Persistable) model;
+                        if (!entity.isNew()) {
+                            Set<String> needRemoveElementsPropertyNames = Sets.newHashSet();
+                            for (String key : parameters.keySet()) {
+                                if (key.endsWith(".id")) {
+                                    /**
+                                     * 对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
+                                     * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
+                                     * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
+                                     */
+                                    String name = StringUtils.substringBeforeLast(key, ".id");
+                                    if (name.indexOf(".") > -1) {
+                                        continue;
+                                    }
+                                    String value = request.getParameter(key);
+                                    if (StringUtils.isNotBlank(value)) {
+                                        continue;
+                                    }
 
-                                JoinColumn joinColumn = method.getAnnotation(JoinColumn.class);
-                                if (joinColumn.nullable() == false) {
-                                    continue;
-                                }
-                                OneToOne oneToOne = method.getAnnotation(OneToOne.class);
-                                if (oneToOne != null && oneToOne.optional() == false) {
-                                    continue;
-                                }
-                                ManyToOne manyToOne = method.getAnnotation(ManyToOne.class);
-                                if (manyToOne != null && manyToOne.optional() == false) {
-                                    continue;
-                                }
+                                    int cnt = 0;
+                                    for (String param : parameters.keySet()) {
+                                        if (param.startsWith(name) && !param.equals(name + ".display")
+                                                && !param.equals(name + ".id")) {
+                                            cnt++;
+                                        }
+                                    }
 
-                                CascadeType[] cascadeTypes = null;
-                                if (oneToOne != null) {
-                                    cascadeTypes = oneToOne.cascade();
-                                } else if (manyToOne != null) {
-                                    cascadeTypes = manyToOne.cascade();
+                                    if (cnt == 0) {
+                                        logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model, name);
+                                        FieldUtils.writeDeclaredField(model, name, null, true);
+                                    }
+                                } else if (key.endsWith(".extraAttributes.operation")) {
+                                    //汇总需要进行remove处理的集合元素属性
+                                    //purchaseOrderDetails[1].extraAttributes.operation=remove
+                                    String value = request.getParameter(key);
+                                    if ("remove".equals(value)) {
+                                        String name = StringUtils
+                                                .substringBeforeLast(key, ".extraAttributes.operation");
+                                        name = StringUtils.substringBeforeLast(name, "[");
+                                        needRemoveElementsPropertyNames.add(name);
+                                    }
                                 }
-
-                                if (cascadeTypes == null || cascadeTypes.length == 0
-                                        || ArrayUtils.contains(cascadeTypes, CascadeType.DETACH)) {
-                                    logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model, name);
-                                    FieldUtils.writeDeclaredField(model, name, null, true);
-                                }
-                            } else if (key.endsWith(".extraAttributes.operation")) {
-                                //汇总需要进行remove处理的集合元素属性
-                                //purchaseOrderDetails[1].extraAttributes.operation=remove
-                                String value = request.getParameter(key);
-                                if ("remove".equals(value)) {
-                                    String name = StringUtils.substringBeforeLast(key, ".extraAttributes.operation");
-                                    name = StringUtils.substringBeforeLast(name, "[");
-                                    needRemoveElementsPropertyNames.add(name);
-                                }
-
                             }
-                        }
 
-                        //对于包含remove移除请求的集合属性进行清理处理
-                        for (String propName : needRemoveElementsPropertyNames) {
-                            Method method = OgnlRuntime.getGetMethod(null, model.getClass(), propName);
-                            Collection r2s = (Collection) method.invoke(model);
-                            for (Iterator iter = r2s.iterator(); iter.hasNext();) {
-                                PersistableEntity persistable = (PersistableEntity) iter.next();
-                                if (persistable.isMarkedRemove()) {
-                                    iter.remove();
+                            //对于包含remove移除请求的集合属性进行清理处理
+                            for (String propName : needRemoveElementsPropertyNames) {
+                                Method method = OgnlRuntime.getGetMethod(null, model.getClass(), propName);
+                                Collection r2s = (Collection) method.invoke(model);
+                                for (Iterator iter = r2s.iterator(); iter.hasNext();) {
+                                    PersistableEntity persistable = (PersistableEntity) iter.next();
+                                    if (persistable.isMarkedRemove()) {
+                                        iter.remove();
+                                    }
                                 }
                             }
                         }
@@ -180,9 +164,7 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                         throw new WebException("error.hack.empty.onetoone.entity", e);
                     }
                 }
-
             }
-
         }
     }
 }
