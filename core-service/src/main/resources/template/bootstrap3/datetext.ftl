@@ -5,7 +5,7 @@
 -->
 
 <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" 
-	class="input-group input-medium date date-picker">
+	class="input-group date date-picker">
 <#include "/${parameters.templateDir}/simple/text.ftl" />
 <span class="input-group-btn">
 		<button type="button" class="btn default">
