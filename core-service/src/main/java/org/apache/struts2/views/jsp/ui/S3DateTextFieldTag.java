@@ -31,17 +31,29 @@ public class S3DateTextFieldTag extends TextFieldTag {
         uiBean.setTemplate("datetext");
 
         S3TagValidationBuilder.build(this, this.getStack(), (HttpServletRequest) this.pageContext.getRequest(), uiBean);
-        if (this.cssClass == null) {
-            uiBean.setCssClass("form-control");
-        }
         if (this.theme == null) {
             uiBean.setTheme("bootstrap3");
         }
+        if (this.cssClass == null) {
+            uiBean.setCssClass("form-control");
+        }
         if (StringUtils.isBlank(format) || "date".equals(format)) {
             format = "yyyy-MM-dd";
+            if (this.cssClass == null) {
+                uiBean.setCssClass("form-control");
+            }
         } else if ("timestamp".equals(format)) {
             format = "yyyy-MM-dd HH:mm:ss";
         }
+
+        if (this.cssClass == null) {
+            if (format.length() > 10) {
+                dynamicAttributes.put("dateInputClass", "input-xlarge");
+            } else {
+                dynamicAttributes.put("dateInputClass", "input-medium");
+            }
+        }
+
         dynamicAttributes.put("format", format);
         uiBean.setDynamicAttributes(dynamicAttributes);
 
