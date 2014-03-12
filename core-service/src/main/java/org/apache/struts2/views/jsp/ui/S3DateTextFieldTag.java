@@ -46,13 +46,14 @@ public class S3DateTextFieldTag extends TextFieldTag {
             format = "yyyy-MM-dd HH:mm:ss";
         }
 
-        if (this.cssClass == null) {
-            if (format.length() > 10) {
-                dynamicAttributes.put("dateInputClass", "input-xlarge");
-            } else {
-                dynamicAttributes.put("dateInputClass", "input-medium");
-            }
-        }
+        //        if (this.cssClass == null) {
+        //            if (format.length() > 10) {
+        //                dynamicAttributes.put("dateInputClass", "input-xlarge");
+        //            } else {
+        //                dynamicAttributes.put("dateInputClass", "input-medium");
+        //            }
+        //        }
+        dynamicAttributes.put("dateInputClass", "");
 
         dynamicAttributes.put("format", format);
         uiBean.setDynamicAttributes(dynamicAttributes);
