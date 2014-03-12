@@ -39,8 +39,8 @@
     $(function() {
         $(".grid-${full_entity_name_field}").data("gridOptions", {
             url : '${base}${model_path}/${entity_name_field}!findByPage',
-            colNames : [ '流水号'<#list entityFields as entityField><#if entityField.list>,'${entityField.title}'</#if></#list>],
-	        colModel : [ {
+            colModel : [ {
+	            label : '流水号',
 	            name : 'displayId',
 	            index : 'id'                            
 	        <#list entityFields as entityField> 
@@ -49,14 +49,16 @@
 	        }, {
                 stype : 'select',
                 searchoptions : {
-                    value : $.parseJSON('<s:property value="%{convertToJson(#application.enums.${entityField.fieldName}Enum)}" escape="false"/>')
+                    value : Util.getCacheEnumsByType('${entityField.fieldName}Enum')
                 }
 	        <#elseif entityField.fieldType=='Entity'>
 	        }, {
+	            label : '${entityField.title}',
 	            name : '${entityField.fieldName}.display',
 	            index : '${entityField.fieldName}',
 	        <#else>    
 	        }, {
+	            label : '${entityField.title}',
 	            name : '${entityField.fieldName}',
 	        </#if>              
 	        <#if entityField.listWidth!=0>  
@@ -91,4 +93,5 @@
         });
     });
 </script>
+<script src="${base}/resources/js${model_path}/${entity_name_field}-index.js" />
 <%@ include file="/common/ajax-footer.jsp"%>

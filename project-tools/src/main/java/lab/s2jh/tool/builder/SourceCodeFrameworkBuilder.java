@@ -254,6 +254,7 @@ public class SourceCodeFrameworkBuilder {
             process(cfg.getTemplate("Test.ftl"), root, integrateRootPath + "\\test\\service\\", className
                     + "ServiceTest.java");
             process(cfg.getTemplate("JSP_Index.ftl"), root, integrateRootPath + "\\jsp\\", nameField + "-index.jsp");
+            process(cfg.getTemplate("JS_Index.ftl"), root, integrateRootPath + "\\jsp\\", nameField + "-index.js");
             process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-inputTabs.jsp");
             process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
@@ -273,6 +274,7 @@ public class SourceCodeFrameworkBuilder {
             process(cfg.getTemplate("Test.ftl"), root, standaloneRootPath + "\\test\\service\\", className
                     + "ServiceTest.java");
             process(cfg.getTemplate("JSP_Index.ftl"), root, standaloneRootPath + "\\jsp\\", nameField + "-index.jsp");
+            process(cfg.getTemplate("JS_Index.ftl"), root, standaloneRootPath + "\\jsp\\", nameField + "-index.js");
             process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
                     + "-inputTabs.jsp");
             process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
