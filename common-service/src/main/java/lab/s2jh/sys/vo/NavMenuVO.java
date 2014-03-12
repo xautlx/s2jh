@@ -3,6 +3,8 @@ package lab.s2jh.sys.vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import lab.s2jh.core.annotation.MetaData;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -34,6 +36,9 @@ public class NavMenuVO {
 
     /** 显示标识 */
     private Boolean show = Boolean.FALSE;
+    
+    @MetaData(value = "拼音", description = "用于类似Autocomplete快速以拼音搜索")
+    private String filterSpell;
 
     public void setShow(Boolean show) {
         this.show = show;
@@ -108,5 +113,13 @@ public class NavMenuVO {
 
     public boolean isHasIcon() {
         return StringUtils.isNotBlank(icon);
+    }
+    
+    public String getFilterSpell() {
+        return filterSpell;
+    }
+
+    public void setFilterSpell(String filterSpell) {
+        this.filterSpell = filterSpell;
     }
 }

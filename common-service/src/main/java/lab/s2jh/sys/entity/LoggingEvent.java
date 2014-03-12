@@ -25,6 +25,7 @@ import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
@@ -70,7 +71,11 @@ public class LoggingEvent extends PersistableEntity<Long> implements DefaultAudi
     private Date lastModifiedDate;
 
     public static enum LoggingHandleStateEnum {
-        TBD, FIXED, TODO, CANCELED, IGNORE;
+        TBD,
+        FIXED,
+        TODO,
+        CANCELED,
+        IGNORE;
     }
 
     @Id
@@ -330,7 +335,7 @@ public class LoggingEvent extends PersistableEntity<Long> implements DefaultAudi
     @Override
     @Transient
     public String getDisplay() {
-        return formattedMessage;
+        return StringUtils.substring(formattedMessage, 0, 50);
     }
 
 }
