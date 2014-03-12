@@ -205,6 +205,13 @@ public class PropertyFilter {
         }
 
         if (values.length == 1) {
+            if (matchType.equals(MatchType.IN) || matchType.equals(MatchType.NI)) {
+                String value = values[0];
+                values = value.split(",");
+            }
+        }
+
+        if (values.length == 1) {
             this.matchValue = parseMatchValueByClassType(propertyClass, values[0]);
         } else {
             Object[] matchValues = new Object[values.length];
@@ -323,20 +330,23 @@ public class PropertyFilter {
         for (String sidxItem : sidx.split(",")) {
             if (StringUtils.isNotBlank(sidxItem)) {
                 String[] sidxItemWithOrder = sidxItem.trim().split(" ");
+                String sortname = sidxItemWithOrder[0];
+                if (sortname.indexOf(OR_SEPARATOR) > -1) {
+                    sortname = StringUtils.substringBefore(sortname, OR_SEPARATOR);
+                }
                 if (sidxItemWithOrder.length == 1) {
                     if (sort == null) {
-                        sort = new Sort(sord, sidxItemWithOrder[0]);
+                        sort = new Sort(sord, sortname);
                     } else {
-                        sort = sort.and(new Sort(sord, sidxItemWithOrder[0]));
+                        sort = sort.and(new Sort(sord, sortname));
                     }
-
                 } else {
+                    String sortorder = sidxItemWithOrder[1];
                     if (sort == null) {
-                        sort = new Sort("desc".equalsIgnoreCase(sidxItemWithOrder[1]) ? Direction.DESC : Direction.ASC,
-                                sidxItemWithOrder[0]);
+                        sort = new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC, sortname);
                     } else {
-                        sort = sort.and(new Sort("desc".equalsIgnoreCase(sidxItemWithOrder[1]) ? Direction.DESC
-                                : Direction.ASC, sidxItemWithOrder[0]));
+                        sort = sort.and(new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC,
+                                sortname));
                     }
                 }
             }
