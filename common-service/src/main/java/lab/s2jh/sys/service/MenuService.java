@@ -20,6 +20,7 @@ import lab.s2jh.sys.entity.Menu;
 import lab.s2jh.sys.entity.Menu.MenuTypeEnum;
 import lab.s2jh.sys.vo.NavMenuVO;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -277,6 +278,9 @@ public class MenuService extends BaseService<Menu, String> {
     @Override
     public Menu save(Menu entity) {
         if (entity.isNew()) {
+            if (StringUtils.isBlank(entity.getCode())) {
+                entity.setCode("M" + RandomStringUtils.randomNumeric(6));
+            }
             //同步自动创建的对应权限数据
             String url = entity.getUrl();
             if (StringUtils.isNotBlank(url) && url.startsWith("/")) {
