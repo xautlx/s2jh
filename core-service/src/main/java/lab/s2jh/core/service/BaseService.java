@@ -167,6 +167,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                     Object propValue = MethodUtils.invokeMethod(entity, "get" + StringUtils.capitalize(name));
                     if (propValue != null && propValue instanceof Collection<?>) {
                         ((Collection<?>) propValue).size();
+                    } else if (propValue != null && propValue instanceof Persistable<?>) {
+                        ((Persistable<?>) propValue).getId();
                     }
                 } catch (Exception e) {
                     throw new ServiceException("error.init.detached.entity", e);
