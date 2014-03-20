@@ -122,7 +122,7 @@ public class Role extends BaseEntity<String> {
     @Override
     @Transient
     public String getDisplay() {
-        return title;
+        return code + " " + title;
     }
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
