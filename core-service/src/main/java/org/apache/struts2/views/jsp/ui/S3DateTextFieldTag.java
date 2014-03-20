@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.components.UIBean;
+import org.joda.time.DateTime;
 
 /**
  * 基于日历/时间选取组件封装的日期/时间录入组件
@@ -24,6 +25,11 @@ public class S3DateTextFieldTag extends TextFieldTag {
      * 在通过OGNL未获取到对应的日期值的情况下，是否默认初始化为当前系统时间
      */
     protected Boolean current = Boolean.FALSE;
+
+    /**
+     * 基于当前日期的一个偏差值，格式示例：+30d:当前30天之后，-1m：当前一个月之前，+1y: 当前1年之后
+     */
+    protected String offset;
 
     protected void populateParams() {
         super.populateParams();
@@ -71,8 +77,42 @@ public class S3DateTextFieldTag extends TextFieldTag {
         else if (dateObject instanceof Calendar)
             date = ((Calendar) dateObject).getTime();
 
-        if (date == null && current != null && current == true) {
-            date = new java.util.Date();
+        if (date == null) {
+            if (current != null && current == true) {
+                date = new java.util.Date();
+            } else if (StringUtils.isNotBlank(offset)) {
+                offset = offset.toLowerCase();
+                boolean plus = true;
+                String type = "d";
+                String value = offset;
+                if (offset.startsWith("-")) {
+                    plus = false;
+                    value = StringUtils.substringAfter(value, "-");
+                } else if (offset.startsWith("+")) {
+                    value = StringUtils.substringAfter(value, "+");
+                }
+                if (value.endsWith("d")) {
+                    type = "d";
+                    value = StringUtils.substringBeforeLast(value, "d");
+                } else if (value.endsWith("m")) {
+                    type = "m";
+                    value = StringUtils.substringBeforeLast(value, "m");
+                } else if (value.endsWith("y")) {
+                    type = "y";
+                    value = StringUtils.substringBeforeLast(value, "y");
+                }
+                int ov = Integer.valueOf(value);
+                if (!plus) {
+                    ov = -ov;
+                }
+                if (type.equals("d")) {
+                    date = new DateTime().plusDays(ov).toDate();
+                } else if (type.equals("m")) {
+                    date = new DateTime().plusMonths(ov).toDate();
+                } else if (type.equals("y")) {
+                    date = new DateTime().plusYears(ov).toDate();
+                }
+            }
         }
 
         if (date != null) {
@@ -87,5 +127,9 @@ public class S3DateTextFieldTag extends TextFieldTag {
 
     public void setCurrent(Boolean current) {
         this.current = current;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
     }
 }
