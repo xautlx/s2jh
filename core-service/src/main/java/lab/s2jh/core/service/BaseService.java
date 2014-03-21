@@ -226,10 +226,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     /**
      * 根据泛型对象属性和值查询唯一对象
      * 
-     * @param property
-     *            属性名，即对象中数量变量名称
-     * @param value
-     *            参数值
+     * @param property 属性名，即对象中数量变量名称
+     * @param value 参数值
      * @return 未查询到返回null，如果查询到多条数据则抛出异常
      */
     public T findByProperty(final String property, final Object value) {
@@ -247,6 +245,31 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             return null;
         } else {
             Assert.isTrue(entities.size() == 1);
+            return entities.get(0);
+        }
+    }
+
+    /**
+     * 根据泛型对象属性和值查询唯一对象
+     * 
+     * @param property 属性名，即对象中数量变量名称
+     * @param value 参数值
+     * @return 未查询到返回null，如果查询到多条数据则返回第一条
+     */
+    public T findFirstByProperty(final String property, final Object value) {
+        Specification<T> spec = new Specification<T>() {
+            @Override
+            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                @SuppressWarnings("rawtypes")
+                Path expression = root.get(property);
+                return builder.equal(expression, value);
+            }
+        };
+
+        List<T> entities = this.getEntityDao().findAll(spec);
+        if (CollectionUtils.isEmpty(entities)) {
+            return null;
+        } else {
             return entities.get(0);
         }
     }
@@ -840,6 +863,82 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         } catch (IllegalAccessException e) {
             throw new ServiceException(e.getMessage(), e);
         } catch (InstantiationException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 供子类调用的关联对象关联关系操作辅助方法
+     * 
+     * @param id
+     *            当前关联主对象主键，如User对象主键
+     * @param r2EntityIds
+     *            关联对象的主键集合，如用户关联角色的Role对象集合的主键
+     * @param r2PropertyName
+     *            主对象中关联集合对象属性的名称，如User对象中定义的userR2Roles属性名
+     * @param r2EntityPropertyName
+     *            被关联对象在R2关联对象定义中的属性名称，如UserR2Role中定义的role属性名
+     */
+    protected void updateRelatedR2s(ID id, Collection<? extends Serializable> r2EntityIds, String r2PropertyName,
+            String r2EntityPropertyName) {
+        try {
+            T entity = findOne(id);
+            List oldR2s = (List) MethodUtils.invokeExactMethod(entity, "get" + StringUtils.capitalize(r2PropertyName),
+                    null);
+
+            if (CollectionUtils.isEmpty(r2EntityIds) && !CollectionUtils.isEmpty(oldR2s)) {
+                oldR2s.clear();
+            } else {
+                Field r2field = FieldUtils.getField(entityClass, r2PropertyName, true);
+                Class r2Class = (Class) (((ParameterizedType) r2field.getGenericType()).getActualTypeArguments()[0]);
+                Field entityField = null;
+                Field[] fields = r2Class.getDeclaredFields();
+                for (Field field : fields) {
+                    if (field.getType().equals(entityClass)) {
+                        entityField = field;
+                        break;
+                    }
+                }
+
+                Field r2EntityField = FieldUtils.getField(r2Class, r2EntityPropertyName, true);
+                Class r2EntityClass = r2EntityField.getType();
+
+                // 双循环处理需要删除关联的项目
+                List tobeDleteList = Lists.newArrayList();
+                for (Object r2 : oldR2s) {
+                    boolean tobeDlete = true;
+                    for (Serializable r2EntityId : r2EntityIds) {
+                        Object r2Entity = entityManager.find(r2EntityClass, r2EntityId);
+                        if (FieldUtils.readDeclaredField(r2, r2EntityPropertyName, true).equals(r2Entity)) {
+                            tobeDlete = false;
+                            break;
+                        }
+                    }
+                    if (tobeDlete) {
+                        tobeDleteList.add(r2);
+                    }
+                }
+                oldR2s.removeAll(tobeDleteList);
+
+                // 双循环处理需要新增关联的项目
+                for (Serializable r2EntityId : r2EntityIds) {
+                    Object r2Entity = entityManager.find(r2EntityClass, r2EntityId);
+                    boolean tobeAdd = true;
+                    for (Object r2 : oldR2s) {
+                        if (FieldUtils.readDeclaredField(r2, r2EntityPropertyName, true).equals(r2Entity)) {
+                            tobeAdd = false;
+                            break;
+                        }
+                    }
+                    if (tobeAdd) {
+                        Object newR2 = r2Class.newInstance();
+                        FieldUtils.writeDeclaredField(newR2, r2EntityField.getName(), r2Entity, true);
+                        FieldUtils.writeDeclaredField(newR2, entityField.getName(), entity, true);
+                        oldR2s.add(newR2);
+                    }
+                }
+            }
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
