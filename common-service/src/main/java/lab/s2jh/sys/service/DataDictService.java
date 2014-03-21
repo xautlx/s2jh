@@ -33,6 +33,10 @@ public class DataDictService extends BaseService<DataDict, Long> {
         return dataDictDao;
     }
 
+    public List<DataDict> findAllCached() {
+        return dataDictDao.findAllCached();
+    }
+
     public String findCategoryLabel(String category) {
         return messageSource.getMessage(MESSAGE_RESOURCE_PREFIX + category, null, category,
                 AuthContextHolder.getLocale());

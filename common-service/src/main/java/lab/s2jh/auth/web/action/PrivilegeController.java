@@ -1,6 +1,5 @@
 package lab.s2jh.auth.web.action;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -16,9 +15,7 @@ import lab.s2jh.auth.entity.RoleR2Privilege;
 import lab.s2jh.auth.service.PrivilegeService;
 import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.service.R2OperationEnum;
 import lab.s2jh.core.util.UidUtils;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
@@ -34,10 +31,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -230,15 +224,11 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return buildDefaultHttpHeaders();
     }
 
-    public Map<String, Serializable> getDistinctCategories() {
+    @MetaData("去重权限分类数据")
+    public HttpHeaders distinctCategories() {
         List<String> categories = privilegeService.findDistinctCategories();
-        Map<String, Serializable> dataMap = Maps.newLinkedHashMap();
-        if (!CollectionUtils.isEmpty(categories)) {
-            for (String item : categories) {
-                dataMap.put(item, item);
-            }
-        }
-        return dataMap;
+        setModel(categories);
+        return buildDefaultHttpHeaders();
     }
 
     /**
@@ -344,9 +334,8 @@ public class PrivilegeController extends BaseController<Privilege, String> {
 
     @MetaData(value = "计算显示角色关联数据")
     @SecurityControllIgnore
-    public HttpHeaders findRelatedRoles() {
-        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Role.class, getRequest());
-        List<Role> roles = roleService.findByFilters(groupFilter, new Sort(Direction.DESC, "aclType", "code"));
+    public HttpHeaders roles() {
+        List<Role> roles = roleService.findAllCached();
         List<RoleR2Privilege> r2s = privilegeService.findRelatedRoleR2PrivilegesForPrivilege(this.getId());
         for (Role role : roles) {
             role.addExtraAttribute("related", false);
@@ -358,8 +347,9 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                 }
             }
         }
-        setModel(buildPageResultFromList(roles));
-        return buildDefaultHttpHeaders();
+
+        this.getRequest().setAttribute("roles", roles);
+        return buildDefaultHttpHeaders("roles");
     }
 
     @MetaData(value = "更新角色关联")
@@ -367,9 +357,8 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     public HttpHeaders doUpdateRelatedRoleR2s() {
         String userId = this.getId();
         Set<String> roleIds = this.getParameterIds("r2ids");
-        R2OperationEnum op = Enum.valueOf(R2OperationEnum.class, getParameter("op", R2OperationEnum.add.name()));
-        privilegeService.updateRelatedRoleR2s(userId, roleIds, op);
-        setModel(OperationResult.buildSuccessResult(op.getLabel() + "操作完成"));
+        privilegeService.updateRelatedRoleR2s(userId, roleIds);
+        setModel(OperationResult.buildSuccessResult("更新角色关联操作完成"));
         return buildDefaultHttpHeaders();
     }
 
@@ -380,23 +369,11 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     }
 
     @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        return super.doCreate();
-    }
-
-    @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
-        return super.doUpdate();
-    }
-
-    @Override
     @MetaData(value = "保存")
     public HttpHeaders doSave() {
         return super.doSave();
     }
-    
+
     @Override
     @MetaData(value = "删除")
     public HttpHeaders doDelete() {

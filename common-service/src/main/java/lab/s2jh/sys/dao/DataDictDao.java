@@ -20,4 +20,8 @@ public interface DataDictDao extends BaseDao<DataDict, Long> {
 
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     public List<DataDict> findByCategoryOrderByOrderRankDesc(String category);
+
+    @Query("from DataDict order by category asc,orderRank desc")
+    @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
+    public List<DataDict> findAllCached();
 }

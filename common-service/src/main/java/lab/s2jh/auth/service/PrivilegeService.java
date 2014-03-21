@@ -21,7 +21,6 @@ import lab.s2jh.auth.entity.RoleR2Privilege;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.service.R2OperationEnum;
 import lab.s2jh.core.web.filter.PostStrutsPrepareAndExecuteFilter;
 import lab.s2jh.rpt.dao.ReportDefDao;
 import lab.s2jh.rpt.entity.ReportDef;
@@ -225,7 +224,7 @@ public class PrivilegeService extends BaseService<Privilege, String> {
     }
 
     @CacheEvict(value = "SpringSecurityCache", allEntries = true)
-    public void updateRelatedRoleR2s(String id, Collection<String> roleIds, R2OperationEnum op) {
-        updateRelatedR2s(id, roleIds, "roleR2Privileges", "role", op);
+    public void updateRelatedRoleR2s(String id, Collection<String> roleIds) {
+        updateRelatedR2s(id, roleIds, "roleR2Privileges", "role");
     }
 }

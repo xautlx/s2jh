@@ -53,10 +53,6 @@ public class Role extends BaseEntity<String> {
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(value = "锁定标识", description = "对于不允许随意调整配置的角色，可以设定为锁定则只能查看无法编辑")
-    @EntityAutoCode(order = 40, search = true)
-    private Boolean locked = Boolean.FALSE;
-
     @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
 
@@ -109,14 +105,6 @@ public class Role extends BaseEntity<String> {
 
     public void setDisabled(Boolean disabled) {
         this.disabled = disabled;
-    }
-
-    public Boolean getLocked() {
-        return locked;
-    }
-
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
     }
 
     @Override

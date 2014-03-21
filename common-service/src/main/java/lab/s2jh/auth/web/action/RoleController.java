@@ -1,6 +1,7 @@
 package lab.s2jh.auth.web.action;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,8 +26,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class RoleController extends BaseController<Role, String> {
@@ -87,38 +88,17 @@ public class RoleController extends BaseController<Role, String> {
     }
 
     @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (StringUtils.isNotBlank(authUserAclType)) {
-            //判断选取的类型是否属于当前登录用户管辖范围
-            String aclType = this.getRequiredParameter("aclType");
-            if (authUserAclType.compareTo(aclType) < 0) {
-                throw new DataAccessDeniedException("数据访问权限不足");
-            }
-            bindingEntity.setAclType(aclType);
-        }
-        return super.doCreate();
-    }
-
-    @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
-        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
-        if (StringUtils.isNotBlank(authUserAclType)) {
-            //判断选取的类型是否属于当前登录用户管辖范围
-            String aclType = this.getRequiredParameter("aclType");
-            if (authUserAclType.compareTo(aclType) < 0) {
-                throw new DataAccessDeniedException("数据访问权限不足");
-            }
-            bindingEntity.setAclType(aclType);
-        }
-        return super.doCreate();
-    }
-
-    @Override
     @MetaData(value = "保存")
     public HttpHeaders doSave() {
+        String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
+        if (StringUtils.isNotBlank(authUserAclType)) {
+            //判断选取的类型是否属于当前登录用户管辖范围
+            String aclType = this.getRequiredParameter("aclType");
+            if (authUserAclType.compareTo(aclType) < 0) {
+                throw new DataAccessDeniedException("数据访问权限不足");
+            }
+            bindingEntity.setAclType(aclType);
+        }
         return super.doSave();
     }
 
@@ -134,41 +114,37 @@ public class RoleController extends BaseController<Role, String> {
         return buildDefaultHttpHeaders();
     }
 
-    @MetaData(value = "计算显示已经关联权限列表")
+    @MetaData(value = "权限关联")
     @SecurityControllIgnore
-    public HttpHeaders findRelatedRoleR2Privileges() {
-        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(RoleR2Privilege.class,
-                getRequest());
-        Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
-        setModel(roleService.findRelatedRoleR2PrivilegesForRole(this.getId(), groupFilter, pageable));
-        return buildDefaultHttpHeaders();
+    public HttpHeaders privileges() {
+        Map<String, List<Privilege>> groupDatas = Maps.newLinkedHashMap();
+        List<Privilege> privileges = privilegeService.findAllCached();
+        List<RoleR2Privilege> r2s = roleService.findOne(this.getId()).getRoleR2Privileges();
+        for (Privilege privilege : privileges) {
+            List<Privilege> groupPrivileges = groupDatas.get(privilege.getCategory());
+            if (groupPrivileges == null) {
+                groupPrivileges = Lists.newArrayList();
+                groupDatas.put(privilege.getCategory(), groupPrivileges);
+            }
+            groupPrivileges.add(privilege);
+            privilege.addExtraAttribute("related", false);
+            for (RoleR2Privilege r2 : r2s) {
+                if (r2.getPrivilege().equals(privilege)) {
+                    privilege.addExtraAttribute("r2CreatedDate", r2.getCreatedDate());
+                    privilege.addExtraAttribute("related", true);
+                    break;
+                }
+            }
+        }
+        this.getRequest().setAttribute("privileges", groupDatas);
+        return buildDefaultHttpHeaders("privileges");
     }
 
-    @MetaData(value = "计算显示可选关联权限列表")
-    @SecurityControllIgnore
-    public HttpHeaders findUnRelatedPrivileges() {
-        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Privilege.class,
-                getRequest());
-        Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
-        setModel(privilegeService.findUnRelatedPrivilegesForRole(this.getId(), groupFilter, pageable));
-        return buildDefaultHttpHeaders();
-    }
-
-    @MetaData(value = "添加权限关联")
-    public HttpHeaders doAddUnRelatedPrivilegeR2s() {
-        String roleId = this.getId();
-        Set<String> privilegeIds = this.getParameterIds("r2ids");
-        roleService.addUnRelatedPrivilegeR2s(roleId, privilegeIds);
-        setModel(OperationResult.buildSuccessResult("添加权限关联操作完成"));
-        return buildDefaultHttpHeaders();
-    }
-
-    @MetaData(value = "移除权限关联")
-    public HttpHeaders doDeleteRelatedPrivilegeR2s() {
-        String roleId = this.getId();
+    @MetaData(value = "更新权限关联")
+    public HttpHeaders doUpdateRelatedPrivilegeR2s() {
         Set<String> r2Ids = this.getParameterIds("r2ids");
-        roleService.deleteRelatedPrivilegeR2s(roleId, r2Ids);
-        setModel(OperationResult.buildSuccessResult("移除权限关联操作完成"));
+        roleService.updateRelatedPrivilegeR2s(this.getId(), r2Ids);
+        setModel(OperationResult.buildSuccessResult("更新权限关联操作完成"));
         return buildDefaultHttpHeaders();
     }
 

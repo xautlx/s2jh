@@ -143,13 +143,12 @@ public class UserService extends BaseService<User, Long> {
         return user;
     }
 
-    @Transactional(readOnly = true)
-    public List<UserR2Role> findRelatedUserR2RolesForUser(User user) {
-        return userR2RoleDao.findByUser(user);
-    }
-
     public void updateRelatedRoleR2s(Long id, Collection<String> roleIds, R2OperationEnum op) {
         updateRelatedR2s(id, roleIds, "userR2Roles", "role", op);
+    }
+
+    public void updateRelatedRoleR2s(Long id, Collection<String> roleIds) {
+        updateRelatedR2s(id, roleIds, "userR2Roles", "role");
     }
 
     @Transactional(readOnly = true)
