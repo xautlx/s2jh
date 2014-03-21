@@ -4,6 +4,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import ognl.OgnlRuntime;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,9 +116,6 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                                  * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
                                  */
                                 String name = StringUtils.substringBeforeLast(key, ".id");
-                                if (name.indexOf(".") > -1) {
-                                    continue;
-                                }
                                 String value = request.getParameter(key);
                                 if (StringUtils.isNotBlank(value)) {
                                     continue;
@@ -133,7 +132,25 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
 
                                 if (cnt == 0) {
                                     logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model, name);
-                                    FieldUtils.writeDeclaredField(model, name, null, true);
+                                    if (name.indexOf("[") > -1 && name.indexOf("]") > -1) {
+                                        //集合类型属性
+                                        String fisrtPropName = StringUtils.substringBefore(name, "[");
+                                        int idx = Integer.valueOf(StringUtils.substringBetween(name, "[", "]"));
+                                        List items = (List) MethodUtils.invokeMethod(model,
+                                                "get" + StringUtils.capitalize(fisrtPropName), null);
+                                        String lastPropName = StringUtils.substringAfter(name, "]");
+                                        if (StringUtils.isBlank(lastPropName)) {
+                                            items.remove(idx);
+                                        } else {
+                                            Object item = items.get(idx);
+                                            FieldUtils.writeDeclaredField(item,
+                                                    StringUtils.substringAfter(lastPropName, "."), null, true);
+                                        }
+                                    } else {
+                                        //单一属性
+                                        FieldUtils.writeDeclaredField(model, name, null, true);
+                                    }
+
                                 }
                             } else if (key.endsWith(".extraAttributes.operation")) {
                                 //汇总需要进行remove处理的集合元素属性
