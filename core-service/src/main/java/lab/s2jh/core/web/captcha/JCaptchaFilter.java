@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import lab.s2jh.core.context.KernelConfigParameters;
 import lab.s2jh.core.context.SpringContextHolder;
+import lab.s2jh.core.service.PropertiesConfigService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +35,9 @@ public class JCaptchaFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        KernelConfigParameters kernelConfigParameters = SpringContextHolder.getBean(KernelConfigParameters.class);
+        PropertiesConfigService propertiesConfigService = SpringContextHolder.getBean(PropertiesConfigService.class);
         //为了提高开发人员频繁登录效率问题，开发模式则跳过验证码验证
-        if (kernelConfigParameters != null && kernelConfigParameters.isDevMode()) {
+        if (propertiesConfigService != null && propertiesConfigService.isDevMode()) {
             logger.warn("Application running at DEV mode, jcaptcha validation skipped.");
             chain.doFilter(request, response);
             return;

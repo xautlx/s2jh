@@ -2,8 +2,8 @@ package lab.s2jh.sys.service;
 
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.sys.entity.ConfigProperty;
 import lab.s2jh.sys.dao.ConfigPropertyDao;
+import lab.s2jh.sys.entity.ConfigProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +19,9 @@ public class ConfigPropertyService extends BaseService<ConfigProperty,String>{
     @Override
     protected BaseDao<ConfigProperty, String> getEntityDao() {
         return configPropertyDao;
+    }
+    
+    public ConfigProperty findByPropKey(String propKey){
+        return configPropertyDao.findByPropKey(propKey);
     }
 }
