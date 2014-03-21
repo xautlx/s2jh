@@ -19,42 +19,47 @@ import freemarker.template.TemplateException;
 @Component
 public class FreemarkerConfigurer extends Configuration {
 
-	private final static Logger logger = LoggerFactory.getLogger(FreemarkerConfigurer.class);
+    private final static Logger logger = LoggerFactory.getLogger(FreemarkerConfigurer.class);
 
-	private static StringTemplateLoader stringTemplateLoader = new StringTemplateLoader();
+    private static StringTemplateLoader stringTemplateLoader = new StringTemplateLoader();
 
-	public FreemarkerConfigurer() {
-		this.setDefaultEncoding("UTF-8");
-	}
+    public FreemarkerConfigurer() {
+        this.setDefaultEncoding("UTF-8");
+        this.setTemplateLoader(stringTemplateLoader);
+    }
 
-	public String processTemplate(String templateName, Integer version, String templateContents,
-			Map<String, Object> dataMap) {
-		Assert.notNull(templateName);
-		Assert.notNull(version);
-		if (StringUtils.isBlank(templateContents)) {
-			return null;
-		}
-		Object templateSource = stringTemplateLoader.findTemplateSource(templateName);
-		if (templateSource == null) {
-			logger.debug("Init freemarker template: {}", templateName);
-			stringTemplateLoader.putTemplate(templateName, templateContents, version.longValue());
-		} else {
-			long ver = stringTemplateLoader.getLastModified(templateSource);
-			if (version.intValue() > ver) {
-				logger.debug("Update freemarker template: {}", templateName);
-				stringTemplateLoader.putTemplate(templateName, templateContents, version.longValue());
-			}
-		}
-		StringWriter strWriter = new StringWriter();
-		try {
-			this.getTemplate(templateName).process(dataMap, strWriter);
-			strWriter.flush();
-		} catch (TemplateException e) {
-			throw new ServiceException("error.freemarker.template.process", e);
-		} catch (IOException e) {
-			throw new ServiceException("error.freemarker.template.process", e);
-		}
-		return strWriter.toString();
-	}
+    public String processTemplate(String templateName, Integer version, String templateContents,
+            Map<String, Object> dataMap) {
+        Assert.notNull(templateName);
+        Assert.notNull(version);
+        if (StringUtils.isBlank(templateContents)) {
+            return null;
+        }
+        Object templateSource = stringTemplateLoader.findTemplateSource(templateName);
+        if (templateSource == null) {
+            logger.debug("Init freemarker template: {}", templateName);
+            stringTemplateLoader.putTemplate(templateName, templateContents, version.longValue());
+        } else {
+            long ver = stringTemplateLoader.getLastModified(templateSource);
+            if (version.intValue() > ver) {
+                logger.debug("Update freemarker template: {}", templateName);
+                stringTemplateLoader.putTemplate(templateName, templateContents, version.longValue());
+            }
+        }
+        StringWriter strWriter = new StringWriter();
+        try {
+            this.getTemplate(templateName).process(dataMap, strWriter);
+            strWriter.flush();
+        } catch (TemplateException e) {
+            throw new ServiceException("error.freemarker.template.process", e);
+        } catch (IOException e) {
+            throw new ServiceException("error.freemarker.template.process", e);
+        }
+        return strWriter.toString();
+    }
 
+    public String processTemplate(String templateContents, Map<String, Object> dataMap) {
+        String templateName = "_" + templateContents.hashCode();
+        return processTemplate(templateName, 0, templateContents, dataMap);
+    }
 }

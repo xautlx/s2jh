@@ -6,6 +6,7 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.cfg.DynamicConfigService;
 import lab.s2jh.core.service.BaseService;
+import lab.s2jh.core.service.PropertiesConfigService;
 import lab.s2jh.core.web.BaseController;
 
 import org.apache.struts2.ServletActionContext;
@@ -21,6 +22,9 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 public class SigninController extends BaseController<User, Long> {
 
     @Autowired
+    private PropertiesConfigService propertiesConfigService;
+
+    @Autowired
     private DynamicConfigService dynamicConfigService;
 
     @Autowired
@@ -31,7 +35,7 @@ public class SigninController extends BaseController<User, Long> {
     }
 
     public boolean isDevMode() {
-        return dynamicConfigService.isDevMode();
+        return propertiesConfigService.isDevMode();
     }
 
     public String getSystemTitle() {
