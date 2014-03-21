@@ -498,6 +498,12 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
         if ("NULL".equalsIgnoreCase(String.valueOf(matchValue))) {
             return expression.isNull();
+        }else  if ("EMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
+            return builder.or(builder.isNull(expression), builder.equal(expression, ""));
+        }else  if ("NONULL".equalsIgnoreCase(String.valueOf(matchValue))) {
+            return expression.isNotNull();
+        }else  if ("NOEMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
+            return builder.and(builder.isNotNull(expression), builder.notEqual(expression, ""));
         }
 
         // logic operator
