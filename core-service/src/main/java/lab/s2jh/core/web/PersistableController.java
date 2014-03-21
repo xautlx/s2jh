@@ -462,12 +462,14 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     protected Set<String> getParameterIds(String paramName) {
         HttpServletRequest request = ServletActionContext.getRequest();
         Set<String> idSet = Sets.newHashSet();
-        String singleId = request.getParameter(paramName);
-        if (StringUtils.isNotBlank(singleId)) {
-            for (String id : singleId.split(",")) {
-                String trimId = id.trim();
-                if (StringUtils.isNotBlank(trimId)) {
-                    idSet.add(trimId);
+        String[] params = request.getParameterValues(paramName);
+        if (params != null) {
+            for (String param : params) {
+                for (String id : param.split(",")) {
+                    String trimId = id.trim();
+                    if (StringUtils.isNotBlank(trimId)) {
+                        idSet.add(trimId);
+                    }
                 }
             }
         }
