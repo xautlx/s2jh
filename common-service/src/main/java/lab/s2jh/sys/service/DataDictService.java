@@ -17,7 +17,7 @@ import com.google.common.collect.Maps;
 
 @Service
 @Transactional
-public class DataDictService extends BaseService<DataDict, Long> {
+public class DataDictService extends BaseService<DataDict, String> {
 
     @Autowired
     private DataDictDao dataDictDao;
@@ -26,7 +26,7 @@ public class DataDictService extends BaseService<DataDict, Long> {
     private MessageSource messageSource;
 
     @Override
-    protected BaseDao<DataDict, Long> getEntityDao() {
+    protected BaseDao<DataDict, String> getEntityDao() {
         return dataDictDao;
     }
 

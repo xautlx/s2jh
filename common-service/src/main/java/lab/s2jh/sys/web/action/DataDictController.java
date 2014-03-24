@@ -13,13 +13,13 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @MetaData(value = "数据字典管理")
-public class DataDictController extends BaseController<DataDict, Long> {
+public class DataDictController extends BaseController<DataDict, String> {
 
     @Autowired
     private DataDictService dataDictService;
 
     @Override
-    protected BaseService<DataDict, Long> getEntityService() {
+    protected BaseService<DataDict, String> getEntityService() {
         return dataDictService;
     }
 

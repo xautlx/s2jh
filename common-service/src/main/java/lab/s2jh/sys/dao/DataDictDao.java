@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DataDictDao extends BaseDao<DataDict, Long> {
+public interface DataDictDao extends BaseDao<DataDict, String> {
 
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     public DataDict findByPrimaryKey(String primaryKey);

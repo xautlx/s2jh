@@ -21,14 +21,14 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "TBL_SYS_DATA_DICT", uniqueConstraints = @UniqueConstraint(columnNames = { "PARENT_ID", "primaryKey",
         "secondaryKey" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "数据字典")
-public class DataDict extends BaseEntity<Long> {
+public class DataDict extends BaseEntity<String> {
 
     /** 
      * 字典数据的主标识，绝大部分情况对于单一主标识就能确定唯一性的字典数据只需维护此字段值即可
@@ -83,17 +83,17 @@ public class DataDict extends BaseEntity<Long> {
     @MetaData(value = "父节点")
     private DataDict parent;
 
-    private Long id;
+    private String id;
 
     @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "native")
-    @Column(name = "sid")
-    public Long getId() {
+    @Column(length = 40)
+    @GeneratedValue(generator = "hibernate-uuid")
+    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
+    public String getId() {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -115,7 +115,7 @@ public class DataDict extends BaseEntity<Long> {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "PARENT_ID")
-    @JsonIgnore
+    @JsonProperty
     public DataDict getParent() {
         return parent;
     }
