@@ -25,7 +25,6 @@
 			<list>
 				<value>error</value>
 				<value>message</value>
-				<value>dataDictCategory</value>
 			</list>
 		</property>
 	</bean>

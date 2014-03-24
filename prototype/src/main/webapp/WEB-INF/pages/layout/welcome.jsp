@@ -34,9 +34,9 @@
 	<script>
         $(function() {
 
-            $("#pubPostListShow").ajaxGetUrl("${base}/profile/pub-post!list");
+            //$("#pubPostListShow").ajaxGetUrl("${base}/profile/pub-post!list");
 
-            $("#userBpmTasksDiv").ajaxGetUrl("${base}/bpm/bpm-task!userTasks");
+            //$("#userBpmTasksDiv").ajaxGetUrl("${base}/bpm/bpm-task!userTasks");
         });
     </script>
 </body>
