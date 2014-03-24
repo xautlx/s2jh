@@ -205,9 +205,37 @@ public class UserController extends BaseController<User, Long> {
 
     @MetaData(value = "汇总用户关联权限集合")
     public HttpHeaders privileges() {
-        List<Privilege> privileges = userService.findRelatedPrivilegesForUser(bindingEntity);
-        setModel(buildPageResultFromList(privileges));
-        return buildDefaultHttpHeaders();
+        List<Privilege> privileges = privilegeService.findAllCached();
+        List<Role> roles = roleService.findR2RolesForUser(bindingEntity);
+        boolean isAdmin = false;
+        for (Role role : roles) {
+            if (role.getCode().equals(Role.ROLE_ADMIN_CODE)) {
+                isAdmin = true;
+                break;
+            }
+        }
+        
+        Map<String, List<Privilege>> groupDatas = Maps.newLinkedHashMap();
+        List<Privilege> r2s = null;
+        if (isAdmin) {
+            r2s = privileges;
+        } else {
+            r2s = userService.findRelatedPrivilegesForUser(bindingEntity);
+        }
+        for (Privilege privilege : privileges) {
+            List<Privilege> groupPrivileges = groupDatas.get(privilege.getCategory());
+            if (groupPrivileges == null) {
+                groupPrivileges = Lists.newArrayList();
+                groupDatas.put(privilege.getCategory(), groupPrivileges);
+            }
+            groupPrivileges.add(privilege);
+            privilege.addExtraAttribute("related", false);
+            if (r2s.contains(privilege)) {
+                privilege.addExtraAttribute("related", true);
+            }
+        }
+        this.getRequest().setAttribute("privileges", groupDatas);
+        return buildDefaultHttpHeaders("privileges");
     }
 
     @MetaData(value = "汇总用户关联菜单集合")

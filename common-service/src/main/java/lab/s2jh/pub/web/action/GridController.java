@@ -40,7 +40,7 @@ public class GridController extends RestActionSupport {
         for (int i = 0; i < rows.length; i++) {
             String row = rows[i];
             if (StringUtils.isNotBlank(row)) {
-                logger.debug("Row {}: {}", i, row);
+                logger.trace("Row {}: {}", i, row);
                 // 创建Excel的sheet的一行
                 HSSFRow hssfRow = sheet.createRow(i);
                 String[] cells = row.split("\t");

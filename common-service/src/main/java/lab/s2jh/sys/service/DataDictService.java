@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import lab.s2jh.core.dao.BaseDao;
-import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.sys.dao.DataDictDao;
 import lab.s2jh.sys.entity.DataDict;
@@ -19,8 +18,6 @@ import com.google.common.collect.Maps;
 @Service
 @Transactional
 public class DataDictService extends BaseService<DataDict, Long> {
-
-    private final static String MESSAGE_RESOURCE_PREFIX = "data.dict.category.";
 
     @Autowired
     private DataDictDao dataDictDao;
@@ -37,33 +34,16 @@ public class DataDictService extends BaseService<DataDict, Long> {
         return dataDictDao.findAllCached();
     }
 
-    public String findCategoryLabel(String category) {
-        return messageSource.getMessage(MESSAGE_RESOURCE_PREFIX + category, null, category,
-                AuthContextHolder.getLocale());
+    public List<DataDict> findChildrenByPrimaryKey(String primaryKey) {
+        DataDict parent = dataDictDao.findByPrimaryKey(primaryKey);
+        return dataDictDao.findChildrenByParentAndDisabled(parent, false);
     }
 
-    /**
-     * 返回去重Key-Label形式的分类Map数据
-     * @return
-     */
-    public Map<String, String> findDistinctCategories() {
-        Map<String, String> distinctCategories = Maps.newLinkedHashMap();
-        List<String> categories = dataDictDao.findDistinctCategories();
-        for (String category : categories) {
-            distinctCategories.put(category, findCategoryLabel(category));
-        }
-        return distinctCategories;
-    }
-
-    public List<DataDict> findByCategory(String category) {
-        return dataDictDao.findByCategoryOrderByOrderRankDesc(category);
-    }
-
-    public Map<String, String> findMapDataByCategory(String category) {
+    public Map<String, String> findMapDataByPrimaryKey(String primaryKey) {
         Map<String, String> dataMap = Maps.newLinkedHashMap();
-        List<DataDict> dataDicts = findByCategory(category);
+        List<DataDict> dataDicts = findChildrenByPrimaryKey(primaryKey);
         for (DataDict dataDict : dataDicts) {
-            dataMap.put(dataDict.getKey1Value(), dataDict.getData1Value());
+            dataMap.put(dataDict.getPrimaryKey(), dataDict.getPrimaryValue());
         }
         return dataMap;
     }

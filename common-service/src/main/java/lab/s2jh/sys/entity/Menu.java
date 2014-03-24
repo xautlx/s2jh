@@ -88,9 +88,6 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
     @MetaData(value = "所在层级", description = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
     private Integer inheritLevel;
 
-    @MetaData(value = "拼音", description = "用于类似Autocomplete快速以拼音搜索")
-    private String filterSpell;
-
     private String id;
 
     @Id
@@ -265,13 +262,5 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
             return loopLevel(level + 1, menu.getParent());
         }
         return level;
-    }
-
-    public String getFilterSpell() {
-        return filterSpell;
-    }
-
-    public void setFilterSpell(String filterSpell) {
-        this.filterSpell = filterSpell;
     }
 }

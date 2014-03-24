@@ -10,7 +10,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @MetaData(value = "参数属性配置")
-public class ConfigPropertyController extends BaseController<ConfigProperty,String> {
+public class ConfigPropertyController extends BaseController<ConfigProperty, String> {
 
     @Autowired
     private ConfigPropertyService configPropertyService;
@@ -19,23 +19,16 @@ public class ConfigPropertyController extends BaseController<ConfigProperty,Stri
     protected BaseService<ConfigProperty, String> getEntityService() {
         return configPropertyService;
     }
-    
+
     @Override
     protected void checkEntityAclPermission(ConfigProperty entity) {
         // Nothing to do
     }
 
-    
     @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        return super.doCreate();
-    }
-
-    @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
-        return super.doUpdate();
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
     }
 
     @Override

@@ -11,8 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Sets;
-
 
 public class PubPostServiceTest extends SpringTransactionalTestCase {
 
@@ -27,7 +25,7 @@ public class PubPostServiceTest extends SpringTransactionalTestCase {
         Assert.assertTrue(entity.getId() != null);
 
         //JPA/Hibernate query validation
-        List<PubPost> items = pubPostService.findAll(Sets.newHashSet(entity.getId()));
+        List<PubPost> items = pubPostService.findAll(entity.getId());
         Assert.assertTrue(items.size() >= 1);
     }
 

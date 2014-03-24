@@ -60,31 +60,6 @@ public class MenuController extends BaseController<Menu, String> {
         return super.doDelete();
     }
 
-    @MetaData(value = "树形表格数据")
-    public HttpHeaders treeGridData() {
-        Map<String, Menu> menuDatas = Maps.newLinkedHashMap();
-        loopTreeGridData(menuDatas, menuService.findRoots());
-        setModel(menuDatas.values());
-        return buildDefaultHttpHeaders();
-    }
-
-    private void loopTreeGridData(Map<String, Menu> menuDatas, List<Menu> menus) {
-        for (Menu menu : menus) {
-            Menu parent = menu.getParent();
-            List<Menu> children = menuService.findChildren(menu);
-            menu.addExtraAttribute("level", menu.getLevel());
-            menu.addExtraAttribute("parent", parent == null ? "" : parent.getId());
-            menu.addExtraAttribute("isLeaf", CollectionUtils.isEmpty(children) ? true : false);
-            menu.addExtraAttribute("expanded", true);
-            menu.addExtraAttribute("loaded", true);
-            menuDatas.put(menu.getId(), menu);
-            if (!CollectionUtils.isEmpty(children)) {
-                loopTreeGridData(menuDatas, children);
-            }
-        }
-    }
-    
-
     @MetaData(value = "列表")
     public HttpHeaders list() {
         List<Map<String, Object>> menuList = Lists.newArrayList();
@@ -92,15 +67,7 @@ public class MenuController extends BaseController<Menu, String> {
         for (Menu menu : menus) {
             loopMenu(menuList, menu);
         }
-        List<Map<String, Object>> rootList = Lists.newArrayList();
-        Map<String, Object> root = Maps.newHashMap();
-        rootList.add(root);
-        root.put("id", "");
-        root.put("name", "根节点");
-        root.put("open", true);
-        root.put("disabled", false);
-        root.put("children", menuList);
-        setModel(rootList);
+        setModel(menuList);
         return buildDefaultHttpHeaders();
     }
 

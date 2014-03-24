@@ -14,14 +14,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DataDictDao extends BaseDao<DataDict, Long> {
 
-    @Query("select distinct d.category from DataDict d order by d.category asc")
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
-    public List<String> findDistinctCategories();
-
+    public DataDict findByPrimaryKey(String primaryKey);
+    
+    @Query("from DataDict where parent=? and disabled=? order by orderRank desc")
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
-    public List<DataDict> findByCategoryOrderByOrderRankDesc(String category);
+    public List<DataDict> findChildrenByParentAndDisabled(DataDict parent, Boolean disabled);
 
-    @Query("from DataDict order by category asc,orderRank desc")
+    @Query("from DataDict order by parent asc,orderRank desc")
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     public List<DataDict> findAllCached();
 }

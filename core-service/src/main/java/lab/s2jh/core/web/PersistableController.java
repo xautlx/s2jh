@@ -436,6 +436,11 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
+    /**
+     * 通用的数据提交保存处理方法，包括创建和更新，对于大部分不区分二者权限控制的业务可简化使用此方法
+     * 如果业务上需要分开控制创建和编辑权限，则分别请求doCreate和doUpdate，分别配置URL权限
+     * @return
+     */
     @MetaData(value = "保存")
     protected HttpHeaders doSave() {
         hackEmtpyOneToOneEntity();

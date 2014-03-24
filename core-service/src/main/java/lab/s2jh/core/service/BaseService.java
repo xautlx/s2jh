@@ -187,7 +187,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @return
      */
     @Transactional(readOnly = true)
-    public List<T> findAll(final Iterable<ID> ids) {
+    public List<T> findAll(final ID... ids) {
         Specification<T> spec = new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {

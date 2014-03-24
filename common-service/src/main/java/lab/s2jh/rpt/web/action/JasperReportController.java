@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,6 @@ import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.entity.AttachmentFile;
-import lab.s2jh.sys.entity.DataDict;
 import lab.s2jh.sys.service.DataDictService;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import ognl.Ognl;
@@ -220,21 +218,11 @@ public class JasperReportController extends BaseController<ReportDef, String> {
 
     /**
      * 查询数据字典类别对应数据集合Map
-     * @param category 数据字典类别代码
+     * @param primaryKey 数据字典类别代码
      * @return
      */
-    public Map<String, String> getDataDictKeyValueMap(String category) {
-        Map<String, String> dataMap = new LinkedHashMap<String, String>();
-        try {
-            List<DataDict> dataDicts = dataDictService.findByCategory(category);
-            for (DataDict dataDict : dataDicts) {
-                dataMap.put(dataDict.getKey1Value(), dataDict.getData1Value());
-            }
-        } catch (Exception e) {
-            logger.error("DataDict parse error: " + category, e);
-            dataMap.put("ERROR", "[系统处理出现异常]");
-        }
-        return dataMap;
+    public Map<String, String> getDataDictKeyValueMap(String primaryKey) {
+        return dataDictService.findMapDataByPrimaryKey(primaryKey);
     }
 
     /**
@@ -292,7 +280,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
      * @param ognl OGNL语法字符串，如：#{'A':'ClassA','B':'ClassB'}
      * @return
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Map getOGNLKeyValueMap(String ognl) throws OgnlException {
         Map dataMap = new LinkedHashMap();
         try {
