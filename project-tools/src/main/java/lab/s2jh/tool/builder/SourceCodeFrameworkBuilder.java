@@ -169,6 +169,7 @@ public class SourceCodeFrameworkBuilder {
                     if (fieldColumn != null) {
                         int length = fieldColumn.length();
                         if (length > 255) {
+                            length = 200;
                             entityCodeField.setList(false);
                         }
                         entityCodeField.setListWidth(length);
@@ -176,7 +177,7 @@ public class SourceCodeFrameworkBuilder {
                     Lob fieldLob = getMethod.getAnnotation(Lob.class);
                     if (fieldLob != null) {
                         entityCodeField.setList(false);
-                        entityCodeField.setListWidth(Integer.MAX_VALUE);
+                        entityCodeField.setListWidth(200);
                     }
                 } else if (fieldType == Date.class) {
                     entityCodeField = new EntityCodeField();

@@ -1,5 +1,5 @@
 $(function() {
-    $(".grid-${full_entity_name_field}").data("gridOptions", {
+    $(".grid-${full_entity_name_field}-index").data("gridOptions", {
         url : WEB_ROOT + '${model_path}/${entity_name_field}!findByPage',
         colModel : [ {
             label : '流水号',
