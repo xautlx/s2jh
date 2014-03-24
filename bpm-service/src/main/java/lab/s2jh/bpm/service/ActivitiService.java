@@ -40,22 +40,22 @@ public class ActivitiService {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Autowired(required = false)
     protected RuntimeService runtimeService;
 
-    @Autowired
+    @Autowired(required = false)
     protected TaskService taskService;
 
-    @Autowired
+    @Autowired(required = false)
     protected RepositoryService repositoryService;
 
-    @Autowired
+    @Autowired(required = false)
     protected IdentityService identityService;
 
-    @Autowired
+    @Autowired(required = false)
     protected HistoryService historyService;
 
-    @Autowired
+    @Autowired(required = false)
     ProcessEngineFactoryBean processEngine;
 
     /**
