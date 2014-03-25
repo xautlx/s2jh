@@ -4089,11 +4089,10 @@
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 
-
 	<tag>
 		<description><![CDATA[Render an HTML input field of type text]]></description>
 		<name>button</name>
-		<tag-class>org.apache.struts2.views.jsp.ui.S2ButtonTag</tag-class>
+		<tag-class>org.apache.struts2.views.jsp.ui.S3ButtonTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description><![CDATA[Set the html accesskey attribute on rendered html element]]></description>
