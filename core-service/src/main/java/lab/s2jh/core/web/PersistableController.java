@@ -558,13 +558,12 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             setModel(OperationResult.buildSuccessResult("成功删除所选选取记录:" + entities.size() + "条"));
         } else {
             if (rejectSize == entities.size()) {
-                setModel(OperationResult.buildFailureResult("所有选取记录删除操作失败"));
+                setModel(OperationResult.buildFailureResult("所有选取记录删除操作失败", errorMessageMap));
             } else {
                 setModel(OperationResult.buildWarningResult("删除操作已处理. 成功:" + (entities.size() - rejectSize) + "条"
                         + ",失败:" + rejectSize + "条", errorMessageMap));
             }
         }
-
         return buildDefaultHttpHeaders();
     }
 

@@ -42,6 +42,10 @@ public class OperationResult {
         return new OperationResult(OPERATION_RESULT_TYPE.failure, message);
     }
 
+    public static OperationResult buildFailureResult(String message, Object userdata) {
+        return new OperationResult(OPERATION_RESULT_TYPE.failure, message, userdata);
+    }
+
     public OperationResult(OPERATION_RESULT_TYPE type, String message) {
         this.type = type.name();
         this.message = message;
