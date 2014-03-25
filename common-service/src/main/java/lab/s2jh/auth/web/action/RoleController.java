@@ -81,6 +81,13 @@ public class RoleController extends BaseController<Role, String> {
         return super.findByPage();
     }
 
+    protected String isDisallowDelete(Role entity) {
+        if (entity.getCode().equals(Role.ROLE_ADMIN_CODE) || entity.getCode().equals(Role.ROLE_ANONYMOUSLY_CODE)) {
+            return "系统预置数据，不允许删除:" + entity.getDisplay();
+        }
+        return null;
+    }
+
     @Override
     @MetaData(value = "删除")
     public HttpHeaders doDelete() {
