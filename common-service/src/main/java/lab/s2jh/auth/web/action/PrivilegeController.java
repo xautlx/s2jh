@@ -74,7 +74,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     private static List<PrivilegeUrlVO> urls;
 
     @MetaData(value = "计算显示可控权限URL列表")
-    public HttpHeaders calcUrls() {
+    public HttpHeaders urls() {
         if (urls == null) {
             urls = Lists.newArrayList();
             Set<String> namespaces = configHelper.getNamespaces();
@@ -168,7 +168,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                             splitUrl = splitUrl + "**";
                         }
                         if (urlMatcher.match(splitUrl, url.getUrl())) {
-                            url.getControllPrivileges().add(splitUrl);
+                            url.getControllPrivileges().add(privilege.getCode() + ": " + splitUrl);
                             url.setControlled(true);
                         }
                     }
