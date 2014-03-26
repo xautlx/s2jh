@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+@MetaData(value = "角色管理")
 public class RoleController extends BaseController<Role, String> {
 
     @Autowired

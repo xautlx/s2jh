@@ -31,6 +31,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
+import com.google.common.collect.Maps;
+
 @MetaData(value = "辅助功能")
 public class UtilController extends SimpleController {
 
@@ -111,17 +113,31 @@ public class UtilController extends SimpleController {
 
     private static Server h2Server;
 
-    @MetaData(value = "H2数据管理")
-    public HttpHeaders h2() throws Exception {
+    @MetaData(value = "启动H2 Server")
+    public HttpHeaders startH2() throws Exception {
+        Map<String, String> datas = Maps.newHashMap();
         EmbeddedDatabaseFactoryBean db = SpringContextHolder.getBean(EmbeddedDatabaseFactoryBean.class);
         String databaseName = (String) FieldUtils.readField(db, "databaseName", true);
-        logger.info("databaseName: {}", databaseName);
+        databaseName = "jdbc:h2:file:" + databaseName;
+        logger.info("H2 JDBC URL: {}", databaseName);
         if (h2Server == null) {
+            logger.info("Starting H2 Server...");
             h2Server = Server.createWebServer().start();
         }
-        HttpServletRequest request = ServletActionContext.getRequest();
-        request.setAttribute("h2LoginUrl", "http://localhost:" + h2Server.getPort() + "/login.jsp");
-        request.setAttribute("h2DatabaseName", databaseName);
-        return new DefaultHttpHeaders("h2");
+        datas.put("h2LoginUrl", "http://localhost:" + h2Server.getPort() + "/login.jsp");
+        datas.put("h2JdbcUrl", databaseName);
+        setModel(datas);
+        return buildDefaultHttpHeaders();
+    }
+
+    @MetaData(value = "关闭H2 Server")
+    public HttpHeaders stopH2() throws Exception {
+        if (h2Server != null) {
+            logger.info("Shutdowning H2 Server...");
+            h2Server.shutdown();
+            h2Server = null;
+        }
+        setModel(OperationResult.buildSuccessResult("H2 Server已关闭"));
+        return buildDefaultHttpHeaders();
     }
 }

@@ -5,42 +5,31 @@ import javax.servlet.http.HttpServletRequest;
 import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.auth.service.UserService;
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
+import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-import com.opensymphony.xwork2.ModelDriven;
-
-/**
- *
- */
-public class ProfileController extends RestActionSupport implements ModelDriven<Object> {
+@MetaData(value = "个人配置")
+public class ProfileController extends SimpleController {
 
     @Autowired
     private UserService userService;
 
-    private Object model;
-
-    public Object getModel() {
-        return model;
-    }
-
-    public void setModel(Object model) {
-        this.model = model;
-    }
-
+    @MetaData(value = "密码修改显示")
     public HttpHeaders passwd() {
         return new DefaultHttpHeaders("passwd").disableCaching();
     }
 
+    @MetaData(value = "密码修改处理")
     public HttpHeaders doPasswd() {
         AuthUserDetails authUserDetails = AuthContextHolder.getAuthUserDetails();
         Assert.notNull(authUserDetails);
