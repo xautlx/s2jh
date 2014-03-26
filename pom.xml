@@ -659,6 +659,84 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+				<groupId>net.sf.barcode4j</groupId>
+				<artifactId>barcode4j</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-bridge</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-gvt</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-util</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-svg-dom</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-dom</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-script</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-css</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-svggen</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-awt-util</artifactId>
+				<version>1.7</version>
+				<scope>compile</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
 				<groupId>com.lowagie</groupId>
 				<artifactId>itext</artifactId>
 				<version>2.1.7</version>
@@ -891,7 +969,7 @@
 				<artifactId>selenium-server</artifactId>
 				<version>${selenium.version}</version>
 				<scope>test</scope>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-remote-driver</artifactId>
