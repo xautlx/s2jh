@@ -87,7 +87,10 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         try {
             File targetJasperFile = new File(rootPath + targetJasperFilePath);
             ReportDef reportDef = reportDefService.findByCode(reportId);
-            AttachmentFile attachmentFile = reportDef.getTemplateFile();
+            AttachmentFile attachmentFile = null;
+            if (reportDef != null) {
+                attachmentFile = reportDef.getTemplateFile();
+            }
             boolean needUpdateJasperFile = false;
             if (!targetJasperFile.exists()) {
                 needUpdateJasperFile = true;
