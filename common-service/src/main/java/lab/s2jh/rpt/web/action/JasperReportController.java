@@ -177,27 +177,34 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     }
 
     /** JasperReport输入参数Map */
-    private Map<String, String> reportParameters = Maps.newHashMap();
+    private Map<String, Object> reportParameters = Maps.newHashMap();
 
-    public Map<String, String> getReportParameters() {
+    public Map<String, Object> getReportParameters() {
         return reportParameters;
     }
 
-    public void setReportParameters(Map<String, String> reportParameters) {
+    public void setReportParameters(Map<String, Object> reportParameters) {
         this.reportParameters = reportParameters;
     }
 
     public Map<String, Object> getJasperReportParameters() {
         HttpServletRequest request = ServletActionContext.getRequest();
         Map<String, Object> jasperReportParameters = Maps.newHashMap();
-        for (Map.Entry<String, String> val : reportParameters.entrySet()) {
+        for (Map.Entry<String, Object> val : reportParameters.entrySet()) {
             if (val.getValue() == null) {
                 continue;
             }
-            if (val.getValue() instanceof String && StringUtils.isBlank(String.valueOf(val.getValue()))) {
+            String[] vals = (String[]) val.getValue();
+            if (vals.length == 0) {
                 continue;
             }
-            jasperReportParameters.put(val.getKey(), val.getValue());
+            if (vals.length == 1) {
+                //如果是单一参数，则设置为单一字符串类型数据，JasperReport模板中注意按照预期的参数值个数对应处理
+                jasperReportParameters.put(val.getKey(), vals[0]);
+            } else {
+                //如果是数组类型参数，则设置为数组类型数据，JasperReport模板中注意按照预期的参数值个数对应处理
+                jasperReportParameters.put(val.getKey(), vals);
+            }
         }
         String reportId = request.getParameter("report");
         jasperReportParameters.put("_RPT_ID", reportId);
