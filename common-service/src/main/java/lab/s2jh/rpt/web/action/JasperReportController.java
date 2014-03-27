@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,7 +21,10 @@ import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.entity.AttachmentFile;
 import lab.s2jh.sys.service.DataDictService;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import ognl.Ognl;
 import ognl.OgnlException;
 
@@ -31,8 +35,6 @@ import org.apache.struts2.views.jasperreports.JasperReportConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.util.FileCopyUtils;
@@ -42,6 +44,8 @@ import com.google.common.collect.Maps;
 public class JasperReportController extends BaseController<ReportDef, String> {
 
     private final Logger logger = LoggerFactory.getLogger(JasperReportController.class);
+
+    private static String WEB_ROOT_DIR = null;
 
     private static final String JASPER_TEMPLATE_FILE_DIR = File.separator + "template" + File.separator + "jasper";
 
@@ -78,14 +82,27 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         return "jasperResult";
     }
 
+    private String getWebRootDir() {
+        if (WEB_ROOT_DIR == null) {
+            WEB_ROOT_DIR = ServletActionContext.getServletContext().getRealPath("/");
+        }
+        return WEB_ROOT_DIR;
+    }
+
+    private String getRelativeJasperFilePath() {
+        return File.separator + "WEB-INF" + File.separator + JASPER_TEMPLATE_FILE_DIR;
+    }
+
+    private File getTargetJasperFile(String reportId) {
+        return new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator + reportId + ".jasper");
+    }
+
     @SecurityControllIgnore
     public String getLocation() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String reportId = request.getParameter("report");
-        String rootPath = ServletActionContext.getServletContext().getRealPath("/");
-        String targetJasperFilePath = JASPER_TEMPLATE_FILE_DIR + File.separator + reportId + ".jasper";
+        File targetJasperFile = getTargetJasperFile(reportId);
         try {
-            File targetJasperFile = new File(rootPath + targetJasperFilePath);
             ReportDef reportDef = reportDefService.findByCode(reportId);
             AttachmentFile attachmentFile = null;
             if (reportDef != null) {
@@ -94,7 +111,6 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             boolean needUpdateJasperFile = false;
             if (!targetJasperFile.exists()) {
                 needUpdateJasperFile = true;
-                new File(rootPath + JASPER_TEMPLATE_FILE_DIR).mkdirs();
                 if (!targetJasperFile.exists()) {
                     targetJasperFile.createNewFile();
                 }
@@ -108,17 +124,13 @@ public class JasperReportController extends BaseController<ReportDef, String> {
                 }
             }
             if (needUpdateJasperFile) {
-                File targetJrxmlFile = new File(rootPath + JASPER_TEMPLATE_FILE_DIR + File.separator + reportId
-                        + ".jrxml");
+                File targetJrxmlFile = new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator
+                        + reportId + ".jrxml");
                 if (!targetJrxmlFile.exists()) {
                     targetJrxmlFile.createNewFile();
                 }
                 if (attachmentFile != null) {
                     FileCopyUtils.copy(attachmentFile.getFileContent(), targetJrxmlFile);
-                } else {
-                    String sourceJrxmlFile = JASPER_TEMPLATE_FILE_DIR + File.separator + reportId + ".jrxml";
-                    Resource resource = new ClassPathResource(sourceJrxmlFile);
-                    FileCopyUtils.copy(FileCopyUtils.copyToByteArray(resource.getInputStream()), targetJrxmlFile);
                 }
                 JasperCompileManager.compileReportToFile(targetJrxmlFile.getAbsolutePath(),
                         targetJasperFile.getAbsolutePath());
@@ -129,7 +141,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             logger.error(e.getMessage(), e);
             throw new WebException(e.getMessage(), e);
         }
-        return targetJasperFilePath;
+        return getRelativeJasperFilePath() + File.separator + reportId + ".jasper";
     }
 
     private static Map<String, String> jasperOutputFormatMap;
@@ -188,30 +200,48 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     }
 
     public Map<String, Object> getJasperReportParameters() {
-        HttpServletRequest request = ServletActionContext.getRequest();
         Map<String, Object> jasperReportParameters = Maps.newHashMap();
-        for (Map.Entry<String, Object> val : reportParameters.entrySet()) {
-            if (val.getValue() == null) {
-                continue;
+        try {
+            HttpServletRequest request = ServletActionContext.getRequest();
+            String reportId = request.getParameter("report");
+            File targetJasperFile = getTargetJasperFile(reportId);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(targetJasperFile);
+            JRParameter[] params = jasperReport.getParameters();
+
+            for (Map.Entry<String, Object> val : reportParameters.entrySet()) {
+                String key = val.getKey();
+
+                if (val.getValue() == null) {
+                    continue;
+                }
+                String[] vals = (String[]) val.getValue();
+                for (JRParameter param : params) {
+                    if (!param.isSystemDefined() && param.isForPrompting()) {
+                        String name = param.getName();
+                        Class<?> clazz = param.getValueClass();
+                        if (!name.equals(key)) {
+                            continue;
+                        }
+                        //TODO: 先初步添加集合处理，后续逐步添加数字、日期等类型转换处理
+                        if (Collection.class.isAssignableFrom(clazz)) {
+                            //集合类型参数处理，TODO: 可以考虑进一步添加param.getNestedType()处理
+                            jasperReportParameters.put(key, vals);
+                        } else {
+                            //其余情况把参数转换为普通字符串传入
+                            jasperReportParameters.put(val.getKey(), StringUtils.join(","));
+                        }
+                    }
+                }
             }
-            String[] vals = (String[]) val.getValue();
-            if (vals.length == 0) {
-                continue;
-            }
-            if (vals.length == 1) {
-                //如果是单一参数，则设置为单一字符串类型数据，JasperReport模板中注意按照预期的参数值个数对应处理
-                jasperReportParameters.put(val.getKey(), vals[0]);
-            } else {
-                //如果是数组类型参数，则设置为数组类型数据，JasperReport模板中注意按照预期的参数值个数对应处理
-                jasperReportParameters.put(val.getKey(), vals);
-            }
+            jasperReportParameters.put("_RPT_ID", reportId);
+            jasperReportParameters.put("_RPT_FORMAT", this.getFormat());
+            String url = request.getRequestURL().toString();
+            logger.debug("Report URL: " + url);
+            jasperReportParameters.put("_RPT_URL", url);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new WebException(e.getMessage(), e);
         }
-        String reportId = request.getParameter("report");
-        jasperReportParameters.put("_RPT_ID", reportId);
-        jasperReportParameters.put("_RPT_FORMAT", this.getFormat());
-        String url = request.getRequestURL().toString();
-        logger.debug("Report URL: " + url);
-        jasperReportParameters.put("_RPT_URL", url);
         return jasperReportParameters;
     }
 
