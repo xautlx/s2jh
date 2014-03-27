@@ -44,6 +44,11 @@ public class UtilController extends SimpleController {
     @Autowired
     private CacheManager cacheManager;
 
+    @MetaData(value = "辅助管理")
+    public HttpHeaders mgmt() {
+        return buildDefaultHttpHeaders("mgmt");
+    }
+
     public List<String> getCacheNames() {
         List<String> datas = new ArrayList<String>();
         for (String cacheName : cacheManager.getCacheNames()) {
@@ -109,6 +114,11 @@ public class UtilController extends SimpleController {
         }
         model = OperationResult.buildSuccessResult("日志参数刷新操作成功");
         return new DefaultHttpHeaders().disableCaching();
+    }
+
+    @MetaData(value = "开发调试")
+    public HttpHeaders dev() {
+        return buildDefaultHttpHeaders("dev");
     }
 
     private static Server h2Server;
