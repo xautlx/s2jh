@@ -7,7 +7,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -48,7 +47,6 @@ public class LoggingEventProperty implements java.io.Serializable {
         this.loggingEvent = loggingEvent;
     }
 
-    @Lob
     @Column(name = "mapped_value")
     public String getMappedValue() {
         return this.mappedValue;
@@ -57,5 +55,4 @@ public class LoggingEventProperty implements java.io.Serializable {
     public void setMappedValue(String mappedValue) {
         this.mappedValue = mappedValue;
     }
-
 }
