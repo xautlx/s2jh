@@ -9,6 +9,7 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
 import lab.s2jh.core.web.SimpleController;
+import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,11 +25,13 @@ public class ProfileController extends SimpleController {
     @Autowired
     private UserService userService;
 
+    @SecurityControllIgnore
     @MetaData(value = "密码修改显示")
     public HttpHeaders passwd() {
         return new DefaultHttpHeaders("passwd").disableCaching();
     }
 
+    @SecurityControllIgnore
     @MetaData(value = "密码修改处理")
     public HttpHeaders doPasswd() {
         AuthUserDetails authUserDetails = AuthContextHolder.getAuthUserDetails();
