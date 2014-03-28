@@ -27,29 +27,19 @@ public class PubPostController extends BaseController<PubPost, String> {
 
     @Override
     protected void checkEntityAclPermission(PubPost entity) {
-        // TODO Add acl check code logic
+        // Nothing
     }
 
     @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        String fileId = this.getParameter("r2FileId");
-        if (StringUtils.isNotBlank(fileId)) {
-            bindingEntity.setR2File(attachmentFileService.findOne(fileId));
-        }
-        return super.doCreate();
-    }
-
-    @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
         String fileId = this.getParameter("r2FileId");
         if (StringUtils.isNotBlank(fileId)) {
             bindingEntity.setR2File(attachmentFileService.findOne(fileId));
         } else {
             bindingEntity.setR2File(null);
         }
-        return super.doUpdate();
+        return super.doSave();
     }
 
     @Override

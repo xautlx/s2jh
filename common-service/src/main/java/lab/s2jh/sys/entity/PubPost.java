@@ -40,7 +40,7 @@ public class PubPost extends BaseEntity<String> {
     private Boolean frontendShow = Boolean.FALSE;
     
     @MetaData(value = "后台显示")
-    private Boolean backendShow = Boolean.FALSE;
+    private Boolean backendShow = Boolean.TRUE;
     
     @MetaData(value = "外部链接")
     @EntityAutoCode(order = 40)
@@ -54,7 +54,7 @@ public class PubPost extends BaseEntity<String> {
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
     
-    @MetaData(value = "排序号", description = "数字越大匹配优先级越高")
+    @MetaData(value = "排序号", description = "数字越大显示越靠上")
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
     
