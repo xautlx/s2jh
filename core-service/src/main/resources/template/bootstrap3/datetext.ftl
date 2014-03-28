@@ -8,7 +8,7 @@
 	class="input-group ${parameters.dynamicAttributes["dateInputClass"]?html} date date-picker">
 <#include "/${parameters.templateDir}/simple/text.ftl" />
 <span class="input-group-btn">
-		<button type="button" class="btn default">
+		<button type="button" class="btn default date-set">
 			<i class="fa fa-calendar"></i>
 		</button>
 	</span>
