@@ -11,6 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 public class NavMenuVO {
 
     private String id;
+    
+    /** 菜单代码，用于前端JS控制 */
+    private String code;
 
     /** 菜单名称，菜单显示的字面值. */
     private String name;
@@ -108,5 +111,13 @@ public class NavMenuVO {
 
     public boolean isHasIcon() {
         return StringUtils.isNotBlank(icon);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

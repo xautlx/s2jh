@@ -90,6 +90,7 @@ public class MenuService extends BaseService<Menu, String> {
         menuVOs.add(item);
         item.setParent(parent);
         item.setId(menu.getCode());
+        item.setCode(menu.getCode());
         item.setName(menu.getTitle());
         item.setIcon(menu.getStyle());
         item.setOpen(menu.getInitOpen());
@@ -169,6 +170,7 @@ public class MenuService extends BaseService<Menu, String> {
 
             filteredMenuVOs.add(item);
             item.setId(menuVO.getId());
+            item.setCode(menuVO.getCode());
             item.setName(menuVO.getName());
             item.setIcon(menuVO.getIcon());
             item.setOpen(menuVO.getOpen());

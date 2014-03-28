@@ -131,21 +131,21 @@ public class UtilController extends SimpleController {
         databaseName = "jdbc:h2:file:" + databaseName;
         logger.info("H2 JDBC URL: {}", databaseName);
         if (h2Server == null) {
-            logger.info("Starting H2 Server...");
-            h2Server = Server.createWebServer().start();
+            h2Server = Server.createWebServer();
         }
+        logger.info("Starting H2 Server...");
+        h2Server.start();
         datas.put("h2LoginUrl", "http://localhost:" + h2Server.getPort() + "/login.jsp");
         datas.put("h2JdbcUrl", databaseName);
-        setModel(datas);
+        setModel(OperationResult.buildSuccessResult("H2 Server已成功加载", datas));
         return buildDefaultHttpHeaders();
     }
 
     @MetaData(value = "关闭H2 Server")
     public HttpHeaders stopH2() throws Exception {
         if (h2Server != null) {
-            logger.info("Shutdowning H2 Server...");
-            h2Server.shutdown();
-            h2Server = null;
+            logger.info("Stopping H2 Server...");
+            h2Server.stop();
         }
         setModel(OperationResult.buildSuccessResult("H2 Server已关闭"));
         return buildDefaultHttpHeaders();
