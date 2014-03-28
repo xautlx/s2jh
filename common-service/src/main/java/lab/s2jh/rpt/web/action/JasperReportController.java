@@ -102,7 +102,14 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         HttpServletRequest request = ServletActionContext.getRequest();
         String reportId = request.getParameter("report");
         File targetJasperFile = getTargetJasperFile(reportId);
+        File targetJrxmlFile = new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator + reportId
+                + ".jrxml");
         try {
+            if (!targetJrxmlFile.exists()) {
+                targetJrxmlFile.createNewFile();
+            }
+            logger.debug("Using jrxml file: {}", targetJrxmlFile.getAbsolutePath());
+            logger.debug("Using jasper file: {}", targetJasperFile.getAbsolutePath());
             ReportDef reportDef = reportDefService.findByCode(reportId);
             AttachmentFile attachmentFile = null;
             if (reportDef != null) {
@@ -115,28 +122,26 @@ public class JasperReportController extends BaseController<ReportDef, String> {
                     targetJasperFile.createNewFile();
                 }
             } else {
+
                 if (attachmentFile != null) {
+                    //数据对象判断处理
                     long compareTime = attachmentFile.getLastModifiedDate() != null ? attachmentFile
                             .getLastModifiedDate().getTime() : attachmentFile.getCreatedDate().getTime();
                     if (targetJasperFile.lastModified() < compareTime) {
+                        needUpdateJasperFile = true;
+                        FileCopyUtils.copy(attachmentFile.getFileContent(), targetJrxmlFile);
+                    }
+                } else {
+                    if (targetJrxmlFile.lastModified() > targetJasperFile.lastModified()) {
                         needUpdateJasperFile = true;
                     }
                 }
             }
             if (needUpdateJasperFile) {
-                File targetJrxmlFile = new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator
-                        + reportId + ".jrxml");
-                if (!targetJrxmlFile.exists()) {
-                    targetJrxmlFile.createNewFile();
-                }
-                if (attachmentFile != null) {
-                    FileCopyUtils.copy(attachmentFile.getFileContent(), targetJrxmlFile);
-                }
+                logger.info("Compiling jasper file: {}", targetJasperFile.getAbsolutePath());
                 JasperCompileManager.compileReportToFile(targetJrxmlFile.getAbsolutePath(),
                         targetJasperFile.getAbsolutePath());
-                logger.info("Jasper file path: {}", targetJasperFile.getAbsolutePath());
             }
-
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new WebException(e.getMessage(), e);
