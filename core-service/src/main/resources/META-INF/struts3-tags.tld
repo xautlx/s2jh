@@ -5622,7 +5622,7 @@
 	<tag>
 		<description><![CDATA[Print out expression which evaluates against the stack]]></description>
 		<name>property</name>
-		<tag-class>org.apache.struts2.views.jsp.S2PropertyTag</tag-class>
+		<tag-class>org.apache.struts2.views.jsp.S3PropertyTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description><![CDATA[label]]></description>

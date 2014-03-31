@@ -1,0 +1,1 @@
+var FormDropzone=function(){return{init:function(){Dropzone.options.myDropzone={init:function(){this.on("addedfile",function(a){var b=Dropzone.createElement("<button class='btn btn-sm btn-block'>Remove file</button>");var c=this;b.addEventListener("click",function(d){d.preventDefault();d.stopPropagation();c.removeFile(a)});a.previewElement.appendChild(b)})}}}}}();

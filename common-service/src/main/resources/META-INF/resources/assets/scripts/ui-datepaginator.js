@@ -1,0 +1,1 @@
+var UIDatepaginator=function(){return{init:function(){$("#datepaginator_sample_1").datepaginator();$("#datepaginator_sample_2").datepaginator({size:"large"});$("#datepaginator_sample_3").datepaginator({size:"small"});$("#datepaginator_sample_4").datepaginator({onSelectedDateChanged:function(b,a){alert("Selected date: "+moment(a).format("Do, MMM YYYY"))}})}}}();

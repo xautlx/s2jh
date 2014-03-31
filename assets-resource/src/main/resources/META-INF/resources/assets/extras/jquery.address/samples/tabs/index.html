@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Address Tabs</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link type="text/css" href="jquery-ui-1.8.13.custom.css" rel="stylesheet">
+        <link type="text/css" href="styles.css" rel="stylesheet">
+        <script type="text/javascript" src="jquery-1.6.4.min.js"></script>
+        <script type="text/javascript" src="jquery-ui-1.8.13.custom.min.js"></script>
+        <script type="text/javascript" src="jquery.address-1.5.min.js"></script>
+        <script type="text/javascript">
+            
+            var tabs,
+                tabEvent = false,
+                initialTab = 'Overview',
+                navSelector = '#tabs .ui-tabs-nav',
+                navFilter = function(el) {
+                    return $(el).attr('href').replace(/^#/, '');
+                },
+                panelSelector = '#tabs .ui-tabs-panel',
+                panelFilter = function() {
+                    $(panelSelector + ' a').filter(function() {
+                        return $(navSelector + ' a[title=' + $(this).attr('title') + ']').size() != 0;
+                    }).each(function(event) {
+                        $(this).attr('href', '#' + $(this).attr('title').replace(/ /g, '_'));
+                    });
+                };
+            
+            // Initializes plugin features
+            $.address.strict(false).wrap(true);
+            
+            if ($.address.value() == '') {
+                $.address.history(false).value(initialTab).history(true);
+            }
+            
+            // Address handler
+            $.address.init(function(event) {
+
+                // Adds the ID in a lazy manner to prevent scrolling
+                $(panelSelector).attr('id', initialTab);
+
+                // Enables the plugin for all the content links
+                $(panelSelector + ' a').address(function() {
+                    return navFilter(this);
+                });
+                
+                panelFilter();
+
+                // Tabs setup
+                tabs = $('#tabs')
+                    .tabs({
+                        load: function(event, ui) {
+                            // Filters the content and applies the plugin if needed
+                            $(ui.panel).html($(panelSelector, ui.panel).html());
+                            panelFilter();
+                        },
+                        fx: {
+                            opacity: 'toggle', 
+                            duration: 'fast'
+                        }
+                    })
+                    .css('display', 'block');
+
+                // Enables the plugin for all the tabs
+                $(navSelector + ' a').click(function(event) {
+                	tabEvent = true;
+                    $.address.value(navFilter(event.target));
+                    tabEvent = false;
+                    return false;
+                });
+            
+            }).change(function(event) {
+
+                var current = $('a[href=#' + event.value + ']:first');
+                
+                // Sets the page title
+                $.address.title($.address.title().split(' | ')[0] + ' | ' + current.text());
+
+                // Selects the proper tab
+                if (!tabEvent) {
+                    tabs.tabs('select', current.attr('href'));
+                }
+                
+            });
+
+            // Hides the tabs during initialization
+            document.write('<style type="text/css"> #tabs { display: none; } </style>');
+            
+        </script>
+    </head>
+    <body>
+        <div class="page">
+            <h1>jQuery Address Tabs</h1>
+            <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                    <li class="ui-corner-top ui-tabs-selected ui-state-active"><a href="#Overview" title="Overview">Overview</a></li>
+                    <li class="ui-corner-top ui-state-default"><a href="./features.html" title="Features">Features</a></li>
+                    <li class="ui-corner-top ui-state-default"><a href="./extras.html" title="Extras">Extras</a></li>
+                </ul>
+                <div class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+                    <p>
+                        This demo utilizes the jQuery UI tabs widget. 
+                        The content is loaded using Ajax and each tab has it's own unique link.
+                    </p>
+                    <p>
+                        Next: <a href="./features.html" title="Features">Features &raquo;</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

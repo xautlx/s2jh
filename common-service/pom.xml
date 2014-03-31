@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>common-service</artifactId>
 	<packaging>jar</packaging>
-	<name>s2jh :: module :: common</name>
+	<name>s2jh :: module :: common-service</name>
 
 	<dependencies>
 		<!-- j2ee web spec -->

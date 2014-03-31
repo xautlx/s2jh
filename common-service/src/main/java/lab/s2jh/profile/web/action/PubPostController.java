@@ -50,6 +50,15 @@ public class PubPostController extends BaseController<PubPost, String> {
 
     @MetaData(value = "公告列表")
     public HttpHeaders list() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        HttpSession session = request.getSession();
+        @SuppressWarnings("unchecked")
+        Map<Serializable, Boolean> idMaps = (Map<Serializable, Boolean>) session.getAttribute(READED_PUB_POST_IDS);
+        if (idMaps == null) {
+            idMaps = Maps.newHashMap();
+            session.setAttribute(READED_PUB_POST_IDS, idMaps);
+        }
+        
         List<PubPost> pubPosts = pubPostService.findPublished();
         if (CollectionUtils.isNotEmpty(pubPosts)) {
             User user = AuthUserHolder.getLogonUser();
@@ -71,18 +80,19 @@ public class PubPostController extends BaseController<PubPost, String> {
     @MetaData("用户公告消息列表")
     @SecurityControllIgnore
     public HttpHeaders messages() {
-        //进行Session数据缓存优化处理，避免每次查询数据库
         HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();
+
+        //进行Session数据缓存优化处理，避免每次查询数据库
+        @SuppressWarnings("unchecked")
+        Map<Serializable, Boolean> idMaps = (Map<Serializable, Boolean>) session.getAttribute(READED_PUB_POST_IDS);
+        if (idMaps == null) {
+            idMaps = Maps.newHashMap();
+            session.setAttribute(READED_PUB_POST_IDS, idMaps);
+        }
         List<PubPost> pubPosts = pubPostService.findPublished();
         List<PubPost> notifyList = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(pubPosts)) {
-            @SuppressWarnings("unchecked")
-            Map<Serializable, Boolean> idMaps = (Map<Serializable, Boolean>) session.getAttribute(READED_PUB_POST_IDS);
-            if (idMaps == null) {
-                idMaps = Maps.newHashMap();
-                session.setAttribute(READED_PUB_POST_IDS, idMaps);
-            }
 
             boolean needRetriveReads = false;
             for (PubPost pubPost : pubPosts) {

@@ -1,1 +1,0 @@
-INSERT INTO tbl_rpt_report_def(id, version, title, code, order_rank, category, type, disabled) VALUES ('402880c53e634dd2013e63506fbc0001', 0, '学生报表', 'XS_XX_STAT_REPORT',  '100', '学生统计报表', 'JASPER', 0);

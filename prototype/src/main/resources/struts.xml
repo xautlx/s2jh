@@ -37,7 +37,7 @@
 	<!-- struts2-convention-plugin，参考https://cwiki.apache.org/WW/convention-plugin.html -->
 	<constant name="struts.convention.result.path" value="/" />
 	<constant name="struts.convention.action.fileProtocols" value="jar,zip" />
-	<constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
+	<constant name="struts.convention.action.includeJars" value=".*assets-resource.*,.*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
 
 	<constant name="struts.convention.default.parent.package"
 		value="crud-default" />

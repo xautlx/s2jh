@@ -1,7 +1,7 @@
 <html>
 <body >
 <script type="text/javascript" >
-window.location.href="<%= request.getContextPath() %>/layout";
+window.location.href="<%= request.getContextPath() %>/layout!start";
 </script>
 </body>
 </html>

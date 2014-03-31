@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>core-service</artifactId>
 	<packaging>jar</packaging>
-	<name>s2jh :: module :: core</name>
+	<name>s2jh :: module :: core-service</name>
 
 	<dependencies>
 		<!-- j2ee web spec -->

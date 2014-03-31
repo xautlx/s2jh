@@ -1,0 +1,77 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title><%- selected.title %></title> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link type="text/css" href="styles.css" rel="stylesheet">
+        <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="jquery.address-1.5.min.js"></script>
+        <script type="text/javascript">
+
+            var init = true, 
+                state = window.history.pushState !== undefined;
+            
+            // Handles response
+            var handler = function(XMLHttpRequest, textStatus) {
+                var data = $.parseJSON(XMLHttpRequest.responseText);
+                $.address.title(data.title);
+                $('.content').html(data.content);
+                $('.page').show();
+            };
+            
+            $.address.state('<%= state %>').init(function(event) {
+
+                // Initializes the plugin
+                $('.nav a').address();
+                
+            }).change(function(event) {
+
+                var value = $.address.state().replace(/^\/$/, '') + event.value;
+                
+                // Selects the proper navigation link
+                $('.nav a').each(function() {
+                    if ($(this).attr('href') == value) {
+                        $(this).addClass('selected').focus();
+                    } else {
+                        $(this).removeClass('selected');
+                    }
+                });
+                
+                if (state && init) {
+                
+                    init = false;
+                
+                } else {
+                
+                    // Loads and populates the page data
+                    $.ajax({
+                        cache: false,
+                        complete: handler,
+                        url: value
+                    });
+                }
+                
+            });
+
+            if (!state) {
+            
+                // Hides the page during initialization
+                document.write('<style type="text/css"> .page { display: none; } </style>');
+            }
+            
+        </script> 
+    </head> 
+    <body> 
+        <div class="page"> 
+            <h1>jQuery Address Express</h1>
+            <ul class="nav">
+            <% for (var key in data) { %>
+                <li><a href="<%= state %><%= data[key].href %>"<%- selected == data[key] ? ' class="selected"' : '' %>><%= data[key].title %></a></li>
+            <% } %>
+            </ul>
+            <div class="content"><%- selected.content %></div>
+        </div>
+    </body> 
+</html>
+
+

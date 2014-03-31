@@ -15,6 +15,7 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,13 +36,13 @@ public class PubPost extends BaseEntity<String> {
 
     @MetaData(value = "到期时间")
     private Date expireTime;
-    
+
     @MetaData(value = "前端显示")
     private Boolean frontendShow = Boolean.FALSE;
-    
+
     @MetaData(value = "后台显示")
     private Boolean backendShow = Boolean.TRUE;
-    
+
     @MetaData(value = "外部链接")
     @EntityAutoCode(order = 40)
     private String externalLink;
@@ -53,11 +54,11 @@ public class PubPost extends BaseEntity<String> {
     @MetaData(value = "总计查看用户数")
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
-    
+
     @MetaData(value = "排序号", description = "数字越大显示越靠上")
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
-    
+
     @MetaData(value = "关联附件")
     @EntityAutoCode(order = 100, search = false)
     private AttachmentFile r2File;
@@ -133,7 +134,7 @@ public class PubPost extends BaseEntity<String> {
     public void setR2File(AttachmentFile r2File) {
         this.r2File = r2File;
     }
-    
+
     public String getExternalLink() {
         return externalLink;
     }
@@ -164,5 +165,10 @@ public class PubPost extends BaseEntity<String> {
 
     public void setOrderRank(Integer orderRank) {
         this.orderRank = orderRank;
+    }
+
+    @Transient
+    public boolean isInternal() {
+        return StringUtils.isBlank(externalLink);
     }
 }

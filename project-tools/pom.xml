@@ -9,7 +9,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<packaging>jar</packaging>
-	<name>s2jh :: module :: tools</name>
+	<name>s2jh :: module :: project-tools</name>
 
 	<dependencies>
 		<dependency>
