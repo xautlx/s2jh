@@ -1,1 +1,1 @@
-INSERT INTO tbl_auth_user_r2_role (id,  version, user_id, role_id) VALUES (0,  0, 0, '402880c53d23d99a013d23ed7e160003');
+INSERT INTO tbl_auth_user_r2_role (id,  version, user_id, role_id) VALUES (0,  0, 1, '402880c53d23d99a013d23ed7e160003');

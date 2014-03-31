@@ -13,7 +13,7 @@
 	<http pattern="/pub/**" security="none" />
 	<http pattern="/images/**" security="none" />
 	<http pattern="/resources/**" security="none" />
-	<http pattern="/components/**" security="none" />
+	<http pattern="/assets/**" security="none" />
 
 	<http access-denied-page="/common/errors.jsp">
 		<form-login login-page="/pub/signin"
@@ -67,7 +67,7 @@
 	<!-- 写入登录记录 -->
 	<beans:bean id="authenticationSuccessHistHandler"
 		class="lab.s2jh.auth.security.AuthenticationSuccessHistHandler">
-		<beans:property name="defaultTargetUrl" value="/layout" />
+		<beans:property name="defaultTargetUrl" value="/layout!start" />
 		<beans:property name="alwaysUseDefaultTargetUrl" value="false" />
 		<beans:property name="userService" ref="userService" />
 	</beans:bean>

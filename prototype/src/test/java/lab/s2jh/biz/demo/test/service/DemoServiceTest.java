@@ -11,9 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Sets;
-
-
 public class DemoServiceTest extends SpringTransactionalTestCase {
 
     @Autowired
@@ -27,7 +24,7 @@ public class DemoServiceTest extends SpringTransactionalTestCase {
         Assert.assertTrue(entity.getId() != null);
 
         //JPA/Hibernate query validation
-        List<Demo> items = demoService.findAll(Sets.newHashSet(entity.getId()));
+        List<Demo> items = demoService.findAll(entity.getId());
         Assert.assertTrue(items.size() >= 1);
     }
 }

@@ -1,8 +1,8 @@
 package lab.s2jh.biz.demo.web.action;
 
-import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.biz.demo.entity.Demo;
 import lab.s2jh.biz.demo.service.DemoService;
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
@@ -32,17 +32,11 @@ public class DemoController extends BaseController<Demo,String> {
         setModel(OperationResult.buildSuccessResult("TODO操作完成"));
         return buildDefaultHttpHeaders();
     }
-    
-    @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        return super.doCreate();
-    }
 
     @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
-        return super.doUpdate();
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
     }
 
     @Override

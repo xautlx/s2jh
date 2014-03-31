@@ -15,6 +15,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>lab.s2jh</groupId>
+			<artifactId>assets-resource</artifactId>
+			<version>${s2jh.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>lab.s2jh</groupId>
 			<artifactId>core-service</artifactId>
 			<version>${s2jh.version}</version>
 		</dependency>
@@ -140,9 +145,9 @@
 									<goal>copy-dependencies</goal>
 								</goals>
 								<configuration>
-								    <includeScope>compile</includeScope>
+									<includeScope>compile</includeScope>
 									<outputDirectory>./runtime/lib</outputDirectory>
-									<excludeGroupIds>lab.s2jh</excludeGroupIds>
+									<excludeArtifactIds>core-service,common-service,bpm-service</excludeArtifactIds>
 								</configuration>
 							</execution>
 						</executions>

@@ -7,7 +7,6 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>src/main/resources/context/context-profiles.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

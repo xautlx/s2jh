@@ -7,9 +7,13 @@ if not exist h2 (set JAVA_OPT=%JAVA_OPT% -Djdbc.initialize.database.enable=true)
 echo ---------------------------------------------------------------
 echo Prepare to clean temp work dir and restore files...
 echo ---------------------------------------------------------------
-rm -fr work
-mkdir work\webapp
-unzip %WAR% -d work\webapp
+rem rm -fr work
+mkdir work\webapp\WEB-INF\lib
+copy %WAR%  work\webapp
+cd  work\webapp\
+jar xvf %WAR%
+cd ..\..
+rm work\webapp\%WAR%
 copy lib\* work\webapp\WEB-INF\lib
 echo ---------------------------------------------------------------
 echo [INFO] JAVA_OPT=%JAVA_OPT%

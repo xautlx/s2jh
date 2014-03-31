@@ -49,7 +49,7 @@
 	</bean>
 
 	<!-- 基于Spring与Quartz整合并且支持cluster集群的任务列表，适合定义需要在多个服务器节点中确保同一时间只有一个任务实例执行的任务 -->
-	<bean id="quartzClusterScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean">
+	<bean id="quartzClusterScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean" depends-on="org.springframework.jdbc.datasource.init.DataSourceInitializer#0">
 		<property name="schedulerName" value="quartzClusterScheduler" />
 		<!-- quartz配置 -->
 		<property name="configLocation" value="classpath:quartz-cluster.properties" />

@@ -1,1 +1,1 @@
-INSERT INTO t_auth_user (sid,  version, user_id, password, nick, enabled ,uid) VALUES (0,  0, 'admin', 'ceb4f32325eda6142bd65215f4c0f371', '系统超级管理员', 'Y', 'admin');
+INSERT INTO t_auth_user (sid,  version, user_id, password, nick, enabled ,uid) VALUES (1,  0, 'admin', 'ceb4f32325eda6142bd65215f4c0f371', '系统超级管理员', 'Y', 'admin');

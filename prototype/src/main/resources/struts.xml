@@ -35,7 +35,7 @@
 		value="/components/.*,/resources/.*,/pub/jasper/images.*" />
 
 	<!-- struts2-convention-plugin，参考https://cwiki.apache.org/WW/convention-plugin.html -->
-	<constant name="struts.convention.result.path" value="/WEB-INF/pages/" />
+	<constant name="struts.convention.result.path" value="/" />
 	<constant name="struts.convention.action.fileProtocols" value="jar,zip" />
 	<constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
 

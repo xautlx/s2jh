@@ -3,9 +3,10 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
-    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd"
+	default-lazy-init="false">
 
-	<beans profile="default">
+	<beans profile="development">
 		<!-- 缺省PropertyPlaceholder定义 -->
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations">
@@ -35,11 +36,11 @@
 				<ref bean="dataSourceSpied" />
 			</constructor-arg>
 		</bean>
-
+		
 		<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL"
 			enabled="${jdbc.initialize.database.enable}">
 
-			<jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
 
 			<jdbc:script location="classpath:sql/data/t_sys_data_dict.sql" encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
@@ -49,6 +50,49 @@
 			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
 			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
 		</jdbc:initialize-database>
+
+		<import resource="classpath:/service/spring*.xml" />
+	</beans>
+
+	<beans profile="production">
+		<!-- 缺省PropertyPlaceholder定义 -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations">
+				<list>
+					<value>classpath:/application.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="true" />
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		</bean>
+
+		<jee:jndi-lookup id="dataSourceSpied" jndi-name="java:comp/env/jdbc/s2jh" />
+
+		<!-- 定制log4jdbc做一些输出SQL信息的微调 -->
+		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+
+		<!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
+		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+			<constructor-arg>
+				<ref bean="dataSourceSpied" />
+			</constructor-arg>
+		</bean>
+
+		<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL"
+			enabled="${jdbc.initialize.database.enable}">
+
+			<jdbc:script location="classpath*:sql/ddl/quartz/tables_mysql.sql" encoding="UTF-8" />
+
+			<jdbc:script location="classpath:sql/data/t_sys_data_dict.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_privilege.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_role.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
+		</jdbc:initialize-database>
+
+		<import resource="classpath:/service/spring*.xml" />
 	</beans>
 
 	<!-- 用于Unit Test配置 -->
@@ -76,4 +120,6 @@
 			</constructor-arg>
 		</bean>
 	</beans>
+
+
 </beans>
