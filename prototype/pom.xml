@@ -17,7 +17,7 @@
 			<groupId>lab.s2jh</groupId>
 			<artifactId>assets-resource</artifactId>
 			<version>${s2jh.version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>lab.s2jh</groupId>
 			<artifactId>core-service</artifactId>
@@ -147,7 +147,7 @@
 								<configuration>
 									<includeScope>compile</includeScope>
 									<outputDirectory>./runtime/lib</outputDirectory>
-									<excludeArtifactIds>core-service,common-service,bpm-service</excludeArtifactIds>
+									<excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp</excludeArtifactIds>
 								</configuration>
 							</execution>
 						</executions>

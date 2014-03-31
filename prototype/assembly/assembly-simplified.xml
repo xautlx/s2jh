@@ -32,7 +32,6 @@
 			<excludes>
 				<exclude>META-INF/**/*</exclude>
 				<exclude>WEB-INF/lib/**/*</exclude>
-				<exclude>components/jquery-ext/**/*</exclude>
 			</excludes>
 		</fileSet>
         <fileSet>
