@@ -1,4 +1,5 @@
 target
 build
 rebel.xml
-/prototype
+/prototype/runtime/work
+/prototype/runtime/h2/prototype.lock.db

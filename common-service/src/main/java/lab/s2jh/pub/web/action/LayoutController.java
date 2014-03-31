@@ -14,7 +14,6 @@ import lab.s2jh.sys.vo.NavMenuVO;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,10 +45,10 @@ public class LayoutController extends SimpleController {
         List<NavMenuVO> menus = menuService.authUserMenu(AuthContextHolder.getAuthUserDetails().getAuthorities(),
                 request.getContextPath());
         request.setAttribute("rootMenus", menus);
-        return new DefaultHttpHeaders("/layout/layout-start").disableCaching();
+        return buildDefaultHttpHeaders("start");
     }
 
     public HttpHeaders dashboard() {
-        return new DefaultHttpHeaders("/layout/layout-dashboard").disableCaching();
+        return buildDefaultHttpHeaders("dashboard");
     }
 }

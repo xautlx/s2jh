@@ -147,7 +147,7 @@
 								<configuration>
 									<includeScope>compile</includeScope>
 									<outputDirectory>./runtime/lib</outputDirectory>
-									<excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp</excludeArtifactIds>
+									<excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
 								</configuration>
 							</execution>
 						</executions>

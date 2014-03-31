@@ -76,7 +76,7 @@
 									msg = "账号已过期,请联系管理员!";
 								} else if (e instanceof CredentialsExpiredException
 										|| (e.getCause() != null && e.getCause() instanceof CredentialsExpiredException)) {
-									msg = "密码已过期,请<a href='user!forward?_to_=password-req'>重设密码</a>";
+									msg = "密码已过期,请联系管理员!";
 								} else if (e instanceof LockedException
 										|| (e.getCause() != null && e.getCause() instanceof LockedException)) {
 									msg = "账号已被锁定,请联系管理员!";
