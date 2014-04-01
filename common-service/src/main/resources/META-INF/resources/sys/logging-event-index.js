@@ -1,6 +1,6 @@
 $(function() {
     $(".grid-sys-logging-event-index").data("gridOptions", {
-        url : '${base}/sys/logging-event!findByPage',
+        url : WEB_ROOT + '/sys/logging-event!findByPage',
         colNames : [ '流水号', '日志时间', '标题信息', '日志级别', '日志名称', '处理状态' ],
         colModel : [ {
             name : 'id',
@@ -35,8 +35,8 @@ $(function() {
 
         } ],
         sortname : 'timestmp',
-        delurl : "${base}/sys/logging-event!doDelete",
-        fullediturl : "${base}/sys/logging-event!edit",
+        delurl : WEB_ROOT + "/sys/logging-event!doDelete",
+        fullediturl : WEB_ROOT + "/sys/logging-event!edit",
         addable : false
     });
 });
