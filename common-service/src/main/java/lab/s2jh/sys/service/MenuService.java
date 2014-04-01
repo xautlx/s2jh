@@ -86,6 +86,9 @@ public class MenuService extends BaseService<Menu, String> {
 
     private void loopMenu(NavMenuVO parent, Set<GrantedAuthority> authorities, List<NavMenuVO> menuVOs, Menu menu,
             String currentWebContextPath) {
+        if (menu.getDisabled()) {
+            return;
+        }
         NavMenuVO item = new NavMenuVO();
         menuVOs.add(item);
         item.setParent(parent);

@@ -1,5 +1,5 @@
 $(function() {
-    $(".grid-sys-logging-event").data("gridOptions", {
+    $(".grid-sys-logging-event-index").data("gridOptions", {
         url : '${base}/sys/logging-event!findByPage',
         colNames : [ '流水号', '日志时间', '标题信息', '日志级别', '日志名称', '处理状态' ],
         colModel : [ {

@@ -31,7 +31,7 @@
 						<div class="h2-info hide">
 							<p>2. 点击新开页面:</p>
 							<p>
-								<a href="javascript:;" class="btn blue btn-h2-open">访问H2 Console控制台</a>
+								<a href="javascript:;" class="btn blue btn-h2-open" target="_blank">访问H2 Console控制台</a>
 							</p>
 							<p>3. 拷贝如下相关信息填写到新开的H2 Console控制台页面:</p>
 							<div class="form-group">
@@ -43,7 +43,7 @@
 							<div class="form-group">
 								<label class="control-label">JDBC URL：</label>
 								<div class="controls">
-									<p class="form-control-static h2-jdbc-url">A</p>
+									<p class="form-control-static h2-jdbc-url"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -73,11 +73,17 @@
     $(function() {
         $(".btn-h2-start").click(function() {
             $(this).ajaxPostURL(WEB_ROOT + "/sys/util!startH2", function(data) {
+                $(".h2-jdbc-url").html(data.userdata.h2JdbcUrl);
+                $(".btn-h2-open").attr("href", data.userdata.h2LoginUrl);
+                $(".h2-info").removeClass("hide");
+            }, false)
+        });
 
-            })
-            $(".h2-info").removeClass("hide");
+        $(".btn-h2-stop").click(function() {
+            $(this).ajaxPostURL(WEB_ROOT + "/sys/util!stopH2", function(data) {
+                $(".h2-info").addClass("hide");
+            }, false)
         })
     });
 </script>
 <%@ include file="/common/ajax-footer.jsp"%>
-
