@@ -233,7 +233,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
                             jasperReportParameters.put(key, vals);
                         } else {
                             //其余情况把参数转换为普通字符串传入
-                            jasperReportParameters.put(val.getKey(), StringUtils.join(","));
+                            jasperReportParameters.put(val.getKey(), StringUtils.join(vals, ","));
                         }
                     }
                 }
