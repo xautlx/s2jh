@@ -24,11 +24,11 @@
 		                <#elseif entityField.enumField>
 		                <s3:select name="${entityField.fieldName}" list="#application.enums.${entityField.uncapitalizeFieldType}"/>
 		                <#elseif entityField.fieldType=='Date'>
-		                <s3:datetextfield name="${entityField.fieldName}" cssClass="input-small" format="date"/>                  
+		                <s3:datetextfield name="${entityField.fieldName}" format="date"/>                  
 		                <#elseif entityField.fieldType=='LocalDate'>
-		                <s3:datetextfield name="${entityField.fieldName}" cssClass="input-small" format="date"/> 
+		                <s3:datetextfield name="${entityField.fieldName}" format="date"/> 
 		                <#elseif entityField.fieldType=='LocalDateTime'>
-		                <s3:datetextfield name="${entityField.fieldName}" cssClass="input-medium" format="timestamp"/>                                             
+		                <s3:datetextfield name="${entityField.fieldName}" format="timestamp"/>                                             
 		                <#elseif (entityField.fieldType=='String' && entityField.listWidth gt 255)>
 		                <s3:textarea name="${entityField.fieldName}" rows="3"/>                                             
 		                <#else>
