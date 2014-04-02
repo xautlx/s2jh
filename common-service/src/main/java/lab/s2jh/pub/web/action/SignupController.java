@@ -1,22 +1,21 @@
 package lab.s2jh.pub.web.action;
 
-import java.io.IOException;
-
-import lab.s2jh.auth.entity.User;
+import lab.s2jh.auth.entity.SignupUser;
+import lab.s2jh.auth.service.SignupUserService;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.cfg.DynamicConfigService;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.view.OperationResult;
 
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.rest.DefaultHttpHeaders;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 用户注册
+ * 账号注册
  */
-public class SignupController extends BaseController<User, Long> {
+public class SignupController extends BaseController<SignupUser, String> {
 
     @Autowired
     private DynamicConfigService dynamicConfigService;
@@ -24,52 +23,53 @@ public class SignupController extends BaseController<User, Long> {
     @Autowired
     private UserService userService;
 
-    public String getSystemTitle() {
-        return dynamicConfigService.getSystemTitle();
-    }
+    @Autowired
+    private SignupUserService signupUserService;
 
-    public HttpHeaders index() {
-        if (isUserInitSignup()) {
-            bindingEntity.setSigninid("admin");
-            bindingEntity.setNick("Administrator");
-        }
-        bindingEntity.setPassword("");
-        return new DefaultHttpHeaders("/pub/signup").disableCaching();
-    }
-
-    public boolean isUserInitSignup() {
-        Long userCount = userService.findUserCount();
-        if (userCount == null || userCount.longValue() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    public void submit() throws IOException {
+    public HttpHeaders submit() {
         if (dynamicConfigService.isSignupDisabled()) {
-            return;
+            setModel(OperationResult.buildFailureResult("系统暂未开发账号注册功能，如有疑问请联系管理员"));
+            return buildDefaultHttpHeaders();
         }
 
-        if (isUserInitSignup()) {
-            bindingEntity.setEnabled(true);
-            bindingEntity.setInitSetupUser(true);
-            userService.initSetupUser(bindingEntity, bindingEntity.getPassword());
-        } else {
-            bindingEntity.setEnabled(false);
-            userService.save(bindingEntity, bindingEntity.getPassword());
+        String signinid = bindingEntity.getSigninid();
+
+        if (signupUserService.findByProperty("signinid", signinid) != null) {
+            setModel(OperationResult.buildFailureResult("注册账号:" + signinid + " 已被注册使用，请修改使用其他账号"));
+            return buildDefaultHttpHeaders();
         }
 
-        ServletActionContext.getResponse().sendRedirect("/pub/signin");
+        if (userService.findByProperty("signinid", signinid) != null) {
+            setModel(OperationResult.buildFailureResult("注册账号:" + signinid + " 已被注册使用，请修改使用其他账号"));
+            return buildDefaultHttpHeaders();
+        }
+
+        String email = bindingEntity.getEmail();
+        if (StringUtils.isNotBlank(email)) {
+            if (signupUserService.findByProperty("email", email) != null) {
+                setModel(OperationResult.buildFailureResult("注册邮件:" + email + " 已被注册使用，请修改使用其他电子邮件"));
+                return buildDefaultHttpHeaders();
+            }
+
+            if (userService.findByProperty("email", email) != null) {
+                setModel(OperationResult.buildFailureResult("注册邮件:" + email + " 已被注册使用，请修改使用其他电子邮件"));
+                return buildDefaultHttpHeaders();
+            }
+        }
+
+        signupUserService.save(bindingEntity);
+
+        setModel(OperationResult.buildSuccessResult("账号注册成功"));
+        return buildDefaultHttpHeaders();
     }
 
     @Override
-    protected BaseService<User, Long> getEntityService() {
-        return userService;
+    protected BaseService<SignupUser, String> getEntityService() {
+        return signupUserService;
     }
 
     @Override
-    protected void checkEntityAclPermission(User entity) {
+    protected void checkEntityAclPermission(SignupUser entity) {
         //Do nothing
     }
-
 }

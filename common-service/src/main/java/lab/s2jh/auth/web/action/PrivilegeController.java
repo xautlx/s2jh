@@ -3,7 +3,6 @@ package lab.s2jh.auth.web.action;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.service.DataDictService;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -193,37 +191,6 @@ public class PrivilegeController extends BaseController<Privilege, String> {
         return dataMap;
     }
 
-    @MetaData(value = "批量更新状态")
-    public HttpHeaders doState() {
-        boolean disabled = BooleanUtils.toBoolean(this.getRequiredParameter("disabled"));
-        Collection<Privilege> entities = this.getEntitiesByParameterIds();
-        for (Privilege entity : entities) {
-            entity.setDisabled(disabled);
-        }
-        getEntityService().save(entities);
-        setModel(OperationResult.buildSuccessResult("批量更新状态操作成功"));
-        return buildDefaultHttpHeaders();
-    }
-
-    @MetaData(value = "批量添加URL到权限列表")
-    public HttpHeaders doAddBatch() {
-        Set<String> ids = getParameterIds();
-        for (String id : ids) {
-            for (PrivilegeUrlVO url : urls) {
-                if (url.getId().equals(id.trim())) {
-                    Privilege privilege = new Privilege();
-                    privilege.setCode("P" + RandomStringUtils.randomNumeric(6));
-                    privilege.setCategory(url.getNamespaceLabel());
-                    privilege.setTitle(url.getActionNameLabel() + "-" + url.getMethodNameLabel());
-                    privilege.setUrl(url.getUrl());
-                    privilegeService.save(privilege);
-                }
-            }
-        }
-        setModel(OperationResult.buildSuccessResult("批量添加URL到权限列表操作完成"));
-        return buildDefaultHttpHeaders();
-    }
-
     @MetaData("去重权限分类数据")
     public HttpHeaders distinctCategories() {
         List<String> categories = privilegeService.findDistinctCategories();
@@ -355,9 +322,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     @MetaData(value = "更新角色关联")
     @SecurityControllIgnore
     public HttpHeaders doUpdateRelatedRoleR2s() {
-        String userId = this.getId();
-        Set<String> roleIds = this.getParameterIds("r2ids");
-        privilegeService.updateRelatedRoleR2s(userId, roleIds);
+        privilegeService.updateRelatedRoleR2s(getId(), getParameterIds("r2ids"));
         setModel(OperationResult.buildSuccessResult("更新角色关联操作完成"));
         return buildDefaultHttpHeaders();
     }

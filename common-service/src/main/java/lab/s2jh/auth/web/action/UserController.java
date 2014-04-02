@@ -113,9 +113,7 @@ public class UserController extends BaseController<User, Long> {
 
     @MetaData(value = "更新角色关联")
     public HttpHeaders doUpdateRelatedRoleR2s() {
-        Long userId = this.getId();
-        Set<String> roleIds = this.getParameterIds("r2ids");
-        userService.updateRelatedRoleR2s(userId, roleIds);
+        userService.updateRelatedRoleR2s(getId(), getParameterIds("r2ids"));
         setModel(OperationResult.buildSuccessResult("更新角色关联操作完成"));
         return buildDefaultHttpHeaders();
     }

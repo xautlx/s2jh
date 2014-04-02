@@ -1,6 +1,5 @@
 package lab.s2jh.auth.service;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +21,6 @@ import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthUserDetails;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.service.R2OperationEnum;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +39,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 @Service
 @Transactional
@@ -122,32 +119,7 @@ public class UserService extends BaseService<User, Long> {
         return passwordEncoder.encodePassword(rawPassword, user.getUid());
     }
 
-    /**
-     * 初始化系统用户设置
-     * 
-     * @param user
-     * @param rawPassword
-     * @return
-     */
-    public User initSetupUser(User user, String rawPassword) {
-        long count = findUserCount();
-        Assert.isTrue(count == 0);
-        user.setInitSetupUser(true);
-        user.setEnabled(true);
-        save(user, rawPassword);
-        Role role = roleDao.findByCode(Role.ROLE_ADMIN_CODE);
-        UserR2Role r2 = new UserR2Role();
-        r2.setUser(user);
-        r2.setRole(role);
-        userR2RoleDao.save(r2);
-        return user;
-    }
-
-    public void updateRelatedRoleR2s(Long id, Collection<String> roleIds, R2OperationEnum op) {
-        updateRelatedR2s(id, roleIds, "userR2Roles", "role", op);
-    }
-
-    public void updateRelatedRoleR2s(Long id, Collection<String> roleIds) {
+    public void updateRelatedRoleR2s(Long id, String[] roleIds) {
         updateRelatedR2s(id, roleIds, "userR2Roles", "role");
     }
 

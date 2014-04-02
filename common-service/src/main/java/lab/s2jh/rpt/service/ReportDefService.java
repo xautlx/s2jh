@@ -1,6 +1,5 @@
 package lab.s2jh.rpt.service;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import lab.s2jh.auth.dao.RoleDao;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.service.R2OperationEnum;
 import lab.s2jh.rpt.dao.ReportDefDao;
 import lab.s2jh.rpt.dao.ReportDefR2RoleDao;
 import lab.s2jh.rpt.entity.ReportDef;
@@ -60,8 +58,8 @@ public class ReportDefService extends BaseService<ReportDef, String> {
     }
 
     @CacheEvict(value = "SpringSecurityCache", allEntries = true)
-    public void updateRelatedRoleR2s(String id, Collection<String> roleIds, R2OperationEnum op) {
-        updateRelatedR2s(id, roleIds, "reportDefR2Roles", "role", op);
+    public void updateRelatedRoleR2s(String id, String[] roleIds) {
+        updateRelatedR2s(id, roleIds, "reportDefR2Roles", "role");
     }
 
     @Transactional(readOnly = true)

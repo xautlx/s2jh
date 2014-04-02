@@ -456,7 +456,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 一般用于如删除等批量操作
      * @return id字符串集合
      */
-    protected Set<String> getParameterIds() {
+    protected String[] getParameterIds() {
         return getParameterIds("ids");
     }
 
@@ -464,7 +464,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 一般用于如删除等批量操作
      * @return id字符串集合
      */
-    protected Set<String> getParameterIds(String paramName) {
+    protected String[] getParameterIds(String paramName) {
         HttpServletRequest request = ServletActionContext.getRequest();
         Set<String> idSet = Sets.newHashSet();
         String[] params = request.getParameterValues(paramName);
@@ -478,7 +478,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 }
             }
         }
-        return idSet;
+        return idSet.toArray(new String[] {});
     }
 
     /**

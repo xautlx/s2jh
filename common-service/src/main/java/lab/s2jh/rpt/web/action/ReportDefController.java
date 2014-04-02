@@ -1,14 +1,12 @@
 package lab.s2jh.rpt.web.action;
 
 import java.util.List;
-import java.util.Set;
 
 import lab.s2jh.auth.entity.Role;
 import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.service.R2OperationEnum;
 import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
@@ -112,10 +110,8 @@ public class ReportDefController extends BaseController<ReportDef, String> {
 
     @MetaData(value = "更新角色关联")
     public HttpHeaders doUpdateRelatedRoleR2s() {
-        Set<String> roleIds = this.getParameterIds("r2ids");
-        R2OperationEnum op = Enum.valueOf(R2OperationEnum.class, getParameter("op", R2OperationEnum.update.name()));
-        reportDefService.updateRelatedRoleR2s(this.getId(), roleIds, op);
-        setModel(OperationResult.buildSuccessResult(op.getLabel() + "操作完成"));
+        reportDefService.updateRelatedRoleR2s(getId(), getParameterIds("r2ids"));
+        setModel(OperationResult.buildSuccessResult("角色关联操作完成"));
         return buildDefaultHttpHeaders();
     }
 }

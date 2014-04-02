@@ -96,7 +96,6 @@
 				    }
 				%>
 
-
 				<div class="form-group">
 					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 					<label class="control-label visible-ie8 visible-ie9">登录账号</label>
@@ -134,25 +133,33 @@
 						登录 <i class="m-icon-swapright m-icon-white"></i>
 					</button>
 				</div>
-				<div class="forget-password hide">
-					<p>
-						忘记密码 ? 点击 <a href="javascript:;" id="forget-password">找回密码</a> 找回重置你的账号密码.
-					</p>
-				</div>
-				<s:if test="casSupport">
-					<div>
-						<p>
-							<a href='<s:property value="casRedirectUrl"/>'>单点登录</a>
-						</p>
+				<div class="forget-password">
+					<div class="row">
+						<div class="col-md-3">
+							<s:if test="casSupport">
+								<p>
+									<a href='<s:property value="casRedirectUrl"/>'>单点登录</a>
+								</p>
+							</s:if>
+						</div>
+						<div class="col-md-9">
+							<p class="pull-right">
+								<span class="hide">忘记密码? <a href="#forget-password" data-toggle="modal">找回密码</a>;
+								</span>
+								<s:if test="signupEnabled">
+								&nbsp; &nbsp; 没有账号? <a href="#create-account" data-toggle="modal">自助注册</a>
+								</s:if>
+							</p>
+						</div>
 					</div>
-				</s:if>
+				</div>
 				<s:if test="%{devMode}">
 					<script type="text/javascript">
                         function setupDevUser(user, password) {
                             $("#j_username").val(user);
                             $("#j_password").val(password);
                             $("#j_captcha").val('admin');
-                            $("#loginForm").submit();
+                            $("#login-form").submit();
                         }
                     </script>
 					<div>
@@ -163,26 +170,148 @@
 				</s:if>
 			</form>
 			<!-- END LOGIN FORM -->
+
 			<!-- BEGIN FORGOT PASSWORD FORM -->
-			<form class="forget-form" action="index.html" method="post">
-				<h3>忘记密码 ?</h3>
-				<p>Enter your e-mail address below to reset your password.</p>
-				<div class="form-group">
-					<div class="input-icon">
-						<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-							placeholder="Email" name="email" />
-					</div>
+			<div class="modal fade" id="forget-password" tabindex="-1" role="basic" aria-hidden="true">
+				<div class="modal-dialog">
+					<form id="forget-form" action="index.html" method="post">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+								<h4 class="modal-title">找回密码</h4>
+							</div>
+							<div class="modal-body">
+								<p>输入您注册时填写的登录账号或邮箱地址. 如果未设置注册邮箱请联系管理员协助处理.</p>
+								<div class="form-group">
+									<div class="input-icon">
+										<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
+											placeholder="填写登录账号或注册邮箱" name="pin" />
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn default" data-dismiss="modal">取消</button>
+								<button type="button" class="btn blue">提交</button>
+							</div>
+						</div>
+					</form>
+					<!-- /.modal-content -->
 				</div>
-				<div class="form-actions">
-					<button type="button" id="back-btn" class="btn">
-						<i class="m-icon-swapleft"></i> Back
-					</button>
-					<button type="submit" class="btn blue pull-right">
-						Submit <i class="m-icon-swapright m-icon-white"></i>
-					</button>
-				</div>
-			</form>
+				<!-- /.modal-dialog -->
+			</div>
 			<!-- END FORGOT PASSWORD FORM -->
+
+			<s:if test="signupEnabled">
+				<!-- BEGIN REGISTRATION FORM -->
+				<div class="modal fade" id="create-account" tabindex="-1" role="basic" aria-hidden="true">
+					<div class="modal-dialog">
+						<form id="register-form" class="form-horizontal form-bordered form-label-stripped"
+							action="${base}/pub/signup!submit" method="post">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+									<h4 class="modal-title">账号注册</h4>
+								</div>
+								<div class="modal-body">
+									<p>请填写如下必须的注册信息：</p>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">登录账号</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" name="signinid" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">输入登录密码</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password"
+															autocomplete="off" name="password" id="password" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">再次输入密码</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password"
+															autocomplete="off" name="rpassword" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">注册邮箱</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text"
+															placeholder="请填写真实有效邮箱地址，可用于邮件通知、找回密码等功能" name="email" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<p style="margin-top: 10px">以下为选填的注册信息：</p>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">联系信息</label>
+												<div class="controls">
+													<textarea rows="1" class="form-control placeholder-no-fix" name="contactInfo"
+														placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">备注说明</label>
+												<div class="controls">
+													<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
+														placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="padding-top: 10px">
+											<label> <input type="checkbox" name="tnc" checked="checked" /> 同意遵守本系统相关访问和使用协议!
+											</label>
+											<div id="register_tnc_error"></div>
+										</div>
+									</div>
+									<div class="note note-info" style="margin-bottom: 0px">
+										<p>提交注册请求后，需要等待系统管理员人工审核授权，在此期间无法访问系统！</p>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn default" data-dismiss="modal">取消</button>
+									<button type="submit" class="btn blue">提交</button>
+								</div>
+							</div>
+						</form>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- END REGISTRATION FORM -->
+			</s:if>
+
 		</div>
 	</div>
 	<!-- END LOGIN -->
@@ -200,87 +329,22 @@
 	<script src="${base}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js"
-		type="text/javascript"></script>
-	<script src="${base}/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<script src="${base}/assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="${base}/assets/plugins/select2/select2.min.js"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="${base}/assets/extras/jquery.form.js"></script>
 	<script src="${base}/assets/scripts/app.js" type="text/javascript"></script>
-	<script src="${base}/assets/scripts/login-soft.js" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
-	<script>
-        jQuery(document).ready(function() {
-
-            App.init();
-
-            $('.login-form').validate({
-                errorElement : 'span', //default input error message container
-                errorClass : 'help-block', // default input error message class
-                focusInvalid : false, // do not focus the last invalid input
-                rules : {
-                    j_username : {
-                        required : true
-                    },
-                    j_password : {
-                        required : true
-                    }
-                },
-
-                messages : {
-                    j_username : {
-                        required : "请填写登录账号"
-                    },
-                    j_password : {
-                        required : "请填写登录密码"
-                    }
-                },
-
-                invalidHandler : function(event, validator) { //display error alert on form submit   
-                    $('.alert-danger', $('.login-form')).show();
-                },
-
-                highlight : function(element) { // hightlight error inputs
-                    $(element).closest('.form-group').addClass('has-error'); // set error class to the control group
-                },
-
-                success : function(label) {
-                    label.closest('.form-group').removeClass('has-error');
-                    label.remove();
-                },
-
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.closest('.input-icon'));
-                },
-
-                submitHandler : function(form) {
-                    form.submit();
-                }
-            });
-
-            $('.login-form input').keypress(function(e) {
-                if (e.which == 13) {
-                    if ($('.login-form').validate().form()) {
-                        $('.login-form').submit();
-                    }
-                    return false;
-                }
-            });
-
-            $.backstretch([ "${base}/assets/img/bg/1.jpg", "${base}/assets/img/bg/2.jpg", "${base}/assets/img/bg/3.jpg", "${base}/assets/img/bg/4.jpg" ], {
-                fade : 1000,
-                duration : 8000
-            });
-        });
+	<script type="text/javascript">
+        var WEB_ROOT = "${base}";
     </script>
-	<!-- END JAVASCRIPTS -->
+	<script src="signin.js" type="text/javascript"></script>
 </body>
 <!-- END BODY -->
 </html>

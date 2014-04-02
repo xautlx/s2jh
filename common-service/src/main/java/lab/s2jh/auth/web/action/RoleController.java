@@ -3,7 +3,6 @@ package lab.s2jh.auth.web.action;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import lab.s2jh.auth.entity.Privilege;
 import lab.s2jh.auth.entity.Role;
@@ -150,8 +149,7 @@ public class RoleController extends BaseController<Role, String> {
 
     @MetaData(value = "更新权限关联")
     public HttpHeaders doUpdateRelatedPrivilegeR2s() {
-        Set<String> r2Ids = this.getParameterIds("r2ids");
-        roleService.updateRelatedPrivilegeR2s(this.getId(), r2Ids);
+        roleService.updateRelatedPrivilegeR2s(getId(), getParameterIds("r2ids"));
         setModel(OperationResult.buildSuccessResult("更新权限关联操作完成"));
         return buildDefaultHttpHeaders();
     }

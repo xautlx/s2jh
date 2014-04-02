@@ -125,18 +125,6 @@ public class PrivilegeService extends BaseService<Privilege, String> {
             if (StringUtils.isNotBlank(privilege.getUrl())) {
                 //ROLE_ADMIN角色默认赋予所有权限
                 addURL2Role(resourceMap, privilege.getUrl(), Role.ROLE_ADMIN_CODE);
-
-                //检查权限是否没有被任何角色关联,如果没有则设置为强制保护
-                //                boolean needProtect = true;
-                //                for (RoleR2Privilege r2 : r2s) {
-                //                    if (r2.getPrivilege().equals(privilege)) {
-                //                        needProtect = false;
-                //                        break;
-                //                    }
-                //                }
-                //                if (needProtect) {
-                //                    addURL2Role(resourceMap, privilege.getUrl(), Role.ROLE_PROTECTED_CODE);
-                //                }
             }
         }
 
@@ -224,7 +212,7 @@ public class PrivilegeService extends BaseService<Privilege, String> {
     }
 
     @CacheEvict(value = "SpringSecurityCache", allEntries = true)
-    public void updateRelatedRoleR2s(String id, Collection<String> roleIds) {
+    public void updateRelatedRoleR2s(String id, String[] roleIds) {
         updateRelatedR2s(id, roleIds, "roleR2Privileges", "role");
     }
 }

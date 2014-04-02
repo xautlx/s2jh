@@ -1,6 +1,5 @@
 package lab.s2jh.auth.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import lab.s2jh.auth.dao.PrivilegeDao;
@@ -40,7 +39,7 @@ public class RoleService extends BaseService<Role, String> {
     protected BaseDao<Role, String> getEntityDao() {
         return roleDao;
     }
-    
+
     @Transactional(readOnly = true)
     public List<Role> findAllCached() {
         return roleDao.findAllCached();
@@ -56,31 +55,31 @@ public class RoleService extends BaseService<Role, String> {
         return roles;
     }
 
-    @CacheEvict(value="SpringSecurityCache",allEntries=true)
-    public void updateRelatedPrivilegeR2s(String roleId, Collection<String> r2Ids) {
+    @CacheEvict(value = "SpringSecurityCache", allEntries = true)
+    public void updateRelatedPrivilegeR2s(String roleId, String[] r2Ids) {
         updateRelatedR2s(roleId, r2Ids, "roleR2Privileges", "privilege");
     }
 
     @Override
-    @CacheEvict(value="SpringSecurityCache",allEntries=true)
+    @CacheEvict(value = "SpringSecurityCache", allEntries = true)
     public Role save(Role entity) {
         return super.save(entity);
     }
 
     @Override
-    @CacheEvict(value="SpringSecurityCache",allEntries=true)
+    @CacheEvict(value = "SpringSecurityCache", allEntries = true)
     public void delete(Role entity) {
         super.delete(entity);
     }
-    
+
     @Override
-    @CacheEvict(value="SpringSecurityCache",allEntries=true)
+    @CacheEvict(value = "SpringSecurityCache", allEntries = true)
     public List<Role> save(Iterable<Role> entities) {
         return super.save(entities);
     }
 
     @Override
-    @CacheEvict(value="SpringSecurityCache",allEntries=true)
+    @CacheEvict(value = "SpringSecurityCache", allEntries = true)
     public void delete(Iterable<Role> entities) {
         super.delete(entities);
     }

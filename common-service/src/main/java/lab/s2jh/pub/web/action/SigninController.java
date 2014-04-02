@@ -42,8 +42,8 @@ public class SigninController extends BaseController<User, Long> {
         return dynamicConfigService.getSystemTitle();
     }
 
-    public boolean isSignupDisabled() {
-        return dynamicConfigService.isSignupDisabled();
+    public boolean isSignupEnabled() {
+        return !dynamicConfigService.isSignupDisabled();
     }
 
     public boolean isCasSupport() {

@@ -182,12 +182,12 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     /**
      * 基于主键集合查询集合数据对象
      * 
-     * @param ids
-     *            主键集合
+     * @param ids 主键集合
      * @return
      */
     @Transactional(readOnly = true)
     public List<T> findAll(final ID... ids) {
+        Assert.isTrue(ids != null && ids.length > 0, "必须提供有效查询主键集合");
         Specification<T> spec = new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -498,11 +498,11 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
         if ("NULL".equalsIgnoreCase(String.valueOf(matchValue))) {
             return expression.isNull();
-        }else  if ("EMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
+        } else if ("EMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
             return builder.or(builder.isNull(expression), builder.equal(expression, ""));
-        }else  if ("NONULL".equalsIgnoreCase(String.valueOf(matchValue))) {
+        } else if ("NONULL".equalsIgnoreCase(String.valueOf(matchValue))) {
             return expression.isNotNull();
-        }else  if ("NOEMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
+        } else if ("NOEMPTY".equalsIgnoreCase(String.valueOf(matchValue))) {
             return builder.and(builder.isNotNull(expression), builder.notEqual(expression, ""));
         }
 
@@ -885,14 +885,14 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @param r2EntityPropertyName
      *            被关联对象在R2关联对象定义中的属性名称，如UserR2Role中定义的role属性名
      */
-    protected void updateRelatedR2s(ID id, Collection<? extends Serializable> r2EntityIds, String r2PropertyName,
+    protected void updateRelatedR2s(ID id, Serializable[] r2EntityIds, String r2PropertyName,
             String r2EntityPropertyName) {
         try {
             T entity = findOne(id);
             List oldR2s = (List) MethodUtils.invokeExactMethod(entity, "get" + StringUtils.capitalize(r2PropertyName),
                     null);
 
-            if (CollectionUtils.isEmpty(r2EntityIds) && !CollectionUtils.isEmpty(oldR2s)) {
+            if ((r2EntityIds == null || r2EntityIds.length == 0) && !CollectionUtils.isEmpty(oldR2s)) {
                 oldR2s.clear();
             } else {
                 Field r2field = FieldUtils.getField(entityClass, r2PropertyName, true);

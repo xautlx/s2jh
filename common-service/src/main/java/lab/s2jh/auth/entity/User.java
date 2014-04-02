@@ -87,9 +87,6 @@ public class User extends BaseEntity<Long> {
     @MetaData(value = "角色关联")
     private List<UserR2Role> userR2Roles = Lists.newArrayList();
 
-    @MetaData(value = "初始化用户标识")
-    private Boolean initSetupUser;
-
     @MetaData(value = "用户唯一标识号")
     private String uid;
 
@@ -104,6 +101,10 @@ public class User extends BaseEntity<Long> {
 
     @MetaData(value = "总计登录次数")
     private Long logonTimes;
+    
+    /** 遗留项目属性定义 */
+    @Deprecated
+    private String userPin;
 
     private Long id;
 
@@ -215,15 +216,6 @@ public class User extends BaseEntity<Long> {
         this.userR2Roles = userR2Roles;
     }
 
-    @Column(updatable = false)
-    public Boolean getInitSetupUser() {
-        return initSetupUser;
-    }
-
-    public void setInitSetupUser(Boolean initSetupUser) {
-        this.initSetupUser = initSetupUser;
-    }
-
     @Column(updatable = false, length = 64, unique = true, nullable = false)
     public String getUid() {
         return uid;
@@ -287,5 +279,14 @@ public class User extends BaseEntity<Long> {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+    
+    @Column(length = 50)
+    public String getUserPin() {
+        return userPin;
+    }
+
+    public void setUserPin(String userPin) {
+        this.userPin = userPin;
     }
 }
