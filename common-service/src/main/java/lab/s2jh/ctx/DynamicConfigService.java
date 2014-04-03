@@ -1,4 +1,4 @@
-package lab.s2jh.cfg;
+package lab.s2jh.ctx;
 
 import lab.s2jh.sys.entity.ConfigProperty;
 import lab.s2jh.sys.service.ConfigPropertyService;
@@ -23,18 +23,27 @@ public class DynamicConfigService {
     @Value("${cfg.system.title:\"S2JH\"}")
     private String systemTitle;
 
-    @Value("${cfg.sms.mock.mode:\"false\"}")
-    private String smsMockMode;
+    @Autowired
+    private ExtPropertyPlaceholderConfigurer extPropertyPlaceholderConfigurer;
 
     @Autowired
     private ConfigPropertyService configPropertyService;
 
-    private String getString(String key, String defaultValue) {
+    public String getString(String key, String defaultValue) {
+        String val = null;
+        //首先从数据库取值
         ConfigProperty cfg = configPropertyService.findByPropKey(key);
-        if (cfg == null) {
+        if (cfg != null) {
+            val = cfg.getSimpleValue();
+        }
+        //未取到则继续从Spring属性文件定义取
+        if (val == null) {
+            val = extPropertyPlaceholderConfigurer.getProperty(key);
+        }
+        if (val == null) {
             return defaultValue;
         } else {
-            return cfg.getSimpleValue();
+            return val.trim();
         }
     }
 
@@ -47,11 +56,6 @@ public class DynamicConfigService {
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
-        ConfigProperty cfg = configPropertyService.findByPropKey(key);
-        if (cfg == null) {
-            return defaultValue;
-        } else {
-            return BooleanUtils.toBoolean(cfg.getSimpleValue());
-        }
+        return BooleanUtils.toBoolean(getString(key, String.valueOf(defaultValue)));
     }
 }
