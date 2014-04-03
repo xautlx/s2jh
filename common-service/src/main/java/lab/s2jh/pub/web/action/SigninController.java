@@ -2,12 +2,11 @@ package lab.s2jh.pub.web.action;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.service.UserService;
-import lab.s2jh.cfg.DynamicConfigService;
-import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.service.PropertiesConfigService;
-import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.SimpleController;
+import lab.s2jh.ctx.DynamicConfigService;
+import lab.s2jh.ctx.MailService;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
@@ -19,7 +18,7 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 /**
  * 登录处理
  */
-public class SigninController extends BaseController<User, Long> {
+public class SigninController extends SimpleController {
 
     @Autowired
     private PropertiesConfigService propertiesConfigService;
@@ -29,6 +28,9 @@ public class SigninController extends BaseController<User, Long> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailService mailService;
 
     public HttpHeaders index() {
         return new DefaultHttpHeaders("/pub/signin").disableCaching();
@@ -50,6 +52,10 @@ public class SigninController extends BaseController<User, Long> {
         return casAuthenticationEntryPoint != null;
     }
 
+    public boolean isMailServiceEnabled() {
+        return mailService.isEnabled();
+    }
+
     @Autowired(required = false)
     private CasAuthenticationEntryPoint casAuthenticationEntryPoint;
 
@@ -67,15 +73,5 @@ public class SigninController extends BaseController<User, Long> {
                 casAuthenticationEntryPoint.getServiceProperties().getServiceParameter(), urlEncodedService,
                 casAuthenticationEntryPoint.getServiceProperties().isSendRenew(), false);
         return redirectUrl;
-    }
-
-    @Override
-    protected BaseService<User, Long> getEntityService() {
-        return userService;
-    }
-
-    @Override
-    protected void checkEntityAclPermission(User entity) {
-        //Do nothing
     }
 }

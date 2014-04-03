@@ -5,10 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.auth.service.UserService;
-import lab.s2jh.cfg.DynamicConfigService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
 import lab.s2jh.core.web.SimpleController;
+import lab.s2jh.ctx.DynamicConfigService;
 import lab.s2jh.sys.service.MenuService;
 import lab.s2jh.sys.vo.NavMenuVO;
 
