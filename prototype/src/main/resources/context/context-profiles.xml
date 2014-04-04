@@ -8,7 +8,7 @@
 
 	<beans profile="development">
 		<!-- 缺省PropertyPlaceholder定义 -->
-		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<bean class="lab.s2jh.ctx.ExtPropertyPlaceholderConfigurer">
 			<property name="locations">
 				<list>
 					<value>classpath:/application.properties</value>
@@ -36,7 +36,7 @@
 				<ref bean="dataSourceSpied" />
 			</constructor-arg>
 		</bean>
-		
+
 		<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL"
 			enabled="${jdbc.initialize.database.enable}">
 
@@ -56,7 +56,7 @@
 
 	<beans profile="production">
 		<!-- 缺省PropertyPlaceholder定义 -->
-		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<bean class="lab.s2jh.ctx.ExtPropertyPlaceholderConfigurer">
 			<property name="locations">
 				<list>
 					<value>classpath:/application.properties</value>
@@ -98,7 +98,7 @@
 	<!-- 用于Unit Test配置 -->
 	<beans profile="test">
 		<!-- 缺省PropertyPlaceholder定义 -->
-		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<bean class="lab.s2jh.ctx.ExtPropertyPlaceholderConfigurer">
 			<property name="locations">
 				<list>
 					<value>classpath:/application.properties</value>

@@ -53,7 +53,7 @@
 	<div class="clearfix" style="padding: 15px">
 		<div class="content" style="width: 100%; max-width: 450px">
 			<!-- BEGIN LOGIN FORM -->
-			<form class="login-form" action="${base}/j_spring_security_check" method="post" id="loginForm">
+			<form id="login-form" class="login-form" action="${base}/j_spring_security_check" method="post">
 				<h3 class="form-title">系统登录</h3>
 				<%
 				    Exception e = (Exception) session
@@ -101,27 +101,25 @@
 					<label class="control-label visible-ie8 visible-ie9">登录账号</label>
 					<div class="input-icon">
 						<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-							placeholder="登录账号" name="j_username" id="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" />
+							placeholder="登录账号" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label visible-ie8 visible-ie9">登录密码</label>
 					<div class="input-icon">
 						<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
-							placeholder="登录密码" name="j_password" id="j_password" />
+							placeholder="登录密码" name="j_password" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label visible-ie8 visible-ie9">验证码</label>
 					<div class="input-group">
 						<div class="input-icon">
-							<i class="fa fa-qrcode"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-								placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" id="j_captcha" />
+							<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
+								placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
 						</div>
 						<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
-							onclick="this.src='${base}/pub/jcaptcha.servlet?_='+new Date().getTime();return false"
-							src="${base}/pub/jcaptcha.servlet" title="看不清？点击刷新" />
-
+							class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
 						</span>
 					</div>
 				</div>
@@ -144,10 +142,9 @@
 						</div>
 						<div class="col-md-9">
 							<p class="pull-right">
-								<span class="hide">忘记密码? <a href="#forget-password" data-toggle="modal">找回密码</a>;
-								</span>
+								忘记密码? <a href="#forget-password" data-toggle="modal">找回密码</a>
 								<s:if test="signupEnabled">
-								&nbsp; &nbsp; 没有账号? <a href="#create-account" data-toggle="modal">自助注册</a>
+								&nbsp; &nbsp;&nbsp; &nbsp; 没有账号? <a href="#create-account" data-toggle="modal">自助注册</a>
 								</s:if>
 							</p>
 						</div>
@@ -156,10 +153,11 @@
 				<s:if test="%{devMode}">
 					<script type="text/javascript">
                         function setupDevUser(user, password) {
-                            $("#j_username").val(user);
-                            $("#j_password").val(password);
-                            $("#j_captcha").val('admin');
-                            $("#login-form").submit();
+                            var $form = $("#login-form");
+                            $("input[name='j_username']", $form).val(user);
+                            $("input[name='j_password']", $form).val(password);
+                            $("input[name='j_captcha']", $form).val('admin');
+                            $form.submit();
                         }
                     </script>
 					<div>
@@ -174,24 +172,44 @@
 			<!-- BEGIN FORGOT PASSWORD FORM -->
 			<div class="modal fade" id="forget-password" tabindex="-1" role="basic" aria-hidden="true">
 				<div class="modal-dialog">
-					<form id="forget-form" action="index.html" method="post">
+					<form id="forget-form" action="${base}/pub/signin!forget" method="post">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 								<h4 class="modal-title">找回密码</h4>
 							</div>
 							<div class="modal-body">
-								<p>输入您注册时填写的登录账号或邮箱地址. 如果未设置注册邮箱请联系管理员协助处理.</p>
+								<p>输入您注册时填写的登录账号或邮箱地址.</p>
+								<p>如果未设置注册邮箱或遗忘相关注册信息请联系管理员协助处理.</p>
 								<div class="form-group">
 									<div class="input-icon">
 										<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-											placeholder="填写登录账号或注册邮箱" name="pin" />
+											placeholder="填写登录账号或注册邮箱" name="uid" />
 									</div>
 								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-icon">
+											<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
+												placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
+										</div>
+										<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
+											class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
+										</span>
+									</div>
+								</div>
+								<s:if test="!mailServiceEnabled">
+									<div class="note note-warning" style="margin-bottom: 0px">
+										<p>系统当前未开启邮件服务，暂时无法提供找回密码服务！</p>
+										<p>若有疑问请联系告知管理员！</p>
+									</div>
+								</s:if>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn default" data-dismiss="modal">取消</button>
-								<button type="button" class="btn blue">提交</button>
+								<s:if test="mailServiceEnabled">
+									<button type="submit" class="btn blue">提交</button>
+								</s:if>
 							</div>
 						</div>
 					</form>
@@ -214,78 +232,68 @@
 								</div>
 								<div class="modal-body">
 									<p>请填写如下必须的注册信息：</p>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">登录账号</label>
-												<div class="controls">
-													<div class="input-icon">
-														<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" name="signinid" />
-													</div>
-												</div>
+									<div class="form-group">
+										<label class="control-label">登录账号</label>
+										<div class="controls">
+											<div class="input-icon">
+												<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" name="signinid" />
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">输入登录密码</label>
-												<div class="controls">
-													<div class="input-icon">
-														<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password"
-															autocomplete="off" name="password" id="password" />
-													</div>
-												</div>
+									<div class="form-group">
+										<label class="control-label">输入登录密码</label>
+										<div class="controls">
+											<div class="input-icon">
+												<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
+													name="password" />
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">再次输入密码</label>
-												<div class="controls">
-													<div class="input-icon">
-														<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password"
-															autocomplete="off" name="rpassword" />
-													</div>
-												</div>
+									<div class="form-group">
+										<label class="control-label">再次输入密码</label>
+										<div class="controls">
+											<div class="input-icon">
+												<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password"
+													autocomplete="off" name="rpassword" />
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">注册邮箱</label>
-												<div class="controls">
-													<div class="input-icon">
-														<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text"
-															placeholder="请填写真实有效邮箱地址，可用于邮件通知、找回密码等功能" name="email" />
-													</div>
+									<div class="form-group">
+										<label class="control-label">注册邮箱</label>
+										<div class="controls">
+											<div class="input-icon">
+												<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text"
+													placeholder="请填写真实有效邮箱地址，可用于邮件通知、找回密码等功能" name="email" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label">验证码</label>
+										<div class="controls">
+											<div class="input-group">
+												<div class="input-icon">
+													<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
+														placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
 												</div>
+												<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
+													class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
+												</span>
 											</div>
 										</div>
 									</div>
 									<p style="margin-top: 10px">以下为选填的注册信息：</p>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">联系信息</label>
-												<div class="controls">
-													<textarea rows="1" class="form-control placeholder-no-fix" name="contactInfo"
-														placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
-												</div>
-											</div>
+									<div class="form-group">
+										<label class="control-label">联系信息</label>
+										<div class="controls">
+											<textarea rows="1" class="form-control placeholder-no-fix" name="contactInfo"
+												placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label class="control-label">备注说明</label>
-												<div class="controls">
-													<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
-														placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
-												</div>
-											</div>
+									<div class="form-group">
+										<label class="control-label">备注说明</label>
+										<div class="controls">
+											<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
+												placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
 										</div>
 									</div>
 									<div class="row">
@@ -340,10 +348,69 @@
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 	<script src="${base}/assets/extras/jquery.form.js"></script>
 	<script src="${base}/assets/scripts/app.js" type="text/javascript"></script>
+	<script src="${base}/assets/app/util.js" type="text/javascript"></script>
+	<script src="${base}/assets/app/form-validation.js" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script type="text/javascript">
         var WEB_ROOT = "${base}";
     </script>
+
+	<s:if test="%{#parameters.email!=null}">
+		<!-- BEGIN RESET PASSWORD FORM -->
+		<div class="modal fade" id="reset-password" tabindex="-1" role="basic" aria-hidden="true">
+			<div class="modal-dialog">
+				<form id="reset-form" class="form-horizontal form-bordered form-label-stripped" action="${base}/pub/signin!resetpwd"
+					method="post">
+					<s3:hidden name="email" value="%{#parameters.email}" />
+					<s3:hidden name="code" value="%{#parameters.code}" />
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+							<h4 class="modal-title">设置新密码</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+								您正在重新设置注册邮箱：
+								<s:property value="#parameters.email" />
+								对应账号密码
+							</p>
+							<div class="form-group">
+								<label class="control-label">输入新的密码</label>
+								<div class="controls">
+									<div class="input-icon">
+										<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
+											name="password" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">再次输入密码</label>
+								<div class="controls">
+									<div class="input-icon">
+										<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
+											name="rpassword" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn default" data-dismiss="modal">取消</button>
+							<button type="submit" class="btn blue">提交</button>
+						</div>
+					</div>
+				</form>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- END RESET PASSWORD FORM -->
+		<script type="text/javascript">
+            jQuery(document).ready(function() {
+                $("#reset-password").modal();
+            });
+        </script>
+	</s:if>
+
 	<script src="signin.js" type="text/javascript"></script>
 </body>
 <!-- END BODY -->

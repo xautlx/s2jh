@@ -3,7 +3,11 @@ package lab.s2jh.auth.service;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.auth.dao.PrivilegeDao;
 import lab.s2jh.auth.dao.RoleDao;
@@ -18,12 +22,17 @@ import lab.s2jh.auth.entity.UserLogonLog;
 import lab.s2jh.auth.entity.UserOauth;
 import lab.s2jh.auth.entity.UserR2Role;
 import lab.s2jh.core.dao.BaseDao;
+import lab.s2jh.core.exception.ServiceException;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthUserDetails;
 import lab.s2jh.core.service.BaseService;
+import lab.s2jh.ctx.DynamicConfigService;
+import lab.s2jh.ctx.FreemarkerService;
+import lab.s2jh.ctx.MailService;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +48,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import com.google.common.collect.Maps;
 
 @Service
 @Transactional
@@ -67,6 +79,15 @@ public class UserService extends BaseService<User, Long> {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private DynamicConfigService dynamicConfigService;
+
+    @Autowired
+    private FreemarkerService freemarkerService;
+
     @Autowired(required = false)
     private AclService aclService;
 
@@ -78,6 +99,10 @@ public class UserService extends BaseService<User, Long> {
     @Override
     protected void preInsert(User entity) {
         super.preInsert(entity);
+        String email = entity.getEmail();
+        if (StringUtils.isNotBlank(email) && findByProperty("email", email) != null) {
+            throw new ServiceException("邮件 [" + email + "] 已被注册占用");
+        }
         if (aclService != null) {
             entity.setAclType(aclService.aclCodeToType(entity.getAclCode()));
         }
@@ -170,7 +195,16 @@ public class UserService extends BaseService<User, Long> {
      */
     public UserDetails loadUserDetails(String username) {
         logger.debug("Loading user details for: {}", username);
-        User user = findByProperty("signinid", username);
+
+        User user = null;
+        //添加邮件登录支持
+        if (username.indexOf("@") > -1) {
+            user = findByProperty("email", username);
+        }
+        if (user == null) {
+            user = findByProperty("signinid", username);
+        }
+
         if (user == null) {
             throw new UsernameNotFoundException("User '" + username + "' not found");
         }
@@ -236,5 +270,38 @@ public class UserService extends BaseService<User, Long> {
         authUserDetails.setPrivilegeCodes(privilegeCodeSet);
 
         return authUserDetails;
+    }
+
+    public void requestResetPassword(User user) {
+        String email = user.getEmail();
+        Assert.isTrue(StringUtils.isNotBlank(email), "User email required");
+        String suject = dynamicConfigService.getString("cfg.user.reset.pwd.notify.email.title", "申请重置密码邮件");
+        user.setRandomCode(UUID.randomUUID().toString());
+        userDao.save(user);
+
+        HttpServletRequest request = ServletActionContext.getRequest();
+        int serverPort = request.getServerPort();
+        // Reconstruct original requesting URL
+        StringBuffer url = new StringBuffer();
+        url.append(request.getScheme()).append("://").append(request.getServerName());
+        if ((serverPort != 80) && (serverPort != 443)) {
+            url.append(":").append(serverPort);
+        }
+        String contextPath = request.getContextPath();
+        if (contextPath != "/") {
+            url.append(contextPath);
+        }
+        url.append("/pub/signin?email=" + email + "&code=" + user.getRandomCode());
+
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("user", user);
+        params.put("resetPasswordLink", url.toString());
+        String contents = freemarkerService.processTemplateByFileName("PASSWORD_RESET_NOTIFY_EMAIL", params);
+        mailService.sendHtmlMail(suject, contents, true, email);
+    }
+
+    public void resetPassword(User user, String rawPassword) {
+        user.setRandomCode(null);
+        save(user, rawPassword);
     }
 }

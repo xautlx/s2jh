@@ -101,7 +101,10 @@ public class User extends BaseEntity<Long> {
 
     @MetaData(value = "总计登录次数")
     private Long logonTimes;
-    
+
+    @MetaData(value = "随机数", description = "用于找回密码设定的随机UUID字符串")
+    private String randomCode;
+
     /** 遗留项目属性定义 */
     @Deprecated
     private String userPin;
@@ -280,7 +283,7 @@ public class User extends BaseEntity<Long> {
     public void setDepartment(Department department) {
         this.department = department;
     }
-    
+
     @Column(length = 50)
     public String getUserPin() {
         return userPin;
@@ -288,5 +291,13 @@ public class User extends BaseEntity<Long> {
 
     public void setUserPin(String userPin) {
         this.userPin = userPin;
+    }
+
+    public String getRandomCode() {
+        return randomCode;
+    }
+
+    public void setRandomCode(String randomCode) {
+        this.randomCode = randomCode;
     }
 }

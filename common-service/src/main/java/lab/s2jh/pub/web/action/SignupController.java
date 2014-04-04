@@ -1,14 +1,18 @@
 package lab.s2jh.pub.web.action;
 
+import javax.servlet.http.HttpServletRequest;
+
 import lab.s2jh.auth.entity.SignupUser;
 import lab.s2jh.auth.service.SignupUserService;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.BaseController;
+import lab.s2jh.core.web.captcha.ImageCaptchaServlet;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.ctx.DynamicConfigService;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +31,13 @@ public class SignupController extends BaseController<SignupUser, String> {
     private SignupUserService signupUserService;
 
     public HttpHeaders submit() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String jCaptcha = getRequiredParameter("j_captcha");
+        if (!ImageCaptchaServlet.validateResponse(request, jCaptcha)) {
+            setModel(OperationResult.buildFailureResult("验证码不正确，请重新输入"));
+            return buildDefaultHttpHeaders();
+        }
+        
         if (dynamicConfigService.isSignupDisabled()) {
             setModel(OperationResult.buildFailureResult("系统暂未开发账号注册功能，如有疑问请联系管理员"));
             return buildDefaultHttpHeaders();

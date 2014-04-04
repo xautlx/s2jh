@@ -3,7 +3,7 @@ package lab.s2jh.schedule;
 import java.util.Map;
 
 import lab.s2jh.core.exception.ServiceException;
-import lab.s2jh.core.service.FreemarkerConfigurer;
+import lab.s2jh.ctx.FreemarkerService;
 import lab.s2jh.schedule.entity.JobBeanCfg;
 import lab.s2jh.schedule.service.JobBeanCfgService;
 
@@ -51,13 +51,13 @@ public abstract class BaseQuartzJobBean extends QuartzJobBean {
 	 */
 	protected String buildJobResultByTemplate(JobExecutionContext context, Map<String, Object> dataMap) {
 		JobBeanCfgService jobBeanCfgService = getSpringBean(JobBeanCfgService.class);
-		FreemarkerConfigurer freemarkerConfigurer = getSpringBean(FreemarkerConfigurer.class);
+		FreemarkerService freemarkerService = getSpringBean(FreemarkerService.class);
 
 		JobBeanCfg jobBeanCfg = jobBeanCfgService.findByJobClass(context.getJobDetail().getJobClass().getName());
 		if (jobBeanCfg != null) {
 			String resultTemplate = jobBeanCfg.getResultTemplate();
 			if (StringUtils.isNotBlank(resultTemplate)) {
-				String result = freemarkerConfigurer.processTemplate(jobBeanCfg.getJobClass(), jobBeanCfg.getVersion(),
+				String result = freemarkerService.processTemplate(jobBeanCfg.getJobClass(), jobBeanCfg.getVersion(),
 						resultTemplate, dataMap);
 				return result;
 			}
