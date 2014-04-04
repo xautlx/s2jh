@@ -52,9 +52,8 @@ public class MailService {
                 mimeMessages.set(mails);
                 TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
                     @Override
-                    public void afterCompletion(int status) {
-                        logger.debug("Processing afterCompletion[status={}] of TransactionSynchronizationManager...",
-                                status);
+                    public void afterCommit() {
+                        logger.debug("Processing afterCommit of TransactionSynchronizationManager...");
                         Set<MailMessage> transactionMails = mimeMessages.get();
                         for (MailMessage mail : transactionMails) {
                             sendMail(mail.getSubject(), mail.getText(), mail.getSingleMode(), true, mail.getToAddrs());

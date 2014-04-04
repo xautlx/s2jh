@@ -10,7 +10,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @ContextConfiguration(locations = { "classpath*:/service/spring-mail.xml" })
 @TransactionConfiguration(defaultRollback = false)
-public class MailServiceWithTransactionTest extends SpringTransactionalTestCase {
+public class MailServiceWithTransactionNoAutoTest extends SpringTransactionalTestCase {
 
     @Autowired
     private MailService mailService;

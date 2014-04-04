@@ -9,9 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 @ActiveProfiles("test")
-@ContextConfiguration(locations = { "classpath*:/context/context-profiles.xml", "classpath*:/context/spring*.xml",
-        "classpath*:/service/spring-mail.xml" })
-public class MailServiceWithoutTransactionTest extends AbstractJUnit4SpringContextTests {
+@ContextConfiguration(locations = { "classpath:/context/context-profiles.xml", "classpath:/context/spring*.xml",
+        "classpath:/service/spring-mail.xml" })
+public class MailServiceWithoutTransactionNoAutoTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired
     private MailService mailService;

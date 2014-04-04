@@ -21,7 +21,7 @@
 
 		<!-- 嵌入式内存中数据库 -->
 		<jdbc:embedded-database id="dataSourceSpied" type="H2">
-			<jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
+			<jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
 		</jdbc:embedded-database>
 
 		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
