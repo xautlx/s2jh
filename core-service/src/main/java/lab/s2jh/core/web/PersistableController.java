@@ -666,14 +666,14 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     public HttpHeaders checkUnique() {
         String element = this.getParameter("element");
         Assert.notNull(element);
-        GroupPropertyFilter groupPropertyFilter = new GroupPropertyFilter();
+        GroupPropertyFilter groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter();
 
         String value = getRequest().getParameter(element);
         if (!ExtStringUtils.hasChinese(value)) {
             value = ExtStringUtils.encodeUTF8(value);
         }
 
-        groupPropertyFilter.and(new PropertyFilter(entityClass, "EQ_" + element, value));
+        groupPropertyFilter.append(new PropertyFilter(entityClass, "EQ_" + element, value));
 
         // 处理额外补充参数，有些数据是通过两个字段共同决定唯一性，可以通过additional参数补充提供
         String additionalName = getRequest().getParameter("additional");
@@ -682,7 +682,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             if (!ExtStringUtils.hasChinese(additionalValue)) {
                 additionalValue = ExtStringUtils.encodeUTF8(additionalValue);
             }
-            groupPropertyFilter.and(new PropertyFilter(entityClass, additionalName, additionalValue));
+            groupPropertyFilter.append(new PropertyFilter(entityClass, additionalName, additionalValue));
         }
         String additionalName2 = getRequest().getParameter("additional2");
         if (StringUtils.isNotBlank(additionalName2)) {
@@ -690,7 +690,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             if (!ExtStringUtils.hasChinese(additionalValue2)) {
                 additionalValue2 = ExtStringUtils.encodeUTF8(additionalValue2);
             }
-            groupPropertyFilter.and(new PropertyFilter(entityClass, additionalName2, additionalValue2));
+            groupPropertyFilter.append(new PropertyFilter(entityClass, additionalName2, additionalValue2));
         }
 
         List<T> entities = getEntityService().findByFilters(groupPropertyFilter);

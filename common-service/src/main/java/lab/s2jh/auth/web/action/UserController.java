@@ -150,11 +150,11 @@ public class UserController extends BaseController<User, Long> {
         if (AuthContextHolder.getAuthUserDetails() != null) {
             Collection<String> aclCodePrefixs = AuthContextHolder.getAuthUserDetails().getAclCodePrefixs();
             if (!CollectionUtils.isEmpty(aclCodePrefixs)) {
-                groupFilter.and(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
+                groupFilter.forceAnd(new PropertyFilter(MatchType.ACLPREFIXS, "aclCode", aclCodePrefixs));
             }
             String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
             if (StringUtils.isNotBlank(authUserAclType)) {
-                groupFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
+                groupFilter.forceAnd(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
             }
         }
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());

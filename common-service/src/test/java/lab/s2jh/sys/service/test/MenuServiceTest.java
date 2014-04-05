@@ -54,20 +54,20 @@ public class MenuServiceTest extends SpringTransactionalTestCase {
         entity2.setTitle("ABC456");
         menuService.save(entity2);
 
-        GroupPropertyFilter groupPropertyFilter = new GroupPropertyFilter();
-        groupPropertyFilter.and(new PropertyFilter(MatchType.EQ, "title", "ABC123"));
+        GroupPropertyFilter groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter();
+        groupPropertyFilter.append(new PropertyFilter(MatchType.EQ, "title", "ABC123"));
         Pageable pageable = new PageRequest(0, 10, new Sort(Direction.DESC, "id"));
         Page<Menu> items = menuService.findByPage(groupPropertyFilter, pageable);
         Assert.assertTrue(items.getContent().size() == 1);
 
-        groupPropertyFilter = new GroupPropertyFilter();
-        groupPropertyFilter.and(new PropertyFilter(MatchType.EQ, "title", "ABC789"));
+        groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter();
+        groupPropertyFilter.append(new PropertyFilter(MatchType.EQ, "title", "ABC789"));
         pageable = new PageRequest(0, 10, new Sort(Direction.DESC, "id"));
         items = menuService.findByPage(groupPropertyFilter, pageable);
         Assert.assertTrue(CollectionUtils.isEmpty(items.getContent()));
 
-        groupPropertyFilter = new GroupPropertyFilter();
-        groupPropertyFilter.and(new PropertyFilter(MatchType.CN, "title", "ABC"));
+        groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter();
+        groupPropertyFilter.append(new PropertyFilter(MatchType.CN, "title", "ABC"));
         pageable = new PageRequest(0, 10, new Sort(Direction.DESC, "id"));
         items = menuService.findByPage(groupPropertyFilter, pageable);
         Assert.assertTrue(items.getContent().size() == 2);

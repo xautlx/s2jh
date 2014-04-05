@@ -164,7 +164,7 @@ public class RoleController extends BaseController<Role, String> {
         //限定查询ACL所辖范围数据
         String authUserAclType = AuthContextHolder.getAuthUserDetails().getAclType();
         if (StringUtils.isNotBlank(authUserAclType)) {
-            groupPropertyFilter.and(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
+            groupPropertyFilter.forceAnd(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
         }
     }
 

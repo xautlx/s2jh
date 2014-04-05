@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Random;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -41,6 +42,10 @@ public class TestObjectUtils {
                                 int columnLength = 32;
                                 if (column != null && column.length() < columnLength) {
                                     columnLength = column.length();
+                                }
+                                Size size = getMethod.getAnnotation(Size.class);
+                                if (size != null && size.min() < columnLength) {
+                                    columnLength = size.min();
                                 }
                                 value = RandomStringUtils.randomAlphabetic(columnLength);
                             } else if (parameter.isAssignableFrom(Date.class)) {

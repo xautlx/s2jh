@@ -60,8 +60,8 @@ public class AuthLogonHistRefreshListener implements HttpSessionListener, Servle
         logger.info("ServletContext destroy force setup session user logout time...");
 
         UserLogonLogService userLogonLogService = SpringContextHolder.getBean(UserLogonLogService.class);
-        GroupPropertyFilter groupPropertyFilter = new GroupPropertyFilter();
-        groupPropertyFilter.and(new PropertyFilter(MatchType.NU, "logoutTime", Boolean.TRUE));
+        GroupPropertyFilter groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter();
+        groupPropertyFilter.append(new PropertyFilter(MatchType.NU, "logoutTime", Boolean.TRUE));
         List<UserLogonLog> userLogonLogs = userLogonLogService.findByFilters(groupPropertyFilter);
         if (!CollectionUtils.isEmpty(userLogonLogs)) {
 

@@ -39,15 +39,9 @@ public class JobBeanCfgController extends BaseController<JobBeanCfg, String> {
     }
 
     @Override
-    @MetaData(value = "创建")
-    public HttpHeaders doCreate() {
-        return super.doCreate();
-    }
-
-    @Override
-    @MetaData(value = "更新")
-    public HttpHeaders doUpdate() {
-        return super.doUpdate();
+    @MetaData(value = "保存")
+    public HttpHeaders doSave() {
+        return super.doSave();
     }
 
     @Override

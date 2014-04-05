@@ -29,23 +29,6 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
     /** Entity本身无用，主要用于UI层辅助参数传递 */
     private Map<String, Object> extraAttributes;
 
-    @Transient
-    @JsonProperty
-    public String getDisplayId() {
-        Serializable id = getId();
-        if (id == null) {
-            return "";
-        }
-        if (id != null && id instanceof String) {
-            String idStr = (String) id;
-            if (StringUtils.isNotBlank(idStr)) {
-                int length = idStr.length();
-                return idStr.substring(length - 8, length);
-            }
-        }
-        return id.toString();
-    }
-
     /*
      * (non-Javadoc)
      * 

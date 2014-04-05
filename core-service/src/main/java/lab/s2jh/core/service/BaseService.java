@@ -666,28 +666,32 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         List<Predicate> predicates = buildPredicatesFromFilters(groupPropertyFilter.getFilters(), root, query, builder);
         if (CollectionUtils.isNotEmpty(groupPropertyFilter.getGroups())) {
             for (GroupPropertyFilter group : groupPropertyFilter.getGroups()) {
+                if (CollectionUtils.isEmpty(group.getFilters()) && CollectionUtils.isEmpty(group.getForceAndFilters())) {
+                    continue;
+                }
                 predicates.add(buildPredicatesFromFilters(group, root, query, builder));
             }
         }
         Predicate predicate = null;
-        if (groupPropertyFilter.getGroupType().equals(GroupPropertyFilter.GROUP_OPERATION_OR)) {
-            predicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
-        } else {
-            predicate = builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        if (CollectionUtils.isNotEmpty(predicates)) {
+            if (predicates.size() == 1) {
+                predicate = predicates.get(0);
+            } else {
+                if (groupPropertyFilter.getGroupType().equals(GroupPropertyFilter.GROUP_OPERATION_OR)) {
+                    predicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
+                } else {
+                    predicate = builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+            }
         }
 
-        List<Predicate> appendAndPredicates = buildPredicatesFromFilters(groupPropertyFilter.getAppendAndFilters(),
+        List<Predicate> appendAndPredicates = buildPredicatesFromFilters(groupPropertyFilter.getForceAndFilters(),
                 root, query, builder);
         if (CollectionUtils.isNotEmpty(appendAndPredicates)) {
-            appendAndPredicates.add(predicate);
+            if (predicate != null) {
+                appendAndPredicates.add(predicate);
+            }
             predicate = builder.and(appendAndPredicates.toArray(new Predicate[appendAndPredicates.size()]));
-        }
-
-        List<Predicate> appendOrPredicates = buildPredicatesFromFilters(groupPropertyFilter.getAppendOrFilters(), root,
-                query, builder);
-        if (CollectionUtils.isNotEmpty(appendOrPredicates)) {
-            appendOrPredicates.add(predicate);
-            predicate = builder.and(appendOrPredicates.toArray(new Predicate[appendOrPredicates.size()]));
         }
 
         return predicate;
