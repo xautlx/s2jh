@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script language="javascript" type="text/javascript">
+	function scanBarcodeCallback(id, code) {
+		document.getElementById(id).value = code;
+	}
+
+	function scanBarcodeInvoker(el) {
+		if (window.wst) {
+			window.wst.startupBarcodeScan(el.id)
+		}
+	}
+</script>
+</head>
+<body>
+	<p>本页仅作为Web App与Native App集合实现条码扫描输入的内嵌演示页面</p>
+	<p>点击 “扫描”按钮 或 点击下方输入框 启动摄像头扫描输入条码：</p>
+	<p>
+		<input id="barcode" type="text" style="height: 30px; width: 200px"
+			onclick="scanBarcodeInvoker(this)" />
+	</p>
+</body>
+</html>

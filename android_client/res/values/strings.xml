@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mobile Client</string>
+    <string name="server_url">file:///android_asset/demo.html</string>
+    <string name="btn_go">Go</string>
+    <string name="barcode_scan">扫描</string>
+    <string name="cancel_scan">取消返回</string>
+
+</resources>
