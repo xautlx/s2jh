@@ -160,10 +160,8 @@
                             $form.submit();
                         }
                     </script>
-					<div>
-						<p>
-							开发测试登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
-						</p>
+					<div class="alert alert-info">
+						开发/测试/演示 登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
 					</div>
 				</s:if>
 			</form>
