@@ -203,6 +203,17 @@
 						<li class="external"><a href="#">See all tasks <i class="m-icon-swapright"></i></a></li>
 					</ul></li>
 				<!-- END TODO DROPDOWN -->
+
+				<!-- BEGIN Mobile DROPDOWN -->
+				<li class="dropdown user" style="padding-top: 5px"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+					data-close-others="true"> <i class="fa fa-mobile"></i><i class="fa fa-angle-down"></i>
+				</a>
+					<ul class="dropdown-menu" id="dropdown-menu-mobile">
+						<li><a href="${base}/pub/android_client.apk" target="_blank"><i class="fa fa-android"></i> Android客户端下载</a></li>
+						<li class="divider divider-menus"></li>
+					</ul></li>
+				<!-- END Mobile DROPDOWN -->
+
 				<!-- BEGIN USER LOGIN DROPDOWN -->
 				<li class="dropdown user" style="padding-top: 5px"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 					data-close-others="true"> <span class="username"><i class="fa fa-user"></i> <s:property
