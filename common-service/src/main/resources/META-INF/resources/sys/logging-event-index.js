@@ -35,8 +35,8 @@ $(function() {
 
         } ],
         sortname : 'timestmp',
-        delurl : WEB_ROOT + "/sys/logging-event!doDelete",
-        fullediturl : WEB_ROOT + "/sys/logging-event!edit",
+        delurl : WEB_ROOT + '/sys/logging-event!doDelete',
+        fullediturl : WEB_ROOT + '/sys/logging-event!edit',
         addable : false
     });
 });
