@@ -8,10 +8,10 @@
 
 	<!-- 配置为默认基于Bootstrap的样式输出 -->
 	<constant name="struts.ui.theme" value="bootstrap" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 
 	<!-- struts2-spring-plugin，参考http://struts.apache.org/2.x/docs/spring-plugin.html -->
-	<constant name="struts.objectFactory"
-		value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
 	<constant name="struts.ognl.allowStaticMethodAccess" value="false" />
 
 	<!-- 参考Spring MVC Rest的方式,增强提供Negotiation方式动态计算Result响应输出模式 -->
@@ -20,39 +20,36 @@
 	<constant name="struts.actionProxyFactory" value="rest-negotiation" />
 
 	<!-- Struts2默认只提供Jackson1版本支持,增强补充提供Jackson2版本支持 -->
-	<bean type="org.apache.struts2.rest.handler.ContentTypeHandler"
-		name="jackson" class="org.apache.struts2.rest.Jackson2LibHandler" />
+	<bean type="org.apache.struts2.rest.handler.ContentTypeHandler" name="jackson" class="org.apache.struts2.rest.Jackson2LibHandler" />
 	<!-- 默认为Struts内部的JSON序列化，配置为采用功能更加强大的Jackson组件 -->
 	<constant name="struts.rest.handlerOverride.json" value="jackson" />
 
 	<!-- struts2-rest-plugin，参考http://struts.apache.org/2.x/docs/rest-plugin.html -->
-	<constant name="struts.mapper.class" value="rest" />
-	<constant name="struts.convention.action.suffix" value="Controller" />
-	<constant name="struts.convention.action.mapAllMatches" value="true" />
+	<bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="ext-rest" class="org.apache.struts2.rest.ExtRestActionMapper" />
+	<constant name="struts.mapper.class" value="ext-rest" />
 	<constant name="struts.rest.defaultExtension" value="xhtml" />
 	<constant name="struts.rest.content.restrictToGET" value="false" />
-	<constant name="struts.action.excludePattern"
-		value="/components/.*,/resources/.*,/pub/jasper/images.*" />
+	<constant name="struts.action.excludePattern" value="/assets/.*,/resources/.*,/pub/jasper/images.*,.*\\.js" />
 
 	<!-- struts2-convention-plugin，参考https://cwiki.apache.org/WW/convention-plugin.html -->
 	<constant name="struts.convention.result.path" value="/" />
-	<constant name="struts.convention.action.fileProtocols" value="jar,zip" />
-	<constant name="struts.convention.action.includeJars" value=".*assets-resource.*,.*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
-
-	<constant name="struts.convention.default.parent.package"
-		value="crud-default" />
+	<bean type="org.apache.struts2.convention.ResultMapBuilder" name="conventionExt"
+		class="org.apache.struts2.convention.ExtDefaultResultMapBuilder" />
+	<constant name="struts.convention.resultMapBuilder" value="conventionExt" />
+	<constant name="struts.convention.action.fileProtocols" value="jar,zip,code-source" />
+	<constant name="struts.convention.action.suffix" value="Controller" />
+	<constant name="struts.convention.action.mapAllMatches" value="true" />
+	<constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
+	<constant name="struts.convention.default.parent.package" value="crud-default" />
 
 	<package name="crud-default" extends="rest-default,jasperreports-default">
 		<interceptors>
 			<!-- 默认实现是配置了Token拦截器只要没有提供token参数则抛出异常,为了灵活控制,调整实现为:有token才进行检测,没有token参数则放行的宽松模式 -->
-			<interceptor name="extTokenInterceptor"
-				class="lab.s2jh.core.web.interceptor.ExtTokenInterceptor" />
+			<interceptor name="extTokenInterceptor" class="lab.s2jh.core.web.interceptor.ExtTokenInterceptor" />
 			<!-- 扩展参数拦截器：添加可配置的参数绑定支持 -->
-			<interceptor name="extParametersInterceptor"
-				class="lab.s2jh.core.web.interceptor.ExtParametersInterceptor" />
+			<interceptor name="extParametersInterceptor" class="lab.s2jh.core.web.interceptor.ExtParametersInterceptor" />
 			<!-- 修改标准的PrepareInterceptor: 先执行prepare再执行相关的prepareXXX方法 -->
-			<interceptor name="extPrepareInterceptor"
-				class="lab.s2jh.core.web.interceptor.ExtPrepareInterceptor" />
+			<interceptor name="extPrepareInterceptor" class="lab.s2jh.core.web.interceptor.ExtPrepareInterceptor" />
 
 			<interceptor-stack name="defaultAppStack">
 				<interceptor-ref name="extTokenInterceptor" />
@@ -70,7 +67,7 @@
 				<interceptor-ref name="staticParams" />
 				<interceptor-ref name="actionMappingParams" />
 				<interceptor-ref name="extParametersInterceptor">
-					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*,^search.*,^aclCode,^aclType,^createdBy,^createdDate,^lastModifiedBy,^lastModifiedDate</param>
+					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*,^search.*,^aclCode,^aclType,^createdBy,^createdDate,^lastModifiedBy,^lastModifiedDate,.*\.display</param>
 				</interceptor-ref>
 				<interceptor-ref name="conversionError" />
 				<interceptor-ref name="validation">
