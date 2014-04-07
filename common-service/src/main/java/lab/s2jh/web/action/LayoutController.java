@@ -1,4 +1,4 @@
-package lab.s2jh.pub.web.action;
+package lab.s2jh.web.action;
 
 import java.util.List;
 
@@ -13,14 +13,12 @@ import lab.s2jh.sys.service.MenuService;
 import lab.s2jh.sys.vo.NavMenuVO;
 
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 全局布局处理
  */
-@Namespace("/")
 public class LayoutController extends SimpleController {
 
     @Autowired
@@ -38,6 +36,10 @@ public class LayoutController extends SimpleController {
 
     public AuthUserDetails getAuthUserDetails() {
         return AuthContextHolder.getAuthUserDetails();
+    }
+
+    public HttpHeaders index() {
+        return start();
     }
 
     public HttpHeaders start() {
