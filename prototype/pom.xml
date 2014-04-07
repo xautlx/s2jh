@@ -157,23 +157,9 @@
 						<artifactId>maven-assembly-plugin</artifactId>
 						<version>2.4</version>
 						<executions>
-							<execution>
-								<id>assembly-standalone</id>
-								<phase>package</phase>
-								<goals>
-									<goal>single</goal>
-								</goals>
-								<configuration>
-									<descriptors>
-										<descriptor>assembly/assembly-standalone.xml</descriptor>
-									</descriptors>
-									<archive>
-										<manifest>
-											<mainClass>lab.s2jh.MainExecutor</mainClass>
-										</manifest>
-									</archive>
-								</configuration>
-							</execution>
+							<!-- FYI <execution> <id>assembly-standalone</id> <phase>package</phase> <goals> <goal>single</goal> </goals> <configuration> 
+								<finalName>${project.artifactId}</finalName> <descriptors> <descriptor>assembly/assembly-standalone.xml</descriptor> </descriptors> 
+								<archive> <manifest> <mainClass>lab.s2jh.MainExecutor</mainClass> </manifest> </archive> </configuration> </execution> -->
 							<execution>
 								<id>assembly-simplified</id>
 								<phase>package</phase>
@@ -181,6 +167,7 @@
 									<goal>single</goal>
 								</goals>
 								<configuration>
+									<finalName>${project.artifactId}</finalName>
 									<descriptors>
 										<descriptor>assembly/assembly-simplified.xml</descriptor>
 									</descriptors>
