@@ -67,7 +67,7 @@
 	<!-- 写入登录记录 -->
 	<beans:bean id="authenticationSuccessHistHandler"
 		class="lab.s2jh.auth.security.AuthenticationSuccessHistHandler">
-		<beans:property name="defaultTargetUrl" value="/layout!start" />
+		<beans:property name="defaultTargetUrl" value="/layout" />
 		<beans:property name="alwaysUseDefaultTargetUrl" value="false" />
 		<beans:property name="userService" ref="userService" />
 	</beans:bean>
