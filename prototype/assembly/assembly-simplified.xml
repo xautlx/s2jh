@@ -9,22 +9,6 @@
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 
-	<dependencySets>
-		<dependencySet>
-			<outputDirectory>/</outputDirectory>
-			<includes>
-				<include>org.eclipse.jetty*:*</include>
-			</includes>
-			<scope>provided</scope>
-			<unpack>true</unpack>
-			<unpackOptions>
-				<excludes>
-					<exclude>META-INF/*</exclude>
-				</excludes>
-			</unpackOptions>
-		</dependencySet>
-	</dependencySets>
-
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}/target/${project.build.finalName}</directory>

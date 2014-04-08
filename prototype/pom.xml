@@ -166,6 +166,20 @@
 								<finalName>${project.artifactId}</finalName> <descriptors> <descriptor>assembly/assembly-standalone.xml</descriptor> </descriptors> 
 								<archive> <manifest> <mainClass>lab.s2jh.MainExecutor</mainClass> </manifest> </archive> </configuration> </execution> -->
 							<execution>
+								<id>assembly-jetty</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<finalName>${project.artifactId}</finalName>
+									<descriptors>
+										<descriptor>assembly/assembly-jetty.xml</descriptor>
+									</descriptors>
+									<outputDirectory>./runtime</outputDirectory>
+								</configuration>
+							</execution>
+							<execution>
 								<id>assembly-simplified</id>
 								<phase>package</phase>
 								<goals>
@@ -180,6 +194,9 @@
 										<manifest>
 											<mainClass>lab.s2jh.MainExecutor</mainClass>
 										</manifest>
+										<manifestEntries>
+											<Class-Path>prototype-jetty.jar</Class-Path>
+										</manifestEntries>
 									</archive>
 									<outputDirectory>./runtime</outputDirectory>
 								</configuration>
