@@ -4,6 +4,8 @@ import lab.s2jh.sys.entity.ConfigProperty;
 import lab.s2jh.sys.service.ConfigPropertyService;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,13 +19,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class DynamicConfigService {
 
+    private final Logger logger = LoggerFactory.getLogger(DynamicConfigService.class);
+
     @Value("${cfg.signup.disabled:\"false\"}")
     private String signupDisabled;
 
     @Value("${cfg.system.title:\"S2JH\"}")
     private String systemTitle;
 
-    @Autowired
+    @Autowired(required = false)
     private ExtPropertyPlaceholderConfigurer extPropertyPlaceholderConfigurer;
 
     @Autowired
@@ -37,8 +41,13 @@ public class DynamicConfigService {
             val = cfg.getSimpleValue();
         }
         //未取到则继续从Spring属性文件定义取
+
         if (val == null) {
-            val = extPropertyPlaceholderConfigurer.getProperty(key);
+            if (extPropertyPlaceholderConfigurer != null) {
+                val = extPropertyPlaceholderConfigurer.getProperty(key);
+            } else {
+                logger.warn("当前不是以ExtPropertyPlaceholderConfigurer扩展模式定义，因此无法加载获取Spring属性配置");
+            }
         }
         if (val == null) {
             return defaultValue;
