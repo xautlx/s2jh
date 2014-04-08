@@ -33,6 +33,7 @@ import lab.s2jh.ctx.MailService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,8 @@ public class UserService extends BaseService<User, Long> {
             user.setUid(RandomStringUtils.randomNumeric(10));
         }
         if (StringUtils.isNotBlank(rawPassword)) {
+            //密码修改后更新密码过期时间为6个月
+            user.setCredentialsExpireTime(new DateTime().plusMonths(6).toDate());
             user.setPassword(encodeUserPasswd(user, rawPassword));
         }
         return this.save(user);

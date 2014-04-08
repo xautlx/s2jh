@@ -4,7 +4,7 @@
 
 以下两个站点代码和文档同步更新，请自由选择一个访问速度较快的站点即可：
 
-### 同步镜像站点列表：
+### 项目托管同步更新站点列表：
 
 **GitHub.com**
 
@@ -15,8 +15,6 @@
 
 * 代码托管：  http://git.oschina.net/xautlx/s2jh 
 * 项目文档：   http://git.oschina.net/xautlx/s2jh/wikis/Index
-
-### 项目推广主页： http://www.oschina.net/p/s2jh 
 
 ### 个人空间： http://my.oschina.net/s2jh
 
