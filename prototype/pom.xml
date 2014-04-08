@@ -44,6 +44,7 @@
 			<groupId>lab.s2jh</groupId>
 			<artifactId>project-tools</artifactId>
 			<version>${s2jh.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> <scope>runtime</scope> 
 			</dependency> -->
@@ -147,7 +148,9 @@
 								<configuration>
 									<includeScope>compile</includeScope>
 									<outputDirectory>./runtime/lib</outputDirectory>
-									<excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
+									<!-- 排除几个不常变化的依赖，减少增量提交更新的文件大小 -->
+									<excludeArtifactIds>assets-resource,jasperreports-extension,project-tools,core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
+									<!-- 排除经常变化的依赖和独立运行相关依赖 <excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds> -->
 								</configuration>
 							</execution>
 						</executions>

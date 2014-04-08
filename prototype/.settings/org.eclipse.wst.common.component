@@ -18,9 +18,6 @@
         <dependent-module archiveName="bpm-service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bpm-service/bpm-service">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="project-tools-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/project-tools/project-tools">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
     <property name="java-output-path" value="/target/classes"/>
         <property name="context-root" value="prototype"/>
   </wb-module>

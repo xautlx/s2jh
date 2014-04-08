@@ -6,6 +6,9 @@
 	<!-- 设定Struts运行模式，开发阶段遇到问题可设定为true，生产环境应设定为false -->
 	<constant name="struts.devMode" value="false" />
 
+	<!-- image upload maxsize = 3M -->
+	<constant name="struts.image.upload.maxSize" value="3145728" />
+
 	<!-- 配置为默认基于Bootstrap的样式输出 -->
 	<constant name="struts.ui.theme" value="bootstrap" />
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />

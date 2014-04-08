@@ -43,6 +43,7 @@
 			<groupId>lab.s2jh</groupId>
 			<artifactId>project-tools</artifactId>
 			<version>${s2jh.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>lab.s2jh</groupId>
