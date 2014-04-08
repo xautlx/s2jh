@@ -47,14 +47,14 @@ $(function() {
                 title : '未启用账号无法登录系统'
             }
         }, {
-            label : '失效日期',
+            label : '账号失效日期',
             name : 'accountExpireTime',
             editable : true,
             editoptions : {
                 title : '设定账号访问系统的失效日期，为空表示永不失效'
             },
             sorttype : 'date'
-        }, {
+        },  {
             label : '所属部门',
             name : 'department.id',
             editable : true,
