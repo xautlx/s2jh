@@ -308,6 +308,19 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     }
 
     /**
+     * 单一条件对象查询数据集合
+     * 
+     * @param propertyFilter
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<T> findByFilter(PropertyFilter propertyFilter) {
+        GroupPropertyFilter groupPropertyFilter = GroupPropertyFilter.buildDefaultAndGroupFilter(propertyFilter);
+        Specification<T> spec = buildSpecification(groupPropertyFilter);
+        return getEntityDao().findAll(spec);
+    }
+
+    /**
      * 基于动态组合条件对象查询数据集合
      * 
      * @param groupPropertyFilter
