@@ -24,6 +24,7 @@ import lab.s2jh.sys.service.DataDictService;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import ognl.Ognl;
 import ognl.OgnlException;
@@ -196,12 +197,12 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     /** JasperReport输入参数Map */
     private Map<String, Object> reportParameters = Maps.newHashMap();
 
-    public Map<String, Object> getReportParameters() {
-        return reportParameters;
-    }
-
     public void setReportParameters(Map<String, Object> reportParameters) {
         this.reportParameters = reportParameters;
+    }
+
+    public Map<String, Object> getReportParameters() {
+        return reportParameters;
     }
 
     public Map<String, Object> getJasperReportParameters() {
@@ -248,6 +249,31 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             throw new WebException(e.getMessage(), e);
         }
         return jasperReportParameters;
+    }
+
+    /** JasperReport输入参数Map */
+    private Map<String, String> exportParameters = Maps.newHashMap();
+
+    public void setExportParameters(Map<String, String> exportParameters) {
+        this.exportParameters = exportParameters;
+    }
+
+    public Map<String, String> getExportParameters() {
+        return exportParameters;
+    }
+
+    public Map<String, String> getJasperExportParameters() {
+        String format = getFormat();
+
+        //net.sf.jasperreports.export.xls.workbook.template
+        Object xlsWorkbookTemplate = exportParameters.get(JRXlsAbstractExporter.PROPERTY_WORKBOOK_TEMPLATE);
+        if (xlsWorkbookTemplate != null && JasperReportConstants.FORMAT_XLS.equals(format)) {
+            File targetFile = new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator
+                    + xlsWorkbookTemplate.toString());
+            exportParameters.put(JRXlsAbstractExporter.PROPERTY_WORKBOOK_TEMPLATE, targetFile.getAbsolutePath());
+        }
+
+        return exportParameters;
     }
 
     public void prepareShow() {
