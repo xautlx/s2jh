@@ -22,6 +22,7 @@ import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.entity.AttachmentFile;
 import lab.s2jh.sys.service.DataDictService;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -47,6 +48,8 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     private final Logger logger = LoggerFactory.getLogger(JasperReportController.class);
 
     private static String WEB_ROOT_DIR = null;
+
+    private static final String PROPERTY_WORKBOOK_TEMPLATE_FILENAME = "net.sf.jasperreports.export.xls.workbook.template.filename";
 
     private static final String JASPER_TEMPLATE_FILE_DIR = File.separator + "template" + File.separator + "jasper";
 
@@ -212,8 +215,9 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             String reportId = request.getParameter("report");
             File targetJasperFile = getTargetJasperFile(reportId);
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(targetJasperFile);
-            JRParameter[] params = jasperReport.getParameters();
 
+            //根据模板定义转换处理传入参数类型
+            JRParameter[] params = jasperReport.getParameters();
             for (Map.Entry<String, Object> val : reportParameters.entrySet()) {
                 String key = val.getKey();
 
@@ -239,6 +243,20 @@ public class JasperReportController extends BaseController<ReportDef, String> {
                     }
                 }
             }
+
+            JRPropertiesMap properties = jasperReport.getPropertiesMap();
+            //为了方便模板设计和生产环境部署，扩展提供一个PROPERTY_WORKBOOK_TEMPLATE_FILENAME参数
+            //如果在模板文件中定义此参数值，框架会用此文件名转换为对应和jasper文件所在同路径的绝对路径去覆盖模板中PROPERTY_WORKBOOK_TEMPLATE参数值
+            String xlsWorkbookTemplateFilename = properties.getProperty(PROPERTY_WORKBOOK_TEMPLATE_FILENAME);
+            if (StringUtils.isNotBlank(xlsWorkbookTemplateFilename)) {
+                String xlsWorkbookTemplateFilepath = getWebRootDir() + getRelativeJasperFilePath() + File.separator
+                        + xlsWorkbookTemplateFilename;
+                logger.debug("Overwrite jasper property: {}={}", JRXlsAbstractExporter.PROPERTY_WORKBOOK_TEMPLATE,
+                        xlsWorkbookTemplateFilepath);
+                properties.setProperty(JRXlsAbstractExporter.PROPERTY_WORKBOOK_TEMPLATE, xlsWorkbookTemplateFilepath);
+            }
+
+            //设置一些缺省属性供模板内部使用
             jasperReportParameters.put("_RPT_ID", reportId);
             jasperReportParameters.put("_RPT_FORMAT", this.getFormat());
             String url = request.getRequestURL().toString();
