@@ -3,21 +3,23 @@ $(function() {
         url : WEB_ROOT + '${model_path}/${entity_name_field}!findByPage',
         colModel : [ {
             label : '流水号',
-            name : 'displayId',
-            index : 'id'                            
+            name : 'id'                            
         <#list entityFields as entityField> 
         <#if entityField.list>    
         <#if entityField.enumField>
         }, {
+            label : '${entityField.title}',
+            name : '${entityField.fieldName}',
             stype : 'select',
             searchoptions : {
                 value : Util.getCacheEnumsByType('${entityField.fieldName}Enum')
-            }
+            },
         <#elseif entityField.fieldType=='Entity'>
         }, {
             label : '${entityField.title}',
             name : '${entityField.fieldName}.display',
             index : '${entityField.fieldName}',
+            width : 200,
         <#else>    
         }, {
             label : '${entityField.title}',
@@ -30,7 +32,7 @@ $(function() {
             hidden : true,
         </#if>  
         <#if entityField.fieldType=='Boolean'>          
-            formatter : booleanFormatter,
+            formatter : 'checkbox',
         </#if>  
         <#if entityField.fieldType=='Date'>          
             sorttype: 'date',

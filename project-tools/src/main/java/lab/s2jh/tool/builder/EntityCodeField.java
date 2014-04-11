@@ -26,7 +26,7 @@ public class EntityCodeField implements Comparable<EntityCodeField> {
     /** 属性在编辑界面生成表单元素 */
     private boolean edit = true;
     /** 属性在jqGrid列表中生成column定义 */
-    private boolean list = false;
+    private boolean list = true;
     /** 标识属性是否枚举类型，根据Java属性反射获取  */
     private Boolean enumField = false;
     /** 属性类型，根据Java属性反射获取 */

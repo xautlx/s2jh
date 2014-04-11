@@ -149,7 +149,6 @@ public class SourceCodeFrameworkBuilder {
                 } else if (fieldType == Boolean.class) {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
-                    entityCodeField.setListWidth(60);
                     entityCodeField.setListAlign("center");
                 } else if (PersistableEntity.class.isAssignableFrom(fieldType)) {
                     entityCodeField = new EntityCodeField();
@@ -184,12 +183,12 @@ public class SourceCodeFrameworkBuilder {
                     entityCodeField.setListFixed(true);
 
                     //根据Json注解设定合理的列宽
-                    entityCodeField.setListWidth(120);
+                    entityCodeField.setListWidth(150);
                     Method getMethod = entityClass.getMethod("get" + StringUtils.capitalize(field.getName()));
                     JsonSerialize fieldJsonSerialize = getMethod.getAnnotation(JsonSerialize.class);
                     if (fieldJsonSerialize != null) {
                         if (DateJsonSerializer.class.equals(fieldJsonSerialize.using())) {
-                            entityCodeField.setListWidth(80);
+                            entityCodeField.setListWidth(90);
                         }
                     }
                     entityCodeField.setListAlign("center");
