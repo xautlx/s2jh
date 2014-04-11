@@ -654,7 +654,9 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                             orpredicates.add(predicate);
                         }
                     }
-                    predicates.add(builder.or(orpredicates.toArray(new Predicate[orpredicates.size()])));
+                    if (orpredicates.size() > 0) {
+                        predicates.add(builder.or(orpredicates.toArray(new Predicate[orpredicates.size()])));
+                    }
                 }
             }
         }
@@ -682,7 +684,10 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                 if (CollectionUtils.isEmpty(group.getFilters()) && CollectionUtils.isEmpty(group.getForceAndFilters())) {
                     continue;
                 }
-                predicates.add(buildPredicatesFromFilters(group, root, query, builder));
+                Predicate subPredicate = buildPredicatesFromFilters(group, root, query, builder);
+                if (subPredicate != null) {
+                    predicates.add(subPredicate);
+                }
             }
         }
         Predicate predicate = null;
