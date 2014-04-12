@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,13 +16,12 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "tbl_SYS_MENU", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "PARENT_ID" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "菜单")
-public class Menu extends BaseEntity<String> implements Comparable<Menu> {
+public class Menu extends BaseUuidEntity implements Comparable<Menu> {
 
     /** 用于报表菜单项计算的固定菜单代码 */
     public static final String MENU_CODE_RPT = "MFIXRPT";
@@ -87,20 +84,6 @@ public class Menu extends BaseEntity<String> implements Comparable<Menu> {
 
     @MetaData(value = "所在层级", description = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
     private Integer inheritLevel;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     public static enum MenuTypeEnum {
 

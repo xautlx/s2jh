@@ -1,9 +1,6 @@
 package lab.s2jh.rpt.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +12,6 @@ import lab.s2jh.core.entity.def.DynamicParameterDef;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,20 +23,6 @@ public class ReportParam extends DynamicParameterDef {
 
     @MetaData(value = "所属报表")
     private ReportDef reportDef;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Override
     @Transient

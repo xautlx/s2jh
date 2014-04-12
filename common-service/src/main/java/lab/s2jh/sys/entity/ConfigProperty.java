@@ -2,19 +2,16 @@ package lab.s2jh.sys.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "tbl_SYS_CFG_PROP")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "配置属性")
-public class ConfigProperty extends BaseEntity<String> {
+public class ConfigProperty extends BaseUuidEntity {
 
     @MetaData(value = "代码")
     @EntityAutoCode(order = 10)
@@ -43,20 +40,6 @@ public class ConfigProperty extends BaseEntity<String> {
     @MetaData(value = "参数属性用法说明")
     @EntityAutoCode(order = 50)
     private String propDescn;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Override
     @Transient

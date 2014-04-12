@@ -2,25 +2,22 @@ package lab.s2jh.schedule.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 @MetaData(value = "定时任务配置")
 @Entity
 @Table(name = "tbl_JOB_BEAN_CFG")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class JobBeanCfg extends BaseEntity<String> {
+public class JobBeanCfg extends BaseUuidEntity {
 
     @MetaData(value = "任务类全名", description = "实现QuartzJobBean的类全路径类名 ")
     @EntityAutoCode(order = 5)
@@ -48,20 +45,6 @@ public class JobBeanCfg extends BaseEntity<String> {
 
     @MetaData(value = "结果模板文本")
     private String resultTemplate;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Column(length = 128, nullable = false, unique = true)
     public String getJobClass() {

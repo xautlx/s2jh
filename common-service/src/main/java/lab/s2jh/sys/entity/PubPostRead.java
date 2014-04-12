@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,12 +12,11 @@ import javax.persistence.UniqueConstraint;
 
 import lab.s2jh.auth.entity.User;
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
         "read_user_id" }))
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @MetaData(value = "公告阅读记录")
-public class PubPostRead extends BaseEntity<String> {
+public class PubPostRead extends BaseUuidEntity {
 
     @MetaData(value = "公告")
     @EntityAutoCode(order = 10)
@@ -49,20 +46,6 @@ public class PubPostRead extends BaseEntity<String> {
     @MetaData(value = "总计阅读次数")
     @EntityAutoCode(order = 40)
     private Integer readTotalCount = 1;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Override
     @Transient

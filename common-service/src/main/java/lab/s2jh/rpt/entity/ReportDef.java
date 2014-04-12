@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,13 +15,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.sys.entity.AttachmentFile;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
@@ -32,7 +29,7 @@ import com.google.common.collect.Lists;
 @Table(name = "tbl_RPT_REPORT_DEF")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "报表定义")
-public class ReportDef extends BaseEntity<String> {
+public class ReportDef extends BaseUuidEntity {
 
     @MetaData(value = "代码")
     @EntityAutoCode(order = 5, search = true)
@@ -71,21 +68,7 @@ public class ReportDef extends BaseEntity<String> {
 
     @MetaData(value = "角色关联")
     private List<ReportDefR2Role> reportDefR2Roles = Lists.newArrayList();
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
-
+    
     public static enum ReportTypeEnum {
 
         /** 

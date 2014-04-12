@@ -1,22 +1,31 @@
 package lab.s2jh.core.web;
 
+import java.beans.IntrospectionException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.envers.EntityRevision;
@@ -31,9 +40,13 @@ import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.util.DateUtils;
 import lab.s2jh.core.util.ExtStringUtils;
+import lab.s2jh.core.web.json.DateJsonSerializer;
+import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 import lab.s2jh.core.web.view.OperationResult;
 import net.sf.jxls.transformer.XLSTransformer;
+import ognl.OgnlException;
+import ognl.OgnlRuntime;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -44,6 +57,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.HttpHeaders;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
+import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -57,6 +71,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -918,5 +933,118 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         } catch (JsonProcessingException e) {
             return "{\"\":\"ERROR\"}";
         }
+    }
+
+    /**
+     * 
+     */
+    @MetaData(value = "表格数据编辑校验规则")
+    public HttpHeaders buildGridValidateRules() {
+        Map<String, Object> nameRules = Maps.newHashMap();
+        String[] colNames = this.getRequest().getParameterValues("colName");
+        for (String colName : colNames) {
+            try {
+                colName = colName.trim();
+                if (StringUtils.isBlank(colName)) {
+                    continue;
+                }
+                Map<String, Object> rules = Maps.newHashMap();
+                nameRules.put(colName, rules);
+                Method method = OgnlRuntime.getGetMethod(null, entityClass, colName);
+                if (method == null) {
+                    String[] tagNameSplits = StringUtils.split(colName, ".");
+                    if (tagNameSplits.length >= 2) {
+                        Class<?> retClass = entityClass;
+                        for (String tagNameSplit : tagNameSplits) {
+                            if (tagNameSplit.equals("id")) {
+                                break;
+                            }
+                            method = OgnlRuntime.getGetMethod(null, retClass, tagNameSplit);
+                            if (method != null) {
+                                retClass = method.getReturnType();
+                            }
+                        }
+                        if (method == null) {
+                            retClass = this.getClass();
+                            for (String tagNameSplit : tagNameSplits) {
+                                method = OgnlRuntime.getGetMethod(null, retClass, tagNameSplit);
+                                if (method != null) {
+                                    retClass = method.getReturnType();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (method != null) {
+                    Class<?> retType = method.getReturnType();
+                    Column column = method.getAnnotation(Column.class);
+
+                    if (column != null) {
+                        if (retType != Boolean.class && column.nullable() == false) {
+                            rules.put("required", true);
+                        }
+                        if (column.unique() == true) {
+                            rules.put("unique", true);
+                        }
+                        if (column.length() > 0 && retType == String.class && method.getAnnotation(Lob.class) == null) {
+                            rules.put("maxlength", column.length());
+                        }
+                    }
+
+                    JoinColumn joinColumn = method.getAnnotation(JoinColumn.class);
+                    if (joinColumn != null) {
+                        if (joinColumn.nullable() == false) {
+                            rules.put("required", true);
+                        }
+                    }
+
+                    if (retType == Date.class) {
+                        JsonSerialize jsonSerialize = method.getAnnotation(JsonSerialize.class);
+                        if (jsonSerialize != null) {
+                            if (DateJsonSerializer.class == jsonSerialize.using()) {
+                                rules.put("date", true);
+                            } else if (DateTimeJsonSerializer.class == jsonSerialize.using()) {
+                                rules.put("date", true);
+                                rules.put("timestamp", true);
+                            }
+                        } else {
+                            rules.put("date", true);
+                        }
+                    } else if (retType == BigDecimal.class) {
+                        rules.put("number", true);
+                    } else if (retType == Integer.class || retType == Long.class) {
+                        rules.put("integer", true);
+                    }
+
+                    Size size = method.getAnnotation(Size.class);
+                    if (size != null) {
+                        if (size.min() > 0) {
+
+                        }
+                        if (size.max() < Integer.MAX_VALUE) {
+                        }
+                    }
+
+                    Email email = method.getAnnotation(Email.class);
+                    if (email != null) {
+                        rules.put("email", true);
+                    }
+
+                    Pattern pattern = method.getAnnotation(Pattern.class);
+                    if (pattern != null) {
+                        rules.put("regex", pattern.regexp());
+                    }
+                }
+            } catch (IntrospectionException e) {
+                e.printStackTrace();
+            } catch (OgnlException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        setModel(nameRules);
+        return buildDefaultHttpHeaders();
     }
 }

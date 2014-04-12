@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserLogonLogService extends BaseService<UserLogonLog,String>{
+public class UserLogonLogService extends BaseService<UserLogonLog,Long>{
     
     @Autowired
     private UserLogonLogDao userLogonLogDao;
 
     @Override
-    protected BaseDao<UserLogonLog, String> getEntityDao() {
+    protected BaseDao<UserLogonLog, Long> getEntityDao() {
         return userLogonLogDao;
     }
     

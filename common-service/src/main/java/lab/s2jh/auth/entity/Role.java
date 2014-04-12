@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -14,12 +12,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.NotAudited;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,7 +26,7 @@ import com.google.common.collect.Lists;
 @Table(name = "tbl_AUTH_ROLE")
 @MetaData(value = "角色")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Role extends BaseEntity<String> {
+public class Role extends BaseUuidEntity {
 
     public static final String ROLE_ADMIN_CODE = "ROLE_ADMIN";
     public static final String ROLE_ANONYMOUSLY_CODE = "ROLE_ANONYMOUSLY";
@@ -55,20 +52,6 @@ public class Role extends BaseEntity<String> {
 
     @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Column(nullable = false, length = 256)
     public String getTitle() {

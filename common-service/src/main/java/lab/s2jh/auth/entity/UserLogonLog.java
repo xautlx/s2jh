@@ -4,23 +4,19 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseNativeEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.util.DateUtils;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -28,7 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Table(name = "tbl_AUTH_LOGON_LOG")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 @MetaData(value = "用户登录登出历史记录")
-public class UserLogonLog extends BaseEntity<String> {
+public class UserLogonLog extends BaseNativeEntity {
 
     @MetaData(value = "登录账号")
     @EntityAutoCode(order = 10, search = true)
@@ -89,28 +85,10 @@ public class UserLogonLog extends BaseEntity<String> {
     @MetaData(value = "serverIP")
     @EntityAutoCode(order = 100, search = false, listHidden = true)
     private String serverIP;
-    
+
     @MetaData(value = "Session编号")
     @EntityAutoCode(order = 160, search = false, listHidden = true)
     private String httpSessionId;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        if (id == null || StringUtils.isBlank(id)) {
-            this.id = null;
-        } else {
-            this.id = id;
-        }
-    }
 
     @Column(length = 128, nullable = false, unique = true)
     public String getHttpSessionId() {

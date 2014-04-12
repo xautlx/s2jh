@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -13,14 +11,13 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -29,7 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Table(name = "TBL_AUTH_SIGNUP_USER")
 @MetaData(value = "自助注册账号数据")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
-public class SignupUser extends BaseEntity<String> {
+public class SignupUser extends BaseUuidEntity {
 
     @MetaData(value = "用户唯一标识号")
     private String uid;
@@ -64,20 +61,6 @@ public class SignupUser extends BaseEntity<String> {
 
     @MetaData(value = "审核处理时间")
     private Date auditTime;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Size(min = 3, max = 30)
     @Column(length = 128, unique = true, nullable = false)

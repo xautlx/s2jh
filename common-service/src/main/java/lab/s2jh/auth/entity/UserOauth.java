@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,92 +12,70 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
-
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.GenericGenerator;
+import lab.s2jh.core.entity.BaseUuidEntity;
 
 @Entity
 @Table(name = "tbl_AUTH_USER_OAUTH")
 @MetaData(value = "用户绑定OAUTH认证")
-public class UserOauth extends BaseEntity<String> {
+public class UserOauth extends BaseUuidEntity {
 
-	private User user;
-	private String username;
-	private String providerUid;
-	private String providerType;
-	private Date bindTime;
+    private User user;
+    private String username;
+    private String providerUid;
+    private String providerType;
+    private Date bindTime;
 
-	private String id;
+    @Column(length = 128, nullable = false, unique = true)
+    public String getUsername() {
+        return username;
+    }
 
-	@Id
-	@Column(length = 40)
-	@GeneratedValue(generator = "hibernate-uuid")
-	@GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-	public String getId() {
-		return id;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setId(final String id) {
-		if (id == null || StringUtils.isBlank(id)) {
-			this.id = null;
-		} else {
-			this.id = id;
-		}
-	}
+    @Column(length = 128, nullable = false)
+    public String getProviderUid() {
+        return providerUid;
+    }
 
-	@Column(length = 128, nullable = false, unique = true)
-	public String getUsername() {
-		return username;
-	}
+    public void setProviderUid(String providerUid) {
+        this.providerUid = providerUid;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Column(length = 128, nullable = false)
+    public String getProviderType() {
+        return providerType;
+    }
 
-	@Column(length = 128, nullable = false)
-	public String getProviderUid() {
-		return providerUid;
-	}
+    public void setProviderType(String providerType) {
+        this.providerType = providerType;
+    }
 
-	public void setProviderUid(String providerUid) {
-		this.providerUid = providerUid;
-	}
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    public User getUser() {
+        return user;
+    }
 
-	@Column(length = 128, nullable = false)
-	public String getProviderType() {
-		return providerType;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setProviderType(String providerType) {
-		this.providerType = providerType;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getBindTime() {
+        return bindTime;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "USER_ID", nullable = false)
-	public User getUser() {
-		return user;
-	}
+    public void setBindTime(Date bindTime) {
+        this.bindTime = bindTime;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getBindTime() {
-		return bindTime;
-	}
-
-	public void setBindTime(Date bindTime) {
-		this.bindTime = bindTime;
-	}
-
-	@Override
-	@Transient
-	public String getDisplay() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    @Override
+    @Transient
+    public String getDisplay() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -7,19 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
@@ -32,7 +29,7 @@ import com.google.common.collect.Lists;
 @Table(name = "tbl_AUTH_PRIVILEGE")
 @MetaData(value = "权限")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Privilege extends BaseEntity<String> {
+public class Privilege extends BaseUuidEntity {
 
     public final static String DATA_DICT_PRIVILEGE_TYPE = "PRIVILEGE_TYPE";
 
@@ -75,8 +72,6 @@ public class Privilege extends BaseEntity<String> {
     @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
 
-    private String id;
-
     public static enum PrivilegeTypeEnum {
 
         @MetaData(value = "URL")
@@ -88,18 +83,6 @@ public class Privilege extends BaseEntity<String> {
         @MetaData(value = "菜单")
         MENU;
 
-    }
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
     }
 
     @Enumerated(EnumType.STRING)

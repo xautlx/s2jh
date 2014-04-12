@@ -6,7 +6,7 @@ import lab.s2jh.core.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserLogonLogDao extends BaseDao<UserLogonLog, String> {
+public interface UserLogonLogDao extends BaseDao<UserLogonLog, Long> {
 
     UserLogonLog findByHttpSessionId(String httpSessionId);
 }

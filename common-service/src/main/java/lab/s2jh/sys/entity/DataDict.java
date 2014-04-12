@@ -3,8 +3,6 @@ package lab.s2jh.sys.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -13,13 +11,12 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.sys.service.DataDictService;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         "secondaryKey" }))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "数据字典")
-public class DataDict extends BaseEntity<String> {
+public class DataDict extends BaseUuidEntity {
 
     /** 
      * 字典数据的主标识，绝大部分情况对于单一主标识就能确定唯一性的字典数据只需维护此字段值即可
@@ -82,20 +79,6 @@ public class DataDict extends BaseEntity<String> {
 
     @MetaData(value = "父节点")
     private DataDict parent;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     public Boolean getDisabled() {
         return disabled;

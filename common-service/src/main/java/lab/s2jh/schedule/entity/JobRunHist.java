@@ -6,19 +6,16 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 /**
@@ -28,7 +25,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name = "tbl_JOB_RUN_HIST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class JobRunHist extends BaseEntity<String> {
+public class JobRunHist extends BaseUuidEntity {
 
     @MetaData(value = "Job名称")
     @EntityAutoCode(order = 10, listShow = false)
@@ -83,20 +80,6 @@ public class JobRunHist extends BaseEntity<String> {
     @MetaData(value = "触发节点标识")
     @EntityAutoCode(order = 100)
     private String nodeId;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Column(length = 64, nullable = true)
     public String getTriggerName() {

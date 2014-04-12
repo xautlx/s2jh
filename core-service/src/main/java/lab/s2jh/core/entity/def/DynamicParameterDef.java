@@ -7,14 +7,14 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 @MappedSuperclass
-public abstract class DynamicParameterDef extends BaseEntity<String> {
+public abstract class DynamicParameterDef extends BaseUuidEntity {
 
     @MetaData("代码")
     @EntityAutoCode(order = 10, search = true)

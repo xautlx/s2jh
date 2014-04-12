@@ -4,21 +4,18 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "tbl_SYS_PUB_POST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "公告", description = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
-public class PubPost extends BaseEntity<String> {
+public class PubPost extends BaseUuidEntity {
 
     @MetaData(value = "标题")
     private String htmlTitle;
@@ -62,20 +59,6 @@ public class PubPost extends BaseEntity<String> {
     @MetaData(value = "关联附件")
     @EntityAutoCode(order = 100, search = false)
     private AttachmentFile r2File;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Override
     @Transient

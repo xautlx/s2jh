@@ -10,13 +10,13 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @MetaData(value = "登录记录")
-public class UserLogonLogController extends BaseController<UserLogonLog, String> {
+public class UserLogonLogController extends BaseController<UserLogonLog, Long> {
 
     @Autowired
     private UserLogonLogService userLogonLogService;
 
     @Override
-    protected BaseService<UserLogonLog, String> getEntityService() {
+    protected BaseService<UserLogonLog, Long> getEntityService() {
         return userLogonLogService;
     }
 

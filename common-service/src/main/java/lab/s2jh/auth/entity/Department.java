@@ -2,8 +2,6 @@ package lab.s2jh.auth.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -11,18 +9,17 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.entity.BaseEntity;
+import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "TBL_AUTH_DEPARTMENT")
 @MetaData(value = "部门")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Department extends BaseEntity<String> {
+public class Department extends BaseUuidEntity {
 
     @MetaData(value = "代码")
     @EntityAutoCode(order = 5, listShow = true)
@@ -43,20 +40,6 @@ public class Department extends BaseEntity<String> {
     @MetaData(value = "部门主管")
     @EntityAutoCode(order = 30, listShow = true)
     private User manager;
-
-    private String id;
-
-    @Id
-    @Column(length = 40)
-    @GeneratedValue(generator = "hibernate-uuid")
-    @GenericGenerator(name = "hibernate-uuid", strategy = "uuid")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     @Column(nullable = false, length = 64)
     public String getTitle() {
