@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -83,6 +84,7 @@ public class PubPost extends BaseUuidEntity {
         this.expireTime = expireTime;
     }
 
+    @Lob
     @JsonIgnore
     public String getHtmlContent() {
         return htmlContent;
