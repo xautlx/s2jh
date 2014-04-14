@@ -3,8 +3,6 @@ package org.apache.struts2.views.jsp.ui;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.components.UIBean;
 import org.joda.time.DateTime;
@@ -36,7 +34,6 @@ public class S3DateTextFieldTag extends TextFieldTag {
         UIBean uiBean = ((UIBean) component);
         uiBean.setTemplate("datetext");
 
-        S3TagValidationBuilder.build(this, this.getStack(), (HttpServletRequest) this.pageContext.getRequest(), uiBean);
         if (this.theme == null) {
             uiBean.setTheme("bootstrap3");
         }

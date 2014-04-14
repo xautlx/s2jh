@@ -16,7 +16,7 @@
 			<div class="form-group">
 				<label class="control-label">回退说明</label>
 				<div class="controls">
-					<s3:textarea name="backActivityExplain" requiredLabel="true" />
+					<s:textarea name="backActivityExplain" requiredLabel="true" />
 				</div>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 			<div class="form-group">
 				<label class="control-label">回退节点</label>
 				<div class="controls">
-					<s3:select list="#request.backActivities" name="activityId" requiredLabel="true" />
+					<s:select list="#request.backActivities" name="activityId" requiredLabel="true" />
 				</div>
 			</div>
 		</div>

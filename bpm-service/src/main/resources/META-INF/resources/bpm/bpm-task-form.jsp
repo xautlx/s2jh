@@ -14,7 +14,7 @@
 								<s:textarea ame="%{'fp_'+#item.id}" rows="3" requiredLabel="%{#item.required}" cssClass="form-control" />
 							</s:if>
 							<s:elseif test="#item.type.name=='boolean'">
-								<s3:radio name="%{'fp_'+#item.id}" list="#application.enums.booleanLabel" requiredLabel="%{#item.required}" />
+								<s:radio name="%{'fp_'+#item.id}" list="#application.enums.booleanLabel" requiredLabel="%{#item.required}" />
 							</s:elseif>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 					<div class="form-group">
 						<label class="control-label col-md-3"><s:property value='%{#item.name}' /></label>
 						<div class="col-md-9">
-							<s3:property value="%{#item.value}" />
+							<s:property value="%{#item.value}" />
 						</div>
 					</div>
 				</div>
