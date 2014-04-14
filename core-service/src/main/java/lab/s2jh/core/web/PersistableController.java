@@ -54,6 +54,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
@@ -605,6 +606,16 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         return buildDefaultHttpHeaders();
     }
 
+    @MetaData(value = "下拉框选项数据")
+    protected HttpHeaders selectOptions() {
+        Sort sort = PropertyFilter.buildSortFromHttpRequest(getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter
+                .buildGroupFilterFromHttpRequest(entityClass, getRequest());
+        appendFilterProperty(groupFilter);
+        setModel(this.getEntityService().findByFilters(groupFilter, sort));
+        return new DefaultHttpHeaders();
+    }
+
     /**
      * 子类额外追加过滤限制条件的入口方法，一般基于当前登录用户强制追加过滤条件
      * 注意：凡是基于当前登录用户进行的控制参数，一定不要通过页面请求参数方式传递，存在用户篡改请求数据访问非法数据的风险
@@ -939,20 +950,20 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 
      */
     @MetaData(value = "表格数据编辑校验规则")
-    public HttpHeaders buildGridValidateRules() {
+    public HttpHeaders buildValidateRules() {
         Map<String, Object> nameRules = Maps.newHashMap();
-        String[] colNames = this.getRequest().getParameterValues("colName");
-        for (String colName : colNames) {
+        String[] names = this.getRequest().getParameterValues("name");
+        for (String name : names) {
             try {
-                colName = colName.trim();
-                if (StringUtils.isBlank(colName)) {
+                name = name.trim();
+                if (StringUtils.isBlank(name)) {
                     continue;
                 }
                 Map<String, Object> rules = Maps.newHashMap();
-                nameRules.put(colName, rules);
-                Method method = OgnlRuntime.getGetMethod(null, entityClass, colName);
+
+                Method method = OgnlRuntime.getGetMethod(null, entityClass, name);
                 if (method == null) {
-                    String[] tagNameSplits = StringUtils.split(colName, ".");
+                    String[] tagNameSplits = StringUtils.split(name, ".");
                     if (tagNameSplits.length >= 2) {
                         Class<?> retClass = entityClass;
                         for (String tagNameSplit : tagNameSplits) {
@@ -986,6 +997,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                         }
                         if (column.unique() == true) {
                             rules.put("unique", true);
+                        }
+                        if (column.updatable() == false) {
+                            rules.put("readonly", true);
                         }
                         if (column.length() > 0 && retType == String.class && method.getAnnotation(Lob.class) == null) {
                             rules.put("maxlength", column.length());
@@ -1034,6 +1048,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                     Pattern pattern = method.getAnnotation(Pattern.class);
                     if (pattern != null) {
                         rules.put("regex", pattern.regexp());
+                    }
+
+                    if (rules.size() > 0) {
+                        nameRules.put(name, rules);
                     }
                 }
             } catch (IntrospectionException e) {

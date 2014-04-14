@@ -324,6 +324,11 @@ public class PropertyFilter {
             return null;
         }
         String page = StringUtils.isBlank(request.getParameter("page")) ? "1" : request.getParameter("page");
+        Sort sort = buildSortFromHttpRequest(request);
+        return new PageRequest(Integer.valueOf(page) - 1, Integer.valueOf(rows), sort);
+    }
+
+    public static Sort buildSortFromHttpRequest(HttpServletRequest request) {
         String sidx = StringUtils.isBlank(request.getParameter("sidx")) ? "id" : request.getParameter("sidx");
         Direction sord = "desc".equalsIgnoreCase(request.getParameter("sord")) ? Direction.DESC : Direction.ASC;
         Sort sort = null;
@@ -351,7 +356,7 @@ public class PropertyFilter {
                 }
             }
         }
-        return new PageRequest(Integer.valueOf(page) - 1, Integer.valueOf(rows), sort);
+        return sort;
     }
 
     /**
