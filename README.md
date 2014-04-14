@@ -35,7 +35,7 @@
 
 * [About License](License) - 关于开源的一点点说明
 * [UI Experience](UI) - 第一感觉，UI交互界面设计体验
-* [Executable War](ExecutableWAR) - 想进一步体验？下载独立运行封装包(75M左右)，本地一键快速启动运行应用
+* [Executable War](ExecutableWAR) - 想进一步体验？下载独立运行封装包，本地一键快速部署运行应用
 
 ## Architecture
 
