@@ -68,12 +68,15 @@ public class SourceCodeFrameworkBuilder {
             }
         }
 
-        String integrateRootPath = ".\\target\\generated-codes\\integrate";
-        String standaloneRootPath = ".\\target\\generated-codes\\standalone";
-        new File(integrateRootPath).mkdirs();
-        new File(standaloneRootPath).mkdirs();
+        String integrateRoot = ".\\target\\generated-codes\\integrate\\";
+        String standaloneRoot = ".\\target\\generated-codes\\standalone\\";
+        new File(integrateRoot).mkdirs();
+        new File(standaloneRoot).mkdirs();
 
         for (String entityName : entityNames) {
+
+            String integrateRootPath = integrateRoot;
+            String standaloneRootPath = standaloneRoot;
 
             String rootPackage = StringUtils.substringBetween(entityName, "[", "]");
             String rootPackagePath = StringUtils.replace(rootPackage, ".", "\\");
