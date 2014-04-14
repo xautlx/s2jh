@@ -12,13 +12,17 @@
 	<div class="form-group">
 		<label class="control-label">执行结果</label>
 		<div class="controls">
-			<s3:property value="result" pre="true" />
+			<pre>
+			<s:property value="result" />
+			</pre>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label">异常日志</label>
 		<div class="controls">
-			<s3:property value="exceptionStack" pre="true" />
+			<pre>
+			<s:property value="exceptionStack" />
+			</pre>
 		</div>
 	</div>
 </div>

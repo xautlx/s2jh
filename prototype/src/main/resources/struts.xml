@@ -10,7 +10,7 @@
 	<constant name="struts.image.upload.maxSize" value="3145728" />
 
 	<!-- 配置为默认基于Bootstrap的样式输出 -->
-	<constant name="struts.ui.theme" value="bootstrap" />
+	<constant name="struts.ui.theme" value="bootstrap3" />
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 
 	<!-- struts2-spring-plugin，参考http://struts.apache.org/2.x/docs/spring-plugin.html -->
@@ -46,6 +46,10 @@
 	<constant name="struts.convention.default.parent.package" value="crud-default" />
 
 	<package name="crud-default" extends="rest-default,jasperreports-default">
+		<result-types>
+			<result-type name="extJasper" class="org.apache.struts2.views.jasperreports.ExtJasperReportsResult" />
+		</result-types>
+
 		<interceptors>
 			<!-- 默认实现是配置了Token拦截器只要没有提供token参数则抛出异常,为了灵活控制,调整实现为:有token才进行检测,没有token参数则放行的宽松模式 -->
 			<interceptor name="extTokenInterceptor" class="lab.s2jh.core.web.interceptor.ExtTokenInterceptor" />
@@ -70,6 +74,8 @@
 				<interceptor-ref name="staticParams" />
 				<interceptor-ref name="actionMappingParams" />
 				<interceptor-ref name="extParametersInterceptor">
+					<!-- 微调标准的表达式以支持形为 data['a.b.c']=123类型的参数处理 -->
+					<param name="acceptParamNames">\w+((\.\w+)|(\[\d+\])|(\(\d+\))|(\['[\w\.]+'\])|(\('\w+'\)))*</param>
 					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*,^search.*,^aclCode,^aclType,^createdBy,^createdDate,^lastModifiedBy,^lastModifiedDate,.*\.display</param>
 				</interceptor-ref>
 				<interceptor-ref name="conversionError" />
@@ -95,13 +101,14 @@
 			<result name="revisionCompare">/WEB-INF/pages/util/revision/revision-compare.jsp
 			</result>
 			<!-- 集成JasperReport响应转向，具体可参考struts2-jasperreports-plugin -->
-			<result type="jasper" name="jasperResult">
+			<result type="extJasper" name="jasperResult">
 				<param name="location">${location}</param>
 				<param name="connection">connection</param>
 				<param name="format">${format}</param>
 				<param name="documentName">${documentName}</param>
 				<param name="contentDisposition">${contentDisposition}</param>
 				<param name="reportParameters">jasperReportParameters</param>
+				<param name="exportParameters">jasperExportParameters</param>
 				<param name="imageServletUrl">/pub/jasper/images.servlet?image=</param>
 			</result>
 		</global-results>

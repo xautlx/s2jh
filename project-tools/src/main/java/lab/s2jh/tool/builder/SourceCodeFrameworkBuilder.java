@@ -68,14 +68,12 @@ public class SourceCodeFrameworkBuilder {
             }
         }
 
-        new File(rootPath + "\\codes").mkdir();
-        new File(rootPath + "\\codes\\integrate").mkdir();
-        new File(rootPath + "\\codes\\standalone").mkdir();
+        String integrateRootPath = ".\\target\\generated-codes\\integrate";
+        String standaloneRootPath = ".\\target\\generated-codes\\standalone";
+        new File(integrateRootPath).mkdirs();
+        new File(standaloneRootPath).mkdirs();
 
         for (String entityName : entityNames) {
-
-            String integrateRootPath = rootPath + "\\codes\\integrate\\";
-            String standaloneRootPath = rootPath + "\\codes\\standalone\\";
 
             String rootPackage = StringUtils.substringBetween(entityName, "[", "]");
             String rootPackagePath = StringUtils.replace(rootPackage, ".", "\\");
@@ -260,7 +258,7 @@ public class SourceCodeFrameworkBuilder {
             process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-inputBasic.jsp");
             process(cfg.getTemplate("JS_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-inputBasic.js");            
+                    + "-inputBasic.js");
             process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-viewTabs.jsp");
             process(cfg.getTemplate("JSP_View_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField

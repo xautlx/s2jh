@@ -15,7 +15,7 @@
 				<div class="form-group">
 					<label class="control-label">盘存库存地</label>
 					<div class="controls">
-						<s3:select list="#{'SA':'库存地A','SB':'库存地B'}" name="storageLocation.id" />
+						<s:select list="#{'SA':'库存地A','SB':'库存地B'}" name="storageLocation.id" />
 					</div>
 				</div>
 			</div>
@@ -26,8 +26,8 @@
 					<label class="control-label">商品条码</label>
 					<div class="controls">
 						<div class="input-group ">
-							<s3:textfield name="commodityBarcode" placeholder="条码枪扫描输入..." />
-							<s3:hidden name="commodity.id" />
+							<s:textfield name="commodityBarcode" placeholder="条码枪扫描输入..." />
+							<s:hidden name="commodity.id" />
 							<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 						</div>
 					</div>
@@ -45,7 +45,7 @@
 				<label class="control-label">盘存数量</label>
 				<div class="controls">
 					<div class="input-group ">
-						<s3:textfield name="curStockQuantity" placeholder="输入初始化盘存数量" />
+						<s:textfield name="curStockQuantity" placeholder="输入初始化盘存数量" />
 						<span class="input-group-addon commodity-quantity"></span>
 					</div>
 				</div>

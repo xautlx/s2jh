@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/barcode_scan" />
     </LinearLayout>
-
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="fill_parent"
