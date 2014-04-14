@@ -11,7 +11,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group">
-					<s3:property value="exceptionStack" pre="true" />
+					<pre>
+					<s:property value="exceptionStack" />
+					</pre>
 				</div>
 			</div>
 		</div>
@@ -40,7 +42,9 @@
 							<tr>
 								<td style="text-align: center;"><s:property value="%{#status.count}" /></td>
 								<td><s:property value="%{#item.id.mappedKey}" /></td>
-								<td><s3:property value="%{#item.mappedValue}" pre="true" /></td>
+								<td><pre>
+										<s:property value="%{#item.mappedValue}" />
+									</pre></td>
 							</tr>
 						</s:iterator>
 					</tbody>
@@ -72,7 +76,7 @@
 						<div class="form-group">
 							<label class="control-label">处理状态</label>
 							<div class="controls">
-								<s3:radio name="state" list="#application.enums.loggingHandleStateEnum" />
+								<s:radio name="state" list="#application.enums.loggingHandleStateEnum" />
 							</div>
 						</div>
 					</div>
@@ -82,7 +86,7 @@
 						<div class="form-group">
 							<label class="control-label">处理说明</label>
 							<div class="controls">
-								<s3:textarea name="operationExplain" rows="2" />
+								<s:textarea name="operationExplain" rows="2" />
 							</div>
 						</div>
 					</div>

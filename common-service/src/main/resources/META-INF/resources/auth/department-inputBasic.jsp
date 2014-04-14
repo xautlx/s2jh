@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">代码</label>
 					<div class="controls">
-						<s3:textfield name="code" />
+						<s:textfield name="code" />
 					</div>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 				<div class="form-group">
 					<label class="control-label">名称</label>
 					<div class="controls">
-						<s3:textfield name="title" />
+						<s:textfield name="title" />
 					</div>
 				</div>
 			</div>
@@ -37,7 +37,7 @@
 				<div class="form-group">
 					<label class="control-label">联系电话</label>
 					<div class="controls">
-						<s3:textfield name="contactTel" />
+						<s:textfield name="contactTel" />
 					</div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 				<div class="form-group">
 					<label class="control-label">部门主管</label>
 					<div class="controls">
-						<s3:textfield name="manager" disabled="true" value="TODO" />
+						<s:textfield name="manager" disabled="true" value="TODO" />
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 				<div class="form-group">
 					<label class="control-label">描述</label>
 					<div class="controls">
-						<s3:textarea name="description" rows="3" />
+						<s:textarea name="description" rows="3" />
 					</div>
 				</div>
 			</div>

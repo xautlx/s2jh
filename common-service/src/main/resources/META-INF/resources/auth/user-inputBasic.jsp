@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">设置密码</label>
 					<div class="controls">
-						<s3:password name="newpassword" requiredLabel="%{!persistentedModel}" autocomplete="off" data-rule-minlength="3" />
+						<s:password name="newpassword" requiredLabel="%{!persistentedModel}" autocomplete="off" data-rule-minlength="3" />
 					</div>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 				<div class="form-group">
 					<label class="control-label">确认密码</label>
 					<div class="controls">
-						<s3:password name="cfmpassword" requiredLabel="%{!persistentedModel}" autocomplete="off"
+						<s:password name="cfmpassword" requiredLabel="%{!persistentedModel}" autocomplete="off"
 							data-rule-equalToByName="newpassword" data-rule-minlength="3" />
 					</div>
 				</div>

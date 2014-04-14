@@ -30,7 +30,7 @@
 				<div class="form-group">
 					<label class="control-label">Logger Level</label>
 					<div class="controls">
-						<s3:select name="loggerLevel"
+						<s:select name="loggerLevel"
 							list="#{'OFF':'OFF','ERROR':'ERROR','WARN':'WARN','INFO':'INFO','DEBUG':'DEBUG','TRACE':'TRACE','ALL':'ALL'}"
 							value="'DEBUG'" emptyOption="false" />
 					</div>

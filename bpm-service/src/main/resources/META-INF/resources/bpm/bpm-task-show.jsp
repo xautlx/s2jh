@@ -39,7 +39,7 @@
 										<label class="control-label">到期时间</label>
 										<div class="controls">
 											<p class="form-control-static">
-												<s3:date name="#request.task.dueDate" />
+												<s:date name="#request.task.dueDate" format="yyyy-MM-hh"/>
 											</p>
 										</div>
 									</div>

@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">分类</label>
 					<div class="controls">
-						<s3:textfield name="category" />
+						<s:textfield name="category" />
 					</div>
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 				<div class="form-group">
 					<label class="control-label">类型</label>
 					<div class="controls">
-						<s3:radio name="type" list="#application.enums.privilegeTypeEnum" />
+						<s:radio name="type" list="#application.enums.privilegeTypeEnum" />
 					</div>
 				</div>
 			</div>
@@ -35,7 +35,7 @@
 				<div class="form-group">
 					<label class="control-label">代码</label>
 					<div class="controls">
-						<s3:textfield name="code" />
+						<s:textfield name="code" />
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 				<div class="form-group">
 					<label class="control-label">名称</label>
 					<div class="controls">
-						<s3:textfield name="title" />
+						<s:textfield name="title" />
 					</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 				<div class="form-group tooltipster" title="排序号越大，则越先URL匹配">
 					<label class="control-label">排序号</label>
 					<div class="controls">
-						<s3:textfield name="orderRank" />
+						<s:textfield name="orderRank" />
 					</div>
 				</div>
 			</div>
@@ -63,7 +63,7 @@
 				<div class="form-group tooltipster" title="可以一个权限关联多个URL,一行一个URL。系统默认按照左匹配规则验证，如/abc表示/abc**">
 					<label class="control-label">匹配URL列表</label>
 					<div class="controls">
-						<s3:textarea name="url" rows="3" />
+						<s:textarea name="url" rows="3" />
 					</div>
 				</div>
 			</div>

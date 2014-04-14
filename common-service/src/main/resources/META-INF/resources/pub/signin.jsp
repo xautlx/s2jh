@@ -359,8 +359,8 @@
 			<div class="modal-dialog">
 				<form id="reset-form" class="form-horizontal form-bordered form-label-stripped" action="${base}/pub/signin!resetpwd"
 					method="post">
-					<s3:hidden name="email" value="%{#parameters.email}" />
-					<s3:hidden name="code" value="%{#parameters.code}" />
+					<s:hidden name="email" value="%{#parameters.email}" />
+					<s:hidden name="code" value="%{#parameters.code}" />
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

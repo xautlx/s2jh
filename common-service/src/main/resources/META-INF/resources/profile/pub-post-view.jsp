@@ -14,7 +14,7 @@
 						<label class="control-label">标题</label>
 						<div class="controls">
 							<p class="form-control-static">
-								<s3:property value="htmlTitle" escapeHtml="false" />
+								<s:property value="htmlTitle" escapeHtml="false" />
 							</p>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 						<label class="control-label">内容</label>
 						<div class="controls">
 							<p class="form-control-static">
-								<s3:property value="htmlContent" escapeHtml="false" />
+								<s:property value="htmlContent" escapeHtml="false" />
 							</p>
 						</div>
 					</div>
@@ -38,7 +38,7 @@
 						<label class="control-label">发布时间</label>
 						<div class="controls">
 							<p class="form-control-static">
-								<s3:date name="publishTime" format="timestamp" />
+								<s:date name="publishTime" format="yyyy-MM-dd HH:mm:ss" />
 							</p>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 						<label class="control-label">到期时间</label>
 						<div class="controls">
 							<p class="form-control-static">
-								<s3:date name="expireTime" format="timestamp" />
+								<s:date name="expireTime" format="yyyy-MM-dd HH:mm:ss" />
 							</p>
 						</div>
 					</div>

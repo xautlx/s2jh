@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">公告标题</label>
 					<div class="controls">
-						<s3:textfield name="htmlTitle" />
+						<s:textfield name="htmlTitle" />
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 				<div class="form-group tooltipster" title="排序号越大，则显示越靠上">
 					<label class="control-label">排序号</label>
 					<div class="controls">
-						<s3:textfield name="orderRank" />
+						<s:textfield name="orderRank" />
 					</div>
 				</div>
 			</div>
@@ -53,8 +53,8 @@
 				<div class="form-group">
 					<label class="control-label">显示范围</label>
 					<div class="controls">
-						<s3:checkbox name="frontendShow" label="前端" />
-						<s3:checkbox name="backendShow" label="后端" />
+						<s:checkbox name="frontendShow" label="前端" />
+						<s:checkbox name="backendShow" label="后端" />
 					</div>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 				<div class="form-group">
 					<label class="control-label">外部链接</label>
 					<div class="controls">
-						<s3:textfield name="externalLink" />
+						<s:textfield name="externalLink" />
 						<div class="help-block">如果定义了外部链接，显示公告时忽略公告内容直接新开转向链接定义的页面</div>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 				<div class="form-group">
 					<label class="control-label">公告内容</label>
 					<div class="controls">
-						<s3:textarea name="htmlContent" data-htmleditor="kindeditor" data-height="500px" />
+						<s:textarea name="htmlContent" data-htmleditor="kindeditor" data-height="500px" />
 					</div>
 				</div>
 			</div>

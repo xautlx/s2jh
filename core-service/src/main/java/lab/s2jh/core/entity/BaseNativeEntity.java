@@ -3,7 +3,6 @@
  */
 package lab.s2jh.core.entity;
 
-import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,7 +31,6 @@ public abstract class BaseNativeEntity extends BaseEntity<Long> {
     private Long id;
 
     @Id
-    @Column(name = "event_id")
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "native")
     public Long getId() {

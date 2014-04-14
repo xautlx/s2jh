@@ -5,7 +5,7 @@
 		<label class="control-label">异常标识</label>
 		<div class="controls">
 			<p class="form-control-static">
-				<s3:property value="exceptionFlag" />
+				<s:property value="exceptionFlag" />
 			</p>
 		</div>
 	</div>
