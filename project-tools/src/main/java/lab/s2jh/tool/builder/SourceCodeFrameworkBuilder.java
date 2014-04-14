@@ -259,6 +259,8 @@ public class SourceCodeFrameworkBuilder {
                     + "-inputTabs.jsp");
             process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-inputBasic.jsp");
+            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
+                    + "-inputBasic.js");            
             process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
                     + "-viewTabs.jsp");
             process(cfg.getTemplate("JSP_View_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
@@ -279,6 +281,8 @@ public class SourceCodeFrameworkBuilder {
                     + "-inputTabs.jsp");
             process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
                     + "-inputBasic.jsp");
+            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
+                    + "-inputBasic.js");
             process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
                     + "-viewTabs.jsp");
             process(cfg.getTemplate("JSP_View_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField

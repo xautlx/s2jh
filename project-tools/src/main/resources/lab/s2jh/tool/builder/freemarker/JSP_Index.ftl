@@ -9,7 +9,7 @@
 		<div class="tab-pane fade active in">
 			<div class="row search-form-default">
 				<div class="col-md-12">
-					<form action="#" method="get" class="form-inline form-validation form-search form-search-init"
+					<form action="#" method="get" class="form-inline form-validation form-search-init"
 						data-grid-search=".grid-${full_entity_name_field}-index">
 						<div class="input-group">
 							<div class="input-cont">

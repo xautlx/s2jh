@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.google.common.collect.Sets;
 
-@ContextConfiguration(locations = { "classpath:/context/spring*.xml" })
 public class ${entity_name}ServiceTest extends SpringTransactionalTestCase {
 
 	@Autowired
@@ -28,7 +27,7 @@ public class ${entity_name}ServiceTest extends SpringTransactionalTestCase {
         Assert.assertTrue(entity.getId() != null);
 
         //JPA/Hibernate query validation
-        List<${entity_name}> items = ${entity_name_uncapitalize}Service.findAll(Sets.newHashSet(entity.getId()));
+        List<${entity_name}> items = ${entity_name_uncapitalize}Service.findAll(entity.getId());
         Assert.assertTrue(items.size() >= 1);
     }
 }

@@ -10,7 +10,7 @@ $(function() {
         }, {
             label : '${entityField.title}',
             name : '${entityField.fieldName}',
-            stype : 'select',
+            formatter : 'select',
             searchoptions : {
                 value : Util.getCacheEnumsByType('${entityField.fieldName}Enum')
             },
@@ -35,11 +35,14 @@ $(function() {
             formatter : 'checkbox',
         </#if>  
         <#if entityField.fieldType=='Date'>          
-            sorttype: 'date',
+            formatter: 'date',
         </#if>
         <#if entityField.fieldType=='BigDecimal'>          
-            sorttype: 'number',
-        </#if>                                                                       
+            formatter: 'number',
+        </#if> 
+        <#if entityField.edit>
+            editable: true,
+        </#if>                                                                    
             align : '${entityField.listAlign}'
         </#if>
         </#list>

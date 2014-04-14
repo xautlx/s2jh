@@ -14,7 +14,7 @@ public class EntityCodeField implements Comparable<EntityCodeField> {
     /** 属性描述 */
     private String description;
     /** 属性在列表jqGrid中定义的宽度 */
-    private Integer listWidth = 0;
+    private Integer listWidth = 200;
     /** 在生成代码中属性的相对顺序 */
     private Integer order = Integer.MAX_VALUE;
     /** 属性在列表jqGrid中定义的对齐方式：left，right，center */

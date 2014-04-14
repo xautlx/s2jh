@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<form class="form-horizontal form-bordered form-label-stripped form-validation form-edit-${full_entity_name_field}"
-	action="${base}${model_path}/${entity_name_field}!doSave" method="post">
+<form class="form-horizontal form-bordered form-label-stripped form-validation form-${full_entity_name_field}-inputBasic"
+	action="${base}${model_path}/${entity_name_field}!doSave" method="post" 
+	data-editrulesurl="${base}${model_path}/${entity_name_field}!buildValidateRules">
 	<s:hidden name="id" />
 	<s:hidden name="version" />
 	<s:token />
 	<div class="form-actions">
-		<button class="btn blue" type="submit" data-grid-reload=".grid-${full_entity_name_field}">
+		<button class="btn blue" type="submit" data-grid-reload=".grid-${full_entity_name_field}-index">
 			<i class="fa fa-check"></i> 保存
 		</button>
 		<button class="btn default btn-cancel" type="button">取消</button>
@@ -42,19 +43,11 @@
         </#list>  
 	</div>
 	<div class="form-actions right">
-		<button class="btn blue" type="submit" data-grid-reload=".grid-${full_entity_name_field}">
+		<button class="btn blue" type="submit" data-grid-reload=".grid-${full_entity_name_field}-index">
 			<i class="fa fa-check"></i> 保存
 		</button>
 		<button class="btn default btn-cancel" type="button">取消</button>
 	</div>
 </form>
-<script type="text/javascript">
-    $(function() {
-        $(".form-edit-${full_entity_name_field}").data("formOptions", {
-            bindEvents : function() {
-                var $form = $(this);
-            }
-        });
-    });
-</script>
+<script src="${base}${model_path}/${entity_name_field}-inputBasic.js" />
 <%@ include file="/common/ajax-footer.jsp"%>

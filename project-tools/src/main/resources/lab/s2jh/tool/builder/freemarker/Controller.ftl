@@ -10,7 +10,7 @@ import lab.s2jh.core.web.view.OperationResult;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MetaData("${entity_name}Controller")
+@MetaData("${model_title}管理")
 public class ${entity_name}Controller extends BaseController<${entity_name},${id_type}> {
 
     @Autowired
