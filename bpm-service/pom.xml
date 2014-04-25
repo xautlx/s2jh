@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>lab.s2jh</groupId>
-		<artifactId>s2jh-parent</artifactId>
-		<version>1.0.0</version>
-		<relativePath>..</relativePath>
-	</parent>
-	<artifactId>bpm-service</artifactId>
-	<packaging>jar</packaging>
-	<name>s2jh :: module :: bpm-service</name>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>lab.s2jh</groupId>
+        <artifactId>s2jh-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <artifactId>bpm-service</artifactId>
+    <packaging>jar</packaging>
+    <name>s2jh :: module :: bpm-service</name>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-		<repository>
-			<id>Activiti</id>
-			<url>https://maven.alfresco.com/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>http://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>Activiti</id>
+            <url>https://maven.alfresco.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>lab.s2jh</groupId>
-			<artifactId>core-service</artifactId>
-			<version>${s2jh.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>lab.s2jh</groupId>
-			<artifactId>core-service</artifactId>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-			<version>${s2jh.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>lab.s2jh</groupId>
-			<artifactId>common-service</artifactId>
-			<version>${s2jh.version}</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>core-service</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>core-service</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>common-service</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
 
-		<!-- TEST begin -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- TEST begin -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- activiti -->
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-engine</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-json-converter</artifactId>
-		</dependency>
+        <!-- activiti -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-json-converter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-rest</artifactId>
+        </dependency>
 
-		<!-- 支持activiti缓存 -->
-		<dependency>
-			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-core</artifactId>
-		</dependency>
-	</dependencies>
+        <!-- 支持activiti缓存 <dependency> <groupId>org.infinispan</groupId> <artifactId>infinispan-core</artifactId> </dependency> -->
+    </dependencies>
 </project>
