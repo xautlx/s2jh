@@ -17,11 +17,14 @@ import javax.servlet.http.HttpSession;
 
 import lab.s2jh.core.security.AuthContextHolder;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 打印输出HTTP请求信息，一般用于开发调试
+ * 生产环境把日志级别设定高于INFO即可屏蔽调试信息输出
+ */
 public class HttpRequestLogFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(HttpRequestLogFilter.class);
@@ -40,7 +43,7 @@ public class HttpRequestLogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse reponse, FilterChain chain) throws IOException,
             ServletException {
-        if (logger.isDebugEnabled()) {
+        if (logger.isInfoEnabled()) {
             HttpServletRequest req = (HttpServletRequest) request;
             String uri = req.getRequestURI();
             if (uri == null || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".gif")
@@ -61,20 +64,19 @@ public class HttpRequestLogFilter implements Filter {
             sb.append("\n HTTP Request Method         : " + req.getMethod());
             sb.append("\n HTTP Request URL            : " + req.getRequestURL());
             sb.append("\n HTTP Request Query String   : " + req.getQueryString());
-            sb.append("\n HTTP Request Parameter List : ");
-            Enumeration<String> paramNames = req.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String paramName = (String) paramNames.nextElement();
-                String paramValue = StringUtils.join(request.getParameterValues(paramName), ",");
-                if (paramValue != null && paramValue.length() > 100) {
-                    sb.append("\n - " + paramName + "=" + paramValue.substring(0, 50) + "...");
-                } else {
-                    sb.append("\n - " + paramName + "=" + paramValue + "");
+            if (logger.isDebugEnabled()) {
+                sb.append("\nHTTP Request Parameter List : ");
+                Enumeration<String> paramNames = req.getParameterNames();
+                while (paramNames.hasMoreElements()) {
+                    String paramName = (String) paramNames.nextElement();
+                    String paramValue = StringUtils.join(request.getParameterValues(paramName), ",");
+                    if (paramValue != null && paramValue.length() > 100) {
+                        sb.append("\n - " + paramName + "=" + paramValue.substring(0, 50) + "...");
+                    } else {
+                        sb.append("\n - " + paramName + "=" + paramValue + "");
+                    }
                 }
-            }
 
-            Boolean debug = BooleanUtils.toBoolean(request.getParameter("debug"));
-            if (debug) {
                 sb.append("\nRequest Header Data:");
                 java.util.Enumeration headerNames = req.getHeaderNames();
                 while (headerNames.hasMoreElements()) {
@@ -108,7 +110,7 @@ public class HttpRequestLogFilter implements Filter {
                 }
             }
 
-            logger.debug(sb.toString());
+            logger.info(sb.toString());
         }
         chain.doFilter(request, reponse);
     }
