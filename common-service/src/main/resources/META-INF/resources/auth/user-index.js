@@ -54,7 +54,7 @@ $(function() {
                 title : '设定账号访问系统的失效日期，为空表示永不失效'
             },
             sorttype : 'date'
-        },  {
+        }, {
             label : '所属部门',
             name : 'department.id',
             editable : true,
@@ -70,6 +70,7 @@ $(function() {
             sorttype : 'date'
         } ],
         editcol : 'signinid',
+        addable : false,
         editurl : WEB_ROOT + "/auth/user!doSave",
         delurl : WEB_ROOT + "/auth/user!doDelete",
         fullediturl : WEB_ROOT + "/auth/user!inputTabs"
