@@ -23,7 +23,7 @@ public class AuthContextHolder {
     private static final ThreadLocal<Locale> localeContainer = new ThreadLocal<Locale>();
 
     public static final String DEFAULT_UNKNOWN_PIN = "N/A";
-    
+
     public static final Locale DEFAULT_LOCALE = new Locale("zh", "cn");
 
     public static void setAuthUserPin(String userPin) {
@@ -42,6 +42,7 @@ public class AuthContextHolder {
             } else {
                 pin = DEFAULT_UNKNOWN_PIN;
             }
+            userPinContainer.set(pin);
         }
         return pin;
     }
