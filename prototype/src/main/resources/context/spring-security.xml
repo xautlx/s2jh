@@ -14,6 +14,10 @@
 	<http pattern="/images/**" security="none" />
 	<http pattern="/resources/**" security="none" />
 	<http pattern="/assets/**" security="none" />
+	<http pattern="**/*.js" security="none" />
+	<http pattern="**/*.ico" security="none" />
+	<http pattern="**/*.gif" security="none" />
+	<http pattern="**/*.jpg" security="none" />
 
 	<http access-denied-page="/common/errors.jsp">
 		<form-login login-page="/pub/signin"

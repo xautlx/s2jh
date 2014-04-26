@@ -26,7 +26,7 @@
 					<label class="control-label">商品条码</label>
 					<div class="controls">
 						<div class="input-group ">
-							<s:textfield name="commodityBarcode" placeholder="条码枪扫描输入..." />
+							<s:textfield name="commodityBarcode" />
 							<s:hidden name="commodity.id" />
 							<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 						</div>
