@@ -1,6 +1,6 @@
 @echo off
 set PORT=8080
-set CONTEXT=prototype
+set CONTEXT=s2jh
 set JETTY=prototype-jetty.jar
 set WAR=prototype-simplified.war
 set JAVA_OPT=-Xms256m -Xmx1024m -XX:MaxPermSize=128m -Dport=%PORT% -Dcontext=%CONTEXT%

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PORT="80"
-CONTEXT="prototype"
+CONTEXT="s2jh"
 JETTY="prototype-jetty.jar"
 WAR="prototype-simplified.war"
 JAVA_OPT="-Xms256m -Xmx512m -XX:MaxPermSize=128m -Dport=$PORT -Dcontext=$CONTEXT"
