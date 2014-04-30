@@ -592,6 +592,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         case IN:
             if (matchValue.getClass().isArray()) {
                 predicate = expression.in((Object[]) matchValue);
+            } else if (matchValue instanceof Collection) {
+                predicate = expression.in((Collection) matchValue);
             } else {
                 predicate = builder.equal(expression, matchValue);
             }
