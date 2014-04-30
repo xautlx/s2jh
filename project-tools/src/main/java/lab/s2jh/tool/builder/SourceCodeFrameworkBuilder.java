@@ -68,8 +68,10 @@ public class SourceCodeFrameworkBuilder {
             }
         }
 
-        String integrateRoot = ".\\target\\generated-codes\\integrate\\";
-        String standaloneRoot = ".\\target\\generated-codes\\standalone\\";
+        String integrateRoot = "." + File.separator + "target" + File.separator + "generated-codes" + File.separator
+                + "integrate" + File.separator;
+        String standaloneRoot = "." + File.separator + "target" + File.separator + "generated-codes" + File.separator
+                + "standalone" + File.separator;
         new File(integrateRoot).mkdirs();
         new File(standaloneRoot).mkdirs();
 
@@ -79,7 +81,7 @@ public class SourceCodeFrameworkBuilder {
             String standaloneRootPath = standaloneRoot;
 
             String rootPackage = StringUtils.substringBetween(entityName, "[", "]");
-            String rootPackagePath = StringUtils.replace(rootPackage, ".", "\\");
+            String rootPackagePath = StringUtils.replace(rootPackage, ".", File.separator);
 
             String className = StringUtils.substringAfterLast(entityName, ".");
             String classFullName = StringUtils.replaceEach(entityName, new String[] { "[", "]" },
@@ -88,8 +90,8 @@ public class SourceCodeFrameworkBuilder {
             String modelName = StringUtils.substringBetween(entityName, "].", ".entity");
             String modelPath = StringUtils.replace(modelName, ".", "/");
             modelPath = "/" + modelPath;
-            String modelPackagePath = StringUtils.replace(modelName, ".", "\\");
-            modelPackagePath = "\\" + modelPackagePath;
+            String modelPackagePath = StringUtils.replace(modelName, ".", File.separator);
+            modelPackagePath = File.separator + modelPackagePath;
 
             Map<String, Object> root = new HashMap<String, Object>();
             String nameField = propertyToField(StringUtils.uncapitalize(className)).toLowerCase();
@@ -247,47 +249,54 @@ public class SourceCodeFrameworkBuilder {
             }
 
             integrateRootPath = integrateRootPath + rootPackagePath + modelPackagePath;
-            //process(cfg.getTemplate("Entity.ftl"), root, integrateRootPath + "\\entity\\", className + ".java");
-            process(cfg.getTemplate("Dao.ftl"), root, integrateRootPath + "\\dao\\", className + "Dao.java");
-            process(cfg.getTemplate("Service.ftl"), root, integrateRootPath + "\\service\\", className + "Service.java");
-            process(cfg.getTemplate("Controller.ftl"), root, integrateRootPath + "\\web\\action\\", className
-                    + "Controller.java");
-            process(cfg.getTemplate("Test.ftl"), root, integrateRootPath + "\\test\\service\\", className
-                    + "ServiceTest.java");
-            process(cfg.getTemplate("JSP_Index.ftl"), root, integrateRootPath + "\\jsp\\", nameField + "-index.jsp");
-            process(cfg.getTemplate("JS_Index.ftl"), root, integrateRootPath + "\\jsp\\", nameField + "-index.js");
-            process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-inputTabs.jsp");
-            process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-inputBasic.jsp");
-            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-inputBasic.js");
-            process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-viewTabs.jsp");
-            process(cfg.getTemplate("JSP_View_Basic.ftl"), root, integrateRootPath + "\\jsp\\", nameField
-                    + "-viewBasic.jsp");
+            //process(cfg.getTemplate("Entity.ftl"), root, integrateRootPath + "\\entity" + File.separator, className + ".java");
+            process(cfg.getTemplate("Dao.ftl"), root, integrateRootPath + File.separator + "dao" + File.separator,
+                    className + "Dao.java");
+            process(cfg.getTemplate("Service.ftl"), root, integrateRootPath + File.separator + "service"
+                    + File.separator, className + "Service.java");
+            process(cfg.getTemplate("Controller.ftl"), root, integrateRootPath + File.separator + "web"
+                    + File.separator + "action" + File.separator, className + "Controller.java");
+            process(cfg.getTemplate("Test.ftl"), root, integrateRootPath + File.separator + "test" + File.separator
+                    + "service" + File.separator, className + "ServiceTest.java");
+            process(cfg.getTemplate("JSP_Index.ftl"), root,
+                    integrateRootPath + File.separator + "jsp" + File.separator, nameField + "-index.jsp");
+            process(cfg.getTemplate("JS_Index.ftl"), root, integrateRootPath + File.separator + "jsp" + File.separator,
+                    nameField + "-index.js");
+            process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, integrateRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputTabs.jsp");
+            process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, integrateRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputBasic.jsp");
+            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, integrateRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputBasic.js");
+            process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, integrateRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-viewTabs.jsp");
+            process(cfg.getTemplate("JSP_View_Basic.ftl"), root, integrateRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-viewBasic.jsp");
 
-            standaloneRootPath = standaloneRootPath + rootPackagePath + modelPackagePath + "\\" + className;
-            //process(cfg.getTemplate("Entity.ftl"), root, standaloneRootPath + "\\entity\\", className + ".java");
-            process(cfg.getTemplate("Dao.ftl"), root, standaloneRootPath + "\\dao\\", className + "Dao.java");
-            process(cfg.getTemplate("Service.ftl"), root, standaloneRootPath + "\\service\\", className
-                    + "Service.java");
-            process(cfg.getTemplate("Controller.ftl"), root, standaloneRootPath + "\\web\\action\\", className
-                    + "Controller.java");
-            process(cfg.getTemplate("Test.ftl"), root, standaloneRootPath + "\\test\\service\\", className
-                    + "ServiceTest.java");
-            process(cfg.getTemplate("JSP_Index.ftl"), root, standaloneRootPath + "\\jsp\\", nameField + "-index.jsp");
-            process(cfg.getTemplate("JS_Index.ftl"), root, standaloneRootPath + "\\jsp\\", nameField + "-index.js");
-            process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
-                    + "-inputTabs.jsp");
-            process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
-                    + "-inputBasic.jsp");
-            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
-                    + "-inputBasic.js");
-            process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
-                    + "-viewTabs.jsp");
-            process(cfg.getTemplate("JSP_View_Basic.ftl"), root, standaloneRootPath + "\\jsp\\", nameField
-                    + "-viewBasic.jsp");
+            standaloneRootPath = standaloneRootPath + rootPackagePath + modelPackagePath + File.separator + className;
+            //process(cfg.getTemplate("Entity.ftl"), root, standaloneRootPath + "\\entity" + File.separator, className + ".java");
+            process(cfg.getTemplate("Dao.ftl"), root, standaloneRootPath + File.separator + "dao" + File.separator,
+                    className + "Dao.java");
+            process(cfg.getTemplate("Service.ftl"), root, standaloneRootPath + File.separator + "service"
+                    + File.separator, className + "Service.java");
+            process(cfg.getTemplate("Controller.ftl"), root, standaloneRootPath + File.separator + "web"
+                    + File.separator + "action" + File.separator, className + "Controller.java");
+            process(cfg.getTemplate("Test.ftl"), root, standaloneRootPath + File.separator + "test" + File.separator
+                    + "service" + File.separator, className + "ServiceTest.java");
+            process(cfg.getTemplate("JSP_Index.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-index.jsp");
+            process(cfg.getTemplate("JS_Index.ftl"), root,
+                    standaloneRootPath + File.separator + "jsp" + File.separator, nameField + "-index.js");
+            process(cfg.getTemplate("JSP_Input_Tabs.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputTabs.jsp");
+            process(cfg.getTemplate("JSP_Input_Basic.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputBasic.jsp");
+            process(cfg.getTemplate("JS_Input_Basic.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-inputBasic.js");
+            process(cfg.getTemplate("JSP_View_Tabs.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-viewTabs.jsp");
+            process(cfg.getTemplate("JSP_View_Basic.ftl"), root, standaloneRootPath + File.separator + "jsp"
+                    + File.separator, nameField + "-viewBasic.jsp");
         }
     }
 
@@ -304,6 +313,7 @@ public class SourceCodeFrameworkBuilder {
         if (!newsDir.exists()) {
             newsDir.mkdirs();
         }
+        debug("Write to file: " + dir + fileName);
         Writer out = new OutputStreamWriter(new FileOutputStream(dir + fileName), "UTF-8");
         template.process(root, out);
     }

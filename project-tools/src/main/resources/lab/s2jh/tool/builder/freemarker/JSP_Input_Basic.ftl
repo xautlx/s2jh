@@ -21,9 +21,9 @@
 					<label class="control-label">${entityField.title}</label>
 					<div class="controls">
 		                <#if entityField.fieldType=='Boolean'>
-		                <s3:radio name="${entityField.fieldName}" list="#application.enums.booleanLabel"/>
+		                <s:radio name="${entityField.fieldName}" list="#application.enums.booleanLabel"/>
 		                <#elseif entityField.enumField>
-		                <s3:select name="${entityField.fieldName}" list="#application.enums.${entityField.uncapitalizeFieldType}"/>
+		                <s:select name="${entityField.fieldName}" list="#application.enums.${entityField.uncapitalizeFieldType}"/>
 		                <#elseif entityField.fieldType=='Date'>
 		                <s3:datetextfield name="${entityField.fieldName}" format="date"/>                  
 		                <#elseif entityField.fieldType=='LocalDate'>
@@ -31,9 +31,9 @@
 		                <#elseif entityField.fieldType=='LocalDateTime'>
 		                <s3:datetextfield name="${entityField.fieldName}" format="timestamp"/>                                             
 		                <#elseif (entityField.fieldType=='String' && entityField.listWidth gt 255)>
-		                <s3:textarea name="${entityField.fieldName}" rows="3"/>                                             
+		                <s:textarea name="${entityField.fieldName}" rows="3"/>                                             
 		                <#else>
-		                <s3:textfield name="${entityField.fieldName}" />
+		                <s:textfield name="${entityField.fieldName}" />
 		                </#if>
 					</div>
 				</div>
