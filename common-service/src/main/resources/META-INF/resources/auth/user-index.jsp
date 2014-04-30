@@ -3,6 +3,7 @@
 <div class="tabbable tabbable-primary">
 	<ul class="nav nav-pills">
 		<li class="active"><a class="tab-default" data-toggle="tab" href="#tab-user">用户列表</a></li>
+		<li ><a class="tab-default" data-toggle="tab" href="${base}/auth/signup-user">注册用户管理</a></li>
 		<li class="tools pull-right"><a class="btn default reload" href="javascript:;"><i class="fa fa-refresh"></i></a></li>
 	</ul>
 	<div class="tab-content">

@@ -71,7 +71,6 @@ $(function() {
         } ],
         editcol : 'signinid',
         addable : false,
-        editurl : WEB_ROOT + "/auth/user!doSave",
         delurl : WEB_ROOT + "/auth/user!doDelete",
         fullediturl : WEB_ROOT + "/auth/user!inputTabs"
     });
