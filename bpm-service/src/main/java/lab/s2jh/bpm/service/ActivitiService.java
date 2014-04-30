@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lab.s2jh.core.security.AuthContextHolder;
+
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -30,10 +32,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Component
 public class ActivitiService {
@@ -147,7 +151,7 @@ public class ActivitiService {
                 .processInstanceBusinessKey(bizKey).singleResult();
         //流程已完结，直接返回null
         if (processInstance == null) {
-            return null;
+            return "END";
         }
         List<String> ids = runtimeService.getActiveActivityIds(processInstance.getId());
         ProcessDefinitionEntity pde = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processInstance
@@ -557,5 +561,49 @@ public class ActivitiService {
 
         // 还原以前流向    
         restoreTransition(currActivity, oriPvmTransitionList);
+    }
+
+    /**
+     * 按照流程定义Key启动最新版本流程实例
+     * @param processDefinitionKey
+     * @param businessKey
+     * @param variables
+     * @return
+     */
+    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, String businessKey,
+            Map<String, Object> variables) {
+        identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
+        runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+        return this;
+    }
+
+    /**
+     * 按照流程定义Key启动最新版本流程实例
+     * @param processDefinitionKey
+     * @param businessKey
+     * @param entity
+     * @return
+     */
+    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, String businessKey, Persistable entity) {
+        identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
+        Map variables = Maps.newHashMap();
+        variables.put("entity", entity);
+        runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+        return this;
+    }
+
+    /**
+     * 完成任务
+     * @param taskId
+     * @param variables
+     * @return
+     */
+    public ActivitiService completeTask(String taskId, Map<String, Object> variables) {
+        identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
+        if (variables != null && variables.size() > 0) {
+            taskService.setVariablesLocal(taskId, variables);
+        }
+        taskService.complete(taskId, variables);
+        return this;
     }
 }
