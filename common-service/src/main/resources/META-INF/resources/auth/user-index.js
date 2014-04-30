@@ -70,7 +70,6 @@ $(function() {
             sorttype : 'date'
         } ],
         editcol : 'signinid',
-        addable : false,
         delurl : WEB_ROOT + "/auth/user!doDelete",
         fullediturl : WEB_ROOT + "/auth/user!inputTabs"
     });
