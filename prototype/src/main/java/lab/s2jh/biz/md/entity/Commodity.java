@@ -43,13 +43,13 @@ public class Commodity extends BaseUuidEntity {
     @MetaData(value = "销售价")
     private BigDecimal salePrice;
 
-    @MetaData(value = "默认库存地", description = "用于采购或销售时初始库存地")
+    @MetaData(value = "默认库存地", tooltips = "用于采购或销售时初始库存地")
     private StorageLocation defaultStorageLocation;
 
-    @MetaData(value = "不可买", description = "显示商品信息，但处于不可购买状态")
+    @MetaData(value = "不可买", tooltips = "显示商品信息，但处于不可购买状态")
     private Boolean soldOut = Boolean.FALSE;
 
-    @MetaData(value = "已下架", description = "不显示商品信息只提示商品已下架")
+    @MetaData(value = "已下架", tooltips = "不显示商品信息只提示商品已下架")
     private Boolean removed = Boolean.FALSE;
 
     @Transient
