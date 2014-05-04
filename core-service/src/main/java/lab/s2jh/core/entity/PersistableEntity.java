@@ -26,12 +26,16 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
      */
     public static final String EXTRA_ATTRIBUTE_OPERATION = "operation";
 
+    /**
+     * 在显示或提交数据时，标识对象为脏数据需要处理
+     */
+    public static final String EXTRA_ATTRIBUTE_DIRTY_ROW = "dirtyRow";
+
     /** Entity本身无用，主要用于UI层辅助参数传递 */
     private Map<String, Object> extraAttributes;
 
     /*
-     * (non-Javadoc)
-     * 
+     * 用于快速判断对象是否新建状态
      * @see org.springframework.data.domain.Persistable#isNew()
      */
     @Transient

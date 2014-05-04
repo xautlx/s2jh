@@ -76,22 +76,9 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
     }
 
     protected Map<String, Object> retrieveParameters(ActionContext ac) {
-        //把id为空白字符串情况清理掉，避免由于空字符串传给Hibernate主键判断处理异常：detached entity passed to persist
         Map<String, Object> params = ac.getParameters();
-        Object idValue = params.get("id");
-        if (idValue != null) {
-            String id = null;
-            //jqGrid inline edit新增数据传入id=负数标识 
-            if (idValue instanceof String) {
-                id = String.valueOf(idValue);
-            } else {
-                Object[] ids = (Object[]) idValue;
-                id = StringUtils.join(ids);
-            }
-            if (StringUtils.isBlank(id) || id.startsWith("-")) {
-                params.remove("id");
-            }
-        }
+        //id参数移除，不自动绑定，采用标准的request.getParameter获取参数并查询实体对象
+        params.remove("id");
         return params;
     }
 
