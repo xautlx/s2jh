@@ -27,96 +27,108 @@ import com.google.common.collect.Lists;
  */
 public class ExtSchedulerFactoryBean extends SchedulerFactoryBean {
 
-	private static Logger logger = LoggerFactory.getLogger(ExtSchedulerFactoryBean.class);
+    private static Logger logger = LoggerFactory.getLogger(ExtSchedulerFactoryBean.class);
 
-	private ConfigurableApplicationContext applicationContext;
+    private ConfigurableApplicationContext applicationContext;
 
-	private JobBeanCfgService jobBeanCfgService;
+    private JobBeanCfgService jobBeanCfgService;
 
-	private Boolean runWithinCluster = Boolean.TRUE;
+    private Boolean runWithinCluster = Boolean.TRUE;
 
-	public void setRunWithinCluster(Boolean runWithinCluster) {
-		this.runWithinCluster = runWithinCluster;
-	}
+    public void setRunWithinCluster(Boolean runWithinCluster) {
+        this.runWithinCluster = runWithinCluster;
+    }
 
-	public Boolean getRunWithinCluster() {
-		return runWithinCluster;
-	}
+    public Boolean getRunWithinCluster() {
+        return runWithinCluster;
+    }
 
-	public void setJobBeanCfgService(JobBeanCfgService jobBeanCfgService) {
-		this.jobBeanCfgService = jobBeanCfgService;
-	}
+    public void setJobBeanCfgService(JobBeanCfgService jobBeanCfgService) {
+        this.jobBeanCfgService = jobBeanCfgService;
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = (ConfigurableApplicationContext) applicationContext;
-		super.setApplicationContext(applicationContext);
-	}
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = (ConfigurableApplicationContext) applicationContext;
+        super.setApplicationContext(applicationContext);
+    }
 
-	@Override
-	protected void registerJobsAndTriggers() throws SchedulerException {
-		logger.debug("Invoking registerJobsAndTriggers...");
-		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
-		List<JobBeanCfg> jobBeanCfgs = jobBeanCfgService.findAll();
-		List<Trigger> allTriggers = Lists.newArrayList();
-		try {
-			@SuppressWarnings("unchecked")
-			List<Trigger> triggers = (List<Trigger>) FieldUtils.readField(this, "triggers", true);
-			if (triggers == null) {
-				triggers = Lists.newArrayList();
-			}
-			for (Trigger trigger : triggers) {
-				allTriggers.add(trigger);
-			}
+    @Override
+    protected void registerJobsAndTriggers() throws SchedulerException {
+        logger.debug("Invoking registerJobsAndTriggers...");
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
+        List<JobBeanCfg> jobBeanCfgs = jobBeanCfgService.findAll();
+        List<Trigger> allTriggers = Lists.newArrayList();
+        try {
+            @SuppressWarnings("unchecked")
+            List<Trigger> triggers = (List<Trigger>) FieldUtils.readField(this, "triggers", true);
+            if (triggers == null) {
+                triggers = Lists.newArrayList();
+            }
+            for (Trigger trigger : triggers) {
+                allTriggers.add(trigger);
+            }
 
-			for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
-				// 只处理与当前Scheduler集群运行模式匹配的数据
-				if (jobBeanCfg.getRunWithinCluster() == null
-						|| !jobBeanCfg.getRunWithinCluster().equals(runWithinCluster)) {
-					continue;
-				}
-				// 以任务全类名作为Job和Trigger相关名称
-				Class<?> jobClass = Class.forName(jobBeanCfg.getJobClass());
-				String jobName = jobClass.getName();
+            for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
+                // 只处理与当前Scheduler集群运行模式匹配的数据
+                if (jobBeanCfg.getRunWithinCluster() == null
+                        || !jobBeanCfg.getRunWithinCluster().equals(runWithinCluster)) {
+                    continue;
+                }
+                // 以任务全类名作为Job和Trigger相关名称
+                Class<?> jobClass = Class.forName(jobBeanCfg.getJobClass());
+                String jobName = jobClass.getName();
 
-				logger.debug("Build and schedule dynamical job： {}, CRON: {}", jobName, jobBeanCfg.getCronExpression());
+                boolean jobExists = false;
+                for (Trigger trigger : triggers) {
+                    if (trigger.getJobKey().getName().equals(jobName)) {
+                        jobExists = true;
+                        break;
+                    }
+                }
+                if (jobExists) {
+                    logger.warn("WARN: Skipped dynamic  job [{}] due to exists static configuration.", jobName);
+                    continue;
+                }
 
-				// Spring动态加载Job Bean
-				BeanDefinitionBuilder bdbJobDetailBean = BeanDefinitionBuilder
-						.rootBeanDefinition(JobDetailFactoryBean.class);
-				bdbJobDetailBean.addPropertyValue("jobClass", jobBeanCfg.getJobClass());
-				bdbJobDetailBean.addPropertyValue("durability", true);
-				beanFactory.registerBeanDefinition(jobName, bdbJobDetailBean.getBeanDefinition());
+                logger.debug("Build and schedule dynamical job： {}, CRON: {}", jobName, jobBeanCfg.getCronExpression());
 
-				// Spring动态加载Trigger Bean
-				String triggerName = jobName + ".Trigger";
-				JobDetail jobDetailBean = (JobDetail) beanFactory.getBean(jobName);
-				BeanDefinitionBuilder bdbCronTriggerBean = BeanDefinitionBuilder
-						.rootBeanDefinition(CronTriggerFactoryBean.class);
-				bdbCronTriggerBean.addPropertyValue("jobDetail", jobDetailBean);
-				bdbCronTriggerBean.addPropertyValue("cronExpression", jobBeanCfg.getCronExpression());
-				beanFactory.registerBeanDefinition(triggerName, bdbCronTriggerBean.getBeanDefinition());
+                // Spring动态加载Job Bean
+                BeanDefinitionBuilder bdbJobDetailBean = BeanDefinitionBuilder
+                        .rootBeanDefinition(JobDetailFactoryBean.class);
+                bdbJobDetailBean.addPropertyValue("jobClass", jobBeanCfg.getJobClass());
+                bdbJobDetailBean.addPropertyValue("durability", true);
+                beanFactory.registerBeanDefinition(jobName, bdbJobDetailBean.getBeanDefinition());
 
-				allTriggers.add((Trigger) beanFactory.getBean(triggerName));
-			}
-		} catch (Exception e) {
-			throw new SchedulerException(e);
-		}
+                // Spring动态加载Trigger Bean
+                String triggerName = jobName + ".Trigger";
+                JobDetail jobDetailBean = (JobDetail) beanFactory.getBean(jobName);
+                BeanDefinitionBuilder bdbCronTriggerBean = BeanDefinitionBuilder
+                        .rootBeanDefinition(CronTriggerFactoryBean.class);
+                bdbCronTriggerBean.addPropertyValue("jobDetail", jobDetailBean);
+                bdbCronTriggerBean.addPropertyValue("cronExpression", jobBeanCfg.getCronExpression());
+                beanFactory.registerBeanDefinition(triggerName, bdbCronTriggerBean.getBeanDefinition());
 
-		this.setTriggers(allTriggers.toArray(new Trigger[] {}));
-		super.registerJobsAndTriggers();
+                allTriggers.add((Trigger) beanFactory.getBean(triggerName));
+            }
+        } catch (Exception e) {
+            logger.error("Quartz job process error", e);
+        }
 
-		// 把AutoStartup设定的计划任务初始设置为暂停状态
-		for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
-			if (!jobBeanCfg.getAutoStartup()) {
-				for (Trigger trigger : allTriggers) {
-					if (jobBeanCfg.getJobClass().equals(trigger.getJobKey().getName())) {
-						logger.debug("Setup trigger {} state to PAUSE", trigger.getKey().getName());
-						this.getScheduler().pauseTrigger(trigger.getKey());
-						break;
-					}
-				}
-			}
-		}
-	}
+        this.setTriggers(allTriggers.toArray(new Trigger[] {}));
+        super.registerJobsAndTriggers();
+
+        // 把AutoStartup设定的计划任务初始设置为暂停状态
+        for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
+            if (!jobBeanCfg.getAutoStartup()) {
+                for (Trigger trigger : allTriggers) {
+                    if (jobBeanCfg.getJobClass().equals(trigger.getJobKey().getName())) {
+                        logger.debug("Setup trigger {} state to PAUSE", trigger.getKey().getName());
+                        this.getScheduler().pauseTrigger(trigger.getKey());
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
 }
