@@ -6,7 +6,7 @@
 	<s:hidden name="version" />
 	<s:token />
 	<div class="form-actions">
-		<button class="btn blue" type="submit">
+		<button class="btn blue" type="submit" data-grid-reload=".grid-auth-user-index">
 			<i class="fa fa-check"></i> 保存
 		</button>
 		<button class="btn default btn-cancel" type="button">取消</button>
@@ -92,7 +92,7 @@
 		</div>
 	</div>
 	<div class="form-actions right">
-		<button class="btn blue" type="submit">
+		<button class="btn blue" type="submit" data-grid-reload=".grid-auth-user-index">
 			<i class="fa fa-check"></i> 保存
 		</button>
 		<button class="btn default btn-cancel" type="button">取消</button>
