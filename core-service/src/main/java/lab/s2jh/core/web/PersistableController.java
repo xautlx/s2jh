@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,14 +60,12 @@ import org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -742,44 +739,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             }
         }
         return buildDefaultHttpHeaders();
-    }
-
-    private static Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
-
-    public String buildUidFromHttpGetRequest() throws NoSuchAlgorithmException {
-        HttpServletRequest request = this.getRequest();
-        String url = request.getServletPath();
-        String query = request.getQueryString();
-        if (StringUtils.isNotEmpty(query)) {
-            url = url + "?" + query;
-        }
-        return md5PasswordEncoder.encodePassword(url, null);
-    }
-
-    private final static String[] excludeEntityProperties = { "id", "version", "aclCode", "aclType", "createdBy",
-            "createdDate", "lastModifiedBy", "lastModifiedDate" };
-
-    protected T cloneNewEntity(T source, String... extraExcludeProperties) {
-        T cloneEntity = null;
-        try {
-            cloneEntity = entityClass.newInstance();
-            if (extraExcludeProperties == null) {
-                BeanUtils.copyProperties(source, cloneEntity, excludeEntityProperties);
-            } else {
-                Set<String> excludeEntityPropertiesSet = Sets.newHashSet(excludeEntityProperties);
-                for (String p : extraExcludeProperties) {
-                    excludeEntityPropertiesSet.add(p);
-                }
-                BeanUtils.copyProperties(source, cloneEntity, excludeEntityPropertiesSet.toArray(new String[] {}));
-            }
-
-        } catch (InstantiationException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            logger.error(e.getMessage(), e);
-        }
-        Assert.notNull(cloneEntity);
-        return cloneEntity;
     }
 
     // --------------------------------------------------------
