@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tbl_SYS_PUB_POST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@MetaData(value = "公告", description = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
+@MetaData(value = "公告", comments = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
 public class PubPost extends BaseUuidEntity {
 
     @MetaData(value = "标题")
@@ -53,7 +53,7 @@ public class PubPost extends BaseUuidEntity {
     @EntityAutoCode(order = 50)
     private Integer readUserCount;
 
-    @MetaData(value = "排序号", description = "数字越大显示越靠上")
+    @MetaData(value = "排序号", tooltips = "数字越大显示越靠上")
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
 

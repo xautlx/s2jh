@@ -15,7 +15,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label class="control-label">分类</label>
+					<label class="control-label">分类 </label>
 					<div class="controls">
 						<s:textfield name="category" />
 					</div>
@@ -50,7 +50,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form-group tooltipster" title="排序号越大，则越先URL匹配">
+				<div class="form-group">
 					<label class="control-label">排序号</label>
 					<div class="controls">
 						<s:textfield name="orderRank" />
@@ -60,7 +60,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="form-group tooltipster" title="可以一个权限关联多个URL,一行一个URL。系统默认按照左匹配规则验证，如/abc表示/abc**">
+				<div class="form-group">
 					<label class="control-label">匹配URL列表</label>
 					<div class="controls">
 						<s:textarea name="url" rows="3" />

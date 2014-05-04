@@ -1,11 +1,11 @@
 package lab.s2jh.core.web;
 
-import java.beans.IntrospectionException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +31,7 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.envers.EntityRevision;
 import lab.s2jh.core.audit.envers.ExtDefaultRevisionEntity;
 import lab.s2jh.core.audit.envers.ExtRevisionListener;
+import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.PersistableEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.entity.def.OperationAuditable;
@@ -45,13 +46,12 @@ import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 import lab.s2jh.core.web.view.OperationResult;
 import net.sf.jxls.transformer.XLSTransformer;
-import ognl.OgnlException;
-import ognl.OgnlRuntime;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
@@ -946,46 +946,47 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
+    private static Map<Class<?>, Map<String, Object>> entityValidationRulesMap = Maps.newHashMap();
+
     /**
      * 
      */
     @MetaData(value = "表格数据编辑校验规则")
     public HttpHeaders buildValidateRules() {
-        Map<String, Object> nameRules = Maps.newHashMap();
-        String[] names = this.getRequest().getParameterValues("name");
-        for (String name : names) {
-            try {
-                name = name.trim();
-                if (StringUtils.isBlank(name)) {
+        Map<String, Object> nameRules = entityValidationRulesMap.get(entityClass);
+        if (nameRules == null) {
+            nameRules = Maps.newHashMap();
+            entityValidationRulesMap.put(entityClass, nameRules);
+
+            Class<?> clazz = entityClass;
+            Set<Field> fields = Sets.newHashSet(clazz.getDeclaredFields());
+            clazz = clazz.getSuperclass();
+            while (!clazz.equals(BaseEntity.class) && !clazz.equals(Object.class)) {
+                fields.addAll(Sets.newHashSet(clazz.getDeclaredFields()));
+                clazz = clazz.getSuperclass();
+            }
+
+            for (Field field : fields) {
+                if (Modifier.isStatic(field.getModifiers()) || !Modifier.isPrivate(field.getModifiers())
+                        || Collection.class.isAssignableFrom(field.getType())) {
+                    continue;
+                }
+                String name = field.getName();
+                if ("id".equals(name)) {
                     continue;
                 }
                 Map<String, Object> rules = Maps.newHashMap();
 
-                Method method = OgnlRuntime.getGetMethod(null, entityClass, name);
-                if (method == null) {
-                    String[] tagNameSplits = StringUtils.split(name, ".");
-                    if (tagNameSplits.length >= 2) {
-                        Class<?> retClass = entityClass;
-                        for (String tagNameSplit : tagNameSplits) {
-                            if (tagNameSplit.equals("id")) {
-                                break;
-                            }
-                            method = OgnlRuntime.getGetMethod(null, retClass, tagNameSplit);
-                            if (method != null) {
-                                retClass = method.getReturnType();
-                            }
-                        }
-                        if (method == null) {
-                            retClass = this.getClass();
-                            for (String tagNameSplit : tagNameSplits) {
-                                method = OgnlRuntime.getGetMethod(null, retClass, tagNameSplit);
-                                if (method != null) {
-                                    retClass = method.getReturnType();
-                                }
-                            }
-                        }
+                MetaData metaData = field.getAnnotation(MetaData.class);
+                if (metaData != null) {
+                    String tooltips = metaData.tooltips();
+                    if (StringUtils.isNotBlank(tooltips)) {
+                        rules.put("tooltips", tooltips);
                     }
                 }
+
+                Method method = MethodUtils
+                        .getAccessibleMethod(entityClass, "get" + StringUtils.capitalize(name), null);
 
                 if (method != null) {
                     Class<?> retType = method.getReturnType();
@@ -1054,15 +1055,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                         nameRules.put(name, rules);
                     }
                 }
-            } catch (IntrospectionException e) {
-                e.printStackTrace();
-            } catch (OgnlException e) {
-                e.printStackTrace();
             }
-
         }
 
         setModel(nameRules);
-        return buildDefaultHttpHeaders();
+        return new DefaultHttpHeaders();
     }
 }

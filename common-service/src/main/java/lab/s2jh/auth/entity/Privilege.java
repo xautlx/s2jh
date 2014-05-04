@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
  * 
  */
 @Entity
-@Table(name = "tbl_AUTH_PRIVILEGE")
+@Table(name = "TBL_AUTH_PRIVILEGE")
 @MetaData(value = "权限")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Privilege extends BaseUuidEntity {
@@ -49,7 +49,7 @@ public class Privilege extends BaseUuidEntity {
     @EntityAutoCode(order = 20, search = true)
     private String title;
 
-    @MetaData(value = "URL")
+    @MetaData(value = "URL", tooltips = "一个权限关联多个URL,一行一个URL<br/>系统默认按照左匹配规则验证，如/abc表示/abc**")
     @EntityAutoCode(order = 30, search = true)
     private String url;
 
@@ -57,7 +57,7 @@ public class Privilege extends BaseUuidEntity {
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(value = "禁用标识", description = "禁用不参与权限控制逻辑")
+    @MetaData(value = "禁用标识", tooltips = "禁用不参与权限控制逻辑")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
@@ -65,7 +65,7 @@ public class Privilege extends BaseUuidEntity {
      * 权限控制的优先级，数字越大匹配优先级越高，大部分情况无需要考虑此属性，直接默认值即可；
      * 如果权限URL部分由包含关系需要用到此属性，具体请查看Spring Security对于URL匹配规则说明 
      */
-    @MetaData(value = "排序号", description = "权限控制的优先级，数字越大匹配优先级越高")
+    @MetaData(value = "排序号", tooltips = "权限控制的优先级，数字越大匹配优先级越高")
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
 

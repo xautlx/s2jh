@@ -46,7 +46,7 @@ public class Menu extends BaseUuidEntity implements Comparable<Menu> {
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(value = "禁用标识", description = "禁用菜单全局不显示")
+    @MetaData(value = "禁用标识", tooltips = "禁用菜单全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
@@ -65,11 +65,11 @@ public class Menu extends BaseUuidEntity implements Comparable<Menu> {
     @EntityAutoCode(order = 30, search = true)
     private MenuTypeEnum type = MenuTypeEnum.RELC;
 
-    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", tooltips = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 100;
 
-    @MetaData(value = "展开标识", description = "是否默认展开菜单组")
+    @MetaData(value = "展开标识", tooltips = "是否默认展开菜单组")
     @EntityAutoCode(order = 30, search = true)
     private Boolean initOpen = Boolean.FALSE;
 
@@ -79,10 +79,10 @@ public class Menu extends BaseUuidEntity implements Comparable<Menu> {
     @MetaData(value = "子节点集合")
     private List<Menu> children;
 
-    @MetaData(value = "子节点数", description = "冗余字段：当前节点下属子节点数目，可以用于快速确定当前是否叶子节点")
+    @MetaData(value = "子节点数", comments = "冗余字段：当前节点下属子节点数目，可以用于快速确定当前是否叶子节点")
     private Integer childrenSize;
 
-    @MetaData(value = "所在层级", description = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
+    @MetaData(value = "所在层级", comments = " 冗余字段：当前节点所在层级，方便高效的树形层级显示")
     private Integer inheritLevel;
 
     public static enum MenuTypeEnum {

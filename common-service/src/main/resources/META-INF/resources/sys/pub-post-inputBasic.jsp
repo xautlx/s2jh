@@ -42,8 +42,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form-group tooltipster" title="排序号越大，则显示越靠上">
-					<label class="control-label">排序号</label>
+				<div class="form-group">
+					<label class="control-label" data-tooltips="排序号越大，则显示越靠上">排序号</label>
 					<div class="controls">
 						<s:textfield name="orderRank" />
 					</div>

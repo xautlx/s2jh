@@ -51,22 +51,17 @@ $(function() {
         }, {
             label : 'URL',
             name : 'url',
+            sortable : false,
             editable : true,
             edittype : 'textarea',
             width : 300,
-            align : 'left',
-            editoptions : {
-                title : '可以一个权限关联多个URL,一行一个URL。系统默认按照左匹配规则验证，如/abc表示/abc**'
-            }
+            align : 'left'
         }, {
             label : '排序号',
             name : 'orderRank',
             editable : true,
             width : 60,
-            sorttype : 'number',
-            editoptions : {
-                title : '排序号越大，则越先URL匹配'
-            }
+            sorttype : 'number'
         } ],
         editcol : 'code',
         editurl : WEB_ROOT + "/auth/privilege!doSave",

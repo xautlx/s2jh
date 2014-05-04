@@ -64,7 +64,7 @@ public class User extends BaseEntity<Long> {
     @EntityAutoCode(order = 30, search = true)
     private String email;
 
-    @MetaData(value = "启用标识", description = "禁用之后则不能登录访问系统")
+    @MetaData(value = "启用标识", tooltips = "禁用之后则不能登录访问系统")
     @EntityAutoCode(order = 40, search = true)
     private Boolean enabled = Boolean.TRUE;
 
@@ -102,7 +102,7 @@ public class User extends BaseEntity<Long> {
     @MetaData(value = "总计登录次数")
     private Long logonTimes;
 
-    @MetaData(value = "随机数", description = "用于找回密码设定的随机UUID字符串")
+    @MetaData(value = "随机数", comments = "用于找回密码设定的随机UUID字符串")
     private String randomCode;
 
     /** 遗留项目属性定义 */

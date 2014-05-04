@@ -32,11 +32,11 @@ public abstract class DynamicParameterDef extends BaseUuidEntity {
     @EntityAutoCode(order = 30, search = true)
     private Boolean required = Boolean.FALSE;
 
-    @MetaData(value = "禁用标识", description = "禁用项全局不显示")
+    @MetaData(value = "禁用标识", tooltips = "禁用项全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(value = "隐藏标识", description = "隐藏项目不用用户输入，一般需要配置合理的defaultValue")
+    @MetaData(value = "隐藏标识", tooltips = "隐藏项目不用用户输入，一般需要配置合理的defaultValue")
     @EntityAutoCode(order = 45, search = true)
     private Boolean hidden = Boolean.FALSE;
 
@@ -44,7 +44,7 @@ public abstract class DynamicParameterDef extends BaseUuidEntity {
     @EntityAutoCode(order = 50, search = true)
     private DynamicParameterTypeEnum type = DynamicParameterTypeEnum.STRING;
 
-    @MetaData(value = "前端UI校验规则", description = "如：{required:true,min:0,max:1000}")
+    @MetaData(value = "前端UI校验规则", tooltips = "如：{required:true,min:0,max:1000}")
     @EntityAutoCode(order = 55, search = false)
     private String validateRules;
 
@@ -52,15 +52,15 @@ public abstract class DynamicParameterDef extends BaseUuidEntity {
     @EntityAutoCode(order = 60, search = false)
     private String defaultValue;
 
-    @MetaData(value = "是否允许多选 ", description = "用于下拉框数据参数")
+    @MetaData(value = "是否允许多选 ", tooltips = "用于下拉框数据参数")
     @EntityAutoCode(order = 70, search = false)
     private Boolean multiSelectFlag = Boolean.FALSE;
 
-    @MetaData(value = "集合数据源 ", description = "对于List类型数据的数据源指定，即定义如何提供给用户选取的数据 ")
+    @MetaData(value = "集合数据源 ", tooltips = "对于List类型数据的数据源指定，即定义如何提供给用户选取的数据 ")
     @EntityAutoCode(order = 70, search = false)
     private String listDataSource;
 
-    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", tooltips = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 100;
 

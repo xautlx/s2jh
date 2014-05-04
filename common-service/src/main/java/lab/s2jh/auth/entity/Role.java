@@ -34,7 +34,7 @@ public class Role extends BaseUuidEntity {
     /** 通过第三方认证过来的用户，默认赋予TBD角色，以便进行后续用户绑定等操作 */
     public static final String ROLE_TBD_USER_CODE = "ROLE_TBD_USER";
 
-    @MetaData(value = "代码", description = "必须以ROLE_打头")
+    @MetaData(value = "代码", tooltips = "必须以ROLE_打头")
     @EntityAutoCode(order = 10, search = true)
     private String code = "ROLE_";
 
@@ -46,7 +46,7 @@ public class Role extends BaseUuidEntity {
     @EntityAutoCode(listShow = false)
     private String description;
 
-    @MetaData(value = "禁用标识", description = "禁用角色不参与权限控制逻辑")
+    @MetaData(value = "禁用标识", tooltips = "禁用角色不参与权限控制逻辑")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 

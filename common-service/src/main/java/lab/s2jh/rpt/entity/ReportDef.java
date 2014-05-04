@@ -35,11 +35,11 @@ public class ReportDef extends BaseUuidEntity {
     @EntityAutoCode(order = 5, search = true)
     private String code;
 
-    @MetaData(value = "名称", description = "此名称会作为报表下载文件名称")
+    @MetaData(value = "名称", tooltips = "此名称会作为报表下载文件名称")
     @EntityAutoCode(order = 10, search = true)
     private String title;
 
-    @MetaData(value = "描述", description = " 对于报表用法的描述")
+    @MetaData(value = "描述", tooltips = " 对于报表用法的描述")
     @EntityAutoCode(order = 20, search = false, listShow = false)
     private String description;
 
@@ -47,15 +47,15 @@ public class ReportDef extends BaseUuidEntity {
     @EntityAutoCode(order = 30, search = true)
     private ReportTypeEnum type;
 
-    @MetaData(value = "分类", description = "对于报表的分类，方便后续按类别显示")
+    @MetaData(value = "分类", tooltips = "对于报表的分类，方便后续按类别显示")
     @EntityAutoCode(order = 40, search = true)
     private String category;
 
-    @MetaData(value = "排序号", description = "用于在列表显示确定先后顺序")
+    @MetaData(value = "排序号", tooltips = "用于在列表显示确定先后顺序")
     @EntityAutoCode(order = 60, search = false)
     private Integer orderRank = 100;
 
-    @MetaData(value = "禁用标识", description = "禁用全局不显示")
+    @MetaData(value = "禁用标识", tooltips = "禁用全局不显示")
     @EntityAutoCode(order = 70, search = true)
     private Boolean disabled = Boolean.FALSE;
 
@@ -63,7 +63,7 @@ public class ReportDef extends BaseUuidEntity {
     @EntityAutoCode(order = 100, search = false)
     private AttachmentFile templateFile;
 
-    @MetaData(value = "关联的报表参数", description = "一般主要用于JasperReport类型报表,JXLS类型一般是在每个业务Action方法中特定组织参数对象给JXLS解析处理")
+    @MetaData(value = "关联的报表参数", tooltips = "一般主要用于JasperReport类型报表,JXLS类型一般是在每个业务Action方法中特定组织参数对象给JXLS解析处理")
     private List<ReportParam> reportParameters;
 
     @MetaData(value = "角色关联")

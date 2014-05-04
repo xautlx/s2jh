@@ -14,7 +14,18 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PACKAGE })
 public @interface MetaData {
 
+    /**
+     * 简要注解说明：一般对应表单项Label属性显示
+     */
     String value();
 
-    String description() default "";
+    /**
+     * 提示信息：一般对应表单项的提示说明，支持以HTML格式
+     */
+    String tooltips() default "";
+
+    /**
+     * 注释说明：用于描述代码内部用法说明，一般不用于前端UI显示
+     */
+    String comments() default "";
 }

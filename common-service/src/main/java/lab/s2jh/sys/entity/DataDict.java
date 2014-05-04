@@ -65,15 +65,15 @@ public class DataDict extends BaseUuidEntity {
      * 对于扩展数据的获取一般通过{@link lab.s2jh.sys.service.DataDictService#findByPrimaryKey(String)}
      * 对于返回的数据，根据实际业务定制化使用即可
      */
-    @MetaData(value = "大文本数据", description = "以CLOB大文本方式存储用于特定的大文本数据配置")
+    @MetaData(value = "大文本数据", tooltips = "以CLOB大文本方式存储用于特定的大文本数据配置")
     @EntityAutoCode(order = 30, search = false)
     private String richTextValue;
 
-    @MetaData(value = "禁用标识", description = "禁用项目全局不显示")
+    @MetaData(value = "禁用标识", tooltips = "禁用项目全局不显示")
     @EntityAutoCode(order = 40, search = true)
     private Boolean disabled = Boolean.FALSE;
 
-    @MetaData(value = "排序号", description = "相对排序号，数字越大越靠上显示")
+    @MetaData(value = "排序号", tooltips = "相对排序号，数字越大越靠上显示")
     @EntityAutoCode(order = 1000)
     private Integer orderRank = 10;
 

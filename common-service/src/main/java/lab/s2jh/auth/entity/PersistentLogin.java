@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "persistent_logins")
-@MetaData(value = "登录持久化", description = "用于Spring Security RememberMe功能,仅仅用于创建所需表结构")
+@MetaData(value = "登录持久化", comments = "用于Spring Security RememberMe功能,仅仅用于创建所需表结构")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PersistentLogin {
 

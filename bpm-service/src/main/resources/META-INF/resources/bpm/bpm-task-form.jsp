@@ -7,7 +7,7 @@
 		<s:if test="#item.writable">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="form-group tooltipster">
+					<div class="form-group">
 						<label class="control-label col-md-3"><s:property value='%{#item.name}' /></label>
 						<div class="col-md-9">
 							<s:if test="#item.type.name=='string'">
