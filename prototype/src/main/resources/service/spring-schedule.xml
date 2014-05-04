@@ -32,10 +32,10 @@
 		<property name="triggers">
 			<list>
 				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.ServerStatJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+				<bean id="lab.s2jh.schedule.job.ServerMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.ServerStatJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-							<property name="jobClass" value="lab.s2jh.schedule.job.ServerStatJob" />
+						<bean name="lab.s2jh.schedule.job.ServerMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+							<property name="jobClass" value="lab.s2jh.schedule.job.ServerMonitorJob" />
 							<property name="durability" value="true" />
 						</bean>
 					</property>
@@ -67,10 +67,10 @@
 		<property name="triggers">
 			<list>
 				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.DatabaseStatJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+				<bean id="lab.s2jh.schedule.job.DatabaseMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.DatabaseStatJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-							<property name="jobClass" value="lab.s2jh.schedule.job.DatabaseStatJob" />
+						<bean name="lab.s2jh.schedule.job.DatabaseMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+							<property name="jobClass" value="lab.s2jh.schedule.job.DatabaseMonitorJob" />
 							<property name="durability" value="true" />
 						</bean>
 					</property>
