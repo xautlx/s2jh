@@ -56,8 +56,7 @@
         skipLog = true;
     } else {
         if (request.getAttribute("SPRING_SECURITY_403_EXCEPTION") != null) {
-            errorMessage = "访问权限不足，请联系管理员。";
-            skipLog = true;
+            errorMessage = "未授权访问，请联系管理员。";
         }
     }
     if (!skipLog) {
