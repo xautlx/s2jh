@@ -31,8 +31,9 @@
           <#assign itemTitle = ''/>
         </#if>
     </#if>
-    
-    <label class="radio-inline">
+ <#if parameters.label??>
+<label class="radio-inline">
+</#if>
 <input type="radio"<#rt/>
 <#if parameters.name??>
  name="${parameters.name?html}"<#rt/>
@@ -76,5 +77,7 @@
 </#if>
 />			
 			${itemValue}
-	</label>
+ <#if parameters.label??>
+</label>
+</#if>
 </@s.iterator>   

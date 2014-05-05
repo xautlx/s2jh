@@ -1,4 +1,6 @@
+<#if parameters.label??>
 <label class="checkbox-inline">
+</#if>
 <input type="checkbox" name="${parameters.name?html}" value="${parameters.fieldValue?html}"<#rt/>
 <#if parameters.nameValue?? && parameters.nameValue>
  checked="checked"<#rt/>
@@ -29,5 +31,5 @@
  />
  <#if parameters.label??>
 ${parameters.label?html}
-</#if>
 </label>
+</#if>
