@@ -200,10 +200,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
     }
 
-    private void hackEmtpyOneToOneEntity() {
-
-    }
-
     protected void setupDetachedBindingEntity(ID id) {
         bindingEntity = getEntityService().findDetachedOne(id);
     }
@@ -384,7 +380,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         //检查提交的数据参数符合用户ACL权限，否则拒绝创建数据
         checkEntityAclPermission(bindingEntity);
         ExtRevisionListener.setOperationEvent(RevisionType.ADD.name());
-        hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("创建操作成功", bindingEntity));
         return buildDefaultHttpHeaders();
@@ -433,7 +428,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @MetaData(value = "更新")
     protected HttpHeaders doUpdate() {
-        hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("更新操作成功", bindingEntity));
         return buildDefaultHttpHeaders();
@@ -456,7 +450,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @MetaData(value = "保存")
     protected HttpHeaders doSave() {
-        hackEmtpyOneToOneEntity();
         getEntityService().save(bindingEntity);
         setModel(OperationResult.buildSuccessResult("数据保存成功", bindingEntity));
         return buildDefaultHttpHeaders();
