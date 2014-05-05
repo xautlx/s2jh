@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <form class="form-horizontal form-bordered form-label-stripped form-validation"
 	action="${base}/auth/role!doUpdateRelatedPrivilegeR2s" method="post">
 	<s:hidden name="id" />
@@ -27,10 +28,9 @@
 							onclick="$(this).closest('tr').find('.checkbox-privileges :checkbox').attr('checked',this.checked)" /> <s:property
 								value="%{#item.key}" /></td>
 						<td class="checkbox-privileges"><s:iterator var="child" value="#item.value">
-								<div class="col-md-2">
-									<s:checkbox name="r2ids" fieldValue="%{#child.id}" value="%{#child.extraAttributes.related}" />
-									<span class="<s:property value="%{#child.extraAttributes.related?'label label-success':''}" />"><s:property
-											value="%{#child.title}" /></span>
+								<div class="col-md-3 <s:property value="%{#child.extraAttributes.related?'text-success':''}" />">
+									<s:checkbox name="r2ids" fieldValue="%{#child.id}" value="%{#child.extraAttributes.related}"
+										label="%{#child.title}" />
 								</div>
 							</s:iterator></td>
 					</tr>
