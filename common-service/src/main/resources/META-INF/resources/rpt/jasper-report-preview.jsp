@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <APPLET WIDTH="100%" HEIGHT="100%">
-	<PARAM NAME=CODE VALUE="PrintViewerApplet.class">
+	<PARAM NAME=CODE VALUE="net.sf.jasperreports.swing.PrintViewerApplet.class">
 	<PARAM NAME=CODEBASE VALUE="${base}/pub/applet">
 	<PARAM NAME=ARCHIVE
 		VALUE="
