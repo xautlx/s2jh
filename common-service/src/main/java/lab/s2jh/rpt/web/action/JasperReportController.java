@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import ognl.Ognl;
 import ognl.OgnlException;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.HttpHeaders;
@@ -79,6 +80,11 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     @Override
     protected void checkEntityAclPermission(ReportDef entity) {
         // Do nothing
+    }
+
+    @SecurityControllIgnore
+    public String preview() {
+        return "preview";
     }
 
     @SecurityControllIgnore
@@ -161,6 +167,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             jasperOutputFormatMap.put(JasperReportConstants.FORMAT_PDF, "Adobe PDF");
             jasperOutputFormatMap.put(JasperReportConstants.FORMAT_XLS, "Excel");
             jasperOutputFormatMap.put(JasperReportConstants.FORMAT_HTML, "HTML");
+            jasperOutputFormatMap.put("BIN", "BIN");
         }
         return jasperOutputFormatMap;
     }
@@ -169,6 +176,10 @@ public class JasperReportController extends BaseController<ReportDef, String> {
     public String getFormat() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String format = request.getParameter("format");
+        //Jasper+Applet预览模式，以JasperPrint对象输出供JRView调用显示
+        if (BooleanUtils.toBoolean(request.getParameter("preview"))) {
+            format = "BIN";
+        }
         if (StringUtils.isBlank(format) || !getJasperOutputFormatMap().containsKey(format)) {
             format = JasperReportConstants.FORMAT_PDF;
         }

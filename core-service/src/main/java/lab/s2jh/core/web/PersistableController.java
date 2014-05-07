@@ -1005,7 +1005,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
                     if (rules.size() > 0) {
                         nameRules.put(name, rules);
-                        //如果是实体对象类型，一般表单元素name都定义为Abc.id，因此额外追加对应id属性校验规则
+                        //如果是实体对象类型，一般表单元素name都定义为entity.id，因此额外追加对应id属性校验规则
                         if (PersistableEntity.class.isAssignableFrom(field.getType())) {
                             nameRules.put(name + ".id", rules);
                         }

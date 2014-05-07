@@ -3,6 +3,7 @@ package org.apache.struts2.views.jasperreports;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -369,34 +370,44 @@ public class ExtJasperReportsResult extends StrutsResultSupport implements Jaspe
                 response.setContentType("application/rtf");
                 exporter = new JRRtfExporter();
             } else {
-                throw new ServletException("Unknown report format: " + format);
+                //response.setContentType("application/octet-stream");
+                exporter = null;
             }
 
-            Map exportParams = (Map) stack.findValue(exportParameters);
-            if (exportParams != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Found export parameters; adding to exporter parameters...");
-                }
-                exporter.getParameters().putAll(exportParams);
+            if (exporter == null) {
+                LOG.debug("JasperReport write jasperprint directly...");
+                ServletOutputStream ouputStream = response.getOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(ouputStream);
+                oos.writeObject(jasperPrint);
+                oos.flush();
+                oos.close();
+            } else {
+                Map exportParams = (Map) stack.findValue(exportParameters);
+                if (exportParams != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Found export parameters; adding to exporter parameters...");
+                    }
+                    exporter.getParameters().putAll(exportParams);
 
-                //根据JasperReport 5.X最新API，把exportParams追加覆盖报表property属性定义
-                JRPropertiesMap propertiesMap = jasperPrint.getPropertiesMap();
-                for (Object key : exportParams.keySet()) {
-                    propertiesMap.setProperty(ObjectUtils.toString(key), ObjectUtils.toString(exportParams.get(key)));
+                    //根据JasperReport 5.X最新API，把exportParams追加覆盖报表property属性定义
+                    JRPropertiesMap propertiesMap = jasperPrint.getPropertiesMap();
+                    for (Object key : exportParams.keySet()) {
+                        propertiesMap.setProperty(ObjectUtils.toString(key),
+                                ObjectUtils.toString(exportParams.get(key)));
+                    }
                 }
+
+                output = exportReportToBytes(jasperPrint, exporter);
+                response.setContentLength(output.length);
+                // Will throw ServletException on IOException.
+                writeReport(response, output);
             }
 
-            output = exportReportToBytes(jasperPrint, exporter);
         } catch (JRException e) {
             String message = "Error producing " + format + " report for uri " + systemId;
             LOG.error(message, e);
             throw new ServletException(e.getMessage(), e);
         }
-
-        response.setContentLength(output.length);
-
-        // Will throw ServletException on IOException.
-        writeReport(response, output);
     }
 
     /**
