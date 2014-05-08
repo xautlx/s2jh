@@ -460,7 +460,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                 JoinType[] joinTypes = new JoinType[names.length];
                 if (matchValue instanceof String) {
                     String[] joinTypeSplits = StringUtils.split(String.valueOf(matchValue), ".");
-                    Assert.isTrue(joinTypeSplits.length == names.length);
+                    Assert.isTrue(joinTypeSplits.length == names.length, filter.getMatchType() + " 操作属性个数和Join操作个数必须一致");
                     for (int i = 0; i < joinTypeSplits.length; i++) {
                         joinTypes[i] = Enum.valueOf(JoinType.class, joinTypeSplits[i].trim());
                     }

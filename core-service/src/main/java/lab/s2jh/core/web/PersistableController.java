@@ -367,7 +367,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 准备new实体对象以备ParametersInterceptor进行参数绑定
      */
     public void prepareDoCreate() {
-        Assert.isNull(isDisallowCreate(), "数据访问权限不足");
+        String msg = isDisallowCreate();
+        Assert.isNull(msg, msg);
         newBindingEntity();
     }
 
@@ -419,7 +420,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 同理：子类在其他业务方法处理时，如果也需要进行额外的数据检查时，也要注意此规则应该在对应的prepare回调方法中进行，而不是业务执行方法中
      */
     public void prepareDoUpdate() {
-        Assert.isNull(isDisallowUpdate(), "数据访问权限不足");
+        String msg = isDisallowUpdate();
+        Assert.isNull(msg, msg);
     }
 
     /**
@@ -437,9 +439,11 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         ID id = getId("id");
         if (id == null) {
             newBindingEntity();
-            Assert.isNull(isDisallowCreate(), "数据访问权限不足");
+            String msg = isDisallowCreate();
+            Assert.isNull(msg, msg);
         } else {
-            Assert.isNull(isDisallowUpdate(), "数据访问权限不足");
+            String msg = isDisallowUpdate();
+            Assert.isNull(msg, msg);
         }
     }
 
