@@ -58,12 +58,14 @@ public class HttpRequestLogFilter implements Filter {
                 //do nothing
             }
             StringBuilder sb = new StringBuilder();
+            String xForwardedFor = req.getHeader("x-forwarded-for");
             sb.append("\n HTTP Request Logon User PIN : " + userpin);
-            sb.append("\n HTTP Request Logon User IP  : " + req.getRemoteAddr());
-            sb.append("\n HTTP Request Logon User Host: " + req.getRemoteHost());
-            sb.append("\n HTTP Request Method         : " + req.getMethod());
-            sb.append("\n HTTP Request URL            : " + req.getRequestURL());
-            sb.append("\n HTTP Request Query String   : " + req.getQueryString());
+            sb.append("\n HTTP Request RemoteAddr      : " + req.getRemoteAddr());
+            sb.append("\n HTTP Request RemoteHost       : " + req.getRemoteHost());
+            sb.append("\n HTTP Request x-forwarded-for : " + xForwardedFor);
+            sb.append("\n HTTP Request Method               : " + req.getMethod());
+            sb.append("\n HTTP Request URL                      : " + req.getRequestURL());
+            sb.append("\n HTTP Request Query String       : " + req.getQueryString());
             if (logger.isDebugEnabled()) {
                 sb.append("\nHTTP Request Parameter List : ");
                 Enumeration<String> paramNames = req.getParameterNames();
