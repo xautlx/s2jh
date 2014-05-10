@@ -86,7 +86,7 @@ public class UserService extends BaseService<User, Long> {
     @Autowired
     private DynamicConfigService dynamicConfigService;
 
-    @Autowired
+    @Autowired(required = false)
     private FreemarkerService freemarkerService;
 
     @Autowired(required = false)
@@ -295,12 +295,16 @@ public class UserService extends BaseService<User, Long> {
             url.append(contextPath);
         }
         url.append("/pub/signin?email=" + email + "&code=" + user.getRandomCode());
-
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("user", user);
-        params.put("resetPasswordLink", url.toString());
-        String contents = freemarkerService.processTemplateByFileName("PASSWORD_RESET_NOTIFY_EMAIL", params);
-        mailService.sendHtmlMail(suject, contents, true, email);
+        
+        if(freemarkerService!=null){
+            Map<String, Object> params = Maps.newHashMap();
+            params.put("user", user);
+            params.put("resetPasswordLink", url.toString());
+            String contents = freemarkerService.processTemplateByFileName("PASSWORD_RESET_NOTIFY_EMAIL", params);
+            mailService.sendHtmlMail(suject, contents, true, email);
+        }else{
+            mailService.sendHtmlMail(suject, url.toString(), true, email);
+        }
     }
 
     public void resetPassword(User user, String rawPassword) {

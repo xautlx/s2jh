@@ -47,7 +47,7 @@ public class HttpRequestLogFilter implements Filter {
             HttpServletRequest req = (HttpServletRequest) request;
             String uri = req.getRequestURI();
             if (uri == null || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".gif")
-                    || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".woff")) {
+                    || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".woff") || uri.endsWith(".ico")) {
                 chain.doFilter(request, reponse);
                 return;
             }
