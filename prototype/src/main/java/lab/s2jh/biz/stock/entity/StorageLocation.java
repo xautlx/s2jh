@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseUuidEntity;
@@ -27,6 +28,7 @@ public class StorageLocation extends BaseUuidEntity {
 
     @Column(length = 32, unique = true, nullable = false)
     @JsonProperty
+    @Size(min = 3, max = 10)
     public String getCode() {
         return code;
     }

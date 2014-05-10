@@ -60,7 +60,7 @@ public class User extends BaseEntity<Long> {
     @EntityAutoCode(order = 20, search = true)
     private String nick;
 
-    @MetaData(value = "电子邮件")
+    @MetaData(value = "电子邮件", tooltips = "可用于用户自助找回密码，接收系统通知等")
     @EntityAutoCode(order = 30, search = true)
     private String email;
 
@@ -76,7 +76,7 @@ public class User extends BaseEntity<Long> {
     @EntityAutoCode(order = 50, search = false, listHidden = true)
     private Boolean accountNonLocked = Boolean.TRUE;
 
-    @MetaData(value = "失效日期")
+    @MetaData(value = "失效日期", tooltips = "设定账号访问系统的失效日期，为空表示永不失效")
     @EntityAutoCode(order = 50, search = true)
     private Date accountExpireTime;
 

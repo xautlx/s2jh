@@ -3,6 +3,7 @@ package lab.s2jh.core.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.exception.WebException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import org.apache.struts2.rest.RestActionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ModelDriven;
 
 public abstract class SimpleController extends RestActionSupport implements ModelDriven<Object> {
@@ -175,5 +177,14 @@ public abstract class SimpleController extends RestActionSupport implements Mode
         String to = this.getRequiredParameter(PARAM_NAME_FOR_FORWARD_TO);
         logger.debug("Direct forward to: {}", to);
         return to;
+    }
+
+    /**
+     * 占位方法定义，无实际处理逻辑。细节逻辑在子类定义
+     */
+    @MetaData(value = "表格数据编辑校验规则")
+    public HttpHeaders buildValidateRules() {
+        setModel(Maps.newHashMap());
+        return buildDefaultHttpHeaders();
     }
 }

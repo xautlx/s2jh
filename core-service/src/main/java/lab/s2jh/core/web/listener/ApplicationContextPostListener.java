@@ -2,6 +2,7 @@ package lab.s2jh.core.web.listener;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -101,6 +102,8 @@ public class ApplicationContextPostListener implements ServletContextListener {
                 }
             }
             sc.setAttribute("enums", scEnumsMap);
+
+            Locale.setDefault(new Locale("zh_CN"));
         } catch (Exception e) {
             logger.error("error detail:", e);
         }

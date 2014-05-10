@@ -17,8 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">登录帐号</label>
 					<div class="controls">
-						<s:textfield name="signinid" disabled="%{persistentedModel}" />
-						<span class="help-block">创建之后不可修改，请仔细填写</span>
+						<s:textfield name="signinid" disabled="%{persistentedModel}" placeholder="创建之后不可修改，请仔细填写" />
 					</div>
 				</div>
 			</div>
@@ -27,7 +26,6 @@
 					<label class="control-label">机构代码</label>
 					<div class="controls">
 						<s:textfield name="aclCode" />
-						<span class="help-block">用于分机构的数据访问控制代码</span>
 					</div>
 				</div>
 			</div>
@@ -46,7 +44,6 @@
 					<label class="control-label">电子邮件</label>
 					<div class="controls">
 						<s:textfield name="email" />
-						<span class="help-block">可用于用户自助找回密码，接收系统通知等</span>
 					</div>
 				</div>
 			</div>
@@ -76,7 +73,7 @@
 					<label class="control-label">启用状态</label>
 					<div class="controls">
 						<s:radio name="enabled" list="#application.enums.booleanLabel" />
-						<span class="help-block">未启用账号无法登录系统</span>
+						<span class="help-block"></span>
 					</div>
 				</div>
 			</div>
@@ -85,7 +82,6 @@
 					<label class="control-label">账号失效日期</label>
 					<div class="controls">
 						<s3:datetextfield name="accountExpireTime" />
-						<span class="help-block">设定账号访问系统的失效日期，为空表示永不失效</span>
 					</div>
 				</div>
 			</div>

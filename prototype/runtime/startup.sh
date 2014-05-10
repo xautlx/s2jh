@@ -1,6 +1,11 @@
 #!/bin/bash
 
 PORT="80"
+if [ "$1"!="" ]
+then
+PORT=$1
+fi
+
 CONTEXT="s2jh"
 JETTY="prototype-jetty.jar"
 WAR="prototype-simplified.war"
@@ -39,4 +44,4 @@ echo "[INFO] then use Firefox to visit the following URL:"
 echo "[INFO] http://localhost:$PORT/$CONTEXT"
 echo "---------------------------------------------------------------"
 
-java $JAVA_OPT -jar $WAR
+sudo java $JAVA_OPT -jar $WAR

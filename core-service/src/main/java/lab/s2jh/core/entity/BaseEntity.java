@@ -13,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.SaveUpdateAuditListener;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.entity.def.DefaultAuditable;
@@ -37,7 +38,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
     /** 乐观锁版本,初始设置为0 */
     private int version = 0;
 
-    /** 数据访问控制代码 */
+    @MetaData(value = "数据访问控制代码", tooltips = "用于分机构的数据访问控制代码")
     protected String aclCode;
 
     /** 数据访问控制类型 */

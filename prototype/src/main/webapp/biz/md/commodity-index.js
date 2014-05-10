@@ -59,6 +59,7 @@ $(function() {
         postData : {
             "search['FETCH_defaultStorageLocation']" : "LEFT"
         },
+        editcol : 'sku',
         editurl : WEB_ROOT + '/biz/md/commodity!doSave',
         editrulesurl : WEB_ROOT + '/biz/md/commodity!buildValidateRules',
         delurl : WEB_ROOT + '/biz/md/commodity!doDelete',

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import lab.s2jh.biz.stock.entity.StorageLocation;
 import lab.s2jh.core.annotation.MetaData;
@@ -60,6 +61,7 @@ public class Commodity extends BaseUuidEntity {
 
     @Column(length = 64, unique = true, nullable = false)
     @JsonProperty
+    @Size(min = 5, max = 10)
     public String getSku() {
         return sku;
     }
