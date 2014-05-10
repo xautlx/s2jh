@@ -47,7 +47,7 @@ public class HttpRequestLogFilter implements Filter {
             HttpServletRequest req = (HttpServletRequest) request;
             String uri = req.getRequestURI();
             if (uri == null || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".gif")
-                    || uri.endsWith(".png") || uri.endsWith(".jpg")) {
+                    || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".woff")) {
                 chain.doFilter(request, reponse);
                 return;
             }
@@ -73,9 +73,9 @@ public class HttpRequestLogFilter implements Filter {
                     String paramName = (String) paramNames.nextElement();
                     String paramValue = StringUtils.join(request.getParameterValues(paramName), ",");
                     if (paramValue != null && paramValue.length() > 100) {
-                        sb.append("\n - " + paramName + "=" + paramValue.substring(0, 50) + "...");
+                        sb.append("\n - " + paramName + "=" + paramValue.substring(0, 100) + "...");
                     } else {
-                        sb.append("\n - " + paramName + "=" + paramValue + "");
+                        sb.append("\n - " + paramName + "=" + paramValue);
                     }
                 }
 
@@ -94,7 +94,7 @@ public class HttpRequestLogFilter implements Filter {
                     if (attr != null && attr.toString().length() > 100) {
                         sb.append("\n - " + attrName + "=" + attr.toString().substring(0, 100) + "...");
                     } else {
-                        sb.append("\n - " + attrName + "=" + attr + "...");
+                        sb.append("\n - " + attrName + "=" + attr);
                     }
                 }
 
@@ -107,7 +107,7 @@ public class HttpRequestLogFilter implements Filter {
                     if (attr != null && attr.toString().length() > 100) {
                         sb.append("\n - " + attrName + "=" + attr.toString().substring(0, 100) + "...");
                     } else {
-                        sb.append("\n - " + attrName + "=" + attr + "...");
+                        sb.append("\n - " + attrName + "=" + attr);
                     }
                 }
             }
