@@ -29,10 +29,10 @@
         </bean>
 
         <!-- 定制log4jdbc做一些输出SQL信息的微调 -->
-        <bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+        <bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
         <!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
-        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>
@@ -76,10 +76,10 @@
         <jee:jndi-lookup id="dataSourceSpied" jndi-name="java:comp/env/jdbc/s2jh" />
 
         <!-- 定制log4jdbc做一些输出SQL信息的微调 -->
-        <bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+        <bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
         <!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
-        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>
@@ -121,7 +121,7 @@
             <jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
         </jdbc:embedded-database>
 
-        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>

@@ -913,116 +913,122 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      */
     @MetaData(value = "表格数据编辑校验规则")
     public HttpHeaders buildValidateRules() {
-        Map<String, Object> nameRules = entityValidationRulesMap.get(entityClass);
-        if (nameRules == null) {
-            nameRules = Maps.newHashMap();
-            entityValidationRulesMap.put(entityClass, nameRules);
+        try {
+            Map<String, Object> nameRules = entityValidationRulesMap.get(entityClass);
+            if (nameRules == null) {
+                nameRules = Maps.newHashMap();
+                entityValidationRulesMap.put(entityClass, nameRules);
 
-            Class<?> clazz = entityClass;
-            Set<Field> fields = Sets.newHashSet(clazz.getDeclaredFields());
-            clazz = clazz.getSuperclass();
-            while (!clazz.equals(BaseEntity.class) && !clazz.equals(Object.class)) {
-                fields.addAll(Sets.newHashSet(clazz.getDeclaredFields()));
+                Class<?> clazz = entityClass;
+                Set<Field> fields = Sets.newHashSet(clazz.getDeclaredFields());
                 clazz = clazz.getSuperclass();
-            }
-
-            for (Field field : fields) {
-                if (Modifier.isStatic(field.getModifiers()) || !Modifier.isPrivate(field.getModifiers())
-                        || Collection.class.isAssignableFrom(field.getType())) {
-                    continue;
+                while (!clazz.equals(BaseEntity.class) && !clazz.equals(Object.class)) {
+                    fields.addAll(Sets.newHashSet(clazz.getDeclaredFields()));
+                    clazz = clazz.getSuperclass();
                 }
-                String name = field.getName();
-                if ("id".equals(name)) {
-                    continue;
-                }
-                Map<String, Object> rules = Maps.newHashMap();
 
-                MetaData metaData = field.getAnnotation(MetaData.class);
-                if (metaData != null) {
-                    String tooltips = metaData.tooltips();
-                    if (StringUtils.isNotBlank(tooltips)) {
-                        rules.put("tooltips", tooltips);
+                for (Field field : fields) {
+                    if (Modifier.isStatic(field.getModifiers()) || !Modifier.isPrivate(field.getModifiers())
+                            || Collection.class.isAssignableFrom(field.getType())) {
+                        continue;
                     }
-                }
+                    String name = field.getName();
+                    if ("id".equals(name)) {
+                        continue;
+                    }
+                    Map<String, Object> rules = Maps.newHashMap();
 
-                Method method = MethodUtils
-                        .getAccessibleMethod(entityClass, "get" + StringUtils.capitalize(name), null);
-
-                if (method != null) {
-                    Class<?> retType = method.getReturnType();
-                    Column column = method.getAnnotation(Column.class);
-
-                    if (column != null) {
-                        if (retType != Boolean.class && column.nullable() == false) {
-                            rules.put("required", true);
-                        }
-                        if (column.unique() == true) {
-                            rules.put("unique", true);
-                        }
-                        if (column.updatable() == false) {
-                            rules.put("readonly", true);
-                        }
-                        if (column.length() > 0 && retType == String.class && method.getAnnotation(Lob.class) == null) {
-                            rules.put("maxlength", column.length());
+                    MetaData metaData = field.getAnnotation(MetaData.class);
+                    if (metaData != null) {
+                        String tooltips = metaData.tooltips();
+                        if (StringUtils.isNotBlank(tooltips)) {
+                            rules.put("tooltips", tooltips);
                         }
                     }
 
-                    JoinColumn joinColumn = method.getAnnotation(JoinColumn.class);
-                    if (joinColumn != null) {
-                        if (joinColumn.nullable() == false) {
-                            rules.put("required", true);
-                        }
-                    }
+                    Method method = MethodUtils.getAccessibleMethod(entityClass, "get" + StringUtils.capitalize(name),
+                            null);
 
-                    if (retType == Date.class) {
-                        JsonSerialize jsonSerialize = method.getAnnotation(JsonSerialize.class);
-                        if (jsonSerialize != null) {
-                            if (DateJsonSerializer.class == jsonSerialize.using()) {
-                                rules.put("date", true);
-                            } else if (DateTimeJsonSerializer.class == jsonSerialize.using()) {
-                                rules.put("date", true);
-                                rules.put("timestamp", true);
+                    if (method != null) {
+                        Class<?> retType = method.getReturnType();
+                        Column column = method.getAnnotation(Column.class);
+
+                        if (column != null) {
+                            if (retType != Boolean.class && column.nullable() == false) {
+                                rules.put("required", true);
                             }
-                        } else {
-                            rules.put("date", true);
+                            if (column.unique() == true) {
+                                rules.put("unique", true);
+                            }
+                            if (column.updatable() == false) {
+                                rules.put("readonly", true);
+                            }
+                            if (column.length() > 0 && retType == String.class
+                                    && method.getAnnotation(Lob.class) == null) {
+                                rules.put("maxlength", column.length());
+                            }
                         }
-                    } else if (retType == BigDecimal.class) {
-                        rules.put("number", true);
-                    } else if (retType == Integer.class || retType == Long.class) {
-                        rules.put("integer", true);
-                    }
 
-                    Size size = method.getAnnotation(Size.class);
-                    if (size != null) {
-                        if (size.min() > 0) {
-
+                        JoinColumn joinColumn = method.getAnnotation(JoinColumn.class);
+                        if (joinColumn != null) {
+                            if (joinColumn.nullable() == false) {
+                                rules.put("required", true);
+                            }
                         }
-                        if (size.max() < Integer.MAX_VALUE) {
+
+                        if (retType == Date.class) {
+                            JsonSerialize jsonSerialize = method.getAnnotation(JsonSerialize.class);
+                            if (jsonSerialize != null) {
+                                if (DateJsonSerializer.class == jsonSerialize.using()) {
+                                    rules.put("date", true);
+                                } else if (DateTimeJsonSerializer.class == jsonSerialize.using()) {
+                                    rules.put("date", true);
+                                    rules.put("timestamp", true);
+                                }
+                            } else {
+                                rules.put("date", true);
+                            }
+                        } else if (retType == BigDecimal.class) {
+                            rules.put("number", true);
+                        } else if (retType == Integer.class || retType == Long.class) {
+                            rules.put("integer", true);
                         }
-                    }
 
-                    Email email = method.getAnnotation(Email.class);
-                    if (email != null) {
-                        rules.put("email", true);
-                    }
+                        Size size = method.getAnnotation(Size.class);
+                        if (size != null) {
+                            if (size.min() > 0) {
 
-                    Pattern pattern = method.getAnnotation(Pattern.class);
-                    if (pattern != null) {
-                        rules.put("regex", pattern.regexp());
-                    }
+                            }
+                            if (size.max() < Integer.MAX_VALUE) {
+                            }
+                        }
 
-                    if (rules.size() > 0) {
-                        nameRules.put(name, rules);
-                        //如果是实体对象类型，一般表单元素name都定义为entity.id，因此额外追加对应id属性校验规则
-                        if (PersistableEntity.class.isAssignableFrom(field.getType())) {
-                            nameRules.put(name + ".id", rules);
+                        Email email = method.getAnnotation(Email.class);
+                        if (email != null) {
+                            rules.put("email", true);
+                        }
+
+                        Pattern pattern = method.getAnnotation(Pattern.class);
+                        if (pattern != null) {
+                            rules.put("regex", pattern.regexp());
+                        }
+
+                        if (rules.size() > 0) {
+                            nameRules.put(name, rules);
+                            //如果是实体对象类型，一般表单元素name都定义为entity.id，因此额外追加对应id属性校验规则
+                            if (PersistableEntity.class.isAssignableFrom(field.getType())) {
+                                nameRules.put(name + ".id", rules);
+                            }
                         }
                     }
                 }
             }
+            setModel(nameRules);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            setModel(OperationResult.buildFailureResult("系统处理异常"));
         }
 
-        setModel(nameRules);
         return new DefaultHttpHeaders();
     }
 }
