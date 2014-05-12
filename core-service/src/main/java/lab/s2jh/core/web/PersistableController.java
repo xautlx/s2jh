@@ -905,7 +905,11 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     private static Map<Class<?>, Map<String, Object>> entityValidationRulesMap = Maps.newHashMap();
 
     /**
-     * 
+     * 支持的转换规则列表：
+     * <ul>
+     * <li>@Email   email电子邮件格式</li>
+     * <li>@Column(nullable=false)   required数据必须</li>
+     * </ul> 
      */
     @MetaData(value = "表格数据编辑校验规则")
     public HttpHeaders buildValidateRules() {

@@ -61,7 +61,6 @@ public class User extends BaseEntity<Long> {
     private String nick;
 
     @MetaData(value = "电子邮件", tooltips = "可用于用户自助找回密码，接收系统通知等")
-    @EntityAutoCode(order = 30, search = true)
     private String email;
 
     @MetaData(value = "启用标识", tooltips = "禁用之后则不能登录访问系统")

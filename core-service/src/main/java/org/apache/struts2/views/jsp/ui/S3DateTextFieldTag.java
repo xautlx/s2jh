@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 
 /**
  * 基于日历/时间选取组件封装的日期/时间录入组件
- * 示例：<s2:datetextfield name="search['AD_createdDate']" format="date" cssClass="input-small" />
+ * 示例：<s2:datetextfield name="search['AD_createdDate']" format="date"/>
  */
 public class S3DateTextFieldTag extends TextFieldTag {
 

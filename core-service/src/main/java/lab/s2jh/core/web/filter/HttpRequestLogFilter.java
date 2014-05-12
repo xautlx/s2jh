@@ -58,14 +58,16 @@ public class HttpRequestLogFilter implements Filter {
                 //do nothing
             }
             StringBuilder sb = new StringBuilder();
+            int padSize = 30;
+            ;
             String xForwardedFor = req.getHeader("x-forwarded-for");
-            sb.append("\n HTTP Request Logon User PIN : " + userpin);
-            sb.append("\n HTTP Request RemoteAddr      : " + req.getRemoteAddr());
-            sb.append("\n HTTP Request RemoteHost       : " + req.getRemoteHost());
-            sb.append("\n HTTP Request x-forwarded-for : " + xForwardedFor);
-            sb.append("\n HTTP Request Method               : " + req.getMethod());
-            sb.append("\n HTTP Request URL                      : " + req.getRequestURL());
-            sb.append("\n HTTP Request Query String       : " + req.getQueryString());
+            sb.append(StringUtils.rightPad("\n HTTP Request Logon User PIN", padSize) + ":" + userpin);
+            sb.append(StringUtils.rightPad("\n HTTP Request RemoteAddr", padSize) + ":" + req.getRemoteAddr());
+            sb.append(StringUtils.rightPad("\n HTTP Request RemoteHost", padSize) + ":" + req.getRemoteHost());
+            sb.append(StringUtils.rightPad("\n HTTP Request x-forwarded-for", padSize) + ":" + xForwardedFor);
+            sb.append(StringUtils.rightPad("\n HTTP Request Method", padSize) + ":" + req.getMethod());
+            sb.append(StringUtils.rightPad("\n HTTP Request URL", padSize) + ":" + req.getRequestURL());
+            sb.append(StringUtils.rightPad("\n HTTP Request Query String", padSize) + ":" + req.getQueryString());
             if (logger.isDebugEnabled()) {
                 sb.append("\nHTTP Request Parameter List : ");
                 Enumeration<String> paramNames = req.getParameterNames();

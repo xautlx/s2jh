@@ -21,7 +21,7 @@ public class ExtPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigu
             throws BeansException {
         super.processProperties(beanFactoryToProcess, props);
         ctxPropertiesMap = new HashMap<String, String>();
-        logger.info("Putting PropertyPlaceholder datas into cache...");
+        logger.info("Putting PropertyPlaceholder {}  datas into cache...", props.size());
         for (Object key : props.keySet()) {
             String keyStr = key.toString();
             String value = props.getProperty(keyStr);
