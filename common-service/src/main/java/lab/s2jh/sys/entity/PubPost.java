@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @MetaData(value = "公告", comments = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
 public class PubPost extends BaseUuidEntity {
 
+    private static final long serialVersionUID = 2544390748513253055L;
+
     @MetaData(value = "标题")
     private String htmlTitle;
 
