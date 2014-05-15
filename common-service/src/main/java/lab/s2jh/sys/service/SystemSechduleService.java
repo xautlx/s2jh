@@ -20,6 +20,10 @@ public class SystemSechduleService {
 
     public void pubPostCacheRefreshTimely() {
         logger.debug("Timely check and refresh PubPost spring cache...");
+        //设置当前应用加载ClassLoader以适应共享部署模式
+        ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
+        logger.trace("Original ClassLoader: {}", originalLoader);
+
         List<PubPost> items = pubPostService.findPublished();
         for (PubPost pubPost : items) {
             if (new DateTime(pubPost.getPublishTime()).isAfterNow()) {
