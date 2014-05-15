@@ -22,7 +22,12 @@ public class SystemSechduleService {
         logger.debug("Timely check and refresh PubPost spring cache...");
         //设置当前应用加载ClassLoader以适应共享部署模式
         ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
-        logger.trace("Original ClassLoader: {}", originalLoader);
+        logger.debug("Original ClassLoader: {} ---  {}", originalLoader, originalLoader.hashCode());
+
+        for (Object obj : pubPostService.findPublished()) {
+            logger.debug("--------- ClassLoader: {}:::{}", obj.getClass().getClassLoader(), obj.getClass()
+                    .getClassLoader().hashCode());
+        }
 
         List<PubPost> items = pubPostService.findPublished();
         for (PubPost pubPost : items) {

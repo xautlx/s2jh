@@ -15,9 +15,10 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
-        logger.info("Using ClassLoader: {}", originalLoader);
-
+        if (logger.isInfoEnabled()) {
+            ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
+            logger.info("Using ClassLoader[{}]: {}", originalLoader.hashCode(), originalLoader);
+        }
         super.contextInitialized(event);
     }
 
