@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <form class="form-horizontal form-bordered form-label-stripped form-validation"
-	action="${base}/bpm/bpm-task!doBackActivity" method="post">
+	action="${base}/bpm/bpm-task!doBackActivity" method="post" data-editrulesurl="false">
 	<s:hidden name="taskId" value="%{#parameters.taskId}" />
 
 	<s:if test="#request.task.assignee==null">

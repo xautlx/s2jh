@@ -14,8 +14,8 @@
 					class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
-					<label><input type="checkbox" checked="true" id="chk-task-user" /> 个人任务</label> <label><input type="checkbox"
-						checked="true" id="chk-task-candidate" /> 候选任务</label>
+					<label><input type="checkbox" checked="true" id="chk-task-user" /> 个人任务</label> <label><input
+						type="checkbox" checked="true" id="chk-task-candidate" /> 候选任务</label>
 				</div>
 			</div>
 		</div>
@@ -25,8 +25,9 @@
 			<ul class="feeds" id="dashboard-task-list">
 				<s:iterator value="#request.tasks" status="s" var="item">
 					<li need-claim="<s:property value='#item.candidate' />" id="<s:property value='#item.id' />"><a
-						href="${base}/bpm/bpm-task!show?taskId=<s:property value='#item.id' />&candidate=<s:property value='#item.candidate' />"
-						data-toggle="panel" title='<s:property value="#item.name" />'>
+						class="ajaxify" href="javascript:;"
+						rel="address:/bpm/bpm-task!show?taskId=<s:property value='#item.id' />&candidate=<s:property value='#item.candidate' />"
+						title='<s:property value="#item.name" />'>
 							<div class="col1">
 								<div class="cont">
 									<div class="cont-col1">
@@ -64,7 +65,7 @@
 		</div>
 		<div class="scroller-footer">
 			<div class="pull-right">
-				<a href="#">查看全部...  <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
+				<a href="#">查看全部... <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
 			</div>
 		</div>
 	</div>
