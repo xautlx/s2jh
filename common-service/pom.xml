@@ -52,11 +52,6 @@
 			<artifactId>mail</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
-
 		<!-- TEST begin -->
 		<dependency>
 			<groupId>junit</groupId>
