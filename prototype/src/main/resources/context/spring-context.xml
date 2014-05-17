@@ -20,7 +20,8 @@
     <description>Spring公共配置 </description>
 
     <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-    <context:component-scan base-package="lab.s2jh.ctx,lab.s2jh.**.dao,lab.s2jh.**.service" scoped-proxy="targetClass">
+    <context:component-scan base-package="lab.s2jh.ctx,lab.s2jh.**.dao,lab.s2jh.**.service"
+        scoped-proxy="targetClass">
     </context:component-scan>
 
     <!-- JPA Entity Manager 配置 -->
@@ -30,7 +31,7 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>
         <property name="persistenceUnitPostProcessors" ref="persistenceUnitPostProcessors" />
-        <property name="packagesToScan" value="lab.s2jh.**.entity" />
+        <property name="packagesToScan" value="lab.s2jh.core.audit.envers,lab.s2jh.**.entity" />
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.connection.autocommit">false</prop>
@@ -76,7 +77,8 @@
     </bean>
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache-config.xml" />
-        <property name="shared" value="true" />
+        <property name="cacheManagerName" value="ehCacheForSpring" />
+        <property name="shared" value="false" />
     </bean>
 
     <task:scheduler id="springScheduler" pool-size="10" />

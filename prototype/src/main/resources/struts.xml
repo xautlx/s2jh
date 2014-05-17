@@ -3,114 +3,119 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<!-- 设定Struts运行模式，开发阶段遇到问题可设定为true，生产环境应设定为false -->
-	<constant name="struts.devMode" value="false" />
+    <!-- 设定Struts运行模式，开发阶段遇到问题可设定为true，生产环境应设定为false -->
+    <constant name="struts.devMode" value="false" />
 
-	<!-- image upload maxsize = 3M -->
-	<constant name="struts.image.upload.maxSize" value="3145728" />
+    <!-- image upload maxsize = 3M -->
+    <constant name="struts.image.upload.maxSize" value="3145728" />
 
-	<!-- 配置为默认基于Bootstrap的样式输出 -->
-	<constant name="struts.ui.theme" value="bootstrap3" />
-	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <!-- 配置为默认基于Bootstrap的样式输出 -->
+    <constant name="struts.ui.theme" value="bootstrap3" />
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
 
-	<!-- struts2-spring-plugin，参考http://struts.apache.org/2.x/docs/spring-plugin.html -->
-	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
-	<constant name="struts.ognl.allowStaticMethodAccess" value="false" />
+    <!-- struts2-spring-plugin，参考http://struts.apache.org/2.x/docs/spring-plugin.html -->
+    <constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+    <constant name="struts.ognl.allowStaticMethodAccess" value="false" />
 
-	<!-- 参考Spring MVC Rest的方式,增强提供Negotiation方式动态计算Result响应输出模式 -->
-	<bean type="com.opensymphony.xwork2.ActionProxyFactory" name="rest-negotiation"
-		class="org.apache.struts2.rest.NegotiationRestActionProxyFactory" />
-	<constant name="struts.actionProxyFactory" value="rest-negotiation" />
+    <!-- 参考Spring MVC Rest的方式,增强提供Negotiation方式动态计算Result响应输出模式 -->
+    <bean type="com.opensymphony.xwork2.ActionProxyFactory" name="rest-negotiation"
+        class="lab.s2jh.core.web.rest.NegotiationRestActionProxyFactory" />
+    <constant name="struts.actionProxyFactory" value="rest-negotiation" />
 
-	<!-- Struts2默认只提供Jackson1版本支持,增强补充提供Jackson2版本支持 -->
-	<bean type="org.apache.struts2.rest.handler.ContentTypeHandler" name="jackson" class="org.apache.struts2.rest.Jackson2LibHandler" />
-	<!-- 默认为Struts内部的JSON序列化，配置为采用功能更加强大的Jackson组件 -->
-	<constant name="struts.rest.handlerOverride.json" value="jackson" />
+    <!-- Struts2默认只提供Jackson1版本支持,增强补充提供Jackson2版本支持 -->
+    <bean type="org.apache.struts2.rest.handler.ContentTypeHandler" name="jackson"
+        class="lab.s2jh.core.web.rest.Jackson2LibHandler" />
+    <!-- 默认为Struts内部的JSON序列化，配置为采用功能更加强大的Jackson组件 -->
+    <constant name="struts.rest.handlerOverride.json" value="jackson" />
 
-	<!-- struts2-rest-plugin，参考http://struts.apache.org/2.x/docs/rest-plugin.html -->
-	<bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="ext-rest" class="org.apache.struts2.rest.ExtRestActionMapper" />
-	<constant name="struts.mapper.class" value="ext-rest" />
-	<constant name="struts.rest.defaultExtension" value="xhtml" />
-	<constant name="struts.rest.content.restrictToGET" value="false" />
-	<constant name="struts.action.excludePattern" value="/assets/.*,/resources/.*,/pub/jasper/images.*,.*\\.js" />
+    <!-- struts2-rest-plugin，参考http://struts.apache.org/2.x/docs/rest-plugin.html -->
+    <bean type="org.apache.struts2.dispatcher.mapper.ActionMapper" name="ext-rest"
+        class="lab.s2jh.core.web.rest.ExtRestActionMapper" />
+    <constant name="struts.mapper.class" value="ext-rest" />
+    <constant name="struts.rest.defaultExtension" value="xhtml" />
+    <constant name="struts.rest.content.restrictToGET" value="false" />
+    <constant name="struts.action.excludePattern" value="/assets/.*,/resources/.*,/pub/jasper/images.*,.*\\.js,/rest/.*" />
 
-	<!-- struts2-convention-plugin，参考https://cwiki.apache.org/WW/convention-plugin.html -->
-	<constant name="struts.convention.result.path" value="/" />
-	<bean type="org.apache.struts2.convention.ResultMapBuilder" name="conventionExt"
-		class="org.apache.struts2.convention.ExtDefaultResultMapBuilder" />
-	<constant name="struts.convention.resultMapBuilder" value="conventionExt" />
-	<constant name="struts.convention.action.fileProtocols" value="jar,zip,code-source" />
-	<constant name="struts.convention.action.suffix" value="Controller" />
-	<constant name="struts.convention.action.mapAllMatches" value="true" />
-	<constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
-	<constant name="struts.convention.default.parent.package" value="crud-default" />
+    <!-- struts2-convention-plugin，参考https://cwiki.apache.org/WW/convention-plugin.html -->
+    <constant name="struts.convention.result.path" value="/" />
+    <bean type="org.apache.struts2.convention.ResultMapBuilder" name="conventionExt"
+        class="lab.s2jh.core.web.convention.ExtDefaultResultMapBuilder" />
+    <bean type="org.apache.struts2.convention.ActionConfigBuilder" name="conventionExt"
+        class="lab.s2jh.core.web.convention.ExtPackageBasedActionConfigBuilder" />
+    <constant name="struts.convention.actionConfigBuilder" value="conventionExt" />
+    <constant name="struts.convention.resultMapBuilder" value="conventionExt" />
+    <constant name="struts.convention.action.fileProtocols" value="jar,zip,code-source" />
+    <constant name="struts.convention.action.suffix" value="Controller" />
+    <constant name="struts.convention.action.mapAllMatches" value="true" />
+    <constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
+    <constant name="struts.convention.default.parent.package" value="crud-default" />
 
-	<package name="crud-default" extends="rest-default,jasperreports-default">
-		<result-types>
-			<result-type name="extJasper" class="org.apache.struts2.views.jasperreports.ExtJasperReportsResult" />
-		</result-types>
+    <package name="crud-default" extends="rest-default,jasperreports-default">
+        <result-types>
+            <result-type name="extJasper" class="org.apache.struts2.views.jasperreports.ExtJasperReportsResult" />
+        </result-types>
 
-		<interceptors>
-			<!-- 默认实现是配置了Token拦截器只要没有提供token参数则抛出异常,为了灵活控制,调整实现为:有token才进行检测,没有token参数则放行的宽松模式 -->
-			<interceptor name="extTokenInterceptor" class="lab.s2jh.core.web.interceptor.ExtTokenInterceptor" />
-			<!-- 扩展参数拦截器：添加可配置的参数绑定支持 -->
-			<interceptor name="extParametersInterceptor" class="lab.s2jh.core.web.interceptor.ExtParametersInterceptor" />
-			<!-- 修改标准的PrepareInterceptor: 先执行prepare再执行相关的prepareXXX方法 -->
-			<interceptor name="extPrepareInterceptor" class="lab.s2jh.core.web.interceptor.ExtPrepareInterceptor" />
+        <interceptors>
+            <!-- 默认实现是配置了Token拦截器只要没有提供token参数则抛出异常,为了灵活控制,调整实现为:有token才进行检测,没有token参数则放行的宽松模式 -->
+            <interceptor name="extTokenInterceptor" class="lab.s2jh.core.web.interceptor.ExtTokenInterceptor" />
+            <!-- 扩展参数拦截器：添加可配置的参数绑定支持 -->
+            <interceptor name="extParametersInterceptor" class="lab.s2jh.core.web.interceptor.ExtParametersInterceptor" />
+            <!-- 修改标准的PrepareInterceptor: 先执行prepare再执行相关的prepareXXX方法 -->
+            <interceptor name="extPrepareInterceptor" class="lab.s2jh.core.web.interceptor.ExtPrepareInterceptor" />
 
-			<interceptor-stack name="defaultAppStack">
-				<interceptor-ref name="extTokenInterceptor" />
-				<interceptor-ref name="exception" />
-				<interceptor-ref name="alias" />
-				<interceptor-ref name="servletConfig" />
-				<!-- 注释掉暂不使用的i18n拦截器 <interceptor-ref name="i18n" /> -->
-				<interceptor-ref name="extPrepareInterceptor" />
-				<interceptor-ref name="chain" />
-				<interceptor-ref name="scopedModelDriven" />
-				<interceptor-ref name="modelDriven" />
-				<interceptor-ref name="fileUpload" />
-				<interceptor-ref name="checkbox" />
-				<interceptor-ref name="multiselect" />
-				<interceptor-ref name="staticParams" />
-				<interceptor-ref name="actionMappingParams" />
-				<interceptor-ref name="extParametersInterceptor">
-					<!-- 微调标准的表达式以支持形为 data['a.b.c']=123类型的参数处理 -->
-					<param name="acceptParamNames">\w+((\.\w+)|(\[\d+\])|(\(\d+\))|(\['[\w\.]+'\])|(\('\w+'\)))*</param>
-					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*,^search.*,^aclCode,^aclType,^createdBy,^createdDate,^lastModifiedBy,^lastModifiedDate,.*\.display</param>
-				</interceptor-ref>
-				<interceptor-ref name="conversionError" />
-				<interceptor-ref name="validation">
-					<param name="excludeMethods">input,back,cancel,browse</param>
-				</interceptor-ref>
-				<interceptor-ref name="workflow">
-					<param name="excludeMethods">input,back,cancel,browse</param>
-				</interceptor-ref>
-				<interceptor-ref name="debugging" />
-			</interceptor-stack>
-		</interceptors>
+            <interceptor-stack name="defaultAppStack">
+                <interceptor-ref name="extTokenInterceptor" />
+                <interceptor-ref name="exception" />
+                <interceptor-ref name="alias" />
+                <interceptor-ref name="servletConfig" />
+                <!-- 注释掉暂不使用的i18n拦截器 <interceptor-ref name="i18n" /> -->
+                <interceptor-ref name="extPrepareInterceptor" />
+                <interceptor-ref name="chain" />
+                <interceptor-ref name="scopedModelDriven" />
+                <interceptor-ref name="modelDriven" />
+                <interceptor-ref name="fileUpload" />
+                <interceptor-ref name="checkbox" />
+                <interceptor-ref name="multiselect" />
+                <interceptor-ref name="staticParams" />
+                <interceptor-ref name="actionMappingParams" />
+                <interceptor-ref name="extParametersInterceptor">
+                    <!-- 微调标准的表达式以支持形为 data['a.b.c']=123类型的参数处理 -->
+                    <param name="acceptParamNames">\w+((\.\w+)|(\[\d+\])|(\(\d+\))|(\['[\w\.]+'\])|(\('\w+'\)))*</param>
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*,^search.*,^aclCode,^aclType,^createdBy,^createdDate,^lastModifiedBy,^lastModifiedDate,.*\.display</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError" />
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="debugging" />
+            </interceptor-stack>
+        </interceptors>
 
-		<default-interceptor-ref name="defaultAppStack" />
+        <default-interceptor-ref name="defaultAppStack" />
 
-		<global-results>
-			<!-- Struts2 Token拦截器验证失败的转向 -->
-			<result name="invalid.token">/common/invalid-token.jsp</result>
-			<!-- 全局的Audit版本数据List显示页面 -->
-			<result name="revisionIndex">/WEB-INF/pages/util/revision/revision-index.jsp
-			</result>
-			<!-- 全局的Audit版本数据对比显示页面 -->
-			<result name="revisionCompare">/WEB-INF/pages/util/revision/revision-compare.jsp
-			</result>
-			<!-- 集成JasperReport响应转向，具体可参考struts2-jasperreports-plugin -->
-			<result type="extJasper" name="jasperResult">
-				<param name="location">${location}</param>
-				<param name="connection">connection</param>
-				<param name="format">${format}</param>
-				<param name="documentName">${documentName}</param>
-				<param name="contentDisposition">${contentDisposition}</param>
-				<param name="reportParameters">jasperReportParameters</param>
-				<param name="exportParameters">jasperExportParameters</param>
-				<param name="imageServletUrl">/pub/jasper/images.servlet?image=</param>
-			</result>
-		</global-results>
-	</package>
+        <global-results>
+            <!-- Struts2 Token拦截器验证失败的转向 -->
+            <result name="invalid.token">/common/invalid-token.jsp</result>
+            <!-- 全局的Audit版本数据List显示页面 -->
+            <result name="revisionIndex">/WEB-INF/pages/util/revision/revision-index.jsp
+            </result>
+            <!-- 全局的Audit版本数据对比显示页面 -->
+            <result name="revisionCompare">/WEB-INF/pages/util/revision/revision-compare.jsp
+            </result>
+            <!-- 集成JasperReport响应转向，具体可参考struts2-jasperreports-plugin -->
+            <result type="extJasper" name="jasperResult">
+                <param name="location">${location}</param>
+                <param name="connection">connection</param>
+                <param name="format">${format}</param>
+                <param name="documentName">${documentName}</param>
+                <param name="contentDisposition">${contentDisposition}</param>
+                <param name="reportParameters">jasperReportParameters</param>
+                <param name="exportParameters">jasperExportParameters</param>
+                <param name="imageServletUrl">/pub/jasper/images.servlet?image=</param>
+            </result>
+        </global-results>
+    </package>
 </struts>

@@ -22,9 +22,7 @@
         <bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
             <property name="databaseName" value="${user.dir}\h2\prototype" />
             <property name="databaseConfigurer">
-                <bean class="org.springframework.jdbc.datasource.embedded.H2EmbeddedFileDatabaseConfigurer"
-                    factory-method="getInstance">
-                </bean>
+                <bean class="lab.s2jh.core.dao.h2.H2EmbeddedFileDatabaseConfigurer" />
             </property>
         </bean>
 
@@ -32,7 +30,7 @@
         <bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
         <!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
-        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>
@@ -79,7 +77,7 @@
         <bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
         <!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
-        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>
@@ -121,7 +119,7 @@
             <jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
         </jdbc:embedded-database>
 
-        <bean id="dataSource" class="lab.s2jh.core.dao.log4jdbc.Log4jdbcProxyDataSource">
+        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
             <constructor-arg>
                 <ref bean="dataSourceSpied" />
             </constructor-arg>
