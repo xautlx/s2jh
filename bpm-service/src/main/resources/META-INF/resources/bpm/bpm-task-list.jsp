@@ -31,7 +31,7 @@
 							<div class="col1">
 								<div class="cont">
 									<div class="cont-col1">
-										<s:if test="%{#item.needClaim}">
+										<s:if test="%{#item.candidate}">
 											<div class="label label-sm label-info">
 												<i class="fa fa-group"></i>
 											</div>
