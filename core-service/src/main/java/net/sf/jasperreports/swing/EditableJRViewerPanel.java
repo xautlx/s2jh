@@ -9,6 +9,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.view.JRHyperlinkListener;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +21,8 @@ public class EditableJRViewerPanel extends JRViewerPanel {
             JRPrintElement element = it.next();
             if (element instanceof JRPrintHyperlink) {
                 JRPrintHyperlink hyperlink = (JRPrintHyperlink) element;
-                if (StringUtils.isBlank(hyperlink.getHyperlinkTooltip())) {
+                if (StringUtils.isBlank(hyperlink.getHyperlinkTooltip())
+                        && hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.CUSTOM) {
                     hyperlink.setHyperlinkTooltip("点击可修改数据");
                 }
             }

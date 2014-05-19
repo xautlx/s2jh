@@ -51,7 +51,7 @@ public class MockEntityUtils {
                             } else if (parameter.isAssignableFrom(Date.class)) {
                                 value = new Date();
                             } else if (parameter.isAssignableFrom(BigDecimal.class)) {
-                                value = new BigDecimal(new Random().nextDouble());
+                                value = new BigDecimal(10 + new Random().nextDouble() * 1000);
                             } else if (parameter.isAssignableFrom(Integer.class)) {
                                 value = new Random().nextInt();
                             } else if (parameter.isAssignableFrom(Boolean.class)) {
