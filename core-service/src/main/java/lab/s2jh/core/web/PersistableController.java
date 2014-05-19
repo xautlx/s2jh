@@ -577,6 +577,40 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         return buildDefaultHttpHeaders();
     }
 
+    /**
+     * 供子类调用的批量数据处理回调方法
+     * @param op 操作方法名称，如“取消”
+     * @param entityCallback 回调匿名接口
+     * @return
+     */
+    protected HttpHeaders processBatchEntities(String op, EntityProcessCallbackHandler<T> entityCallback) {
+        //删除失败的id和对应消息以Map结构返回，可用于前端批量显示错误提示和计算表格组件更新删除行项
+        Map<ID, String> errorMessageMap = Maps.newLinkedHashMap();
+
+        Collection<T> entities = this.getEntitiesByParameterIds();
+        for (T entity : entities) {
+            try {
+                entityCallback.processEntity(entity);
+            } catch (Exception e) {
+                logger.warn("entity batch operation failure", e);
+                errorMessageMap.put(entity.getId(), e.getMessage());
+            }
+        }
+
+        int rejectSize = errorMessageMap.size();
+        if (rejectSize == 0) {
+            setModel(OperationResult.buildSuccessResult("成功" + op + "所选选取记录:" + entities.size() + "条"));
+        } else {
+            if (rejectSize == entities.size()) {
+                setModel(OperationResult.buildFailureResult("所有选取记录" + op + "操作失败", errorMessageMap));
+            } else {
+                setModel(OperationResult.buildWarningResult(op + "操作已处理. 成功:" + (entities.size() - rejectSize) + "条"
+                        + ",失败:" + rejectSize + "条", errorMessageMap));
+            }
+        }
+        return buildDefaultHttpHeaders();
+    }
+
     // --------------------------------------------- 
     // -----------findByPage分页查询处理相关逻辑------------
     // ----------------------------------------------
