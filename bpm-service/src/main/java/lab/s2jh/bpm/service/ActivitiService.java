@@ -74,6 +74,19 @@ public class ActivitiService {
     }
 
     /**
+     * 基于业务主键删除流程
+     * @param bizKey
+     * @return
+     */
+    public void deleteProcessInstanceByBizKey(String bizKey) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceBusinessKey(bizKey).singleResult();
+        if (processInstance != null) {
+            runtimeService.deleteProcessInstance(processInstance.getId(), "Cascase by busniess entity delete");
+        }
+    }
+
+    /**
      * 基于流程实例ID构建流程实例运行图
      * @param processInstanceId
      * @return
