@@ -8,7 +8,7 @@
 					<i class="fa fa-reorder"></i>待办任务信息
 				</div>
 				<div class="tools">
-					<a class="collapse" href="javascript:;"></a><a class="remove" href="javascript:;"></a>
+					<a class="collapse" href="javascript:;"></a>
 				</div>
 			</div>
 			<div class="portlet-body">

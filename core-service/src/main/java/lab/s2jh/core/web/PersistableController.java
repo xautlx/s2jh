@@ -1016,7 +1016,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                                 if (DateJsonSerializer.class == jsonSerialize.using()) {
                                     rules.put("date", true);
                                 } else if (DateTimeJsonSerializer.class == jsonSerialize.using()) {
-                                    rules.put("date", true);
                                     rules.put("timestamp", true);
                                 }
                             } else {
