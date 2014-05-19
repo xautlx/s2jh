@@ -53,7 +53,7 @@
 										<div class="controls">
 											<p class="form-control-static">
 												<a data-name="assignee" data-placement="right" data-original-title="任务转办" data-required="true"
-													data-pk="<s:property value='#request.task.id' />" data-url="${base}/bpm/bpm-task!trasfer" href="#"
+													data-pk="<s:property value='#request.task.id' />" data-url="${base}/bpm/bpm-task!trasfer" href="javascript:;"
 													class="editable editable-click x-editable"> <s:property value="#request.task.assignee" />
 												</a>
 											</p>

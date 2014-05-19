@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions">
 			<div class="btn-group">
-				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="#" class="btn btn-sm blue"> 过滤 <i
+				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="javascript:;" class="btn btn-sm blue"> 过滤 <i
 					class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
@@ -59,7 +59,7 @@
 		</div>
 		<div class="scroller-footer">
 			<div class="pull-right">
-				<a href="#">查看全部... <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
+				<a href="javascript:;">查看全部... <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
 			</div>
 		</div>
 	</div>

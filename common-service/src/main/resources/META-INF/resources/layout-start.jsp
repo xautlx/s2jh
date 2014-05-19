@@ -93,7 +93,7 @@
 			<ul class="nav navbar-nav pull-right" style="margin-right: 50px">
 
 				<!-- BEGIN NOTIFICATION DROPDOWN -->
-				<li class="dropdown hide" id="header_notification_bar"><a href="#" class="dropdown-toggle"
+				<li class="dropdown hide" id="header_notification_bar"><a href="javascript:;" class="dropdown-toggle"
 					data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i class="fa fa-warning"></i> <span
 						class="badge">6</span>
 				</a>
@@ -103,40 +103,40 @@
 						</li>
 						<li>
 							<ul class="dropdown-menu-list scroller" style="height: 250px;">
-								<li><a href="#"> <span class="label label-icon label-success"><i class="fa fa-plus"></i></span> New
+								<li><a href="javascript:;"> <span class="label label-icon label-success"><i class="fa fa-plus"></i></span> New
 										user registered. <span class="time">Just now</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Server
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Server
 										#12 overloaded. <span class="time">15 mins</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
+								<li><a href="javascript:;"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
 										Server #2 not responding. <span class="time">22 mins</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span>
+								<li><a href="javascript:;"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span>
 										Application error. <span class="time">40 mins</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
 										overloaded 68%. <span class="time">2 hrs</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> 2 user
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> 2 user
 										IP blocked. <span class="time">5 hrs</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
+								<li><a href="javascript:;"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
 										Storage Server #4 not responding. <span class="time">45 mins</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span> System
+								<li><a href="javascript:;"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span> System
 										Error. <span class="time">55 mins</span>
 								</a></li>
-								<li><a href="#"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
 										overloaded 68%. <span class="time">2 hrs</span>
 								</a></li>
 							</ul>
 						</li>
-						<li class="external"><a href="#">See all notifications <i class="m-icon-swapright"></i></a></li>
+						<li class="external"><a href="javascript:;">See all notifications <i class="m-icon-swapright"></i></a></li>
 					</ul></li>
 				<!-- END NOTIFICATION DROPDOWN -->
 				<!-- BEGIN INBOX DROPDOWN -->
-				<li class="dropdown hide" id="header_inbox_bar"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+				<li class="dropdown hide" id="header_inbox_bar"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 					data-hover="dropdown" data-close-others="true"> <i class="fa fa-envelope"></i> <span class="badge">5</span>
 				</a>
 					<ul class="dropdown-menu extended inbox">
@@ -171,7 +171,7 @@
 					</ul></li>
 				<!-- END INBOX DROPDOWN -->
 				<!-- BEGIN TODO DROPDOWN -->
-				<li class="dropdown" id="header_task_bar"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+				<li class="dropdown" id="header_task_bar"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 					data-close-others="true"> <i class="fa fa-tasks"></i> <span class="badge badge-tasks-count"></span>
 				</a>
 					<ul class="dropdown-menu extended tasks" id="dropdown-task-list">
@@ -182,7 +182,7 @@
 						</li>
 						<li>
 							<ul class="dropdown-menu-list scroller" style="height: 250px;">
-								<li class="template display-hide"><a href="#">
+								<li class="template display-hide"><a href="javascript:;">
 										<div class="row">
 											<div class="col-md-12">
 												<span class="label label-icon label-primary"><i class="fa fa-user"></i></span><span class="task-desc">
@@ -200,12 +200,12 @@
 								</a></li>
 							</ul>
 						</li>
-						<li class="external"><a href="#">See all tasks <i class="m-icon-swapright"></i></a></li>
+						<li class="external"><a href="javascript:;">See all tasks <i class="m-icon-swapright"></i></a></li>
 					</ul></li>
 				<!-- END TODO DROPDOWN -->
 
 				<!-- BEGIN Mobile DROPDOWN -->
-				<li class="dropdown user" style="padding-top: 5px"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 					data-close-others="true"> <i class="fa fa-mobile"></i><i class="fa fa-angle-down"></i>
 				</a>
 					<ul class="dropdown-menu" id="dropdown-menu-mobile">
@@ -215,7 +215,7 @@
 				<!-- END Mobile DROPDOWN -->
 
 				<!-- BEGIN USER LOGIN DROPDOWN -->
-				<li class="dropdown user" style="padding-top: 5px"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 					data-close-others="true"> <span class="username"><i class="fa fa-user"></i> <s:property
 								value="%{authUserDetails.usernameDisplay}" /></span> <i class="fa fa-angle-down"></i>
 				</a>
@@ -224,11 +224,11 @@
 						<li class="hide"><a href="page_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a></li>
 						<li class="hide"><a href="inbox.html"><i class="fa fa-envelope"></i> My Inbox <span
 								class="badge badge-danger">3</span></a></li>
-						<li class="hide"><a href="#"><i class="fa fa-tasks"></i> My Tasks <span class="badge badge-success">7</span></a></li>
+						<li class="hide"><a href="javascript:;"><i class="fa fa-tasks"></i> My Tasks <span class="badge badge-success">7</span></a></li>
 						<li class="divider hide"></li>
 						<li><a href="javascript:;" id="trigger_fullscreen"><i class="fa fa-move"></i> 全屏显示</a></li>
 						<li><a id="trigger_passwd" href="${base}/auth/profile!passwd" title="修改密码"><i class="fa fa-key"></i> 修改密码</a></li>
-						<li><a href="#" id="a-lock-screen"><i class="fa fa-lock"></i> 锁定系统</a></li>
+						<li><a href="javascript:;" id="a-lock-screen"><i class="fa fa-lock"></i> 锁定系统</a></li>
 						<li><a href="javascript:;" id="a-logout"><i class="fa fa-sign-out"></i> 注销登录</a></li>
 					</ul></li>
 				<!-- END USER LOGIN DROPDOWN -->

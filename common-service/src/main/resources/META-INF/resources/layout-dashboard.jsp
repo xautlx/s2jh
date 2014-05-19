@@ -13,7 +13,7 @@
 				<div class="number">--</div>
 				<div class="desc">待办任务</div>
 			</div>
-			<a href="#" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
+			<a href="javascript:;" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
 			</a>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 				<div class="number">--</div>
 				<div class="desc">未读消息</div>
 			</div>
-			<a href="#" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
+			<a href="javascript:;" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
 			</a>
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 				<div class="number">--</div>
 				<div class="desc">今日销售订单数</div>
 			</div>
-			<a href="#" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
+			<a href="javascript:;" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
 			</a>
 		</div>
 	</div>
@@ -52,7 +52,7 @@
 				<div class="number">--</div>
 				<div class="desc">今日采购订单数</div>
 			</div>
-			<a href="#" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
+			<a href="javascript:;" class="more"> 查看更多 <i class="m-icon-swapright m-icon-white"></i>
 			</a>
 		</div>
 	</div>
