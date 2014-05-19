@@ -98,6 +98,9 @@ public class ActivitiService {
     }
 
     private InputStream buildProcessImageByProcessInstance(ProcessInstance processInstance) {
+        if (processInstance == null) {
+            return null;
+        }
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
         ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) repositoryService
                 .getProcessDefinition(processInstance.getProcessDefinitionId());

@@ -23,7 +23,6 @@ import org.apache.struts2.rest.RestActionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -78,7 +77,10 @@ public class ActivitiController extends RestActionSupport implements ModelDriven
             String processInstanceId = request.getParameter("processInstanceId");
             imageStream = activitiService.buildProcessImageByProcessInstanceId(processInstanceId);
         }
-        Assert.notNull(imageStream);
+
+        if (imageStream == null) {
+            return;
+        }
 
         // 输出资源内容到相应对象
         byte[] b = new byte[1024];
