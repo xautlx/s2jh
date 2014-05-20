@@ -1,5 +1,6 @@
 package lab.s2jh.biz.util;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import lab.s2jh.biz.md.entity.Commodity;
 import lab.s2jh.biz.stock.entity.StorageLocation;
 import lab.s2jh.core.util.MockEntityUtils;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
@@ -68,10 +70,14 @@ public class MockDataGenerator {
             for (int i = 0; i < count; i++) {
                 Commodity entity = MockEntityUtils.buildMockObject(Commodity.class);
                 entity.setDefaultStorageLocation(storageLocations.get(randomNum(0, storageLocations.size() - 1)));
+                entity.setSalePrice(new BigDecimal(entity.getSalePrice().intValue()));
+                entity.setSku(RandomStringUtils.randomNumeric(8));
+                entity.setBarcode(RandomStringUtils.randomNumeric(13));
                 entityManager.persist(entity);
             }
             entityManager.flush();
             entityManager.getTransaction().commit();
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

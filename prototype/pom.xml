@@ -40,8 +40,12 @@
             <artifactId>bpm-service</artifactId>
             <version>${s2jh.version}</version>
         </dependency>
-        <!-- 在需要中文字体支持/条码等特性必要时再引入JasperReport扩展以降低依赖jar整体文件数量和大小<dependency> <groupId>lab.s2jh</groupId> <artifactId>jasperreports-extension</artifactId> 
-            <version>${s2jh.version}</version> </dependency> -->
+        <!-- 在需要中文字体支持/条码等特性必要时再引入JasperReport扩展以降低依赖jar整体文件数量和大小 -->
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>jasperreports-extension</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
         <dependency>
             <groupId>lab.s2jh</groupId>
             <artifactId>project-tools</artifactId>

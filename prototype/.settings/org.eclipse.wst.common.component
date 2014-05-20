@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
   <wb-module deploy-name="prototype">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
@@ -15,6 +14,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bpm-service-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bpm-service/bpm-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jasperreports-extension-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jasperreports-extension/jasperreports-extension">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     <property name="java-output-path" value="/target/classes"/>

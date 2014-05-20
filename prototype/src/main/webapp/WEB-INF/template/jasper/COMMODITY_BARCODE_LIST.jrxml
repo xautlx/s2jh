@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="COMMODITY_BARCODE_LIST" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a0c12d7-3cb6-4ca4-a65e-e946d53cd2e1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="H2 Prototype"/>
+	<property name="net.sf.jasperreports.image.dpi" value="300"/>
+	<parameter name="SKU_LIST" class="java.util.Collection"/>
+	<queryString language="SQL">
+		<![CDATA[select sku,title, barcode,sale_Price from  BIZ_COMMODITY  where $X{IN,sku,SKU_LIST}]]>
+	</queryString>
+	<field name="SKU" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BARCODE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TITLE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SALE_PRICE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="35" uuid="bfb8ba0b-3970-4b00-8eb5-4c352142e13a"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[商品条码清单]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="30" uuid="57b637ce-8580-41f6-b9c7-b7d968c84475">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SKU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="100" height="30" uuid="bfe67ab3-1bf5-4af8-9883-e2aab86851c5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[条码]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="190" height="30" uuid="0c806049-a039-4582-aa7f-e8c7a3623161"/>
+				<text><![CDATA[商品名称]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="0" width="70" height="30" uuid="0c527e64-da45-4a0a-baa4-3fb11ab96ce4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[销售价格]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="90" height="30" uuid="7bfb7f04-e441-4d77-9437-54f08276d051"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SKU}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="30" uuid="d545b547-ea0a-4ff5-880a-061d9be10694"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{BARCODE}]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="XEdit">
+				<reportElement x="90" y="0" width="190" height="30" uuid="b821863e-7a74-4eb4-a87d-62ef782e8e13"/>
+				<textFieldExpression><![CDATA[$F{TITLE}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<textField hyperlinkType="XEdit">
+				<reportElement x="280" y="0" width="70" height="30" uuid="6a6337df-0185-4ea4-845b-cbbb73b81e41"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{SALE_PRICE}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="450" y="0" width="100" height="30" uuid="7619f45f-556a-4306-936c-51b950700bfb"/>
+				<jr:EAN13 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" checksumMode="ignore">
+					<jr:codeExpression><![CDATA[$F{BARCODE}]]></jr:codeExpression>
+				</jr:EAN13>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

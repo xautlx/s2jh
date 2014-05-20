@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PORT="80"
-if [ "$1"!="" ]
+if [ "$1" != "" ]
 then
 PORT=$1
 fi
