@@ -110,7 +110,7 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
 
                                 int cnt = 0;
                                 for (String param : parameters.keySet()) {
-                                    if (param.startsWith(name) && !param.equals(name + ".display")
+                                    if (param.startsWith(name + ".") && !param.equals(name + ".display")
                                             && !param.equals(name + ".id")) {
                                         cnt++;
                                         break;
