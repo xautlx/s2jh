@@ -130,4 +130,9 @@ public class SigninController extends SimpleController {
 
         return buildDefaultHttpHeaders();
     }
+
+    @MetaData("会话过期")
+    public HttpHeaders expired() {
+        return buildDefaultHttpHeaders("expired");
+    }
 }
