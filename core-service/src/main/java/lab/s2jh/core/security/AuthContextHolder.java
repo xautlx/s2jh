@@ -34,35 +34,39 @@ public class AuthContextHolder {
      * 获取用户唯一登录标识
      */
     public static String getAuthUserPin() {
-        String pin = userPinContainer.get();
-        if (StringUtils.isBlank(pin)) {
-            AuthUserDetails authUserDetails = getAuthUserDetails();
-            if (authUserDetails != null && authUserDetails.getUsername() != null) {
-                pin = authUserDetails.getUsername();
-            } else {
-                pin = DEFAULT_UNKNOWN_PIN;
+        synchronized (userPinContainer) {
+            String pin = userPinContainer.get();
+            if (StringUtils.isBlank(pin)) {
+                AuthUserDetails authUserDetails = getAuthUserDetails();
+                if (authUserDetails != null && authUserDetails.getUsername() != null) {
+                    pin = authUserDetails.getUsername();
+                } else {
+                    pin = DEFAULT_UNKNOWN_PIN;
+                }
+                userPinContainer.set(pin);
             }
-            userPinContainer.set(pin);
+            return pin;
         }
-        return pin;
     }
 
     /**
      * 基于Spring Security获取用户认证信息
      */
     public static AuthUserDetails getAuthUserDetails() {
-        AuthUserDetails userDetails = null;
-        if (SecurityContextHolder.getContext() == null
-                || SecurityContextHolder.getContext().getAuthentication() == null
-                || SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) {
-            return null;
+        synchronized (userPinContainer) {
+            AuthUserDetails userDetails = null;
+            if (SecurityContextHolder.getContext() == null
+                    || SecurityContextHolder.getContext().getAuthentication() == null
+                    || SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) {
+                return null;
+            }
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof AuthUserDetails) {
+                userDetails = (AuthUserDetails) principal;
+            }
+            Assert.notNull(userDetails);
+            return userDetails;
         }
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof AuthUserDetails) {
-            userDetails = (AuthUserDetails) principal;
-        }
-        Assert.notNull(userDetails);
-        return userDetails;
     }
 
     /**
