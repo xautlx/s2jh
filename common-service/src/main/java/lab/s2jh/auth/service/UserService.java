@@ -161,20 +161,6 @@ public class UserService extends BaseService<User, Long> {
         if (userLogonLogDao.findByHttpSessionId(userLogonLog.getHttpSessionId()) != null) {
             return;
         }
-        User user = userDao.findByUid(userLogonLog.getUserid());
-        if (user == null) {
-            return;
-        }
-        if (user.getLogonTimes() == null) {
-            user.setLogonTimes(1L);
-        } else {
-            user.setLogonTimes(user.getLogonTimes() + 1L);
-        }
-        userLogonLog.setLogonTimes(user.getLogonTimes());
-        user.setLastLogonIP(userLogonLog.getRemoteAddr());
-        user.setLastLogonHost(userLogonLog.getRemoteHost());
-        user.setLastLogonTime(userLogonLog.getLogonTime());
-        userDao.save(user);
         userLogonLogDao.save(userLogonLog);
     }
 
@@ -295,14 +281,14 @@ public class UserService extends BaseService<User, Long> {
             url.append(contextPath);
         }
         url.append("/pub/signin?email=" + email + "&code=" + user.getRandomCode());
-        
-        if(freemarkerService!=null){
+
+        if (freemarkerService != null) {
             Map<String, Object> params = Maps.newHashMap();
             params.put("user", user);
             params.put("resetPasswordLink", url.toString());
             String contents = freemarkerService.processTemplateByFileName("PASSWORD_RESET_NOTIFY_EMAIL", params);
             mailService.sendHtmlMail(suject, contents, true, email);
-        }else{
+        } else {
             mailService.sendHtmlMail(suject, url.toString(), true, email);
         }
     }

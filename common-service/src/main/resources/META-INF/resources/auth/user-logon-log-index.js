@@ -2,13 +2,19 @@ $(function() {
     $(".grid-auth-user-logon-log-index").data("gridOptions", {
         url : WEB_ROOT + "/auth/user-logon-log!findByPage",
         colModel : [ {
+            label : '失败类型',
+            name : 'authenticationFailure',
+            width : 50,
+            edittype : "checkbox"
+        }, {
             label : '登录账号',
             name : 'username',
             width : 100,
-            align : 'left'
+            align : 'center'
         }, {
             label : '账户编号',
             name : 'userid',
+            width : 100,
             hidden : true,
             align : 'left'
         }, {
@@ -38,6 +44,7 @@ $(function() {
             align : 'left'
         }, {
             name : 'xForwardFor',
+            width : 100,
             align : 'left'
         }, {
             name : 'localAddr',

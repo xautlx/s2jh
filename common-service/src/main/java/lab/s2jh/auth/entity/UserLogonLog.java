@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @MetaData(value = "用户登录登出历史记录")
 public class UserLogonLog extends BaseNativeEntity {
 
+    private Boolean authenticationFailure = false;
+
     @MetaData(value = "登录账号")
     @EntityAutoCode(order = 10, search = true)
     private String username;
@@ -48,7 +50,7 @@ public class UserLogonLog extends BaseNativeEntity {
 
     @MetaData(value = "登录次数")
     @EntityAutoCode(order = 30, search = false)
-    private Long logonTimes;
+    private Integer logonTimes;
 
     @MetaData(value = "userAgent")
     @EntityAutoCode(order = 32, search = false, listHidden = true)
@@ -225,11 +227,11 @@ public class UserLogonLog extends BaseNativeEntity {
         this.serverIP = serverIP;
     }
 
-    public Long getLogonTimes() {
+    public Integer getLogonTimes() {
         return logonTimes;
     }
 
-    public void setLogonTimes(Long logonTimes) {
+    public void setLogonTimes(Integer logonTimes) {
         this.logonTimes = logonTimes;
     }
 
@@ -242,5 +244,13 @@ public class UserLogonLog extends BaseNativeEntity {
     @Transient
     public String getLogonTimeLengthFriendly() {
         return DateUtils.getHumanDisplayForTimediff(logonTimeLength);
+    }
+
+    public Boolean getAuthenticationFailure() {
+        return authenticationFailure;
+    }
+
+    public void setAuthenticationFailure(Boolean authenticationFailure) {
+        this.authenticationFailure = authenticationFailure;
     }
 }

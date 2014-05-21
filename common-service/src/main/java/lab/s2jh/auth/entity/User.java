@@ -99,7 +99,13 @@ public class User extends BaseEntity<Long> {
     private String lastLogonHost;
 
     @MetaData(value = "总计登录次数")
-    private Long logonTimes;
+    private Integer logonTimes;
+
+    @MetaData(value = "总计认证失败次数", comments = "认证失败累加，成功后清零。达到设定失败次数后锁定帐号，防止无限制次数尝试猜测密码")
+    private Integer logonFailureTimes;
+
+    @MetaData(value = "最后认证失败时间")
+    private Date lastLogonFailureTime;
 
     @MetaData(value = "随机数", comments = "用于找回密码设定的随机UUID字符串")
     private String randomCode;
@@ -255,11 +261,11 @@ public class User extends BaseEntity<Long> {
         this.lastLogonHost = lastLogonHost;
     }
 
-    public Long getLogonTimes() {
+    public Integer getLogonTimes() {
         return logonTimes;
     }
 
-    public void setLogonTimes(Long logonTimes) {
+    public void setLogonTimes(Integer logonTimes) {
         this.logonTimes = logonTimes;
     }
 
@@ -298,5 +304,21 @@ public class User extends BaseEntity<Long> {
 
     public void setRandomCode(String randomCode) {
         this.randomCode = randomCode;
+    }
+
+    public Integer getLogonFailureTimes() {
+        return logonFailureTimes;
+    }
+
+    public void setLogonFailureTimes(Integer logonFailureTimes) {
+        this.logonFailureTimes = logonFailureTimes;
+    }
+
+    public Date getLastLogonFailureTime() {
+        return lastLogonFailureTime;
+    }
+
+    public void setLastLogonFailureTime(Date lastLogonFailureTime) {
+        this.lastLogonFailureTime = lastLogonFailureTime;
     }
 }
