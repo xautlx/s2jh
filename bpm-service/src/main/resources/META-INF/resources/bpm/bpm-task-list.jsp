@@ -10,8 +10,8 @@
 		</div>
 		<div class="actions">
 			<div class="btn-group">
-				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="javascript:;" class="btn btn-xs green"> 过滤 <i
-					class="fa fa-angle-down"></i>
+				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="javascript:;"
+					class="btn btn-xs green"> 过滤 <i class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
 					<label><input type="checkbox" checked="true" id="chk-task-user" /> 个人任务</label> <label><input
@@ -25,7 +25,7 @@
 			<ul class="feeds" id="dashboard-task-list">
 				<s:iterator value="#request.tasks" status="s" var="item">
 					<li need-claim="<s:property value='#item.candidate' />" id="<s:property value='#item.id' />"><a
-						class="ajaxify" href="javascript:;"
+						class="ajaxify" href="javascript:;" id="list-task-<s:property value='#item.id' />"
 						rel="address:/bpm/bpm-task!show?taskId=<s:property value='#item.id' />&candidate=<s:property value='#item.candidate' />"
 						title='<s:property value="#item.name" />'>
 							<div class="col1">
@@ -72,6 +72,9 @@
 </div>
 <script type="text/javascript">
     $(function() {
+
+        //console.profile('Profile Sttart');
+
         $("#chk-task-user").click(function() {
             var $userTasks = $("#dashboard-task-list").find("li[need-claim='false']");
             if (this.checked) {
@@ -94,7 +97,7 @@
         var $headerTaskBar = $("#header_task_bar");
         var $dropdownTaskList = $headerTaskBar.find(".dropdown-menu");
         var $dropdownTaskListUL = $dropdownTaskList.find(".dropdown-menu-list");
-        var $taskTemplate = $dropdownTaskListUL.clone(true);
+        var $taskTemplate = $dropdownTaskListUL.clone(false);
         $taskTemplate.children("li.template").removeClass("display-hide");
         var newDropdownTaskListCount = 0;
         $("#dashboard-task-list > li").each(function() {
@@ -106,8 +109,9 @@
             $taskTemplate.find(".task-date").html($item.find(".date").html());
             var $itemlink = $item.find("a");
             var $templatelink = $taskTemplate.find("a");
+
+            $templatelink.attr("for-task-id", taskId);
             $templatelink.attr("href", $itemlink.attr('href'));
-            $templatelink.attr("data-toggle", $itemlink.attr('data-toggle'));
             $templatelink.attr("title", $itemlink.attr('title'));
             if ($item.attr("need-claim") == 'true') {
                 $taskTemplate.find(".label-primary").removeClass("label-primary").addClass("label-info");
@@ -136,6 +140,12 @@
             });
         }
 
+        $("a", $dropdownTaskListUL).on("click", function() {
+            var forTaskId = $(this).attr("for-task-id");
+            $("#list-task-" + forTaskId).click();
+        });
+
+        //console.profileEnd();
     });
 </script>
 <%@ include file="/common/ajax-footer.jsp"%>
