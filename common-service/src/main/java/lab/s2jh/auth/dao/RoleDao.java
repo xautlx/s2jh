@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoleDao extends BaseDao<Role, String> {
-    @Query("from Role order by title asc")
+    @Query("from Role order by code asc")
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     List<Role> findAllCached();
 

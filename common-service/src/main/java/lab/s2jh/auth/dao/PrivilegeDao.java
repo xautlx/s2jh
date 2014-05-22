@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PrivilegeDao extends BaseDao<Privilege, String> {
 
-	@Query("from Privilege order by category asc,orderRank desc")
+	@Query("from Privilege order by category asc,orderRank desc,title asc")
 	@QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
 	List<Privilege> findAllCached();
 
