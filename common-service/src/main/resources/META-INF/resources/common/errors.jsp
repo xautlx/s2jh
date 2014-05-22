@@ -1,3 +1,4 @@
+<%@page import="lab.s2jh.core.web.filter.HttpRequestLogFilter"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="lab.s2jh.core.util.DateUtils"%>
 <%@page import="lab.s2jh.core.security.AuthContextHolder"%>
@@ -22,6 +23,14 @@
     if (e == null) {
         e = (Throwable) request.getAttribute("javax.servlet.jsp.jspException");
     }
+    String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+    if (requestUri == null) {
+        requestUri = (String) request.getAttribute("javax.servlet.forward.request_uri");
+    }
+    if (requestUri == null) {
+        requestUri = request.getRequestURI();
+    }
+    String userId = AuthContextHolder.getAuthUserPin();
 
     String rand = DateFormatUtils.format(new java.util.Date(), "yyyyMMddHHmmss")
             + RandomStringUtils.randomNumeric(3);
@@ -56,62 +65,19 @@
         skipLog = true;
     } else {
         if (request.getAttribute("SPRING_SECURITY_403_EXCEPTION") != null) {
-            errorMessage = "未授权访问，请联系管理员。";
+            errorMessage = "未授权访问, URL: " + requestUri;
+            logger.warn("Access Denied: user=" + userId + ", url=" + requestUri);
+            skipLog = true;
         }
     }
     if (!skipLog) {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append("***Request Header Data:***\n");
-        java.util.Enumeration headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = (String) headerNames.nextElement();
-            sb.append(" - " + headerName + "=" + request.getHeader(headerName) + "\n");
-        }
-
-        sb.append("***Request Attribute Data:***\n");
-        java.util.Enumeration attrNames = request.getAttributeNames();
-        while (attrNames.hasMoreElements()) {
-            String attrName = (String) attrNames.nextElement();
-            Object attr = request.getAttribute(attrName);
-            if (attr != null && attr.toString().length() > 100) {
-                sb.append(" - " + attrName + "=" + attr.toString().substring(0, 100) + "...\n");
-            } else {
-                sb.append(" - " + attrName + "=" + attr + "...\n");
-            }
-        }
-
-        sb.append("***Session Attribute Data:***\n");
-        java.util.Enumeration sessionAttrNames = session.getAttributeNames();
-        while (sessionAttrNames.hasMoreElements()) {
-            String attrName = (String) sessionAttrNames.nextElement();
-            Object attr = session.getAttribute(attrName);
-            if (attr != null && attr.toString().length() > 100) {
-                sb.append(" - " + attrName + "=" + attr.toString().substring(0, 100) + "...\n");
-            } else {
-                sb.append(" - " + attrName + "=" + attr + "...\n");
-            }
-        }
-
-        sb.append("***Request Parameter Data:***\n");
-        java.util.Enumeration paramNames = request.getParameterNames();
-        while (paramNames.hasMoreElements()) {
-            String paramName = (String) paramNames.nextElement();
-            String paramValue = StringUtils.join(request.getParameterValues(paramName), ",");
-            if (paramValue != null && paramValue.length() > 100) {
-                sb.append(" - " + paramName + "=" + paramValue.substring(0, 50) + "...\n");
-            } else {
-                sb.append(" - " + paramName + "=" + paramValue + "\n");
-            }
-        }
-
-        String userId = AuthContextHolder.getAuthUserPin();
         if (StringUtils.isNotBlank(userId)) {
             MDC.put("USER_ID", userId);
         }
         MDC.put("LOG_DATETIME",
                 new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new java.util.Date()));
-        MDC.put("WEB_DATA", sb.toString());
+        MDC.put("WEB_DATA", HttpRequestLogFilter.buildPrintMessage(request, logger.isDebugEnabled()));
 
         logger.error(errorMessage, e);
 
@@ -119,13 +85,6 @@
     }
 
     String responseContentType = null;
-    String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-    if (requestUri == null) {
-        requestUri = (String) request.getAttribute("javax.servlet.forward.request_uri");
-    }
-    if (requestUri == null) {
-        requestUri = request.getRequestURI();
-    }
     if (requestUri.endsWith(".json")) {
         responseContentType = "json";
     }

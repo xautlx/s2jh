@@ -144,7 +144,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
             task = taskService.createTaskQuery().taskId(taskId).taskCandidateUser(userpin).singleResult();
             Assert.notNull(task, "BPM Task access denied");
         } else {
-            Assert.isTrue(task.getAssignee().equals(userpin));
+            Assert.isTrue(task.getAssignee().equals(userpin), "Task assignee not match");
         }
         return task;
     }
