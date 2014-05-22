@@ -95,9 +95,13 @@ public class UserController extends BaseController<User, Long> {
     @MetaData(value = "角色关联")
     @SecurityControllIgnore
     public HttpHeaders roles() {
-        List<Role> roles = roleService.findAllCached();
+        List<Role> roles = Lists.newArrayList();
+        List<Role> allRoles = roleService.findAllCached();
         List<UserR2Role> r2s = userService.findOne(this.getId()).getUserR2Roles();
-        for (Role role : roles) {
+        for (Role role : allRoles) {
+            if (Role.ROLE_ANONYMOUSLY_CODE.equals(role.getCode())) {
+                continue;
+            }
             role.addExtraAttribute("related", false);
             for (UserR2Role r2 : r2s) {
                 if (r2.getRole().equals(role)) {
@@ -106,6 +110,7 @@ public class UserController extends BaseController<User, Long> {
                     break;
                 }
             }
+            roles.add(role);
         }
         this.getRequest().setAttribute("roles", roles);
         return buildDefaultHttpHeaders("roles");
