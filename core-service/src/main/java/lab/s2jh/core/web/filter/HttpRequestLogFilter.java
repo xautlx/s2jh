@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import lab.s2jh.core.security.AuthContextHolder;
 
@@ -28,6 +27,8 @@ import org.slf4j.LoggerFactory;
 public class HttpRequestLogFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(HttpRequestLogFilter.class);
+
+    private static final Integer PAD_SIZE = 30;
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
@@ -51,82 +52,28 @@ public class HttpRequestLogFilter implements Filter {
                 return;
             }
 
-            logger.info(buildPrintMessage(req, logger.isDebugEnabled()));
+            StringBuilder sb = new StringBuilder("Debug information: ");
+            sb.append(StringUtils.rightPad("\n HTTP Request Logon User PIN", PAD_SIZE) + ":"
+                    + AuthContextHolder.getAuthUserPin());
+            sb.append(StringUtils.rightPad("\n HTTP Request Method", PAD_SIZE) + ":" + req.getMethod());
+            sb.append(StringUtils.rightPad("\n HTTP Request URI", PAD_SIZE) + ":" + req.getRequestURI());
+            sb.append(StringUtils.rightPad("\n HTTP Request Query String", PAD_SIZE) + ":" + req.getQueryString());
+            if (logger.isDebugEnabled()) {
+                sb.append("\nHTTP Request Parameter List : ");
+                Enumeration<?> paramNames = request.getParameterNames();
+                while (paramNames.hasMoreElements()) {
+                    String paramName = (String) paramNames.nextElement();
+                    String paramValue = StringUtils.join(request.getParameterValues(paramName), ",");
+                    if (paramValue != null && paramValue.length() > 100) {
+                        sb.append("\n - " + paramName + "=" + paramValue.substring(0, 100) + "...");
+                    } else {
+                        sb.append("\n - " + paramName + "=" + paramValue);
+                    }
+                }
+
+                logger.info(sb.toString());
+            }
         }
         chain.doFilter(request, reponse);
-    }
-
-    public static String buildPrintMessage(HttpServletRequest req, boolean debugable) {
-        String userpin = "NA";
-        try {
-            userpin = AuthContextHolder.getAuthUserPin();
-        } catch (Exception e) {
-            //do nothing
-        }
-
-        String requestUri = (String) req.getAttribute("javax.servlet.error.request_uri");
-        if (requestUri == null) {
-            requestUri = (String) req.getAttribute("javax.servlet.forward.request_uri");
-        }
-        if (requestUri == null) {
-            requestUri = req.getRequestURI();
-        }
-
-        StringBuilder sb = new StringBuilder();
-        int padSize = 30;
-        String xForwardedFor = req.getHeader("x-forwarded-for");
-        sb.append(StringUtils.rightPad("\n HTTP Request Logon User PIN", padSize) + ":" + userpin);
-        sb.append(StringUtils.rightPad("\n HTTP Request RemoteAddr", padSize) + ":" + req.getRemoteAddr());
-        sb.append(StringUtils.rightPad("\n HTTP Request RemoteHost", padSize) + ":" + req.getRemoteHost());
-        sb.append(StringUtils.rightPad("\n HTTP Request x-forwarded-for", padSize) + ":" + xForwardedFor);
-        sb.append(StringUtils.rightPad("\n HTTP Request Method", padSize) + ":" + req.getMethod());
-        sb.append(StringUtils.rightPad("\n HTTP Request URI", padSize) + ":" + requestUri);
-        sb.append(StringUtils.rightPad("\n HTTP Request Query String", padSize) + ":" + req.getQueryString());
-        if (debugable) {
-            sb.append("\nHTTP Request Parameter List : ");
-            Enumeration<String> paramNames = req.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String paramName = (String) paramNames.nextElement();
-                String paramValue = StringUtils.join(req.getParameterValues(paramName), ",");
-                if (paramValue != null && paramValue.length() > 100) {
-                    sb.append("\n - " + paramName + "=" + paramValue.substring(0, 100) + "...");
-                } else {
-                    sb.append("\n - " + paramName + "=" + paramValue);
-                }
-            }
-
-            sb.append("\nRequest Header Data:");
-            java.util.Enumeration headerNames = req.getHeaderNames();
-            while (headerNames.hasMoreElements()) {
-                String headerName = (String) headerNames.nextElement();
-                sb.append("\n - " + headerName + "=" + req.getHeader(headerName));
-            }
-
-            sb.append("\nRequest Attribute Data:");
-            java.util.Enumeration attrNames = req.getAttributeNames();
-            while (attrNames.hasMoreElements()) {
-                String attrName = (String) attrNames.nextElement();
-                Object attr = req.getAttribute(attrName);
-                if (attr != null && attr.toString().length() > 100) {
-                    sb.append("\n - " + attrName + "=" + attr.toString().substring(0, 100) + "...");
-                } else {
-                    sb.append("\n - " + attrName + "=" + attr);
-                }
-            }
-
-            sb.append("\nSession Attribute Data:");
-            HttpSession session = req.getSession();
-            java.util.Enumeration sessionAttrNames = session.getAttributeNames();
-            while (sessionAttrNames.hasMoreElements()) {
-                String attrName = (String) sessionAttrNames.nextElement();
-                Object attr = session.getAttribute(attrName);
-                if (attr != null && attr.toString().length() > 100) {
-                    sb.append("\n - " + attrName + "=" + attr.toString().substring(0, 100) + "...");
-                } else {
-                    sb.append("\n - " + attrName + "=" + attr);
-                }
-            }
-        }
-        return sb.toString();
     }
 }

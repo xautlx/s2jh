@@ -53,4 +53,11 @@ public class LayoutController extends SimpleController {
     public HttpHeaders dashboard() {
         return buildDefaultHttpHeaders("dashboard");
     }
+
+    public HttpHeaders exception() {
+        if (true) {
+            throw new IllegalArgumentException("Mock Exception");
+        }
+        return buildDefaultHttpHeaders("mock");
+    }
 }

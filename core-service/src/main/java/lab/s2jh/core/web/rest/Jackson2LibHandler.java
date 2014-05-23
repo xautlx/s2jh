@@ -3,13 +3,19 @@ package lab.s2jh.core.web.rest;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import lab.s2jh.core.exception.ExceptionLogger;
 import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.StrutsConstants;
 import org.apache.struts2.rest.handler.ContentTypeHandler;
 
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.inject.Inject;
 
 public class Jackson2LibHandler implements ContentTypeHandler {
@@ -23,7 +29,16 @@ public class Jackson2LibHandler implements ContentTypeHandler {
     }
 
     public String fromObject(Object obj, String resultCode, Writer stream) throws IOException {
-        HibernateAwareObjectMapper.getInstance().writeValue(stream, obj);
+        if (obj instanceof Throwable) {
+            HttpServletRequest request = ServletActionContext.getRequest();
+            String msg = ExceptionLogger.logForHttpRequest((Throwable) obj, request);
+            Map<String, String> errors = Maps.newHashMap();
+            errors.put("type", "error");
+            errors.put("message", msg);
+            HibernateAwareObjectMapper.getInstance().writeValue(stream, errors);
+        } else {
+            HibernateAwareObjectMapper.getInstance().writeValue(stream, obj);
+        }
         return null;
     }
 
