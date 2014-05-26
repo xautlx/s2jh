@@ -554,10 +554,18 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             predicate = builder.and(builder.isNotNull(expression), builder.notEqual(expression, ""));
             break;
         case NU:
-            predicate = builder.isNull(expression);
+            if (matchValue instanceof Boolean && (Boolean) matchValue == false) {
+                predicate = builder.isNotNull(expression);
+            } else {
+                predicate = builder.isNull(expression);
+            }
             break;
         case NN:
-            predicate = builder.isNotNull(expression);
+            if (matchValue instanceof Boolean && (Boolean) matchValue == false) {
+                predicate = builder.isNull(expression);
+            } else {
+                predicate = builder.isNotNull(expression);
+            }
             break;
         case CN:
             predicate = builder.like(expression, "%" + matchValue + "%");

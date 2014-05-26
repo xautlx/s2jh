@@ -228,8 +228,9 @@ public class PropertyFilter {
         }
         if (Enum.class.isAssignableFrom(propertyClass)) {
             return Enum.valueOf(propertyClass, value);
-        } else if (propertyClass.equals(Boolean.class)) {
-            return BooleanUtils.toBoolean(value);
+        } else if (propertyClass.equals(Boolean.class) || matchType.equals(MatchType.NN)
+                || matchType.equals(MatchType.NU)) {
+            return new Boolean(BooleanUtils.toBoolean(value));
         } else if (propertyClass.equals(Date.class) || propertyClass.equals(DateTime.class)) {
             return dateConverter.convertValue(null, null, null, null, value, Date.class);
         } else {
