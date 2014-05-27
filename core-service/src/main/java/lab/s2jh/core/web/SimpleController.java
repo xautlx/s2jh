@@ -10,14 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ModelDriven;
 
-public abstract class SimpleController extends RestActionSupport implements ModelDriven<Object> {
+public abstract class SimpleController implements ModelDriven<Object> {
 
     private final Logger logger = LoggerFactory.getLogger(SimpleController.class);
 
