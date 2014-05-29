@@ -37,6 +37,9 @@ $(function() {
             name : 'orderRank',
             width : 60,
             editable : true,
+            editoptions : {
+                defaultValue : 100
+            },
             sorttype : 'number'
         }, {
             label : '大文本数据',
