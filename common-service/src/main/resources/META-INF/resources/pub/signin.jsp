@@ -347,7 +347,7 @@
 	<!-- BEGIN COPYRIGHT -->
 	<div class="copyright" style="text-align: left;">
 		2013 &copy;
-		<%=request.getServerName()%></div>
+		<%=request.getServerName()%><%@ include file="/common/app-ver.jsp"%></div>
 	<!-- END COPYRIGHT -->
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
