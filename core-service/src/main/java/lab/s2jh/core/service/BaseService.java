@@ -990,4 +990,17 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     public void detachEntity(Object entity) {
         entityManager.detach(entity);
     }
+
+    /**
+     * 基于Native SQL返回Map结构集合数据
+     */
+    @SuppressWarnings("rawtypes")
+    protected List<Map<String, Object>> queryForMapDatasByNativeSQL(String sql) {
+        Query query = entityManager.createNativeQuery(sql);
+        //Hibernate特定语法
+        query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List list = query.getResultList();
+        entityManager.close();
+        return list;
+    }
 }
