@@ -76,7 +76,7 @@ jQuery(document).ready(function() {
         //$(".content").removeClass('pull-left');
     }
 
-    $.backstretch([ WEB_ROOT + "/assets/img/bg/1.jpg", WEB_ROOT + "/assets/img/bg/2.jpg", WEB_ROOT + "/assets/img/bg/3.jpg", WEB_ROOT + "/assets/img/bg/4.jpg" ], {
+    $.backstretch([ "../resources/images/bg01_" + imageHV + ".jpg", "../resources/images/bg02_" + imageHV + ".jpg" ], {
         fade : 1000,
         duration : 8000
     });

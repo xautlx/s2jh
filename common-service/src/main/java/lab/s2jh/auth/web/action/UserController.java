@@ -20,12 +20,12 @@ import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.json.ValueLabelBean;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.service.MenuService;
 import lab.s2jh.sys.vo.NavMenuVO;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;

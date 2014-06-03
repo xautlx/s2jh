@@ -8,9 +8,9 @@ import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.sys.entity.Menu;
 import lab.s2jh.sys.service.MenuService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts2.rest.HttpHeaders;

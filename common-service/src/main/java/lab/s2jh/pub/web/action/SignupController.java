@@ -6,10 +6,10 @@ import lab.s2jh.auth.entity.SignupUser;
 import lab.s2jh.auth.service.SignupUserService;
 import lab.s2jh.auth.service.UserService;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.captcha.ImageCaptchaServlet;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.ctx.DynamicConfigService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;

@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AttachmentFileDao extends BaseDao<AttachmentFile, String> {
+    List<AttachmentFile> findByEntityClassNameAndEntityIdAndEntityFileCategory(String entityClassName, String entityId,
+            String entityFileCategory);
+
     List<AttachmentFile> findByEntityClassNameAndEntityId(String entityClassName, String entityId);
 }

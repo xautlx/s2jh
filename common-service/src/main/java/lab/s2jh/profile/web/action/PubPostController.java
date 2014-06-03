@@ -12,12 +12,12 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.sys.entity.PubPost;
 import lab.s2jh.sys.entity.PubPostRead;
 import lab.s2jh.sys.service.PubPostReadService;
 import lab.s2jh.sys.service.PubPostService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts2.ServletActionContext;

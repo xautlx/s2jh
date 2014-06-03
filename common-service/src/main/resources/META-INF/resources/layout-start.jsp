@@ -51,6 +51,7 @@
 <link rel="stylesheet" type="text/css" href="assets/extras/kindeditor/themes/default/default.css">
 
 <link rel="stylesheet" type="text/css" href="assets/extras/jquery-ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" type="text/css" href="assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" />
 
 <link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/tooltipster.css" />
 <link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-light.css" />
@@ -103,11 +104,11 @@
 						</li>
 						<li>
 							<ul class="dropdown-menu-list scroller" style="height: 250px;">
-								<li><a href="javascript:;"> <span class="label label-icon label-success"><i class="fa fa-plus"></i></span> New
-										user registered. <span class="time">Just now</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-success"><i class="fa fa-plus"></i></span>
+										New user registered. <span class="time">Just now</span>
 								</a></li>
-								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Server
-										#12 overloaded. <span class="time">15 mins</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span>
+										Server #12 overloaded. <span class="time">15 mins</span>
 								</a></li>
 								<li><a href="javascript:;"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
 										Server #2 not responding. <span class="time">22 mins</span>
@@ -115,20 +116,20 @@
 								<li><a href="javascript:;"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span>
 										Application error. <span class="time">40 mins</span>
 								</a></li>
-								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
-										overloaded 68%. <span class="time">2 hrs</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span>
+										Database overloaded 68%. <span class="time">2 hrs</span>
 								</a></li>
-								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> 2 user
-										IP blocked. <span class="time">5 hrs</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span>
+										2 user IP blocked. <span class="time">5 hrs</span>
 								</a></li>
 								<li><a href="javascript:;"> <span class="label label-icon label-warning"><i class="fa fa-bell-o"></i></span>
 										Storage Server #4 not responding. <span class="time">45 mins</span>
 								</a></li>
-								<li><a href="javascript:;"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span> System
-										Error. <span class="time">55 mins</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-info"><i class="fa fa-bullhorn"></i></span>
+										System Error. <span class="time">55 mins</span>
 								</a></li>
-								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span> Database
-										overloaded 68%. <span class="time">2 hrs</span>
+								<li><a href="javascript:;"> <span class="label label-icon label-danger"><i class="fa fa-bolt"></i></span>
+										Database overloaded 68%. <span class="time">2 hrs</span>
 								</a></li>
 							</ul>
 						</li>
@@ -136,8 +137,9 @@
 					</ul></li>
 				<!-- END NOTIFICATION DROPDOWN -->
 				<!-- BEGIN INBOX DROPDOWN -->
-				<li class="dropdown hide" id="header_inbox_bar"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
-					data-hover="dropdown" data-close-others="true"> <i class="fa fa-envelope"></i> <span class="badge">5</span>
+				<li class="dropdown hide" id="header_inbox_bar"><a href="javascript:;" class="dropdown-toggle"
+					data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i class="fa fa-envelope"></i> <span
+						class="badge">5</span>
 				</a>
 					<ul class="dropdown-menu extended inbox">
 						<li>
@@ -205,8 +207,8 @@
 				<!-- END TODO DROPDOWN -->
 
 				<!-- BEGIN Mobile DROPDOWN -->
-				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
-					data-close-others="true"> <i class="fa fa-mobile"></i><i class="fa fa-angle-down"></i>
+				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle"
+					data-toggle="dropdown" data-close-others="true"> <i class="fa fa-mobile"></i><i class="fa fa-angle-down"></i>
 				</a>
 					<ul class="dropdown-menu" id="dropdown-menu-mobile">
 						<li><a href="${base}/pub/android_client.apk" target="_blank"><i class="fa fa-android"></i> Android客户端下载</a></li>
@@ -215,8 +217,8 @@
 				<!-- END Mobile DROPDOWN -->
 
 				<!-- BEGIN USER LOGIN DROPDOWN -->
-				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
-					data-close-others="true"> <span class="username"><i class="fa fa-user"></i> <s:property
+				<li class="dropdown user" style="padding-top: 5px"><a href="javascript:;" class="dropdown-toggle"
+					data-toggle="dropdown" data-close-others="true"> <span class="username"><i class="fa fa-user"></i> <s:property
 								value="%{authUserDetails.usernameDisplay}" /></span> <i class="fa fa-angle-down"></i>
 				</a>
 					<ul class="dropdown-menu">
@@ -224,7 +226,8 @@
 						<li class="hide"><a href="page_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a></li>
 						<li class="hide"><a href="inbox.html"><i class="fa fa-envelope"></i> My Inbox <span
 								class="badge badge-danger">3</span></a></li>
-						<li class="hide"><a href="javascript:;"><i class="fa fa-tasks"></i> My Tasks <span class="badge badge-success">7</span></a></li>
+						<li class="hide"><a href="javascript:;"><i class="fa fa-tasks"></i> My Tasks <span
+								class="badge badge-success">7</span></a></li>
 						<li class="divider hide"></li>
 						<li><a href="javascript:;" id="trigger_fullscreen"><i class="fa fa-move"></i> 全屏显示</a></li>
 						<li><a id="trigger_passwd" href="${base}/auth/profile!passwd" title="修改密码"><i class="fa fa-key"></i> 修改密码</a></li>
@@ -428,6 +431,58 @@
 	</div>
 	<!-- END FOOTER -->
 
+	<!-- BEGIN FileUpload FORM -->
+	<div class="modal fade" id="fileupload-dialog" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog modal-wide">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title">文件上传</h4>
+				</div>
+				<div class="modal-body">
+					<form id="fileupload" enctype="multipart/form-data" method="POST">
+						<input type="hidden" name="attachmentName" value="attachments" />
+						<div class="row fileupload-buttonbar">
+							<div class="col-lg-7">
+								<!-- The fileinput-button span is used to style the file input field as button -->
+								<span class="btn green fileinput-button"> <i class="fa fa-plus"></i> <span>添加文件...</span> <input
+									type="file" multiple="" name="files">
+								</span>
+								<button class="btn blue start" type="submit">
+									<i class="fa fa-upload"></i> <span>开始上传</span>
+								</button>
+								<button class="btn yellow cancel" type="reset">
+									<i class="fa fa-ban"></i> <span>取消上传</span>
+								</button>
+								<!-- The loading indicator is shown during file processing -->
+								<span class="fileupload-loading"></span>
+							</div>
+							<!-- The global progress information -->
+							<div class="col-lg-5 fileupload-progress fade">
+								<!-- The global progress bar -->
+								<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress progress-striped active">
+									<div style="width: 0%;" class="progress-bar progress-bar-success"></div>
+								</div>
+								<!-- The extended global progress information -->
+								<div class="progress-extended">&nbsp;</div>
+							</div>
+						</div>
+						<table class="table table-striped clearfix" role="presentation">
+							<tbody class="files"></tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn default" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn blue btn-add">添加</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- END FileUpload FORM -->
+
 	<div class="page-lock" id="page-lock" style="text-align: left; color: #eeeeee; display: none">
 		<div class="page-logo">
 			<h3>
@@ -459,8 +514,74 @@
 		</div>
 		<div class="page-footer">
 			2013 &copy;
-			<%=request.getServerName()%></div>
+			<%=request.getServerName()%>
+		</div>
 	</div>
+
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+	<script id="template-upload" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-upload fade">
+                <td>
+                    <p class="name">{%=file.name%}</p>
+                    {% if (file.error) { %}
+                        <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                    {% } %}
+                </td>
+                <td align="right">
+                    <p class="size">{%=o.formatFileSize(file.size)%}</p>
+                    {% if (!o.files.error) { %}
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                        </div>
+                    {% } %}
+                </td>
+                <td align="right">
+                    {% if (!o.files.error && !i && !o.options.autoUpload) { %}
+                        <button type="button" class="btn blue start">
+                            <i class="fa fa-upload"></i>
+                            <span>上传</span>
+                        </button>
+                    {% } %}
+                    {% if (!i) { %}
+                        <button type="button" class="btn red cancel">
+                            <i class="fa fa-ban"></i>
+                            <span>取消</span>
+                        </button>
+                    {% } %}
+                </td>
+            </tr>
+        {% } %}
+    </script>
+	<!-- The template to display files available for download -->
+	<script id="template-download" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-download">
+                <td>
+                    <p class="name">
+                        <input type="hidden" name="{%=file.attachmentName%}" value="{%=file.id%}"/>
+                        {% if (file.url) { %}
+                            <a target="_blank" href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                        {% } else { %}
+                            <span>{%=file.name%}</span>
+                        {% } %}
+                    </p>
+                    {% if (file.error) { %}
+                        <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                    {% } %}
+                </td>
+                <td align="right">
+                    <span class="size">{%=file.size%}</span>
+                </td>
+                <td align="right">
+                        <button type="button" class="btn default" onclick="$(this).closest('tr').remove()">
+                            <i class="fa fa-trash-o"></i>
+                            <span>删除</span>
+                        </button>
+                </td>
+            </tr>
+        {% } %}
+    </script>
 
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
@@ -527,6 +648,38 @@
 	<script src="assets/plugins/flot/jquery.flot.crosshair.js"></script>
 	<script src="assets/plugins/flot/jquery.flot.time.js"></script>
 
+	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+
+	<!-- BEGIN:File Upload Plugin JS files-->
+	<!-- The Templates plugin is included to render the upload/download listings -->
+	<script src="assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
+	<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+	<script src="assets/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
+	<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+	<script src="assets/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+	<!-- The File Upload processing plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+	<!-- The File Upload image preview & resize plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+	<!-- The File Upload audio preview plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+	<!-- The File Upload video preview plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+	<!-- The File Upload validation plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+	<!-- The File Upload user interface plugin -->
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+	<!-- The main application script -->
+	<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+	<!--[if (gte IE 8)&(lt IE 10)]>
+    <script src="assets/plugins/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
+    <![endif]-->
+	<!-- END:File Upload Plugin JS files-->
+
 	<script src="assets/extras/pinyin.js?_=${buildVersion}"></script>
 
 	<script src="assets/extras/jquery-jqgrid/plugins/ui.multiselect.js?_=${pageScope.buildVersion}"></script>
@@ -556,6 +709,7 @@
 	<script src="assets/app/dynamic-table.js"></script>
 	<script src="assets/app/util.js"></script>
 	<script src="assets/app/global.js"></script>
+	<script src="assets/app/grid.js"></script>
 	<script src="assets/app/form-validation.js"></script>
 	<script src="assets/app/page.js"></script>
 	<script src="resources/js/biz.js"></script>

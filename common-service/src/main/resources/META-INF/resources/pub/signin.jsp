@@ -27,6 +27,9 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES -->
 <link rel="stylesheet" type="text/css" href="${base}/assets/plugins/select2/select2_metro.css" />
+<link href="${base}/assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css">
+<link href="${base}/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME STYLES -->
 <link href="${base}/assets/css/style-metronic.css" rel="stylesheet" type="text/css" />
@@ -43,15 +46,15 @@
 <!-- BEGIN BODY -->
 <body class="login">
 	<!-- BEGIN LOGO -->
-	<div class="logo">
-		<h1 style="color: #FFFFFF">
+	<div class="logo" style="text-align: left; margin-top: 20px">
+		<h2>
 			<s:property value="%{systemTitle}" />
-		</h1>
+		</h2>
 	</div>
 	<!-- END LOGO -->
 	<!-- BEGIN LOGIN -->
 	<div class="clearfix" style="padding: 15px">
-		<div class="content" style="width: 100%; max-width: 450px">
+		<div class="content pull-left" style="width: 100%; max-width: 450px">
 			<!-- BEGIN LOGIN FORM -->
 			<form id="login-form" class="login-form" action="${base}/j_spring_security_check" method="post">
 				<h3 class="form-title">系统登录</h3>
@@ -160,8 +163,10 @@
                             $form.submit();
                         }
                     </script>
-					<div class="alert alert-info">
-						开发/测试/演示 登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
+					<div>
+						<p>
+							开发测试登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','!qaz2wsx')">admin</a>
+						</p>
 					</div>
 				</s:if>
 			</form>
@@ -220,7 +225,7 @@
 			<s:if test="signupEnabled">
 				<!-- BEGIN REGISTRATION FORM -->
 				<div class="modal fade" id="create-account" tabindex="-1" role="basic" aria-hidden="true">
-					<div class="modal-dialog">
+					<div class="modal-dialog modal-full">
 						<form id="register-form" class="form-horizontal form-bordered form-label-stripped"
 							action="${base}/pub/signup!submit" method="post">
 							<div class="modal-content">
@@ -229,69 +234,87 @@
 									<h4 class="modal-title">账号注册</h4>
 								</div>
 								<div class="modal-body">
-									<p>请填写如下必须的注册信息：</p>
-									<div class="form-group">
-										<label class="control-label">登录账号</label>
-										<div class="controls">
-											<div class="input-icon">
-												<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" name="signinid" />
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">输入登录密码</label>
-										<div class="controls">
-											<div class="input-icon">
-												<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
-													name="password" />
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">再次输入密码</label>
-										<div class="controls">
-											<div class="input-icon">
-												<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password"
-													autocomplete="off" name="rpassword" />
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">注册邮箱</label>
-										<div class="controls">
-											<div class="input-icon">
-												<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text"
-													placeholder="请填写真实有效邮箱地址，可用于邮件通知、找回密码等功能" name="email" />
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">验证码</label>
-										<div class="controls">
-											<div class="input-group">
-												<div class="input-icon">
-													<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
-														placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
+									<div class="row">
+										<div class="col-md-6">
+											<p>请填写如下必须的注册信息：</p>
+											<div class="form-group">
+												<label class="control-label">登录账号</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" name="signinid" />
+													</div>
 												</div>
-												<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
-													class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
-												</span>
+											</div>
+											<div class="form-group">
+												<label class="control-label">输入登录密码</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password"
+															autocomplete="off" name="password" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label">再次输入密码</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-check"></i> <input class="form-control placeholder-no-fix" type="password"
+															autocomplete="off" name="rpassword" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label">注册邮箱</label>
+												<div class="controls">
+													<div class="input-icon">
+														<i class="fa fa-envelope"></i> <input class="form-control placeholder-no-fix" type="text"
+															placeholder="请填写真实有效邮箱地址，可用于邮件通知、找回密码等功能" name="email" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label">验证码</label>
+												<div class="controls">
+													<div class="input-group">
+														<div class="input-icon">
+															<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
+																placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
+														</div>
+														<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha"
+															height="34px" class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
+														</span>
+													</div>
+												</div>
 											</div>
 										</div>
-									</div>
-									<p style="margin-top: 10px">以下为选填的注册信息：</p>
-									<div class="form-group">
-										<label class="control-label">联系信息</label>
-										<div class="controls">
-											<textarea rows="1" class="form-control placeholder-no-fix" name="contactInfo"
-												placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">备注说明</label>
-										<div class="controls">
-											<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
-												placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
+										<div class="col-md-6">
+											<p>以下为选填的注册信息：</p>
+											<div class="form-group">
+												<label class="control-label">联系信息</label>
+												<div class="controls">
+													<textarea rows="2" class="form-control placeholder-no-fix" name="contactInfo"
+														placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label">备注说明</label>
+												<div class="controls">
+													<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
+														placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
+												</div>
+											</div>
+											<p>上传注册相关资料附件：</p>
+											<div class="row fileupload-buttonbar">
+												<div>
+													<span class="btn btn-success fileinput-button"> <i class="glyphicon glyphicon-plus"></i> <span>Add
+															files...</span> <!-- The file input field used as target for the file upload widget --> <input type="file"
+														name="attachments" id="fileupload">
+													</span>
+													<!-- The loading indicator is shown during file processing -->
+													<span class="fileupload-loading"></span>
+												</div>
+												<div class="files" id="files"></div>
+											</div>
 										</div>
 									</div>
 									<div class="row">
@@ -322,7 +345,7 @@
 	</div>
 	<!-- END LOGIN -->
 	<!-- BEGIN COPYRIGHT -->
-	<div class="copyright" style="color: #FFFFFF">
+	<div class="copyright" style="text-align: left;">
 		2013 &copy;
 		<%=request.getServerName()%></div>
 	<!-- END COPYRIGHT -->
@@ -342,6 +365,9 @@
 	<script src="${base}/assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="${base}/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 	<script src="${base}/assets/extras/jquery.form.js"></script>

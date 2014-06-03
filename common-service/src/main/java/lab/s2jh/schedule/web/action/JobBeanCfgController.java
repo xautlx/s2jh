@@ -5,11 +5,11 @@ import java.util.Map;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.schedule.ExtSchedulerFactoryBean;
 import lab.s2jh.schedule.entity.JobBeanCfg;
 import lab.s2jh.schedule.service.JobBeanCfgService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.struts2.rest.HttpHeaders;
 import org.quartz.CronTrigger;

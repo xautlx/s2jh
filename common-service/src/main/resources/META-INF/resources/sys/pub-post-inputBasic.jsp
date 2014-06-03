@@ -43,7 +43,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label class="control-label" data-tooltips="排序号越大，则显示越靠上">排序号</label>
+					<label class="control-label">排序号</label>
 					<div class="controls">
 						<s:textfield name="orderRank" />
 					</div>
@@ -76,6 +76,18 @@
 					<label class="control-label">公告内容</label>
 					<div class="controls">
 						<s:textarea name="htmlContent" data-htmleditor="kindeditor" data-height="500px" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="control-label">关联附件</label>
+					<div class="controls">
+					
+						<a class="btn green btn-fileinput-trigger" href="#fileupload-dialog" data-toggle="modal"
+							data-url="${base}/sys/pub-post!attachmentList" data-pk='<s:property value="model.id"/>' data-name="attachments">添加附件...</a>
 					</div>
 				</div>
 			</div>

@@ -17,9 +17,9 @@ import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -14,7 +14,6 @@ import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.PersistableEntity;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.exception.WebException;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.PersistableController;
 import ognl.OgnlContext;
 import ognl.OgnlException;
@@ -44,7 +43,7 @@ import com.opensymphony.xwork2.util.ValueStack;
  */
 public class ExtParametersInterceptor extends ParametersInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExtParametersInterceptor.class);
 
     protected boolean isAccepted(String paramName) {
         boolean matches = super.isAccepted(paramName);
@@ -130,14 +129,19 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                                             items.remove(idx);
                                         } else {
                                             Object item = items.get(idx);
-                                            FieldUtils.writeDeclaredField(item,
-                                                    StringUtils.substringAfter(lastPropName, "."), null, true);
+                                            //TODO 目前只支持单层，需要添加多层嵌套处理逻辑
+                                            String fieldName = StringUtils.substringAfter(lastPropName, ".");
+                                            if (FieldUtils.getDeclaredField(item.getClass(), fieldName, true) != null) {
+                                                FieldUtils.writeDeclaredField(item, fieldName, null, true);
+                                            }
                                         }
                                     } else {
                                         //单一属性
-                                        FieldUtils.writeDeclaredField(model, name, null, true);
+                                        //TODO 目前只支持单层，需要添加多层嵌套处理逻辑
+                                        if (FieldUtils.getDeclaredField(model.getClass(), name, true) != null) {
+                                            FieldUtils.writeDeclaredField(model, name, null, true);
+                                        }
                                     }
-
                                 }
                             } else if (key.endsWith(".extraAttributes.operation")) {
                                 //汇总需要进行remove处理的集合元素属性

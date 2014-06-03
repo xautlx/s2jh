@@ -4,8 +4,8 @@ import lab.s2jh.biz.md.entity.Commodity;
 import lab.s2jh.biz.md.service.CommodityService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;

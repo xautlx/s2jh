@@ -2,9 +2,9 @@ package lab.s2jh.schedule.web.action;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.schedule.entity.JobRunHist;
 import lab.s2jh.schedule.service.JobRunHistService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;

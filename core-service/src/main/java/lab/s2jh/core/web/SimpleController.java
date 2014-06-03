@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.exception.WebException;
+import lab.s2jh.core.security.AuthContextHolder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
@@ -185,5 +186,13 @@ public abstract class SimpleController implements ModelDriven<Object> {
     public HttpHeaders buildValidateRules() {
         setModel(Maps.newHashMap());
         return buildDefaultHttpHeaders();
+    }
+    
+    /**
+     * 获取当前登录用户帐号
+     * @return
+     */
+    public String getSigninUsername(){
+        return AuthContextHolder.getAuthUserPin();
     }
 }

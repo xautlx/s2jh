@@ -2,67 +2,49 @@ package lab.s2jh.sys.web.action;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import lab.s2jh.core.annotation.MetaData;
-import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.util.ServletUtils;
-import lab.s2jh.core.web.view.OperationResult;
+import lab.s2jh.ctx.DynamicConfigService;
 import lab.s2jh.sys.entity.AttachmentFile;
 import lab.s2jh.sys.service.AttachmentFileService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
-import org.springframework.util.DigestUtils;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @MetaData(value = "附件处理")
 public class AttachmentFileController extends BaseController<AttachmentFile, String> {
 
+    private final Logger logger = LoggerFactory.getLogger(AttachmentFileController.class);
+
     @Autowired
     private AttachmentFileService attachmentFileService;
 
-    private File[] attachments;
+    @Autowired
+    private DynamicConfigService dynamicConfigService;
 
-    private String[] attachmentsFileName;
+    private File[] files;
 
-    private String[] attachmentsContentType;
+    private String[] filesFileName;
+
+    private String[] filesContentType;
 
     @Override
     protected BaseService<AttachmentFile, String> getEntityService() {
         return attachmentFileService;
-    }
-
-    public File[] getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(File[] attachments) {
-        this.attachments = attachments;
-    }
-
-    public String[] getAttachmentsFileName() {
-        return attachmentsFileName;
-    }
-
-    public void setAttachmentsFileName(String[] attachmentsFileName) {
-        this.attachmentsFileName = attachmentsFileName;
-    }
-
-    public String[] getAttachmentsContentType() {
-        return attachmentsContentType;
-    }
-
-    public void setAttachmentsContentType(String[] attachmentsContentType) {
-        this.attachmentsContentType = attachmentsContentType;
     }
 
     @Override
@@ -76,57 +58,61 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         return super.doDelete();
     }
 
-    @MetaData(value = "单文件上传")
-    public HttpHeaders uploadSingle() {
-        try {
-            Assert.isTrue(attachments.length == 1, "上传文件数据不合法");
-            File attachment = attachments[0];
-            byte[] fileBytes = FileUtils.readFileToByteArray(attachment);
-            String md5 = DigestUtils.md5DigestAsHex(fileBytes);
-            AttachmentFile entity = attachmentFileService.findOne(md5);
-            if (entity == null) {
-                entity = new AttachmentFile();
-                entity.setId(md5);
-                entity.setFileContent(fileBytes);
-            }
-            entity.setFileRealName(attachmentsFileName[0]);
-            entity.setFileLength((int) attachment.length());
-            entity.setFileType(attachmentsContentType[0]);
-            entity.setFileExtension(StringUtils.substringAfterLast(entity.getFileRealName(), "."));
-            attachmentFileService.save(entity);
-            setModel(OperationResult.buildSuccessResult("文件上传操作成功", entity));
-            return buildDefaultHttpHeaders();
-        } catch (Exception e) {
-            throw new WebException(e.getMessage(), e);
+    private AttachmentFile saveAttachmentFile(int idx) throws Exception {
+        File file = files[idx];
+        AttachmentFile entity = AttachmentFile.buildInstance(file);
+        entity.setFileRealName(filesFileName[idx]);
+        entity.setFileType(filesContentType[idx]);
+        entity.setFileExtension(StringUtils.substringAfterLast(entity.getFileRealName(), "."));
+        logger.debug("Saving attachment file to disk: {}", entity.getFileRealName());
+        String rootPath = dynamicConfigService.getString("cfg.file.upload.dir", null);
+        if (rootPath == null) {
+            rootPath = System.getProperty("user.dir") + File.separator + "attachments";
         }
+        if (rootPath.endsWith(File.separator)) {
+            rootPath = rootPath.substring(0, rootPath.length() - 2);
+        }
+        File diskFileDir = new File(rootPath + entity.getFileRelativePath());
+        if (!diskFileDir.exists()) {
+            diskFileDir.mkdirs();
+        }
+        File diskFile = new File(rootPath + entity.getFileRelativePath() + File.separator + entity.getDiskFileName());
+        FileUtils.moveFile(file, diskFile);
+        logger.debug("Saving attachment recode to database: {}", entity.getFileRealName());
+        attachmentFileService.save(entity);
+        return entity;
+
     }
 
     @MetaData(value = "多文件上传")
     public HttpHeaders uploadMulti() {
-        try {
-            if (attachments != null && attachments.length > 0) {
-                List<AttachmentFile> entities = Lists.newArrayList();
-                for (int i = 0; i < attachments.length; i++) {
-                    File attachment = attachments[i];
-                    byte[] fileBytes = FileUtils.readFileToByteArray(attachment);
-                    AttachmentFile entity = new AttachmentFile();
-                    entity.setId(DigestUtils.md5DigestAsHex(fileBytes));
-                    entity.setFileRealName(attachmentsFileName[i]);
-                    entity.setFileLength((int) attachment.length());
-                    entity.setFileType(attachmentsContentType[i]);
-                    entity.setFileContent(fileBytes);
-                    entity.setFileExtension(StringUtils.substringAfterLast(entity.getFileRealName(), "."));
-                    entities.add(entity);
-                }
-                attachmentFileService.save(entities);
-                setModel(OperationResult.buildSuccessResult("文件上传操作成功", entities));
-            } else {
-                setModel(OperationResult.buildFailureResult("无上传文件"));
+        String attachmentName = getRequiredParameter("attachmentName");
+        List<Map<String, Object>> filesResponse = Lists.newArrayList();
+        for (int i = 0; i < files.length; i++) {
+            Map<String, Object> dataMap = Maps.newHashMap();
+            try {
+                AttachmentFile entity = saveAttachmentFile(i);
+                dataMap.put("id", entity.getId());
+                dataMap.put("attachmentName", attachmentName);
+                dataMap.put("name", filesFileName[i]);
+                dataMap.put("size", FileUtils.byteCountToDisplaySize(entity.getFileLength()));
+                dataMap.put("url", getRequest().getContextPath() + "/sys/attachment-file!download?id=" + entity.getId());
+                //                dataMap.put("thumbnailUrl", "thumbnailUrl+" + entity.getId());
+                //                dataMap.put("deleteUrl", getRequest().getContextPath() + "/sys/attachment-file!delete.json?id="
+                //                        + entity.getId());
+                //                dataMap.put("deleteType", "DELETE");
+            } catch (Exception e) {
+                logger.warn("entity delete failure", e);
+                dataMap.put("name", filesFileName[i]);
+                dataMap.put("error", e.getMessage());
             }
-            return buildDefaultHttpHeaders();
-        } catch (Exception e) {
-            throw new WebException(e.getMessage(), e);
+            filesResponse.add(dataMap);
         }
+        Map<String, List<Map<String, Object>>> response = Maps.newHashMap();
+        response.put("files", filesResponse);
+        setModel(response);
+        return buildDefaultHttpHeaders();
+
     }
 
     @MetaData(value = "文件下载")
@@ -135,6 +121,46 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         HttpServletResponse response = ServletActionContext.getResponse();
         ServletUtils.setFileDownloadHeader(response, entity.getFileRealName());
         response.setContentType(entity.getFileType());
-        ServletUtils.renderFileDownload(response, entity.getFileContent());
+        //ServletUtils.renderFileDownload(response, entity.getFileContent());
+    }
+
+    @MetaData(value = "文件删除")
+    public HttpHeaders delete() {
+        AttachmentFile entity = attachmentFileService.findOne(this.getRequiredParameter("id"));
+        List<Map<String, Object>> filesResponse = Lists.newArrayList();
+        if (entity != null && entity.getEntityId() == null) {
+            Map<String, Object> dataMap = Maps.newHashMap();
+            dataMap.put(entity.getFileRealName(), true);
+            attachmentFileService.delete(entity);
+            filesResponse.add(dataMap);
+        }
+        Map<String, List<Map<String, Object>>> response = Maps.newHashMap();
+        response.put("files", filesResponse);
+        setModel(response);
+        return buildDefaultHttpHeaders();
+    }
+
+    public File[] getFiles() {
+        return files;
+    }
+
+    public void setFiles(File[] files) {
+        this.files = files;
+    }
+
+    public String[] getFilesFileName() {
+        return filesFileName;
+    }
+
+    public void setFilesFileName(String[] filesFileName) {
+        this.filesFileName = filesFileName;
+    }
+
+    public String[] getFilesContentType() {
+        return filesContentType;
+    }
+
+    public void setFilesContentType(String[] filesContentType) {
+        this.filesContentType = filesContentType;
     }
 }

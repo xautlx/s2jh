@@ -16,10 +16,10 @@ import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.util.UidUtils;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.service.DataDictService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.RandomStringUtils;

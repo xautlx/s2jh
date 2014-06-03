@@ -7,13 +7,13 @@ import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.entity.ReportDefR2Role;
 import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.service.AttachmentFileService;
+import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;

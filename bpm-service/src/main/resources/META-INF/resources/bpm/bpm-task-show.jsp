@@ -49,7 +49,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label">经办人</label>
+										<label class="control-label">任务办理者</label>
 										<div class="controls">
 											<p class="form-control-static">
 												<a data-name="assignee" data-placement="right" data-original-title="任务转办" data-required="true"

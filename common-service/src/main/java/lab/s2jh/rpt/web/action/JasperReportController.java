@@ -15,12 +15,12 @@ import javax.sql.DataSource;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.entity.AttachmentFile;
 import lab.s2jh.sys.service.DataDictService;
+import lab.s2jh.web.action.BaseController;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.util.FileCopyUtils;
 
 import com.google.common.collect.Maps;
 
@@ -134,13 +133,14 @@ public class JasperReportController extends BaseController<ReportDef, String> {
             } else {
 
                 if (attachmentFile != null) {
-                    //数据对象判断处理
-                    long compareTime = attachmentFile.getLastModifiedDate() != null ? attachmentFile
-                            .getLastModifiedDate().getTime() : attachmentFile.getCreatedDate().getTime();
-                    if (targetJasperFile.lastModified() < compareTime) {
-                        needUpdateJasperFile = true;
-                        FileCopyUtils.copy(attachmentFile.getFileContent(), targetJrxmlFile);
-                    }
+                    //TODO
+                    //                    //数据对象判断处理
+                    //                    long compareTime = attachmentFile.getLastModifiedDate() != null ? attachmentFile
+                    //                            .getLastModifiedDate().getTime() : attachmentFile.getCreatedDate().getTime();
+                    //                    if (targetJasperFile.lastModified() < compareTime) {
+                    //                        needUpdateJasperFile = true;
+                    //                        FileCopyUtils.copy(attachmentFile.getFileContent(), targetJrxmlFile);
+                    //                    }
                 } else {
                     if (targetJrxmlFile.lastModified() > targetJasperFile.lastModified()) {
                         needUpdateJasperFile = true;

@@ -4,21 +4,21 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
+import lab.s2jh.core.web.json.DateTimeJsonSerializer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "tbl_SYS_PUB_POST")
@@ -59,10 +59,6 @@ public class PubPost extends BaseUuidEntity {
     @EntityAutoCode(order = 50)
     private Integer orderRank = 100;
 
-    @MetaData(value = "关联附件")
-    @EntityAutoCode(order = 100, search = false)
-    private AttachmentFile r2File;
-
     @Override
     @Transient
     public String getDisplay() {
@@ -78,6 +74,7 @@ public class PubPost extends BaseUuidEntity {
         this.htmlTitle = htmlTitle;
     }
 
+    @JsonSerialize(using = DateTimeJsonSerializer.class)
     public Date getExpireTime() {
         return expireTime;
     }
@@ -96,6 +93,7 @@ public class PubPost extends BaseUuidEntity {
         this.htmlContent = htmlContent;
     }
 
+    @JsonSerialize(using = DateTimeJsonSerializer.class)
     public Date getPublishTime() {
         return publishTime;
     }
@@ -110,16 +108,6 @@ public class PubPost extends BaseUuidEntity {
 
     public void setReadUserCount(Integer readUserCount) {
         this.readUserCount = readUserCount;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "FILE_ID")
-    public AttachmentFile getR2File() {
-        return r2File;
-    }
-
-    public void setR2File(AttachmentFile r2File) {
-        this.r2File = r2File;
     }
 
     public String getExternalLink() {
