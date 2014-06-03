@@ -24,7 +24,7 @@
 			<jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
 		</jdbc:embedded-database>
 
-		<bean id="extSlf4jSpyLogDelegator" class="net.sf.log4jdbc.ExtSlf4jSpyLogDelegator" />
+		<bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
 
 		<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
 			<constructor-arg>
