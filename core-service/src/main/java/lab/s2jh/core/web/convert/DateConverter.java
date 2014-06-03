@@ -41,10 +41,17 @@ public class DateConverter extends DefaultTypeConverter {
      * @return
      */
     private Date doConvertToDate(Object value) {
+        if (value == null) {
+            return null;
+        }
         Date result = null;
 
         if (value instanceof String) {
             try {
+                String date = (String) value;
+                if (StringUtils.isBlank(date)) {
+                    return null;
+                }
                 result = DateUtils.parseDate((String) value, new String[] { DATE_PATTERN, DATETIME_PATTERN,
                         MONTH_PATTERN });
 
