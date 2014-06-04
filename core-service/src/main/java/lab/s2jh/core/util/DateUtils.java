@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 public class DateUtils {
@@ -79,6 +80,11 @@ public class DateUtils {
         return formatDate(dateTime.plusDays(1).toDate());
     }
 
+    public static String plusOneDay(Date date) {
+        DateTime dateTime = new DateTime(date.getTime());
+        return formatDate(dateTime.plusDays(1).toDate());
+    }
+
     public static String getHumanDisplayForTimediff(Long diffMillis) {
         if (diffMillis == null) {
             return "";
@@ -96,5 +102,18 @@ public class DateUtils {
         sb.append(df.format(min) + ":");
         sb.append(df.format(se));
         return sb.toString();
+    }
+
+    /**
+     * 把类似2014-01-01 ~ 2014-01-30格式的单一字符串转换为两个元素数组
+     */
+    public static String[] parseBetweenDates(String date) {
+        if (StringUtils.isBlank(date)) {
+            return null;
+        }
+        String[] values = date.split("～");
+        values[0] = values[0].trim();
+        values[1] = values[1].trim();
+        return values;
     }
 }
