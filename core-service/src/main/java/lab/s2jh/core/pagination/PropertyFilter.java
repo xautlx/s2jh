@@ -18,6 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.util.reflection.ConvertUtils;
+import lab.s2jh.core.web.convert.DateConverter;
 import lab.s2jh.core.web.util.ServletUtils;
 import ognl.OgnlRuntime;
 
@@ -30,8 +31,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.Assert;
-
-import com.opensymphony.xwork2.conversion.impl.DateConverter;
 
 /**
  * 与具体ORM实现无关的属性过滤条件封装类, 主要记录页面中简单的搜索过滤条件. 用于页面表单传入字符串形式条件，然后转换处理为DAO层面识别的SQL条件
@@ -113,6 +112,9 @@ public class PropertyFilter {
          * "operator":"NOT LIKE %abc"
          */
         EN,
+
+        /** "name": "bt", "description": "between", "operator":"BETWEEN 1 AND 2" */
+        BT,
 
         /** "name": "lt", "description": "less", "operator":"小于" */
         LT,
@@ -208,6 +210,11 @@ public class PropertyFilter {
             if (matchType.equals(MatchType.IN) || matchType.equals(MatchType.NI)) {
                 String value = values[0];
                 values = value.split(",");
+            } else if (matchType.equals(MatchType.BT)) {
+                String value = values[0];
+                values = value.split("～");
+                values[0] = values[0].trim();
+                values[1] = values[1].trim();
             }
         }
 
