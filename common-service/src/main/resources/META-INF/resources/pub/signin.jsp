@@ -165,7 +165,7 @@
                     </script>
 					<div>
 						<p>
-							开发测试登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','!qaz2wsx')">admin</a>
+							开发测试登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
 						</p>
 					</div>
 				</s:if>

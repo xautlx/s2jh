@@ -570,10 +570,10 @@
                         <div><span class="label label-danger">Error</span> {%=file.error%}</div>
                     {% } %}
                 </td>
-                <td align="right">
+                <td align="right" class="td-size">
                     <span class="size">{%=file.size%}</span>
                 </td>
-                <td align="right">
+                <td align="right" class="td-op">
                         <button type="button" class="btn default" onclick="$(this).closest('tr').remove()">
                             <i class="fa fa-trash-o"></i>
                             <span>删除</span>

@@ -59,9 +59,7 @@
 					<div class="form-group">
 						<label class="control-label">关联附件</label>
 						<div class="controls">
-							<p class="form-control-static">
-								<s:date name="expireTime" format="yyyy-MM-dd HH:mm:ss" />
-							</p>
+							<s3:files listUrlPrefix="/sys/pub-post!attachmentList" listUrlId="%{model.id}" readonly="true"/>
 						</div>
 					</div>
 				</div>

@@ -311,7 +311,7 @@ public class ExtJasperReportsResult extends StrutsResultSupport implements Jaspe
 
         // Fill the report and produce a print object
         try {
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(systemId);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(systemId);
             if (conn == null)
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, stackDataSource);
             else

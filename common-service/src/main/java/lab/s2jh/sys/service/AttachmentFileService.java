@@ -35,8 +35,8 @@ public class AttachmentFileService extends BaseService<AttachmentFile, String> {
     public void attachmentBind(String[] attachmentIds, Persistable bindingEntity, String entityFileCategory) {
         List<AttachmentFile> tobeRemoves = Lists.newArrayList();
         List<AttachmentFile> tobeAdds = Lists.newArrayList();
-        List<AttachmentFile> r2List = attachmentFileDao.findByEntityClassNameAndEntityIdAndEntityFileCategory(
-                bindingEntity.getClass().getName(), String.valueOf(bindingEntity.getId()), entityFileCategory);
+        List<AttachmentFile> r2List = attachmentFileDao.findByEntityClassNameAndEntityId(bindingEntity.getClass()
+                .getName(), String.valueOf(bindingEntity.getId()));
         if ((r2List == null || r2List.size() == 0)
                 && (attachmentIds == null || attachmentIds.length == 0 || attachmentIds[0].trim().length() == 0)) {
             return;

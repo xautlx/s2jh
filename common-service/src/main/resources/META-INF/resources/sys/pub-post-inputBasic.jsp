@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="s3" uri="/struts3-tags"%>
 <%@ include file="/common/taglibs.jsp"%>
 <form class="form-horizontal form-bordered form-label-stripped form-validation" action="${base}/sys/pub-post!doSave"
 	method="post">
@@ -85,9 +87,7 @@
 				<div class="form-group">
 					<label class="control-label">关联附件</label>
 					<div class="controls">
-					
-						<a class="btn green btn-fileinput-trigger" href="#fileupload-dialog" data-toggle="modal"
-							data-url="${base}/sys/pub-post!attachmentList" data-pk='<s:property value="model.id"/>' data-name="attachments">添加附件...</a>
+						<s3:files listUrlPrefix="/sys/pub-post!attachmentList" listUrlId="%{model.id}" />
 					</div>
 				</div>
 			</div>

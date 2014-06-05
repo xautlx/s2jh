@@ -49,7 +49,11 @@ public class PubPostController extends BaseController<PubPost, String> {
 
     @MetaData(value = "关联附件列表")
     public HttpHeaders attachmentList() {
-        return attachmentList(bindingEntity, "attachments");
+        return attachmentList(bindingEntity);
     }
 
+    @MetaData(value = "关联附件下载")
+    public void attachmentDownload() {
+        attachmentDownload(bindingEntity, getRequiredParameter("attachmentId"));
+    }
 }

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lab.s2jh.core.annotation.MetaData;
+import lab.s2jh.core.entity.AttachmentableEntity;
 import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Table(name = "tbl_SYS_PUB_POST")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @MetaData(value = "公告", comments = "用于向应用所有用户显示的公告消息，不做用户或权限区分控制")
-public class PubPost extends BaseUuidEntity {
+public class PubPost extends BaseUuidEntity implements AttachmentableEntity {
 
     private static final long serialVersionUID = 2544390748513253055L;
 
@@ -145,5 +146,17 @@ public class PubPost extends BaseUuidEntity {
     @Transient
     public boolean isInternal() {
         return StringUtils.isBlank(externalLink);
+    }
+    
+    @MetaData(value="关联附件个数",comments="用于列表显示和关联处理附件清理判断")
+    private Integer attachmentSize;
+
+    @Override
+    public Integer getAttachmentSize() {
+        return attachmentSize;
+    }
+
+    public void setAttachmentSize(Integer attachmentSize) {
+        this.attachmentSize = attachmentSize;
     }
 }

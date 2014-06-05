@@ -13,4 +13,5 @@ public interface AttachmentFileDao extends BaseDao<AttachmentFile, String> {
             String entityFileCategory);
 
     List<AttachmentFile> findByEntityClassNameAndEntityId(String entityClassName, String entityId);
+   
 }
