@@ -585,6 +585,26 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         case EN:
             predicate = builder.notLike(expression, "%" + matchValue);
             break;
+        case BT:
+            Assert.isTrue(matchValue.getClass().isArray(), "Match value must be array");
+            Object[] matchValues = (Object[]) matchValue;
+            Assert.isTrue(matchValues.length == 2, "Match value must have two value");
+            // 对日期特殊处理：一般用于区间日期的结束时间查询,如查询2012-01-01之前,一般需要显示2010-01-01当天及以前的数据,
+            // 而数据库一般存有时分秒,因此需要特殊处理把当前日期+1天,转换为<2012-01-02进行查询
+            if (matchValues[0] instanceof Date) {
+                DateTime dateFrom = new DateTime(((Date) matchValues[0]).getTime());
+                DateTime dateTo = new DateTime(((Date) matchValues[1]).getTime());
+                if (dateFrom.getHourOfDay() == 0 && dateFrom.getMinuteOfHour() == 0
+                        && dateFrom.getSecondOfMinute() == 0) {
+                    return builder.and(builder.greaterThanOrEqualTo(expression, dateFrom.toDate()),
+                            builder.lessThan(expression, dateTo.plusDays(1).toDate()));
+
+                }
+            } else {
+                return builder.between(expression, (Comparable) matchValues[0], (Comparable) matchValues[1]);
+            }
+            predicate = builder.equal(expression, matchValue);
+            break;
         case GT:
             predicate = builder.greaterThan(expression, (Comparable) matchValue);
             break;
@@ -996,6 +1016,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      */
     @SuppressWarnings("rawtypes")
     protected List<Map<String, Object>> queryForMapDatasByNativeSQL(String sql) {
+        //TODO 防止SQL字符过滤处理
         Query query = entityManager.createNativeQuery(sql);
         //Hibernate特定语法
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
