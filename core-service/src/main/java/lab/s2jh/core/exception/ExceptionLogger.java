@@ -26,7 +26,7 @@ public class ExceptionLogger {
         //异常情况移除用于控制重复提交的Token记录，使得用户可以再次提交
         //@see lab.s2jh.core.web.interceptor.ExtTokenInterceptor
         request.getSession(false).removeAttribute(ExtTokenInterceptor.TOKEN_COUNTER);
-        
+
         String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
         if (requestUri == null) {
             requestUri = (String) request.getAttribute("javax.servlet.forward.request_uri");
@@ -42,7 +42,7 @@ public class ExceptionLogger {
         String errorTitle = "ERR" + rand + ": ";
         String errorMessage = errorTitle + "系统运行错误，请联系管理员！";
         if (e != null) {
-            errorMessage = errorTitle + e.getMessage();
+            errorMessage = errorTitle + e.getClass().getName() + ":" + e.getMessage();
 
             if (e instanceof lab.s2jh.core.exception.DuplicateTokenException) {
                 errorMessage = "请勿重复提交表单";
