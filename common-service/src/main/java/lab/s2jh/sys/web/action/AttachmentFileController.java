@@ -21,6 +21,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -117,11 +118,21 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
 
     @MetaData(value = "文件下载")
     public void download() {
-        AttachmentFile entity = attachmentFileService.findOne(this.getRequiredParameter("id"));
-        HttpServletResponse response = ServletActionContext.getResponse();
-        ServletUtils.setFileDownloadHeader(response, entity.getFileRealName());
-        response.setContentType(entity.getFileType());
-        //ServletUtils.renderFileDownload(response, entity.getFileContent());
+        try {
+            AttachmentFile entity = attachmentFileService.findOne(this.getRequiredParameter("id"));
+            //附件访问控制：未关联附件才允许通用访问下载，已关联附件只能通过各业务对象入口访问
+            Assert.isTrue(StringUtils.isBlank(entity.getEntityId()));
+            HttpServletResponse response = ServletActionContext.getResponse();
+            ServletUtils.setFileDownloadHeader(response, entity.getFileRealName());
+            response.setContentType(entity.getFileType());
+            String rootPath = dynamicConfigService.getFileUploadRootDir();
+            File diskFile = new File(rootPath + entity.getFileRelativePath() + File.separator
+                    + entity.getDiskFileName());
+
+            ServletUtils.renderFileDownload(response, FileUtils.readFileToByteArray(diskFile));
+        } catch (Exception e) {
+            logger.error("Download file error", e);
+        }
     }
 
     @MetaData(value = "文件删除")

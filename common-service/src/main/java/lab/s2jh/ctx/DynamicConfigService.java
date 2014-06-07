@@ -1,5 +1,7 @@
 package lab.s2jh.ctx;
 
+import java.io.File;
+
 import lab.s2jh.sys.entity.ConfigProperty;
 import lab.s2jh.sys.service.ConfigPropertyService;
 
@@ -26,6 +28,9 @@ public class DynamicConfigService {
 
     @Value("${cfg.system.title:\"S2JH\"}")
     private String systemTitle;
+
+    @Value("${cfg.file.upload.dir:\"\"}")
+    private String fileUploadDir;
 
     @Autowired(required = false)
     private ExtPropertyPlaceholderConfigurer extPropertyPlaceholderConfigurer;
@@ -66,5 +71,16 @@ public class DynamicConfigService {
 
     public boolean getBoolean(String key, boolean defaultValue) {
         return BooleanUtils.toBoolean(getString(key, String.valueOf(defaultValue)));
+    }
+
+    public String getFileUploadRootDir() {
+        String rootPath = fileUploadDir;
+        if (rootPath == null) {
+            rootPath = System.getProperty("user.dir") + File.separator + "attachments";
+        }
+        if (rootPath.endsWith(File.separator)) {
+            rootPath = rootPath.substring(0, rootPath.length() - 2);
+        }
+        return rootPath;
     }
 }

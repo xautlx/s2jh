@@ -32,7 +32,7 @@ public class AttachmentFileService extends BaseService<AttachmentFile, String> {
                 entityFileCategory);
     }
 
-    public void attachmentBind(String[] attachmentIds, Persistable bindingEntity, String entityFileCategory) {
+    public void attachmentBind(String[] attachmentIds, Persistable<?> bindingEntity, String entityFileCategory) {
         List<AttachmentFile> tobeRemoves = Lists.newArrayList();
         List<AttachmentFile> tobeAdds = Lists.newArrayList();
         List<AttachmentFile> r2List = attachmentFileDao.findByEntityClassNameAndEntityId(bindingEntity.getClass()
@@ -92,5 +92,13 @@ public class AttachmentFileService extends BaseService<AttachmentFile, String> {
             attachmentFile.setEntityFileCategory(null);
             attachmentFileDao.save(attachmentFile);
         }
+    }
+
+    /**
+     * 有时用户上传了一些附件但是可能没有保存主业务对象，导致产生一些“孤儿”附件记录和文件
+     * 配置定时任务清理超过一定时限没有被关联使用的附件数据记录和磁盘文件
+     */
+    public void timelyClearUnusedFiles() {
+
     }
 }
