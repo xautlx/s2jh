@@ -82,7 +82,7 @@ public class GroupPropertyFilter {
         return this;
     }
 
-    public static GroupPropertyFilter buildGroupFilterFromHttpRequest(Class<?> entityClass, HttpServletRequest request) {
+    public static GroupPropertyFilter buildFromHttpRequest(Class<?> entityClass, HttpServletRequest request) {
 
         try {
             String filtersJson = request.getParameter("filters");

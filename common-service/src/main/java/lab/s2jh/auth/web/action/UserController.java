@@ -151,8 +151,7 @@ public class UserController extends BaseController<User, Long> {
     @Override
     @MetaData(value = "查询")
     public HttpHeaders findByPage() {
-        GroupPropertyFilter groupFilter = GroupPropertyFilter
-                .buildGroupFilterFromHttpRequest(entityClass, getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
         if (AuthContextHolder.getAuthUserDetails() != null) {
             Collection<String> aclCodePrefixs = AuthContextHolder.getAuthUserDetails().getAclCodePrefixs();
             if (!CollectionUtils.isEmpty(aclCodePrefixs)) {

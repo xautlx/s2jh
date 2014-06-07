@@ -91,7 +91,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
     @MetaData(value = "计算显示角色关联数据")
     @SecurityControllIgnore
     public HttpHeaders findRelatedRoles() {
-        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildGroupFilterFromHttpRequest(Role.class, getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(Role.class, getRequest());
         List<Role> roles = roleService.findByFilters(groupFilter, new Sort(Direction.DESC, "aclType", "code"));
         List<ReportDefR2Role> r2s = reportDefService.findRelatedRoleR2s(this.getId());
         for (Role role : roles) {

@@ -622,8 +622,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     @MetaData(value = "查询")
     protected HttpHeaders findByPage() {
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
-        GroupPropertyFilter groupFilter = GroupPropertyFilter
-                .buildGroupFilterFromHttpRequest(entityClass, getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
         appendFilterProperty(groupFilter);
         String foramt = this.getParameter(PARAM_NAME_FOR_EXPORT_FORMAT);
         if ("xls".equalsIgnoreCase(foramt)) {
@@ -637,8 +636,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     @MetaData(value = "下拉框选项数据")
     protected HttpHeaders selectOptions() {
         Sort sort = PropertyFilter.buildSortFromHttpRequest(getRequest());
-        GroupPropertyFilter groupFilter = GroupPropertyFilter
-                .buildGroupFilterFromHttpRequest(entityClass, getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
         appendFilterProperty(groupFilter);
         setModel(this.getEntityService().findByFilters(groupFilter, sort));
         return new DefaultHttpHeaders();
