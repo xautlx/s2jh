@@ -12,14 +12,18 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
 
 import lab.s2jh.core.audit.envers.EntityRevision;
@@ -31,6 +35,7 @@ import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -49,11 +54,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Transactional
 public abstract class BaseService<T extends Persistable<? extends Serializable>, ID extends Serializable> {
@@ -376,6 +383,74 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     public Page<T> findByPage(GroupPropertyFilter groupPropertyFilter, Pageable pageable) {
         Specification<T> specifications = buildSpecification(groupPropertyFilter);
         return getEntityDao().findAll(specifications, pageable);
+    }
+
+    /**
+     * 分组聚合统计，常用于类似按账期时间段统计商品销售利润，按会计科目总帐统计等
+     * 
+     * @param groupProperties Group By汇总属性集合, 如code
+     * @param aggregateProperties 分组聚合的属性集合，规则示例：sum_amount, max_rate
+     * @param groupFilter 过滤参数对象
+     * @param pageable 分页排序参数对象，TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
+     * @return Map结构的集合分页对象
+     */
+    @Transactional(readOnly = true)
+    public Page<Map<String, Object>> findByGroupAggregate(String[] groupProperties, String[] aggregateProperties,
+            GroupPropertyFilter groupFilter, Pageable pageable) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
+        Root<T> root = criteriaQuery.from(entityClass);
+        
+        Expression<?>[] groupExpressions = buildExpressions(root, criteriaBuilder, groupProperties);
+        Expression<?>[] aggregateExpressions = buildExpressions(root, criteriaBuilder, aggregateProperties);
+
+        //CriteriaQuery<Tuple> select = criteriaQuery.multiselect(masterPath.alias("master"), countExpr.alias("sum"));
+        Expression<?>[] selectExpressions = ArrayUtils.addAll(groupExpressions, aggregateExpressions);
+        CriteriaQuery<Tuple> select = criteriaQuery.multiselect(selectExpressions);
+
+        Predicate predicate = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder);
+        if (predicate != null) {
+            select.where(predicate);
+        }
+
+        Sort sort = pageable.getSort();
+        if (sort != null) {
+            Order order = sort.iterator().next();
+            String prop = order.getProperty();
+            Path<?> path = null;
+            if (prop.indexOf(".") > -1) {
+                String[] props = StringUtils.split(prop, ".");
+                path = root.get(props[0]);
+                for (int j = 1; j < props.length; j++) {
+                    path = path.get(props[j]);
+                }
+            } else {
+                path = root.get(prop);
+            }
+            if (order.isAscending()) {
+                select.orderBy(criteriaBuilder.desc(path));
+            } else {
+                select.orderBy(criteriaBuilder.asc(path));
+            }
+        }
+
+        select.groupBy(groupExpressions);
+
+        TypedQuery<Tuple> query = entityManager.createQuery(select);
+        query.setFirstResult(pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        String[] selectProperties = ArrayUtils.addAll(groupProperties, aggregateProperties);
+        List<Tuple> tuples = query.getResultList();
+        List<Map<String, Object>> mapDatas = Lists.newArrayList();
+        for (Tuple tuple : tuples) {
+            Map<String, Object> data = Maps.newHashMap();
+            for (String prop : selectProperties) {
+                data.put(prop, tuple.get(prop));
+            }
+            mapDatas.add(data);
+        }
+        return new PageImpl(mapDatas, pageable, Integer.MAX_VALUE);
     }
 
     /**
@@ -752,6 +827,55 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      */
     protected List<Predicate> appendPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         return null;
+    }
+
+    private Expression<?>[] buildExpressions(Root<?> root, CriteriaBuilder criteriaBuilder, String... names) {
+        Expression<?>[] parsed = new Expression<?>[names.length];
+        int i = 0;
+        for (String fullname : names) {
+            Expression<?> expr = null;
+            String aggregate = null;
+            String name = fullname;
+            if (fullname.indexOf("_") > -1) {
+                aggregate = StringUtils.substringBefore(name, "_");
+                name = StringUtils.substringAfter(fullname, "_");
+            }
+            Path<?> item = null;
+            if (name.indexOf(".") > -1) {
+                String[] props = StringUtils.split(name, ".");
+                item = root.get(props[0]);
+                for (int j = 1; j < props.length; j++) {
+                    item = item.get(props[j]);
+                }
+            } else {
+                item = root.get(name);
+            }
+            if (aggregate != null) {
+                //criteriaBuilder.sum((Expression) item);
+                try {
+                    expr = (Expression) MethodUtils.invokeMethod(criteriaBuilder, aggregate, (Expression) item);
+                } catch (Exception e) {
+                    logger.error("Error for aggregate  setting ", e);
+                }
+            } else {
+                expr = item;
+            }
+            expr.alias(fullname);
+            parsed[i++] = expr;
+        }
+        return parsed;
+    }
+
+    private Selection<?>[] mergeSelections(Root<?> root, Selection<?>[] path1, Selection<?>... path2) {
+        Selection<?>[] parsed = new Selection<?>[path1.length + path2.length];
+        int i = 0;
+        for (Selection<?> path : path1) {
+            parsed[i++] = path;
+        }
+        for (Selection<?> path : path2) {
+            parsed[i++] = path;
+        }
+        return parsed;
     }
 
     /**
