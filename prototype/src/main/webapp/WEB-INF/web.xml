@@ -12,7 +12,7 @@
         <param-name>spring.profiles.default</param-name>
         <param-value>development</param-value>
     </context-param>
-    
+
     <listener>
         <listener-class>lab.s2jh.core.web.listener.ApplicationContextPreListener</listener-class>
     </listener>
@@ -143,4 +143,6 @@
         <error-code>500</error-code>
         <location>/common/errors.jsp</location>
     </error-page>
+
+    <distributable />
 </web-app>
