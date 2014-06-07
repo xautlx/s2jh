@@ -10,7 +10,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @MetaData(value = "公告阅读记录")
-public class PubPostReadController extends BaseController<PubPostRead,String> {
+public class PubPostReadController extends BaseController<PubPostRead, String> {
 
     @Autowired
     private PubPostReadService pubPostReadService;
@@ -19,7 +19,7 @@ public class PubPostReadController extends BaseController<PubPostRead,String> {
     protected BaseService<PubPostRead, String> getEntityService() {
         return pubPostReadService;
     }
-    
+
     @Override
     protected void checkEntityAclPermission(PubPostRead entity) {
         // TODO Add acl check code logic

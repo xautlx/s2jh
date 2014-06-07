@@ -20,7 +20,7 @@
 
         <!-- H2文件模式数据库，实际开发替换成其他MySQL、Oracle等数据库配置即可，注意别忘了在pom.xml中添加对应数据库驱动的依赖 -->
         <bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
-            <property name="databaseName" value="${user.dir}\h2\prototype" />
+            <property name="databaseName" value="${user.dir}/h2/prototype" />
             <property name="databaseConfigurer">
                 <bean class="lab.s2jh.core.dao.h2.H2EmbeddedFileDatabaseConfigurer" />
             </property>
@@ -125,6 +125,4 @@
             </constructor-arg>
         </bean>
     </beans>
-
-
 </beans>

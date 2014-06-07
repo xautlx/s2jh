@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PubPostReadService extends BaseService<PubPostRead,String>{
-    
+public class PubPostReadService extends BaseService<PubPostRead, String> {
+
     @Autowired
     private PubPostReadDao pubPostReadDao;
 
@@ -24,12 +24,12 @@ public class PubPostReadService extends BaseService<PubPostRead,String>{
     protected BaseDao<PubPostRead, String> getEntityDao() {
         return pubPostReadDao;
     }
-    
-    public List<PubPostRead> findReaded(User readUser,List<PubPost> pubPosts){
+
+    public List<PubPostRead> findReaded(User readUser, List<PubPost> pubPosts) {
         return pubPostReadDao.findReaded(readUser, pubPosts);
     }
-    
-    public PubPostRead findReaded(User readUser,PubPost pubPost){
+
+    public PubPostRead findReaded(User readUser, PubPost pubPost) {
         return pubPostReadDao.findByReadUserAndPubPost(readUser, pubPost);
     }
 }
