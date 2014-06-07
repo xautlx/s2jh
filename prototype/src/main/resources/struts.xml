@@ -116,6 +116,12 @@
                 <param name="exportParameters">jasperExportParameters</param>
                 <param name="imageServletUrl">/pub/jasper/images.servlet?image=</param>
             </result>
+            <!-- 全局的异常处理页面 -->
+            <result name="errors">/common/errors.jsp</result>
         </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="errors" />
+        </global-exception-mappings>
     </package>
 </struts>
