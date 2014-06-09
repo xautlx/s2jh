@@ -1,6 +1,5 @@
 package lab.s2jh.core.dao.h2;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,11 +46,6 @@ public class H2EmbeddedFileDatabaseConfigurer implements EmbeddedDatabaseConfigu
     public void configureConnectionProperties(ConnectionProperties properties, String databaseName) {
         properties.setDriverClass(org.h2.Driver.class);
         logger.info("Using H2 EmbeddedFileDatabase: {}", databaseName);
-        File dbFile = new File(databaseName + ".h2.db");
-        if (!dbFile.exists()) {
-            logger.debug("Set jdbc.initialize.database.enable=true as h2 file not exists.");
-            System.setProperty("jdbc.initialize.database.enable", "true");
-        }
         properties.setUrl(String.format("jdbc:h2:file:%s;DB_CLOSE_DELAY=-1", databaseName));
         properties.setUsername("sa");
         properties.setPassword("");
