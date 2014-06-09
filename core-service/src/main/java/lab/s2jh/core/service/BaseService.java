@@ -412,25 +412,21 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         if (predicate != null) {
             select.where(predicate);
         }
-
+       
         Sort sort = pageable.getSort();
         if (sort != null) {
             Order order = sort.iterator().next();
             String prop = order.getProperty();
-            Path<?> path = null;
-            if (prop.indexOf(".") > -1) {
-                String[] props = StringUtils.split(prop, ".");
-                path = root.get(props[0]);
-                for (int j = 1; j < props.length; j++) {
-                    path = path.get(props[j]);
+            List<Selection<?>> selections= select.getSelection().getCompoundSelectionItems();
+            for (Selection<?> selection : selections) {
+                if(selection.getAlias().equals(prop)){
+                    if (order.isAscending()) {
+                        select.orderBy(criteriaBuilder.desc((Expression<?>)selection));
+                    } else {
+                        select.orderBy(criteriaBuilder.asc((Expression<?>)selection));
+                    }
+                    break;
                 }
-            } else {
-                path = root.get(prop);
-            }
-            if (order.isAscending()) {
-                select.orderBy(criteriaBuilder.desc(path));
-            } else {
-                select.orderBy(criteriaBuilder.asc(path));
             }
         }
 
