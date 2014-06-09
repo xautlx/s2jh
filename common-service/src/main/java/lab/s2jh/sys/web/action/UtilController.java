@@ -133,8 +133,12 @@ public class UtilController extends SimpleController {
         if (h2Server == null) {
             h2Server = Server.createWebServer();
         }
-        logger.info("Starting H2 Server...");
-        h2Server.start();
+        try {
+            logger.info("Starting H2 Server...");
+            h2Server.start();
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
         datas.put("h2LoginUrl", "http://localhost:" + h2Server.getPort() + "/login.jsp");
         datas.put("h2JdbcUrl", databaseName);
         setModel(OperationResult.buildSuccessResult("H2 Server已成功加载", datas));
