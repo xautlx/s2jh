@@ -38,6 +38,16 @@ public class DynamicConfigService {
     @Autowired
     private ConfigPropertyService configPropertyService;
 
+    /**
+     * 根据key获取对应动态参数值
+     */
+    public String getString(String key) {
+        return getString(key, null);
+    }
+
+    /**
+     * 根据key获取对应动态参数值，如果没有则返回defaultValue
+     */
     public String getString(String key, String defaultValue) {
         String val = null;
         //首先从数据库取值
