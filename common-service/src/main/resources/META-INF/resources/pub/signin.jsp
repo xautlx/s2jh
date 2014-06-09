@@ -40,6 +40,9 @@
 <link href="${base}/assets/css/pages/login.css" rel="stylesheet" type="text/css" />
 <link href="${base}/assets/app/custom.css" rel="stylesheet" type="text/css" />
 <!-- END THEME STYLES -->
+
+<script src="${base}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <!-- END HEAD -->
@@ -154,6 +157,11 @@
 					</div>
 				</div>
 				<s:if test="%{devMode}">
+					<div id="devModeTips">
+						<p>
+							开发/测试/演示登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
+						</p>
+					</div>
 					<script type="text/javascript">
                         function setupDevUser(user, password) {
                             var $form = $("#login-form");
@@ -162,12 +170,13 @@
                             $("input[name='j_captcha']", $form).val('admin');
                             $form.submit();
                         }
+                        jQuery(document).ready(function() {
+                            $("#devModeTips").pulsate({
+                                color : "#bf1c56",
+                                repeat : 5
+                            });
+                        });
                     </script>
-					<div>
-						<p>
-							开发测试登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
-						</p>
-					</div>
 				</s:if>
 			</form>
 			<!-- END LOGIN FORM -->
@@ -292,17 +301,18 @@
 											<div class="form-group">
 												<label class="control-label">联系信息</label>
 												<div class="controls">
-													<textarea rows="2" class="form-control placeholder-no-fix" name="contactInfo"
+													<textarea rows="4" class="form-control placeholder-no-fix" name="contactInfo"
 														placeholder="可自由填写申请人的姓名、电话、邮件、聊天账号等信息，用于系统管理员在需要时联系到您进行资料确认"></textarea>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="control-label">备注说明</label>
 												<div class="controls">
-													<textarea rows="2" class="form-control placeholder-no-fix" name="remarkInfo"
+													<textarea rows="4" class="form-control placeholder-no-fix" name="remarkInfo"
 														placeholder="提供相关备注说明信息，如账号类型，需要访问的 功能列表等，有助于管理员快速有效的进行账号设定"></textarea>
 												</div>
 											</div>
+											<%-- 
 											<p>上传注册相关资料附件：</p>
 											<div class="row fileupload-buttonbar">
 												<div>
@@ -315,6 +325,7 @@
 												</div>
 												<div class="files" id="files"></div>
 											</div>
+											--%>
 										</div>
 									</div>
 									<div class="row">
@@ -355,7 +366,6 @@
 	<script src="${base}/assets/plugins/respond.min.js"></script>
 	<script src="${base}/assets/plugins/excanvas.min.js"></script> 
 	<![endif]-->
-	<script src="${base}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
@@ -366,6 +376,7 @@
 	<script src="${base}/assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${base}/assets/plugins/jquery.pulsate.min.js"></script>
 	<!-- The basic File Upload plugin -->
 	<script src="${base}/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
