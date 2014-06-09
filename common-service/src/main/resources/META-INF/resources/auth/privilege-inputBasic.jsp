@@ -33,17 +33,17 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label class="control-label">代码</label>
+					<label class="control-label">名称</label>
 					<div class="controls">
-						<s:textfield name="code" />
+						<s:textfield name="title" />
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					<label class="control-label">名称</label>
+					<label class="control-label">代码</label>
 					<div class="controls">
-						<s:textfield name="title" />
+						<s:textfield name="code" />
 					</div>
 				</div>
 			</div>

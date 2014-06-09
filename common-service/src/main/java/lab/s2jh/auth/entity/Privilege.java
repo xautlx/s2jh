@@ -41,7 +41,7 @@ public class Privilege extends BaseUuidEntity {
     @EntityAutoCode(order = 8, search = true)
     private PrivilegeTypeEnum type = PrivilegeTypeEnum.URL;
 
-    @MetaData(value = "代码")
+    @MetaData(value = "代码", tooltips = "不需要标签控制权限，可以留空", comments = "关联权限标签：S2PrivilegeTag.java")
     @EntityAutoCode(order = 10, search = true)
     private String code;
 
@@ -113,7 +113,7 @@ public class Privilege extends BaseUuidEntity {
         this.description = description;
     }
 
-    @Column(nullable = false, unique = true, length = 64)
+    @Column(length = 64)
     public String getCode() {
         return code;
     }
