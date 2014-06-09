@@ -400,30 +400,36 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
         Root<T> root = criteriaQuery.from(entityClass);
-        
+
         Expression<?>[] groupExpressions = buildExpressions(root, criteriaBuilder, groupProperties);
         Expression<?>[] aggregateExpressions = buildExpressions(root, criteriaBuilder, aggregateProperties);
-
-        //CriteriaQuery<Tuple> select = criteriaQuery.multiselect(masterPath.alias("master"), countExpr.alias("sum"));
         Expression<?>[] selectExpressions = ArrayUtils.addAll(groupExpressions, aggregateExpressions);
         CriteriaQuery<Tuple> select = criteriaQuery.multiselect(selectExpressions);
 
-        Predicate predicate = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder);
-        if (predicate != null) {
-            select.where(predicate);
+        Predicate where = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder, false);
+        if (where != null) {
+            select.where(where);
         }
-       
+        Predicate having = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder, true);
+        if (having != null) {
+            select.having(having);
+        }
+
+        groupFilter.getFilters();
+
         Sort sort = pageable.getSort();
         if (sort != null) {
             Order order = sort.iterator().next();
             String prop = order.getProperty();
-            List<Selection<?>> selections= select.getSelection().getCompoundSelectionItems();
+            String alias = StringUtils.remove(
+                    StringUtils.remove(StringUtils.remove(StringUtils.remove(prop, "("), ")"), "."), ",");
+            List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
             for (Selection<?> selection : selections) {
-                if(selection.getAlias().equals(prop)){
+                if (selection.getAlias().equals(alias)) {
                     if (order.isAscending()) {
-                        select.orderBy(criteriaBuilder.desc((Expression<?>)selection));
+                        select.orderBy(criteriaBuilder.desc((Expression<?>) selection));
                     } else {
-                        select.orderBy(criteriaBuilder.asc((Expression<?>)selection));
+                        select.orderBy(criteriaBuilder.asc((Expression<?>) selection));
                     }
                     break;
                 }
@@ -442,7 +448,9 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         for (Tuple tuple : tuples) {
             Map<String, Object> data = Maps.newHashMap();
             for (String prop : selectProperties) {
-                data.put(prop, tuple.get(prop));
+                String alias = StringUtils.remove(
+                        StringUtils.remove(StringUtils.remove(StringUtils.remove(prop, "("), ")"), "."), ",");
+                data.put(prop, tuple.get(alias));
             }
             mapDatas.add(data);
         }
@@ -498,11 +506,17 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
     @SuppressWarnings("unchecked")
     private <X> Predicate buildPredicate(String propertyName, PropertyFilter filter, Root<X> root,
-            CriteriaQuery<?> query, CriteriaBuilder builder) {
+            CriteriaQuery<?> query, CriteriaBuilder builder, Boolean having) {
         Object matchValue = filter.getMatchValue();
         String[] names = StringUtils.split(propertyName, ".");
 
         if (matchValue == null) {
+            return null;
+        }
+        if (having && propertyName.indexOf("(") == -1) {
+            return null;
+        }
+        if (!having && propertyName.indexOf("(") > -1) {
             return null;
         }
         if (matchValue instanceof String) {
@@ -559,7 +573,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         }
 
         Predicate predicate = null;
-        Path expression = null;
+        Expression expression = null;
 
         // 处理集合子查询
         Subquery<Long> subquery = null;
@@ -567,17 +581,15 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         if (filter.getSubQueryCollectionPropetyType() != null) {
             subquery = query.subquery(Long.class);
             subQueryFrom = subquery.from(filter.getSubQueryCollectionPropetyType());
-            expression = subQueryFrom.get(names[1]);
+            Path path = subQueryFrom.get(names[1]);
             if (names.length > 2) {
                 for (int i = 2; i < names.length; i++) {
-                    expression = expression.get(names[i]);
+                    path = path.get(names[i]);
                 }
             }
+            expression = (Expression) path;
         } else {
-            expression = root.get(names[0]);
-            for (int i = 1; i < names.length; i++) {
-                expression = expression.get(names[i]);
-            }
+            expression = buildExpression(root, builder, propertyName);
         }
 
         if ("NULL".equalsIgnoreCase(String.valueOf(matchValue))) {
@@ -738,19 +750,19 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @return
      */
     private <X> List<Predicate> buildPredicatesFromFilters(final Collection<PropertyFilter> filters, Root<X> root,
-            CriteriaQuery<?> query, CriteriaBuilder builder) {
+            CriteriaQuery<?> query, CriteriaBuilder builder, Boolean having) {
         List<Predicate> predicates = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(filters)) {
             for (PropertyFilter filter : filters) {
                 if (!filter.hasMultiProperties()) { // 只有一个属性需要比较的情况.
-                    Predicate predicate = buildPredicate(filter.getPropertyName(), filter, root, query, builder);
+                    Predicate predicate = buildPredicate(filter.getPropertyName(), filter, root, query, builder, having);
                     if (predicate != null) {
                         predicates.add(predicate);
                     }
                 } else {// 包含多个属性需要比较的情况,进行or处理.
                     List<Predicate> orpredicates = Lists.newArrayList();
                     for (String param : filter.getPropertyNames()) {
-                        Predicate predicate = buildPredicate(param, filter, root, query, builder);
+                        Predicate predicate = buildPredicate(param, filter, root, query, builder, having);
                         if (predicate != null) {
                             orpredicates.add(predicate);
                         }
@@ -779,13 +791,19 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
     protected Predicate buildPredicatesFromFilters(GroupPropertyFilter groupPropertyFilter, Root root,
             CriteriaQuery<?> query, CriteriaBuilder builder) {
-        List<Predicate> predicates = buildPredicatesFromFilters(groupPropertyFilter.getFilters(), root, query, builder);
+        return buildPredicatesFromFilters(groupPropertyFilter, root, query, builder, false);
+    }
+
+    protected Predicate buildPredicatesFromFilters(GroupPropertyFilter groupPropertyFilter, Root root,
+            CriteriaQuery<?> query, CriteriaBuilder builder, Boolean having) {
+        List<Predicate> predicates = buildPredicatesFromFilters(groupPropertyFilter.getFilters(), root, query, builder,
+                having);
         if (CollectionUtils.isNotEmpty(groupPropertyFilter.getGroups())) {
             for (GroupPropertyFilter group : groupPropertyFilter.getGroups()) {
                 if (CollectionUtils.isEmpty(group.getFilters()) && CollectionUtils.isEmpty(group.getForceAndFilters())) {
                     continue;
                 }
-                Predicate subPredicate = buildPredicatesFromFilters(group, root, query, builder);
+                Predicate subPredicate = buildPredicatesFromFilters(group, root, query, builder, having);
                 if (subPredicate != null) {
                     predicates.add(subPredicate);
                 }
@@ -805,7 +823,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         }
 
         List<Predicate> appendAndPredicates = buildPredicatesFromFilters(groupPropertyFilter.getForceAndFilters(),
-                root, query, builder);
+                root, query, builder, having);
         if (CollectionUtils.isNotEmpty(appendAndPredicates)) {
             if (predicate != null) {
                 appendAndPredicates.add(predicate);
@@ -825,17 +843,27 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return null;
     }
 
-    private Expression<?>[] buildExpressions(Root<?> root, CriteriaBuilder criteriaBuilder, String... names) {
-        Expression<?>[] parsed = new Expression<?>[names.length];
-        int i = 0;
-        for (String fullname : names) {
-            Expression<?> expr = null;
-            String aggregate = null;
-            String name = fullname;
-            if (fullname.indexOf("_") > -1) {
-                aggregate = StringUtils.substringBefore(name, "_");
-                name = StringUtils.substringAfter(fullname, "_");
+    private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String fullname) {
+        Expression<?> expr = null;
+        String aggregate = null;
+        String name = fullname;
+        if (fullname.indexOf("(") > -1) {
+            aggregate = StringUtils.substringBefore(name, "(");
+            name = StringUtils.substringBeforeLast(StringUtils.substringAfter(fullname, "("), ")");
+        }
+        if (name.indexOf(",") > -1) {
+            String[] subNames = name.split(",");
+            Expression[] subExpressions = new Expression[subNames.length];
+            for (int i = 0; i < subNames.length; i++) {
+                subExpressions[i] = buildExpression(root, criteriaBuilder, subNames[i]);
             }
+            try {
+                //criteriaBuilder.quot();
+                expr = (Expression) MethodUtils.invokeMethod(criteriaBuilder, aggregate, subExpressions);
+            } catch (Exception e) {
+                logger.error("Error for aggregate  setting ", e);
+            }
+        } else {
             Path<?> item = null;
             if (name.indexOf(".") > -1) {
                 String[] props = StringUtils.split(name, ".");
@@ -856,8 +884,18 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             } else {
                 expr = item;
             }
-            expr.alias(fullname);
-            parsed[i++] = expr;
+        }
+        String alias = StringUtils.remove(
+                StringUtils.remove(StringUtils.remove(StringUtils.remove(fullname, "("), ")"), "."), ",");
+        expr.alias(alias);
+        return expr;
+    }
+
+    private Expression<?>[] buildExpressions(Root<?> root, CriteriaBuilder criteriaBuilder, String... names) {
+        Expression<?>[] parsed = new Expression<?>[names.length];
+        int i = 0;
+        for (String fullname : names) {
+            parsed[i++] = buildExpression(root, criteriaBuilder, fullname);
         }
         return parsed;
     }

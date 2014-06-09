@@ -6,6 +6,7 @@ package lab.s2jh.core.pagination;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -183,25 +184,31 @@ public class PropertyFilter {
         Assert.isTrue(StringUtils.isNotBlank(propertyNameStr), "filter名称" + filterName + "没有按规则编写,无法得到属性名称.");
         propertyNames = StringUtils.splitByWholeSeparator(propertyNameStr, PropertyFilter.OR_SEPARATOR);
         try {
-            Method method = null;
-            String[] namesSplits = StringUtils.split(propertyNames[0], ".");
-            if (namesSplits.length == 1) {
-                method = OgnlRuntime.getGetMethod(null, entityClass, propertyNames[0]);
+            if (propertyNameStr.indexOf("count(") > -1) {
+                propertyClass = Integer.class;
+            } else if (propertyNameStr.indexOf("(") > -1) {
+                propertyClass = BigDecimal.class;
             } else {
-                Class<?> retClass = entityClass;
-                for (String nameSplit : namesSplits) {
-                    method = OgnlRuntime.getGetMethod(null, retClass, nameSplit);
-                    retClass = method.getReturnType();
-                    if (Collection.class.isAssignableFrom(retClass)) {
-                        Type genericReturnType = method.getGenericReturnType();
-                        if (genericReturnType instanceof ParameterizedType) {
-                            retClass = (Class<T>) ((ParameterizedType) genericReturnType).getActualTypeArguments()[0];
-                            subQueryCollectionPropetyType = retClass;
+                Method method = null;
+                String[] namesSplits = StringUtils.split(propertyNames[0], ".");
+                if (namesSplits.length == 1) {
+                    method = OgnlRuntime.getGetMethod(null, entityClass, propertyNames[0]);
+                } else {
+                    Class<?> retClass = entityClass;
+                    for (String nameSplit : namesSplits) {
+                        method = OgnlRuntime.getGetMethod(null, retClass, nameSplit);
+                        retClass = method.getReturnType();
+                        if (Collection.class.isAssignableFrom(retClass)) {
+                            Type genericReturnType = method.getGenericReturnType();
+                            if (genericReturnType instanceof ParameterizedType) {
+                                retClass = (Class<T>) ((ParameterizedType) genericReturnType).getActualTypeArguments()[0];
+                                subQueryCollectionPropetyType = retClass;
+                            }
                         }
                     }
                 }
+                propertyClass = method.getReturnType();
             }
-            propertyClass = method.getReturnType();
         } catch (Exception e) {
             throw new IllegalArgumentException("无效对象属性定义：" + entityClass + ":" + propertyNames[0], e);
         }
