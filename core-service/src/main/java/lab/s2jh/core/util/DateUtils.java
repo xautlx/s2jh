@@ -38,6 +38,13 @@ public class DateUtils {
         return DEFAULT_DATE_FORMATER.format(date);
     }
 
+    public static String formatDate(Date date, String format) {
+        if (date == null) {
+            return null;
+        }
+        return new SimpleDateFormat(format).format(date);
+    }
+
     public static String formatTime(Date date) {
         if (date == null) {
             return null;
