@@ -14,8 +14,6 @@ public class IPAddrFetcher {
 
     private static Logger logger = LoggerFactory.getLogger(IPAddrFetcher.class);
 
-    private final static String PROXY_FLAG = "X-Forwarded-For";
-
     /**
      * 获取客户端IP地址，支持代理服务器
      * @param request
@@ -28,7 +26,7 @@ public class IPAddrFetcher {
         Enumeration enumeration = request.getHeaderNames();
         while (enumeration.hasMoreElements()) {
             String paraName = (String) enumeration.nextElement();
-            if (PROXY_FLAG.equalsIgnoreCase(paraName)) {
+            if ("x-forward-for".equalsIgnoreCase(paraName) || "x-forwarded-for".equalsIgnoreCase(paraName)) {
                 ip = request.getHeader(paraName);
                 break;
             }

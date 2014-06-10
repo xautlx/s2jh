@@ -43,7 +43,7 @@ $(function() {
             hidden : true,
             align : 'left'
         }, {
-            name : 'xForwardFor',
+            name : 'xforwardFor',
             width : 100,
             align : 'left'
         }, {
