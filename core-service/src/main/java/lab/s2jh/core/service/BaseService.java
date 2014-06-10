@@ -388,18 +388,30 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     /**
      * 分组聚合统计，常用于类似按账期时间段统计商品销售利润，按会计科目总帐统计等
      * 
-     * @param groupProperties Group By汇总属性集合, 如code
-     * @param aggregateProperties 分组聚合的属性集合，规则示例：sum_amount, max_rate
      * @param groupFilter 过滤参数对象
      * @param pageable 分页排序参数对象，TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
+     * @param properties 属性集合，判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性 
      * @return Map结构的集合分页对象
      */
     @Transactional(readOnly = true)
-    public Page<Map<String, Object>> findByGroupAggregate(String[] groupProperties, String[] aggregateProperties,
-            GroupPropertyFilter groupFilter, Pageable pageable) {
+    public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
+            String... properties) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
         Root<T> root = criteriaQuery.from(entityClass);
+
+        List<String> groupLists = Lists.newArrayList();
+        List<String> aggregateLists = Lists.newArrayList();
+        for (String prop : properties) {
+            if (prop.indexOf("(") > -1) {
+                aggregateLists.add(prop);
+            } else {
+                groupLists.add(prop);
+            }
+        }
+
+        String[] groupProperties = groupLists.toArray(new String[groupLists.size()]);
+        String[] aggregateProperties = aggregateLists.toArray(new String[aggregateLists.size()]);
 
         Expression<?>[] groupExpressions = buildExpressions(root, criteriaBuilder, groupProperties);
         Expression<?>[] aggregateExpressions = buildExpressions(root, criteriaBuilder, aggregateProperties);
@@ -415,8 +427,6 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             select.having(having);
         }
 
-        groupFilter.getFilters();
-
         Sort sort = pageable.getSort();
         if (sort != null) {
             Order order = sort.iterator().next();
@@ -425,6 +435,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                     StringUtils.remove(StringUtils.remove(StringUtils.remove(prop, "("), ")"), "."), ",");
             List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
             for (Selection<?> selection : selections) {
+                logger.debug("----{}----{}", selection.getAlias(), alias);
                 if (selection.getAlias().equals(alias)) {
                     if (order.isAscending()) {
                         select.orderBy(criteriaBuilder.desc((Expression<?>) selection));

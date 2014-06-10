@@ -43,7 +43,6 @@ public class ExceptionLogger {
         String errorMessage = errorTitle + "系统运行错误，请联系管理员！";
         if (e != null) {
             errorMessage = errorTitle + e.getClass().getName() + ":" + e.getMessage();
-
             if (e instanceof lab.s2jh.core.exception.DuplicateTokenException) {
                 errorMessage = "请勿重复提交表单";
             } else if (e instanceof lab.s2jh.core.exception.BaseRuntimeException) {
@@ -67,7 +66,7 @@ public class ExceptionLogger {
                         }
                     }
                 }
-            } else if (e instanceof java.lang.IllegalArgumentException) {
+            } else if (e instanceof ValidationException) {
                 errorMessage = e.getMessage();
                 skipLog = true;
             }

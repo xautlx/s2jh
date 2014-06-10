@@ -347,26 +347,31 @@ public class PropertyFilter {
         String sidx = StringUtils.isBlank(request.getParameter("sidx")) ? "id" : request.getParameter("sidx");
         Direction sord = "desc".equalsIgnoreCase(request.getParameter("sord")) ? Direction.DESC : Direction.ASC;
         Sort sort = null;
-        for (String sidxItem : sidx.split(",")) {
-            if (StringUtils.isNotBlank(sidxItem)) {
-                String[] sidxItemWithOrder = sidxItem.trim().split(" ");
-                String sortname = sidxItemWithOrder[0];
-                if (sortname.indexOf(OR_SEPARATOR) > -1) {
-                    sortname = StringUtils.substringBefore(sortname, OR_SEPARATOR);
-                }
-                if (sidxItemWithOrder.length == 1) {
-                    if (sort == null) {
-                        sort = new Sort(sord, sortname);
-                    } else {
-                        sort = sort.and(new Sort(sord, sortname));
+        if (sidx.indexOf("(") > -1) {//聚合类型参数
+            sort = new Sort(sord, sidx);
+        } else {
+            for (String sidxItem : sidx.split(",")) {
+                if (StringUtils.isNotBlank(sidxItem)) {
+                    String[] sidxItemWithOrder = sidxItem.trim().split(" ");
+                    String sortname = sidxItemWithOrder[0];
+                    if (sortname.indexOf(OR_SEPARATOR) > -1) {
+                        sortname = StringUtils.substringBefore(sortname, OR_SEPARATOR);
                     }
-                } else {
-                    String sortorder = sidxItemWithOrder[1];
-                    if (sort == null) {
-                        sort = new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC, sortname);
+                    if (sidxItemWithOrder.length == 1) {
+                        if (sort == null) {
+                            sort = new Sort(sord, sortname);
+                        } else {
+                            sort = sort.and(new Sort(sord, sortname));
+                        }
                     } else {
-                        sort = sort.and(new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC,
-                                sortname));
+                        String sortorder = sidxItemWithOrder[1];
+                        if (sort == null) {
+                            sort = new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC,
+                                    sortname);
+                        } else {
+                            sort = sort.and(new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC
+                                    : Direction.ASC, sortname));
+                        }
                     }
                 }
             }

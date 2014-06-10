@@ -1062,4 +1062,16 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
         return new DefaultHttpHeaders();
     }
+
+    /**
+     * 基于分组和聚合属性返回Map结构分页数据
+     * 判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性
+     * @param properties
+     * @return
+     */
+    protected Page<Map<String, Object>> findByGroupAggregate(String... properties) {
+        Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
+        GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
+        return getEntityService().findByGroupAggregate(groupFilter, pageable, properties);
+    }
 }
