@@ -145,4 +145,23 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
         }
         return false;
     }
+
+    @Transient
+    @JsonIgnore
+    public String getExtraAttributesValue(String key) {
+        if (extraAttributes == null) {
+            return null;
+        }
+        Object opParams = extraAttributes.get(key);
+        if (opParams == null) {
+            return null;
+        }
+        String op = null;
+        if (opParams instanceof String[]) {
+            op = ((String[]) opParams)[0];
+        } else if (opParams instanceof String) {
+            op = (String) opParams;
+        }
+        return op;
+    }
 }
