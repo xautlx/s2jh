@@ -19,11 +19,10 @@ public class IPAddrFetcher {
      * @param request
      * @return
      */
-    @SuppressWarnings("unchecked")
     public static String getRemoteIpAddress(HttpServletRequest request) {
         String ip = "";
         //匹配大小写，保证无论Nginx如何配置代理参数，系统都能正常获取代理IP
-        Enumeration enumeration = request.getHeaderNames();
+        Enumeration<?> enumeration = request.getHeaderNames();
         while (enumeration.hasMoreElements()) {
             String paraName = (String) enumeration.nextElement();
             if ("x-forward-for".equalsIgnoreCase(paraName) || "x-forwarded-for".equalsIgnoreCase(paraName)) {

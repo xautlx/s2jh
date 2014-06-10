@@ -693,6 +693,10 @@
 	<script src="assets/extras/kindeditor/kindeditor-ext.js?_=${buildVersion}"></script>
 	<script type="text/javascript">
         var WEB_ROOT = "${base}";
+        var AUTH_USER = {
+            uid : '<s:property value="%{authUserDetails.uid}" />',
+            username : '<s:property value="%{authUserDetails.username}" />'
+        };
     <%out.println("KindEditor.options.uploadJson = '"
 					+ request.getContextPath()
 					+ "/pub/image-upload!execute;JSESSIONID=" + session.getId()
