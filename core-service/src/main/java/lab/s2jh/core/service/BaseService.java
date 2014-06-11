@@ -854,27 +854,75 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return null;
     }
 
-    private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String fullname) {
-        Expression<?> expr = null;
-        String aggregate = null;
-        String name = fullname;
-        if (fullname.indexOf("(") > -1) {
-            aggregate = StringUtils.substringBefore(name, "(");
-            name = StringUtils.substringBeforeLast(StringUtils.substringAfter(fullname, "("), ")");
+    private Expression parseExpr(Root<?> root, CriteriaBuilder criteriaBuilder, String expr,
+            Map<String, Expression<?>> parsedExprMap) {
+        if (parsedExprMap == null) {
+            parsedExprMap = Maps.newHashMap();
         }
-        if (name.indexOf(",") > -1) {
-            String[] subNames = name.split(",");
-            Expression[] subExpressions = new Expression[subNames.length];
-            for (int i = 0; i < subNames.length; i++) {
-                subExpressions[i] = buildExpression(root, criteriaBuilder, subNames[i]);
+        Expression<?> expression = null;
+        if (expr.indexOf("(") > -1) {
+            int left = 0;
+            char[] chars = expr.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                if (chars[i] == '(') {
+                    left = i;
+                }
             }
+            String leftStr = expr.substring(0, left);
+            String op = null;
+            char[] leftStrs = leftStr.toCharArray();
+            for (int i = leftStrs.length - 1; i > 0; i--) {
+                if (leftStrs[i] == '(' || leftStrs[i] == ')' || leftStrs[i] == ',') {
+                    op = leftStr.substring(i + 1);
+                    break;
+                }
+            }
+            if (op == null) {
+                op = leftStr;
+            }
+            System.out.println("op=" + op);
+            String rightStr = expr.substring(left + 1);
+            String arg = StringUtils.substringBefore(rightStr, ")");
+            System.out.println("arg=" + arg);
+
+            String[] args = arg.split(",");
+            Expression<?>[] subExpressions = new Expression[args.length];
+            for (int i = 0; i < args.length; i++) {
+                subExpressions[i] = parsedExprMap.get(args[i]);
+                if (subExpressions[i] == null) {
+                    String name = args[i];
+                    Path<?> item = null;
+                    if (name.indexOf(".") > -1) {
+                        String[] props = StringUtils.split(name, ".");
+                        item = root.get(props[0]);
+                        for (int j = 1; j < props.length; j++) {
+                            item = item.get(props[j]);
+                        }
+                    } else {
+                        item = root.get(name);
+                    }
+                    subExpressions[i] = item;
+                }
+            }
+
             try {
                 //criteriaBuilder.quot();
-                expr = (Expression) MethodUtils.invokeMethod(criteriaBuilder, aggregate, subExpressions);
+                expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions);
             } catch (Exception e) {
                 logger.error("Error for aggregate  setting ", e);
             }
+
+            String exprPart = op + "(" + arg + ")";
+            String exprPartConvert = exprPart.replace(op + "(", op + "_").replace(arg + ")", arg + "_")
+                    .replace(",", "_");
+            expr = expr.replace(exprPart, exprPartConvert);
+            parsedExprMap.put(exprPartConvert, expression);
+
+            if (expr.indexOf("(") > -1) {
+                expression = parseExpr(root, criteriaBuilder, expr, parsedExprMap);
+            }
         } else {
+            String name = expr;
             Path<?> item = null;
             if (name.indexOf(".") > -1) {
                 String[] props = StringUtils.split(name, ".");
@@ -885,17 +933,13 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             } else {
                 item = root.get(name);
             }
-            if (aggregate != null) {
-                //criteriaBuilder.sum((Expression) item);
-                try {
-                    expr = (Expression) MethodUtils.invokeMethod(criteriaBuilder, aggregate, (Expression) item);
-                } catch (Exception e) {
-                    logger.error("Error for aggregate  setting ", e);
-                }
-            } else {
-                expr = item;
-            }
+            expression = item;
         }
+        return expression;
+    }
+
+    private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String fullname) {
+        Expression<?> expr = parseExpr(root, criteriaBuilder, fullname, null);
         String alias = StringUtils.remove(
                 StringUtils.remove(StringUtils.remove(StringUtils.remove(fullname, "("), ")"), "."), ",");
         expr.alias(alias);

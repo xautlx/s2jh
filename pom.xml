@@ -1124,7 +1124,7 @@
             </resource>
             <resource>
                 <filtering>false</filtering>
-                <directory>src/main/deploy/${deploy.env}</directory>
+                <directory>src/main/deploy/${deploy.env}/resources</directory>
             </resource>
         </resources>
         <testResources>
@@ -1179,6 +1179,11 @@
                     <version>2.4</version>
                     <configuration>
                         <warName>${project.artifactId}</warName>
+                        <webResources>
+                            <resource>
+                                <directory>src/main/deploy/${deploy.env}/webResources</directory>
+                            </resource>
+                        </webResources>
                     </configuration>
                 </plugin>
             </plugins>
