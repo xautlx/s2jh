@@ -176,34 +176,7 @@
 				<li class="dropdown" id="header_task_bar"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 					data-close-others="true"> <i class="fa fa-tasks"></i> <span class="badge badge-tasks-count"></span>
 				</a>
-					<ul class="dropdown-menu extended tasks" id="dropdown-task-list">
-						<li>
-							<p>
-								您有 <span class="tasks-count"></span> 项待办任务
-							</p>
-						</li>
-						<li>
-							<ul class="dropdown-menu-list scroller" style="height: 250px;">
-								<li class="template display-hide"><a href="javascript:;">
-										<div class="row">
-											<div class="col-md-12">
-												<span class="label label-icon label-primary"><i class="fa fa-user"></i></span><span class="task-desc">
-												</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="task-biz-key">date</div>
-											</div>
-											<div class="col-md-6">
-												<div style="text-align: right" class="task-date">date</div>
-											</div>
-										</div>
-								</a></li>
-							</ul>
-						</li>
-						<li class="external"><a href="javascript:;">See all tasks <i class="m-icon-swapright"></i></a></li>
-					</ul></li>
+					<ul class="dropdown-menu extended tasks hide"></ul></li>
 				<!-- END TODO DROPDOWN -->
 
 				<!-- BEGIN Mobile DROPDOWN -->

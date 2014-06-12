@@ -14,8 +14,8 @@
 					class="btn btn-xs green"> 过滤 <i class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
-					<label><input type="checkbox" checked="true" id="chk-task-user" /> 个人任务</label> <label><input
-						type="checkbox" checked="true" id="chk-task-candidate" /> 候选任务</label>
+					<label><input type="checkbox" checked="true" id="chk-task-user" onclick="clkChkTask('false')" /> 个人任务</label> <label><input
+						type="checkbox" checked="true" id="chk-task-candidate" onclick="clkChkTask('true')" /> 候选任务</label>
 				</div>
 			</div>
 		</div>
@@ -70,82 +70,5 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-    $(function() {
-
-        //console.profile('Profile Sttart');
-
-        $("#chk-task-user").click(function() {
-            var $userTasks = $("#dashboard-task-list").find("li[need-claim='false']");
-            if (this.checked) {
-                $userTasks.show();
-            } else {
-                $userTasks.hide();
-            }
-        });
-
-        $("#chk-task-candidate").click(function() {
-            var $candidateTasks = $("#dashboard-task-list").find("li[need-claim='true']");
-            if (this.checked) {
-                $candidateTasks.show();
-            } else {
-                $candidateTasks.hide();
-            }
-        });
-
-        var dropdownTaskHTML = [];
-        var $headerTaskBar = $("#header_task_bar");
-        var $dropdownTaskList = $headerTaskBar.find(".dropdown-menu");
-        var $dropdownTaskListUL = $dropdownTaskList.find(".dropdown-menu-list");
-        var $taskTemplate = $dropdownTaskListUL.clone(false);
-        $taskTemplate.children("li.template").removeClass("display-hide");
-        var newDropdownTaskListCount = 0;
-        $("#dashboard-task-list > li").each(function() {
-            newDropdownTaskListCount = newDropdownTaskListCount + 1;
-            var $item = $(this);
-            var taskId = $item.attr("id");
-            $taskTemplate.find(".task-biz-key").html($item.find(".biz-key").html());
-            $taskTemplate.find(".task-desc").html($item.find(".desc").html());
-            $taskTemplate.find(".task-date").html($item.find(".date").html());
-            var $itemlink = $item.find("a");
-            var $templatelink = $taskTemplate.find("a");
-
-            $templatelink.attr("for-task-id", taskId);
-            $templatelink.attr("href", $itemlink.attr('href'));
-            $templatelink.attr("title", $itemlink.attr('title'));
-            if ($item.attr("need-claim") == 'true') {
-                $taskTemplate.find(".label-primary").removeClass("label-primary").addClass("label-info");
-                $taskTemplate.find(".fa-user").removeClass("fa-user").addClass("fa-group");
-            }
-            dropdownTaskHTML.push($taskTemplate.html());
-        });
-        var $badgeTasksCount = $headerTaskBar.find(".badge-tasks-count");
-        var curTasksCount = $badgeTasksCount.html();
-        if (curTasksCount == '') {
-            curTasksCount = '0';
-        }
-        $dropdownTaskListUL.empty();
-        $dropdownTaskListUL.html(dropdownTaskHTML.join(""));
-        if (newDropdownTaskListCount == 0) {
-            $badgeTasksCount.hide();
-        } else {
-            $badgeTasksCount.html(newDropdownTaskListCount).show();
-        }
-        $dropdownTaskList.find(".tasks-count").html(newDropdownTaskListCount);
-        curTasksCount = Number(curTasksCount);
-        if (newDropdownTaskListCount > curTasksCount) {
-            $headerTaskBar.pulsate({
-                color : "#bf1c56",
-                repeat : 5
-            });
-        }
-
-        $("a", $dropdownTaskListUL).on("click", function() {
-            var forTaskId = $(this).attr("for-task-id");
-            $("#list-task-" + forTaskId).click();
-        });
-
-        //console.profileEnd();
-    });
-</script>
+<script src="${base}/bpm/bpm-task-list.js" type="text/javascript" />
 <%@ include file="/common/ajax-footer.jsp"%>
