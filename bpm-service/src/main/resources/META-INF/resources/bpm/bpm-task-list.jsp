@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<div class="portlet box green tasks-widget portlet-tasks">
+<div class="portlet box green tasks-widget portlet-tasks" id="portlet-tasks">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-tasks"></i>最近待办任务<span class="badge badge-warning"><s:property value="#request.tasks.size()" /></span>

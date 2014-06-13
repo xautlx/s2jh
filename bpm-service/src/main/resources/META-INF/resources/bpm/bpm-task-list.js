@@ -6,6 +6,9 @@ function clkChkTask(claim) {
         $tasks.hide();
     }
 }
+
+var refreshTasksTimer;
+
 $(function() {
 
     //console.profile('Profile Sttart');
@@ -29,6 +32,13 @@ $(function() {
             repeat : 5
         });
     }
+
+    if (refreshTasksTimer) {
+        window.clearInterval(refreshTasksTimer);
+    }
+    refreshTasksTimer = window.setInterval(function() {
+        $("#portlet-tasks").find("> .portlet-title > .tools > a.reload ").click();
+    }, 1000 * 60 * 10);
 
     //console.profileEnd();
 });
