@@ -3,6 +3,7 @@ package lab.s2jh.core.service;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.Case;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Fetch;
@@ -39,11 +41,18 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
+import org.hibernate.internal.CriteriaImpl;
+import org.hibernate.loader.criteria.CriteriaJoinWalker;
+import org.hibernate.loader.criteria.CriteriaQueryTranslator;
+import org.hibernate.persister.entity.OuterJoinLoadable;
 import org.hibernate.transform.Transformers;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -385,6 +394,22 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return getEntityDao().findAll(specifications, pageable);
     }
 
+    public String toSql(Criteria criteria) {
+        CriteriaImpl criteriaImpl = (CriteriaImpl) criteria;
+        SessionImplementor session = criteriaImpl.getSession();
+        SessionFactoryImplementor factory = session.getFactory();
+        CriteriaQueryTranslator translator = new CriteriaQueryTranslator(factory, criteriaImpl,
+                criteriaImpl.getEntityOrClassName(), CriteriaQueryTranslator.ROOT_SQL_ALIAS);
+        String[] implementors = factory.getImplementors(criteriaImpl.getEntityOrClassName());
+
+        CriteriaJoinWalker walker = new CriteriaJoinWalker(
+                (OuterJoinLoadable) factory.getEntityPersister(implementors[0]), translator, factory, criteriaImpl,
+                criteriaImpl.getEntityOrClassName(), session.getLoadQueryInfluencers());
+
+        String sql = walker.getSQLString();
+        return sql;
+    }
+
     /**
      * 分组聚合统计，常用于类似按账期时间段统计商品销售利润，按会计科目总帐统计等
      * 
@@ -393,10 +418,15 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @param properties 属性集合，判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性 
      * @return Map结构的集合分页对象
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
             String... properties) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        //Session session = entityManager.unwrap(Session.class);
+        //session.createSQLQuery("SET ANSI_WARNINGS OFF;SET ARITHABORT OFF;").executeUpdate();
+        //entityManager.createNativeQuery("SET ANSI_WARNINGS OFF;SET ARITHABORT OFF;").executeUpdate();
+
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
         Root<T> root = criteriaQuery.from(entityClass);
 
@@ -427,15 +457,13 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             select.having(having);
         }
 
-        Sort sort = pageable.getSort();
-        if (sort != null) {
+        if (pageable != null && pageable.getSort() != null) {
+            Sort sort = pageable.getSort();
             Order order = sort.iterator().next();
             String prop = order.getProperty();
-            String alias = StringUtils.remove(
-                    StringUtils.remove(StringUtils.remove(StringUtils.remove(prop, "("), ")"), "."), ",");
+            String alias = fixCleanAlias(prop);
             List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
             for (Selection<?> selection : selections) {
-                logger.debug("----{}----{}", selection.getAlias(), alias);
                 if (selection.getAlias().equals(alias)) {
                     if (order.isAscending()) {
                         select.orderBy(criteriaBuilder.desc((Expression<?>) selection));
@@ -450,21 +478,48 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         select.groupBy(groupExpressions);
 
         TypedQuery<Tuple> query = entityManager.createQuery(select);
-        query.setFirstResult(pageable.getOffset());
-        query.setMaxResults(pageable.getPageSize());
-
+        if (pageable != null) {
+            query.setFirstResult(pageable.getOffset());
+            query.setMaxResults(pageable.getPageSize());
+        }
         String[] selectProperties = ArrayUtils.addAll(groupProperties, aggregateProperties);
         List<Tuple> tuples = query.getResultList();
         List<Map<String, Object>> mapDatas = Lists.newArrayList();
         for (Tuple tuple : tuples) {
             Map<String, Object> data = Maps.newHashMap();
             for (String prop : selectProperties) {
-                String alias = StringUtils.remove(
-                        StringUtils.remove(StringUtils.remove(StringUtils.remove(prop, "("), ")"), "."), ",");
+                String alias = fixCleanAlias(prop);
                 data.put(prop, tuple.get(alias));
             }
             mapDatas.add(data);
         }
+        //        
+        //        CriteriaQuery<?> criteriaQueryCount = criteriaBuilder.createQuery();
+        //        Root<T> rootCount = criteriaQueryCount.from(entityClass);
+        //        CriteriaQuery<?> subselect = criteriaQueryCount.select((Expression) rootCount.get("commodity").get("id"));
+        //        if (where != null) {
+        //            subselect.where(where);
+        //        }
+        //        if (having != null) {
+        //            subselect.having(having);
+        //        }
+        //        subselect.groupBy(groupExpressions);
+        //
+        //        TypedQuery subquery = entityManager.createQuery(subselect);
+        //        org.hibernate.Query hibernateQuery = subquery.unwrap(org.hibernate.Query.class);
+        //        String hql = hibernateQuery.getQueryString();
+        //        System.out.println("--------------" + hql);
+        //        hql = StringUtils.substringBefore(hql, "order by");
+        //        Query queryCount = entityManager.createQuery("select count(*) from Commodity c where c.id in  (" + hql + ")");
+        //        Set<Parameter<?>> params = subquery.getParameters();
+        //        for (Parameter<?> param : params) {
+        //            System.out.println(param.getName()+"-------count-------" + subquery.getParameterValue(param));
+        //            queryCount.setParameter(param.getName(), subquery.getParameterValue(param));
+        //        }
+        //        Object count = queryCount.getSingleResult();
+        //        System.out.println("-------count-------" + count);
+        //        System.out.println("------2222222--------" + query.unwrap(org.hibernate.Query.class).getQueryString());
+
         return new PageImpl(mapDatas, pageable, Integer.MAX_VALUE);
     }
 
@@ -807,6 +862,9 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
     protected Predicate buildPredicatesFromFilters(GroupPropertyFilter groupPropertyFilter, Root root,
             CriteriaQuery<?> query, CriteriaBuilder builder, Boolean having) {
+        if (groupPropertyFilter == null) {
+            return null;
+        }
         List<Predicate> predicates = buildPredicatesFromFilters(groupPropertyFilter.getFilters(), root, query, builder,
                 having);
         if (CollectionUtils.isNotEmpty(groupPropertyFilter.getGroups())) {
@@ -880,36 +938,60 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             if (op == null) {
                 op = leftStr;
             }
-            System.out.println("op=" + op);
             String rightStr = expr.substring(left + 1);
             String arg = StringUtils.substringBefore(rightStr, ")");
-            System.out.println("arg=" + arg);
-
             String[] args = arg.split(",");
-            Expression<?>[] subExpressions = new Expression[args.length];
-            for (int i = 0; i < args.length; i++) {
-                subExpressions[i] = parsedExprMap.get(args[i]);
-                if (subExpressions[i] == null) {
-                    String name = args[i];
-                    Path<?> item = null;
-                    if (name.indexOf(".") > -1) {
-                        String[] props = StringUtils.split(name, ".");
-                        item = root.get(props[0]);
-                        for (int j = 1; j < props.length; j++) {
-                            item = item.get(props[j]);
-                        }
-                    } else {
-                        item = root.get(name);
-                    }
-                    subExpressions[i] = item;
-                }
-            }
+            Object[] subExpressions = new Object[args.length];
+            if (op.equalsIgnoreCase("case")) {
+                Case selectCase = criteriaBuilder.selectCase();
 
-            try {
-                //criteriaBuilder.quot();
-                expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions);
-            } catch (Exception e) {
-                logger.error("Error for aggregate  setting ", e);
+                Expression caseWhen = parsedExprMap.get(args[0]);
+
+                String whenResultExpr = args[1];
+                Object whenResult = parsedExprMap.get(whenResultExpr);
+                if (whenResult == null) {
+                    Case<Long> whenCase = selectCase.when(caseWhen, new BigDecimal(whenResultExpr));
+                    selectCase = whenCase;
+                } else {
+                    Case<Expression<?>> whenCase = selectCase.when(caseWhen, whenResult);
+                    selectCase = whenCase;
+                }
+
+                String otherwiseResultExpr = args[2];
+                Object otherwiseResult = parsedExprMap.get(otherwiseResultExpr);
+                if (otherwiseResult == null) {
+                    expression = selectCase.otherwise(new BigDecimal(otherwiseResultExpr));
+                } else {
+                    expression = selectCase.otherwise((Expression<?>) otherwiseResult);
+                }
+            } else {
+                for (int i = 0; i < args.length; i++) {
+                    subExpressions[i] = parsedExprMap.get(args[i]);
+                    if (subExpressions[i] == null) {
+                        String name = args[i];
+                        try {
+                            Path<?> item = null;
+                            if (name.indexOf(".") > -1) {
+                                String[] props = StringUtils.split(name, ".");
+                                item = root.get(props[0]);
+                                for (int j = 1; j < props.length; j++) {
+                                    item = item.get(props[j]);
+                                }
+                            } else {
+                                item = root.get(name);
+                            }
+                            subExpressions[i] = (Expression) item;
+                        } catch (Exception e) {
+                            subExpressions[i] = new BigDecimal(name);
+                        }
+                    }
+                }
+                try {
+                    //criteriaBuilder.quot();
+                    expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions);
+                } catch (Exception e) {
+                    logger.error("Error for aggregate  setting ", e);
+                }
             }
 
             String exprPart = op + "(" + arg + ")";
@@ -938,11 +1020,14 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return expression;
     }
 
+    private String fixCleanAlias(String name) {
+        return StringUtils.remove(StringUtils.remove(
+                StringUtils.remove(StringUtils.remove(StringUtils.remove(name, "("), ")"), "."), ","), "-");
+    }
+
     private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String fullname) {
         Expression<?> expr = parseExpr(root, criteriaBuilder, fullname, null);
-        String alias = StringUtils.remove(
-                StringUtils.remove(StringUtils.remove(StringUtils.remove(fullname, "("), ")"), "."), ",");
-        expr.alias(alias);
+        expr.alias(fixCleanAlias(fullname));
         return expr;
     }
 

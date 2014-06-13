@@ -14,6 +14,7 @@ import lab.s2jh.auth.service.UserService;
 import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
+import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.activiti.engine.FormService;
@@ -33,18 +34,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
-import com.opensymphony.xwork2.ModelDriven;
 
-public class BpmTaskController extends RestActionSupport implements ModelDriven<Object> {
+public class BpmTaskController extends SimpleController {
 
     private final static String DYNA_FORM_KEY = "/bpm/bpm-task!dynaForm";
-
-    private Object model;
 
     @Autowired
     private RepositoryService repositoryService;
@@ -72,11 +69,6 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
 
     @Autowired
     protected UserService userService;
-
-    @Override
-    public Object getModel() {
-        return model;
-    }
 
     private Map<String, Object> packageTaskInfo(Task task) {
 
@@ -215,6 +207,7 @@ public class BpmTaskController extends RestActionSupport implements ModelDriven<
 
         Map<String, String> formProperties = new HashMap<String, String>();
         // 从request中读取参数然后转换
+        @SuppressWarnings("unchecked")
         Map<String, String[]> parameterMap = request.getParameterMap();
         Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
         for (Entry<String, String[]> entry : entrySet) {
