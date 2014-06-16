@@ -6,6 +6,7 @@ import lab.s2jh.sys.entity.ConfigProperty;
 import lab.s2jh.sys.service.ConfigPropertyService;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,14 +84,19 @@ public class DynamicConfigService {
         return BooleanUtils.toBoolean(getString(key, String.valueOf(defaultValue)));
     }
 
+    private static String staticFileUploadDir;
+
     public String getFileUploadRootDir() {
-        String rootPath = fileUploadDir;
-        if (rootPath == null) {
-            rootPath = System.getProperty("user.home") + File.separator + "attachments";
+        if (staticFileUploadDir == null) {
+            staticFileUploadDir = fileUploadDir;
+            if (StringUtils.isBlank(staticFileUploadDir)) {
+                staticFileUploadDir = System.getProperty("user.home") + File.separator + "attachments";
+            }
+            if (staticFileUploadDir.endsWith(File.separator)) {
+                staticFileUploadDir = staticFileUploadDir.substring(0, staticFileUploadDir.length() - 2);
+            }
+            logger.info("Setup file upload root dir:  {}", staticFileUploadDir);
         }
-        if (rootPath.endsWith(File.separator)) {
-            rootPath = rootPath.substring(0, rootPath.length() - 2);
-        }
-        return rootPath;
+        return staticFileUploadDir;
     }
 }

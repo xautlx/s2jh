@@ -65,14 +65,8 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         entity.setFileRealName(filesFileName[idx]);
         entity.setFileType(filesContentType[idx]);
         entity.setFileExtension(StringUtils.substringAfterLast(entity.getFileRealName(), "."));
-       
-        String rootPath = dynamicConfigService.getString("cfg.file.upload.dir", null);
-        if (rootPath == null) {
-            rootPath = System.getProperty("user.dir") + File.separator + "attachments";
-        }
-        if (rootPath.endsWith(File.separator)) {
-            rootPath = rootPath.substring(0, rootPath.length() - 2);
-        }
+
+        String rootPath = dynamicConfigService.getFileUploadRootDir();
         File diskFileDir = new File(rootPath + entity.getFileRelativePath());
         if (!diskFileDir.exists()) {
             diskFileDir.mkdirs();
