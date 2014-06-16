@@ -24,13 +24,13 @@ public class DynamicConfigService {
 
     private final Logger logger = LoggerFactory.getLogger(DynamicConfigService.class);
 
-    @Value("${cfg.signup.disabled:\"false\"}")
+    @Value("${cfg.signup.disabled:false}")
     private String signupDisabled;
 
-    @Value("${cfg.system.title:\"S2JH\"}")
+    @Value("${cfg.system.title:S2JH}")
     private String systemTitle;
 
-    @Value("${cfg.file.upload.dir:\"\"}")
+    @Value("${cfg.file.upload.dir:}")
     private String fileUploadDir;
 
     @Autowired(required = false)
