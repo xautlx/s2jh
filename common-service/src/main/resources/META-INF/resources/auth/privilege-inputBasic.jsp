@@ -35,7 +35,7 @@
 				<div class="form-group">
 					<label class="control-label">名称</label>
 					<div class="controls">
-						<s:textfield name="title" />
+						<s:textfield name="title" data-spell-to="code" />
 					</div>
 				</div>
 			</div>

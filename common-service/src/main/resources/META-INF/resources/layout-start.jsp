@@ -654,10 +654,11 @@
 	<!-- END:File Upload Plugin JS files-->
 
 	<script src="assets/extras/pinyin.js?_=${buildVersion}"></script>
+	<script src="assets/extras/JSPinyin.js?_=${buildVersion}"></script>
 
-	<script src="assets/extras/jquery-jqgrid/plugins/ui.multiselect.js?_=${pageScope.buildVersion}"></script>
+	<script src="assets/extras/jquery-jqgrid/plugins/ui.multiselect.js?_=${buildVersion}"></script>
 	<script src="assets/extras/jquery-jqgrid/js/i18n/grid.locale-cn.js?_=${buildVersion}"></script>
-	<script src="assets/extras/jquery-jqgrid/js/jquery.jqGrid.src.js?_=${buildVersion}"></script>
+	<script src="assets/extras/jquery-jqgrid/js/jquery.jqGrid.src.js?_=111"></script>
 
 	<script src="assets/extras/jquery-ztree/js/jquery.ztree.all-3.5.js?_=${buildVersion}"></script>
 

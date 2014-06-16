@@ -34,7 +34,7 @@ public class Menu extends BaseUuidEntity implements Comparable<Menu> {
     /** 用于报表菜单项计算的固定菜单代码 */
     public static final String MENU_CODE_RPT = "MFIXRPT";
 
-    @MetaData(value = "代码")
+    @MetaData(value = "代码", comments = "可对特定需要访问控制的菜单项设置代码，默认可为空")
     @EntityAutoCode(order = 10, search = true)
     private String code;
 
@@ -219,7 +219,7 @@ public class Menu extends BaseUuidEntity implements Comparable<Menu> {
         return CompareToBuilder.reflectionCompare(o.getOrderRank(), this.getOrderRank());
     }
 
-    @Column(nullable = false, unique = true, length = 64)
+    @Column(nullable = false, length = 64, unique = true)
     public String getCode() {
         return code;
     }

@@ -12,17 +12,28 @@ $(function() {
                 value : Util.getCacheEnumsByType('privilegeTypeEnum')
             }
         }, {
+            label : '名称',
+            name : 'title',
+            editable : true,
+            align : 'left',
+            editoptions : {
+                dataInit : function(elem) {
+                    var $grid = $(this);
+                    var $elem = $(elem);
+                    $elem.change(function() {
+                        $grid.jqGrid("setEditingRowdata", {
+                            'code' : Pinyin.getCamelChars($.trim($elem.val()))
+                        });
+                    });
+                }
+            },
+            width : 150
+        }, {
             label : '代码',
             name : 'code',
             align : 'left',
             editable : true,
             width : 80
-        }, {
-            label : '名称',
-            name : 'title',
-            editable : true,
-            align : 'left',
-            width : 150
         }, {
             label : '分类',
             name : 'category',

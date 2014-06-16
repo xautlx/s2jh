@@ -12,7 +12,7 @@ $(function() {
                     var $elem = $(elem);
                     $elem.change(function() {
                         $grid.jqGrid("setEditingRowdata", {
-                            'filterSpell' : makePy($elem.val())
+                            'code' : Pinyin.getCamelChars($.trim($elem.val()))
                         });
                     });
                 }
@@ -23,10 +23,7 @@ $(function() {
             name : 'code',
             align : 'center',
             editable : true,
-            width : 100,
-            editoptions : {
-                placeholder : '创建可留空自动生成'
-            }
+            width : 100
         }, {
             label : '图标',
             name : 'style',
@@ -56,6 +53,9 @@ $(function() {
             editable : true,
             align : 'center',
             stype : 'select',
+            editoptions : {
+                defaultValue : 'RELC'
+            },
             searchoptions : {
                 value : Util.getCacheEnumsByType('menuTypeEnum')
             }
@@ -74,6 +74,9 @@ $(function() {
             name : 'orderRank',
             width : 60,
             editable : true,
+            editoptions : {
+                defaultValue : 1000
+            },
             sorttype : 'number'
         }, {
             label : '备注说明',
