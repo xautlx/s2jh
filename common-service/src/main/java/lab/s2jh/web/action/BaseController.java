@@ -130,12 +130,11 @@ public abstract class BaseController<T extends BaseEntity<ID>, ID extends Serial
                 ServletUtils.setFileDownloadHeader(response, attachmentFile.getFileRealName());
                 response.setContentType(attachmentFile.getFileType());
 
-                logger.debug("Downloading attachment file from disk: {}", attachmentFile.getFileRealName());
                 DynamicConfigService dynamicConfigService = SpringContextHolder.getBean(DynamicConfigService.class);
                 String rootPath = dynamicConfigService.getFileUploadRootDir();
                 File diskFile = new File(rootPath + attachmentFile.getFileRelativePath() + File.separator
                         + attachmentFile.getDiskFileName());
-
+                logger.debug("Downloading attachment file from disk: {}", diskFile.getAbsolutePath());
                 ServletUtils.renderFileDownload(response, FileUtils.readFileToByteArray(diskFile));
             }
         } catch (Exception e) {
