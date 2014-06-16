@@ -86,6 +86,10 @@ public class DynamicConfigService {
 
     private static String staticFileUploadDir;
 
+    /**
+     * 获取文件上传根目录：优先取cfg.file.upload.dir参数值，如果没有定义则取当前用户主目录${user.home}/attachments
+     * @return
+     */
     public String getFileUploadRootDir() {
         if (staticFileUploadDir == null) {
             staticFileUploadDir = fileUploadDir;
