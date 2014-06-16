@@ -133,7 +133,6 @@ public class UserController extends BaseController<User, Long> {
              */
             String aclCode = this.getParameter("aclCode");
             bindingEntity.setAclCode(aclCode);
-            bindingEntity.setUserPin(bindingEntity.getSigninid());
             userService.save(bindingEntity, this.getParameter("newpassword"));
             setModel(OperationResult.buildSuccessResult("创建操作成功", bindingEntity));
         } else {
