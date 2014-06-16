@@ -43,7 +43,6 @@ public class ServletUtils {
         }
         return params;
     }
-    
 
     /**
      * 设置让浏览器弹出下载对话框的Header.
@@ -53,7 +52,7 @@ public class ServletUtils {
     public static void setFileDownloadHeader(HttpServletResponse response, String fileName) {
         try {
             //中文文件名支持
-            String encodedfileName = new String(fileName.getBytes(), "ISO8859-1");
+            String encodedfileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedfileName + "\"");
         } catch (UnsupportedEncodingException e) {
         }

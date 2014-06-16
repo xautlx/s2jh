@@ -86,7 +86,7 @@ public class DynamicConfigService {
     public String getFileUploadRootDir() {
         String rootPath = fileUploadDir;
         if (rootPath == null) {
-            rootPath = System.getProperty("user.dir") + File.separator + "attachments";
+            rootPath = System.getProperty("user.home") + File.separator + "attachments";
         }
         if (rootPath.endsWith(File.separator)) {
             rootPath = rootPath.substring(0, rootPath.length() - 2);

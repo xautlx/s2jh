@@ -65,7 +65,7 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
         entity.setFileRealName(filesFileName[idx]);
         entity.setFileType(filesContentType[idx]);
         entity.setFileExtension(StringUtils.substringAfterLast(entity.getFileRealName(), "."));
-        logger.debug("Saving attachment file to disk: {}", entity.getFileRealName());
+       
         String rootPath = dynamicConfigService.getString("cfg.file.upload.dir", null);
         if (rootPath == null) {
             rootPath = System.getProperty("user.dir") + File.separator + "attachments";
@@ -78,6 +78,7 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
             diskFileDir.mkdirs();
         }
         File diskFile = new File(rootPath + entity.getFileRelativePath() + File.separator + entity.getDiskFileName());
+        logger.debug("Saving attachment file to disk: {}", diskFile.getAbsolutePath());
         FileUtils.moveFile(file, diskFile);
         logger.debug("Saving attachment recode to database: {}", entity.getFileRealName());
         attachmentFileService.save(entity);
