@@ -4,7 +4,7 @@ import lab.s2jh.core.annotation.MetaData;
 import ${root_package}.entity.${entity_name};
 import ${root_package}.service.${entity_name}Service;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.BaseController;
+import lab.s2jh.web.action.BaseController;
 import lab.s2jh.core.web.view.OperationResult;
 
 import org.apache.struts2.rest.HttpHeaders;

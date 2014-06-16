@@ -55,7 +55,6 @@ $(function() {
         },
         </#if>  
         editurl : WEB_ROOT + '${model_path}/${entity_name_field}!doSave',
-        editrulesurl : WEB_ROOT + '${model_path}/${entity_name_field}!buildValidateRules',
         delurl : WEB_ROOT + '${model_path}/${entity_name_field}!doDelete',
         fullediturl : WEB_ROOT + '${model_path}/${entity_name_field}!inputTabs'
     });
