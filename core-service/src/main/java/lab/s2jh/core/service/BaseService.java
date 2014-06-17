@@ -434,9 +434,9 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         List<String> aggregateLists = Lists.newArrayList();
         for (String prop : properties) {
             if (prop.indexOf("(") > -1) {
-                aggregateLists.add(prop);
+                aggregateLists.add(StringUtils.remove(prop, " "));
             } else {
-                groupLists.add(prop);
+                groupLists.add(StringUtils.remove(prop, " "));
             }
         }
 
@@ -941,7 +941,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             String rightStr = expr.substring(left + 1);
             String arg = StringUtils.substringBefore(rightStr, ")");
             String[] args = arg.split(",");
-            Object[] subExpressions = new Object[args.length];
+            logger.debug("op={},arg={}", op, arg);
             if (op.equalsIgnoreCase("case")) {
                 Case selectCase = criteriaBuilder.selectCase();
 
@@ -956,7 +956,6 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                     Case<Expression<?>> whenCase = selectCase.when(caseWhen, whenResult);
                     selectCase = whenCase;
                 }
-
                 String otherwiseResultExpr = args[2];
                 Object otherwiseResult = parsedExprMap.get(otherwiseResultExpr);
                 if (otherwiseResult == null) {
@@ -965,6 +964,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                     expression = selectCase.otherwise((Expression<?>) otherwiseResult);
                 }
             } else {
+                Object[] subExpressions = new Object[args.length];
+                Class[] subExpressionClasses = new Class[args.length];
                 for (int i = 0; i < args.length; i++) {
                     subExpressions[i] = parsedExprMap.get(args[i]);
                     if (subExpressions[i] == null) {
@@ -981,14 +982,17 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                                 item = root.get(name);
                             }
                             subExpressions[i] = (Expression) item;
+                            subExpressionClasses[i] = Expression.class;
                         } catch (Exception e) {
                             subExpressions[i] = new BigDecimal(name);
+                            subExpressionClasses[i] = Number.class;
                         }
                     }
                 }
                 try {
                     //criteriaBuilder.quot();
-                    expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions);
+                    expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions,
+                            subExpressionClasses);
                 } catch (Exception e) {
                     logger.error("Error for aggregate  setting ", e);
                 }

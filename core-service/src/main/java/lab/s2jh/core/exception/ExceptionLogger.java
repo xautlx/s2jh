@@ -46,6 +46,9 @@ public class ExceptionLogger {
             if (e instanceof lab.s2jh.core.exception.DuplicateTokenException) {
                 errorMessage = "请勿重复提交表单";
                 skipLog = true;
+            } else if (e instanceof ValidationException) {
+                errorMessage = e.getMessage();
+                skipLog = true;
             } else if (e instanceof lab.s2jh.core.exception.BaseRuntimeException) {
                 errorMessage = errorTitle + e.getMessage();
             } else if (e instanceof org.springframework.dao.DataIntegrityViolationException) {
@@ -67,9 +70,6 @@ public class ExceptionLogger {
                         }
                     }
                 }
-            } else if (e instanceof ValidationException) {
-                errorMessage = e.getMessage();
-                skipLog = true;
             }
 
             if (!skipLog) {
