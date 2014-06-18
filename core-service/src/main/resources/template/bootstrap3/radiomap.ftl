@@ -75,6 +75,10 @@
  title="${parameters.title?html}"<#rt/>
     </#if>
 </#if>
+<#include "/${parameters.templateDir}/${parameters.expandTheme}/css.ftl" />
+<#include "/${parameters.templateDir}/${parameters.expandTheme}/scripting-events.ftl" />
+<#include "/${parameters.templateDir}/${parameters.expandTheme}/common-attributes.ftl" />
+<#include "/${parameters.templateDir}/${parameters.expandTheme}/dynamic-attributes.ftl" />
 />			
 			${itemValue}
  <#if parameters.label?if_exists != "false">
