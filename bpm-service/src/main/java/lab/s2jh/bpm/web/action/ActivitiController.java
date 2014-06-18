@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.exception.WebException;
+import lab.s2jh.core.web.SimpleController;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -19,18 +20,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
-import org.apache.struts2.rest.RestActionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.opensymphony.xwork2.ModelDriven;
-
-public class ActivitiController extends RestActionSupport implements ModelDriven<Object> {
+public class ActivitiController extends SimpleController {
 
     protected static Logger logger = LoggerFactory.getLogger(ActivitiController.class);
-
-    private Object model;
 
     @Autowired
     private RepositoryService repositoryService;
@@ -52,11 +48,6 @@ public class ActivitiController extends RestActionSupport implements ModelDriven
 
     @Autowired
     protected ActivitiService activitiService;
-
-    @Override
-    public Object getModel() {
-        return model;
-    }
 
     public HttpHeaders showProcessImage() {
         return new DefaultHttpHeaders("process-image").disableCaching();
@@ -97,6 +88,5 @@ public class ActivitiController extends RestActionSupport implements ModelDriven
             logger.error("Output process image error", e);
             throw new WebException("流程运行图处理异常", e);
         }
-
     }
 }

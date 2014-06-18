@@ -1,5 +1,7 @@
 package lab.s2jh.core.web;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.opensymphony.xwork2.ModelDriven;
 
 public abstract class SimpleController implements ModelDriven<Object> {
@@ -44,6 +47,35 @@ public abstract class SimpleController implements ModelDriven<Object> {
      */
     protected void setModel(Object model) {
         this.model = model;
+    }
+
+    /**
+     * 一般用于如删除等批量操作
+     * @return id字符串集合
+     */
+    protected String[] getParameterIds() {
+        return getParameterIds("ids");
+    }
+
+    /**
+     * 一般用于如删除等批量操作
+     * @return id字符串集合
+     */
+    protected String[] getParameterIds(String paramName) {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        Set<String> idSet = Sets.newHashSet();
+        String[] params = request.getParameterValues(paramName);
+        if (params != null) {
+            for (String param : params) {
+                for (String id : param.split(",")) {
+                    String trimId = id.trim();
+                    if (StringUtils.isNotBlank(trimId)) {
+                        idSet.add(trimId);
+                    }
+                }
+            }
+        }
+        return idSet.toArray(new String[] {});
     }
 
     /**
@@ -187,12 +219,12 @@ public abstract class SimpleController implements ModelDriven<Object> {
         setModel(Maps.newHashMap());
         return buildDefaultHttpHeaders();
     }
-    
+
     /**
      * 获取当前登录用户帐号
      * @return
      */
-    public String getSigninUsername(){
+    public String getSigninUsername() {
         return AuthContextHolder.getAuthUserPin();
     }
 }

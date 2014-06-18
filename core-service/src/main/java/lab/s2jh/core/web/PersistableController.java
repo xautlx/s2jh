@@ -463,35 +463,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     // -----------Delete删除数据处理相关逻辑------------
     // ----------------------------------------------
     /**
-     * 一般用于如删除等批量操作
-     * @return id字符串集合
-     */
-    protected String[] getParameterIds() {
-        return getParameterIds("ids");
-    }
-
-    /**
-     * 一般用于如删除等批量操作
-     * @return id字符串集合
-     */
-    protected String[] getParameterIds(String paramName) {
-        HttpServletRequest request = ServletActionContext.getRequest();
-        Set<String> idSet = Sets.newHashSet();
-        String[] params = request.getParameterValues(paramName);
-        if (params != null) {
-            for (String param : params) {
-                for (String id : param.split(",")) {
-                    String trimId = id.trim();
-                    if (StringUtils.isNotBlank(trimId)) {
-                        idSet.add(trimId);
-                    }
-                }
-            }
-        }
-        return idSet.toArray(new String[] {});
-    }
-
-    /**
      * 将ids=123,234,345等格式参数按照逗号切分并转换查询对应的Entity对象集合，方便使用
      * 一般用于如删除等批量操作
      * @return 实体对象集合
