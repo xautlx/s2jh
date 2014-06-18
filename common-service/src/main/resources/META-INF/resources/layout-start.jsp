@@ -491,6 +491,10 @@
 		</div>
 	</div>
 
+	<button type="button" class="btn " id="btn-profile-param" style="display: none">
+		<i class="fa fa-heart-o"></i>
+	</button>
+
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<script id="template-upload" type="text/x-tmpl">
         {% for (var i=0, file; file=o.files[i]; i++) { %}

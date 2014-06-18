@@ -965,7 +965,6 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                 }
             } else {
                 Object[] subExpressions = new Object[args.length];
-                Class[] subExpressionClasses = new Class[args.length];
                 for (int i = 0; i < args.length; i++) {
                     subExpressions[i] = parsedExprMap.get(args[i]);
                     if (subExpressions[i] == null) {
@@ -982,17 +981,14 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                                 item = root.get(name);
                             }
                             subExpressions[i] = (Expression) item;
-                            subExpressionClasses[i] = Expression.class;
                         } catch (Exception e) {
                             subExpressions[i] = new BigDecimal(name);
-                            subExpressionClasses[i] = Number.class;
                         }
                     }
                 }
                 try {
                     //criteriaBuilder.quot();
-                    expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions,
-                            subExpressionClasses);
+                    expression = (Expression) MethodUtils.invokeMethod(criteriaBuilder, op, subExpressions);
                 } catch (Exception e) {
                     logger.error("Error for aggregate  setting ", e);
                 }
