@@ -2,28 +2,35 @@ $(function() {
     $(".grid-sys-data-dict-index").data("gridOptions", {
         url : WEB_ROOT + "/sys/data-dict!findByPage",
         colModel : [ {
+            label : '主要数据',
+            name : 'primaryValue',
+            editable : true,
+            editoptions : {
+                dataInit : function(elem) {
+                    var $grid = $(this);
+                    var $elem = $(elem);
+                    $elem.change(function() {
+                        $grid.jqGrid("setEditingRowdata", {
+                            'primaryKey' : Pinyin.getCamelChars($.trim($elem.val()))
+                        });
+                    });
+                }
+            },
+            width : 150
+        }, {
             label : '主标识',
             name : 'primaryKey',
-            align : 'center',
             editable : true,
             width : 100
         }, {
             label : '次标识',
             name : 'secondaryKey',
-            align : 'center',
             hidden : true,
             editable : true,
             width : 50
         }, {
-            label : '主要数据',
-            name : 'primaryValue',
-            align : 'center',
-            editable : true,
-            width : 150
-        }, {
             label : '次要数据',
             name : 'secondaryValue',
-            align : 'center',
             hidden : true,
             editable : true,
             width : 50
