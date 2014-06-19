@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import lab.s2jh.bpm.BpmTrackable;
 import lab.s2jh.core.security.AuthContextHolder;
 
 import org.activiti.bpmn.model.BpmnModel;
@@ -32,7 +36,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Persistable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -43,6 +46,11 @@ import com.google.common.collect.Maps;
 public class ActivitiService {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
+
+    public static final String BPM_ENTITY_VAR_NAME = "entity";
+
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     @Autowired(required = false)
     protected RuntimeService runtimeService;
@@ -74,15 +82,55 @@ public class ActivitiService {
     }
 
     /**
+     * 基于ProcessInstanceId删除流程
+     * @param bizKey
+     * @return
+     */
+    public void deleteProcessInstanceByProcessInstanceId(String processInstanceId, String message) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId(processInstanceId).singleResult();
+        deleteProcessInstanceByProcessInstance(processInstance, message);
+    }
+
+    /**
      * 基于业务主键删除流程
      * @param bizKey
      * @return
      */
-    public void deleteProcessInstanceByBizKey(String bizKey) {
+    public void deleteProcessInstanceByEntity(BpmTrackable entity) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceBusinessKey(entity.getBpmBusinessKey()).singleResult();
+        deleteProcessInstanceByProcessInstance(processInstance,
+                "Casecade by entity delete [" + entity.getBpmBusinessKey() + "]");
+    }
+
+    /**
+     * 基于业务主键删除流程
+     * @param bizKey
+     * @return
+     */
+    public void deleteProcessInstanceByBizKey(String bizKey, String message) {
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceBusinessKey(bizKey).singleResult();
+        deleteProcessInstanceByProcessInstance(processInstance, message);
+    }
+
+    /**
+     * 基于processInstance删除流程
+     * @param bizKey
+     * @return
+     */
+    public void deleteProcessInstanceByProcessInstance(ProcessInstance processInstance, String message) {
         if (processInstance != null) {
-            runtimeService.deleteProcessInstance(processInstance.getId(), "Cascase by busniess entity delete");
+            Object val = runtimeService.getVariable(processInstance.getProcessInstanceId(), BPM_ENTITY_VAR_NAME);
+            if (val != null && val instanceof BpmTrackable) {
+                BpmTrackable entity = (BpmTrackable) val;
+                entity.setActiveTaskName("END");
+                entityManager.persist(entity);
+            }
+
+            identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
+            runtimeService.deleteProcessInstance(processInstance.getId(), message);
         }
     }
 
@@ -600,11 +648,13 @@ public class ActivitiService {
      * @param entity
      * @return
      */
-    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, String businessKey, Persistable entity) {
+    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, BpmTrackable entity) {
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         Map variables = Maps.newHashMap();
-        variables.put("entity", entity);
-        runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+        variables.put(BPM_ENTITY_VAR_NAME, entity);
+        runtimeService.startProcessInstanceByKey(processDefinitionKey, entity.getBpmBusinessKey(), variables);
+        String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
+        entity.setActiveTaskName(activeTaskNames);
         return this;
     }
 
@@ -615,11 +665,18 @@ public class ActivitiService {
      * @return
      */
     public ActivitiService completeTask(String taskId, Map<String, Object> variables) {
+        entityManager.flush();
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         if (variables != null && variables.size() > 0) {
             taskService.setVariablesLocal(taskId, variables);
         }
+        BpmTrackable entity = (BpmTrackable) taskService.getVariable(taskId, BPM_ENTITY_VAR_NAME);
         taskService.complete(taskId, variables);
+        entityManager.flush();
+        String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
+        entity.setActiveTaskName(activeTaskNames);
+        entityManager.persist(entity);
+        entityManager.flush();
         return this;
     }
 }

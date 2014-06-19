@@ -81,13 +81,26 @@ public class ProcessInstanceController extends SimpleController {
     }
 
     public HttpHeaders forceTerminal() {
+        //删除失败的id和对应消息以Map结构返回，可用于前端批量显示错误提示和计算表格组件更新删除行项
+        Map<String, String> errorMessageMap = Maps.newLinkedHashMap();
+
         String[] ids = getParameterIds();
         for (String id : ids) {
             String msg = "Terminal processInstance[" + id + "]  by user " + AuthContextHolder.getAuthUserPin();
             logger.debug(msg);
-            runtimeService.deleteProcessInstance(id, msg);
+            activitiService.deleteProcessInstanceByProcessInstanceId(id, msg);
         }
-        setModel(OperationResult.buildSuccessResult("强制结束流程实例操作完成"));
+        int rejectSize = errorMessageMap.size();
+        if (rejectSize == 0) {
+            setModel(OperationResult.buildSuccessResult("强制结束流程实例选取记录:" + ids.length + "条"));
+        } else {
+            if (rejectSize == ids.length) {
+                setModel(OperationResult.buildFailureResult("强制结束流程实例操作失败", errorMessageMap));
+            } else {
+                setModel(OperationResult.buildWarningResult("强制结束流程实例操作已处理. 成功:" + (ids.length - rejectSize) + "条"
+                        + ",失败:" + rejectSize + "条", errorMessageMap));
+            }
+        }
         return buildDefaultHttpHeaders();
     }
 }
