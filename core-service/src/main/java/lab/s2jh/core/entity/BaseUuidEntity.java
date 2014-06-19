@@ -18,6 +18,7 @@ import org.hibernate.envers.AuditOverrides;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 框架提供一个基础的UUID方式的实体对象定义参考
@@ -37,6 +38,7 @@ public abstract class BaseUuidEntity extends BaseEntity<String> {
     @GeneratedValue(generator = "hibernate-uuid")
     //HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead 
     @GenericGenerator(name = "hibernate-uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @JsonProperty
     public String getId() {
         return id;
     }

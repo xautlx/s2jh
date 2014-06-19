@@ -16,6 +16,7 @@ import org.hibernate.envers.AuditOverrides;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 框架提供一个基础的Native方式的实体对象定义参考
@@ -33,6 +34,7 @@ public abstract class BaseNativeEntity extends BaseEntity<Long> {
     @Id
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "native")
+    @JsonProperty
     public Long getId() {
         return id;
     }
