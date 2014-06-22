@@ -3,7 +3,8 @@ $(function() {
         url : WEB_ROOT + '${model_path}/${entity_name_field}!findByPage',
         colModel : [ {
             label : '流水号',
-            name : 'id'                            
+            name : 'id',
+            hidden : true                          
         <#list entityFields as entityField> 
         <#if entityField.list>    
         <#if entityField.enumField>
@@ -12,7 +13,7 @@ $(function() {
             name : '${entityField.fieldName}',
             formatter : 'select',
             searchoptions : {
-                value : Util.getCacheEnumsByType('${entityField.fieldName}Enum')
+                value : Util.getCacheEnumsByType('${entityField.fieldType}')
             },
         <#elseif entityField.fieldType=='Entity'>
         }, {

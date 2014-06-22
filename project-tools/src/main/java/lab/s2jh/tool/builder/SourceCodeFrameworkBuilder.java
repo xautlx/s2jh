@@ -148,6 +148,7 @@ public class SourceCodeFrameworkBuilder {
                     entityCodeField = new EntityCodeField();
                     entityCodeField.setListFixed(true);
                     entityCodeField.setListWidth(80);
+                    entityCodeField.setFieldType(StringUtils.uncapitalize(fieldType.getName()));
                     entityCodeField.setListAlign("center");
                 } else if (fieldType == Boolean.class) {
                     entityCodeField = new EntityCodeField();
