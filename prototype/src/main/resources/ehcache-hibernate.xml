@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="hibernateEhCache" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+
+    <diskStore path="java.io.tmpdir/ehcache/hibernate" />
+
+    <!-- DefaultCache setting. -->
+    <defaultCache maxElementsInMemory="50000" memoryStoreEvictionPolicy="LRU" eternal="false"
+        timeToIdleSeconds="1800" timeToLiveSeconds="1800" overflowToDisk="false" diskPersistent="false">
+    </defaultCache>
+
+    <cache name="lab.s2jh.auth.entity.Privilege" maxElementsInMemory="10000" memoryStoreEvictionPolicy="LRU"
+        eternal="true" diskPersistent="false" overflowToDisk="true" maxElementsOnDisk="1000000">
+    </cache>
+    <cache name="lab.s2jh.sys.entity.Menu" maxElementsInMemory="10000" memoryStoreEvictionPolicy="LRU" eternal="true"
+        diskPersistent="false" overflowToDisk="true" maxElementsOnDisk="1000000">
+    </cache>
+</ehcache>
