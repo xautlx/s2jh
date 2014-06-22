@@ -6,15 +6,7 @@ $(function() {
             name : 'primaryValue',
             editable : true,
             editoptions : {
-                dataInit : function(elem) {
-                    var $grid = $(this);
-                    var $elem = $(elem);
-                    $elem.change(function() {
-                        $grid.jqGrid("setEditingRowdata", {
-                            'primaryKey' : Pinyin.getCamelChars($.trim($elem.val()))
-                        });
-                    });
-                }
+                spellto : 'primaryKey'
             },
             width : 150
         }, {

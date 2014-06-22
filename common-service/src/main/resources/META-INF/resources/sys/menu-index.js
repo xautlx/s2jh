@@ -7,15 +7,7 @@ $(function() {
             width : 150,
             editable : true,
             editoptions : {
-                dataInit : function(elem) {
-                    var $grid = $(this);
-                    var $elem = $(elem);
-                    $elem.change(function() {
-                        $grid.jqGrid("setEditingRowdata", {
-                            'code' : Pinyin.getCamelChars($.trim($elem.val()))
-                        });
-                    });
-                }
+                spellto : 'code'
             },
             align : 'left'
         }, {
