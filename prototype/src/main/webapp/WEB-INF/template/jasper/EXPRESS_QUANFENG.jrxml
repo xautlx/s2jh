@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EXPRESS_QUANFENG" pageWidth="610" pageHeight="359" columnWidth="610" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="700cb9f4-f57f-4650-ab30-3db41600e4b7">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="net.sf.jasperreports.image.dpi" value="300"/>
+	<parameter name="SALE_DELIVERY_IDS" class="java.util.Collection"/>
+	<queryString language="SQL">
+		<![CDATA[select edt.sender_name,edt.sender_origin,edt.sender_postcode,edt.sender_company,edt.sender_addr,edt.sender_mobile,
+sd.reference_voucher,sd.mobile_phone,sd.receive_person,sd.voucher,sd.delivery_addr
+from biz_sale_delivery sd INNER JOIN biz_express_data_template edt on sd.template_sid=edt.sid
+where $X{IN,sd.voucher,SALE_DELIVERY_IDS}]]>
+	</queryString>
+	<field name="reference_voucher" class="java.lang.String"/>
+	<field name="receive_person" class="java.lang.String"/>
+	<field name="voucher" class="java.lang.String"/>
+	<field name="delivery_addr" class="java.lang.String"/>
+	<field name="mobile_phone" class="java.lang.String"/>
+	<field name="sender_name" class="java.lang.String"/>
+	<field name="sender_origin" class="java.lang.String"/>
+	<field name="sender_company" class="java.lang.String"/>
+	<field name="sender_addr" class="java.lang.String"/>
+	<field name="sender_mobile" class="java.lang.String"/>
+	<field name="sender_postcode" class="java.lang.String"/>
+	<group name="GroupPrintData" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{voucher}]]></groupExpression>
+		<groupHeader>
+			<band height="75">
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField isBlankWhenNull="true">
+					<reportElement x="400" y="50" width="165" height="22" uuid="b8057feb-50a6-4a21-bb88-fbf6b07d8d83">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{reference_voucher}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="250">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="110" y="0" width="71" height="22" uuid="96b08f17-8127-4fb8-a707-0f419f9d2ac3">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sender_name}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="22" width="57" height="28" uuid="354b5e91-2790-4710-8f4a-5692e10b263d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[寄件公司]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="366" y="0" width="70" height="22" uuid="c545bca8-94b8-440e-b4df-8302e7ec4a28">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{receive_person}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="0" width="57" height="22" uuid="549b7762-b95a-4c84-ae1c-0c3169c13d19">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[寄件人姓名]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="221" y="0" width="88" height="22" uuid="e5bdc806-9dd5-48ef-b153-98dc20b19ae2">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sender_origin}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="478" y="0" width="87" height="22" uuid="3020c4b8-e742-4d8f-82ce-6062482ae05c">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="0" width="57" height="22" uuid="c119da39-4f9c-4e82-9bce-8048823d7d29">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[收件人姓名]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="0" width="42" height="22" uuid="b5b1c8ce-773e-4ced-8eb5-8728f59c8a80">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[目的地]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="0" width="40" height="22" uuid="8d74cdd4-fd04-4570-9eb3-432a3d335ae9">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<text><![CDATA[始发地]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="110" y="22" width="199" height="28" uuid="53b22885-2c0a-4c42-9a2e-78c2cbc79472">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{sender_company}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="50" width="57" height="28" uuid="7ac0cd45-2287-4900-b900-1f5ca5ee2869">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[地址]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="110" y="50" width="199" height="28" uuid="657232cb-5099-461e-b182-257fd62aa4d7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sender_addr}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="53" y="78" width="127" height="22" uuid="c3e45437-cdbb-4878-8f65-aeeb09e2482f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="100" width="57" height="22" uuid="ab663190-a31c-4dc0-b9b3-e6c4454ad5c8">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[电话]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="110" y="100" width="199" height="22" uuid="23f7f8ab-3fe8-46db-95f7-a21315cc11e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{sender_mobile}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="22" width="57" height="28" uuid="7ed3bb5c-d8c9-41bd-9489-9ecdeea754e2">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[收件公司]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="366" y="22" width="199" height="28" uuid="74e47c5c-db9e-4831-984d-7d56771bb3df">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="366" y="50" width="199" height="28" uuid="4ce69bc3-2823-4c42-9c5c-5bfe5dec591e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{delivery_addr}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="50" width="57" height="28" uuid="d21ef287-8586-41bc-8c28-902192741690">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[地址]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="309" y="78" width="127" height="22" uuid="e47527a5-46f8-4de8-ab88-09310c6893a8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="100" width="57" height="22" uuid="0d9edcb4-fc3c-4fbc-9f44-b8e42460edad">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[电话]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="366" y="100" width="198" height="22" uuid="e18a23fd-ffab-4e31-8426-27f165486c7a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile_phone}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="78" width="40" height="22" uuid="d1f6782b-9888-4f46-9dde-dacb8fbfed89">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[邮证编码]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="220" y="78" width="89" height="22" uuid="67ce7b47-123b-4a24-9c64-afd8c8b8767f">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="10"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sender_postcode}]]></textFieldExpression>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<textField isBlankWhenNull="true" hyperlinkType="XEdit">
+				<reportElement x="478" y="78" width="87" height="22" uuid="64422d09-3506-43bd-b4f2-a4778d060883">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<hyperlinkWhenExpression><![CDATA[true]]></hyperlinkWhenExpression>
+			</textField>
+			<staticText>
+				<reportElement x="436" y="78" width="42" height="22" uuid="7ba9e6af-80aa-408e-9a1d-8fd75c0915fc">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[邮证编码]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement positionType="FixRelativeToBottom" x="110" y="140" width="110" height="40" uuid="3530a4df-b037-4656-b154-76e122970e60">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitmoduleWidth" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.moduleWidth" value="mm"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.0" textPosition="none" quietZone="0.0" verticalQuietZone="0.0">
+					<jr:codeExpression><![CDATA[$F{voucher}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="110" y="172" width="111" height="18" uuid="56e0e590-8337-4b10-9237-73d8386b6467">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{voucher}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
