@@ -12,6 +12,10 @@
     <packaging>war</packaging>
     <name>s2jh :: prototype</name>
 
+    <properties>
+        <deploy.env>production</deploy.env>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>lab.s2jh</groupId>
