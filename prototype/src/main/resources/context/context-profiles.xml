@@ -45,9 +45,12 @@
             <jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_privilege.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_role.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_department.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
+            
+            <jdbc:script location="classpath:sql/data/biz_finance_account_subject.sql" encoding="UTF-8" />
         </jdbc:initialize-database>
 
         <bean id="mockDataGenerator" class="lab.s2jh.biz.util.MockDataGenerator" init-method="initializeDatabase">
