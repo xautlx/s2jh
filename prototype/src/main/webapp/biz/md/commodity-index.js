@@ -6,7 +6,7 @@ $(function() {
             name : 'sku',
             width : 100,
             editable : true,
-            align : 'left'
+            align : 'center'
         }, {
             label : '商品名称',
             name : 'title',

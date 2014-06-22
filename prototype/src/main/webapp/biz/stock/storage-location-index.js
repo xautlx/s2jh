@@ -6,7 +6,7 @@ $(function() {
             name : 'code',
             width : 100,
             editable : true,
-            align : 'left'
+            align : 'center'
         }, {
             label : '名称',
             name : 'title',

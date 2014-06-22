@@ -13,7 +13,7 @@
 						data-grid-search=".grid-biz-md-commodity-index">
 						<div class="input-group">
 							<div class="input-cont">
-								<input type="text" name="search['CN_code']" class="form-control" placeholder="代码...">
+								<input type="text" name="search['CN_sku_OR_barcode_OR_title']" class="form-control" placeholder="SKU编码/条码/名称">
 							</div>
 							<span class="input-group-btn">
 								<button class="btn green" type="submmit">
