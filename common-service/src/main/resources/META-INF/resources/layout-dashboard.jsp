@@ -63,7 +63,7 @@
 		<div class="ajaxify ajaxify-tasks" data-url="${base}/bpm/bpm-task!userTasks"></div>
 	</div>
 	<div class="col-md-6 col-sm-6">
-	    <div class="ajaxify ajaxify-tasks" data-url="${base}/profile/pub-post!list"></div>
+		<div class="ajaxify ajaxify-pub-posts" data-url="${base}/profile/pub-post!list"></div>
 	</div>
 </div>
 <%@ include file="/common/ajax-footer.jsp"%>
