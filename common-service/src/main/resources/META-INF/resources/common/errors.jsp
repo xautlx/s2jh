@@ -13,7 +13,9 @@
     if (e == null) {
         e = (Throwable) request.getAttribute("javax.servlet.jsp.jspException");
     }
-
+    if (e == null) {
+        e = (Throwable) request.getAttribute("struts.rest.error.exception");
+    }
     String responseContentType = null;
     if (request.getRequestURI().endsWith(".json")) {
         responseContentType = "json";
