@@ -181,7 +181,7 @@ public class BpmTaskController extends SimpleController {
         String userpin = AuthContextHolder.getAuthUserPin();
         String taskId = request.getParameter("id");
         taskService.claim(taskId, userpin);
-        model = OperationResult.buildSuccessResult("任务签收成功");
+        model = OperationResult.buildSuccessResult("任务签收成功", userpin);
         return new DefaultHttpHeaders().disableCaching();
     }
 
