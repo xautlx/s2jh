@@ -58,9 +58,8 @@
 												<s:else>
 													<a data-name="assignee" data-placement="right" data-original-title="任务转办" data-required="true"
 														data-pk="<s:property value='#request.task.id' />" data-url="${base}/bpm/bpm-task!trasfer"
-														href="javascript:;" class="editable editable-click x-editable editable-bpm-task-transfer"> <s:property
-															value="#request.task.assignee" />
-													</a>
+														href="javascript:;" class="editable editable-click x-editable editable-bpm-task-transfer"><s:property
+															value="#request.task.assignee" /> </a>
 												</s:else>
 											</p>
 										</div>
@@ -122,12 +121,8 @@
         })
 
         $(".btn-task-claim").data("success", function(json) {
-            var $taskShow = $(this).closest(".task-show");
-            $taskShow.find(".form-actions-task-claim").hide();
-            $taskShow.find(".task-content .form-actions").show();
-            $taskShow.find(".note-need-claim").hide();
-            $taskShow.find(".btn-back-activity").attr("disabled", false);
-            $taskShow.find(".editable-bpm-task-transfer").html(json.userdata);
+            var $panel = $(this).closest(".panel-content");
+            $panel.ajaxGetUrl($panel.attr("data-url"));
         })
     });
 </script>
