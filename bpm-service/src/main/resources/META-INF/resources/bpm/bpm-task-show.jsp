@@ -52,11 +52,16 @@
 										<label class="control-label">任务办理者</label>
 										<div class="controls">
 											<p class="form-control-static">
-												<a data-name="assignee" data-placement="right" data-original-title="任务转办" data-required="true"
-													data-pk="<s:property value='#request.task.id' />" data-url="${base}/bpm/bpm-task!trasfer"
-													href="javascript:;" class="editable editable-click x-editable editable-bpm-task-transfer"> <s:property
-														value="#request.task.assignee" />
-												</a>
+												<s:if test="#request.task.assignee== null">
+												[待签收]
+												</s:if>
+												<s:else>
+													<a data-name="assignee" data-placement="right" data-original-title="任务转办" data-required="true"
+														data-pk="<s:property value='#request.task.id' />" data-url="${base}/bpm/bpm-task!trasfer"
+														href="javascript:;" class="editable editable-click x-editable editable-bpm-task-transfer"> <s:property
+															value="#request.task.assignee" />
+													</a>
+												</s:else>
 											</p>
 										</div>
 									</div>
