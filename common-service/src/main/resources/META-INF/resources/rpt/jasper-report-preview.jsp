@@ -5,6 +5,7 @@
 <title>报表打印/导出预览</title>
 </head>
 <body>
+	<div style="text-align: right"><a href="${base}/pub/applet/install.jsp" target="_blank"> 如果无法正常显示报表组件，请点击查看配置说明</a></div>
 	<APPLET WIDTH="100%" HEIGHT="100%">
 		<PARAM NAME=CODE VALUE="net.sf.jasperreports.swing.PrintViewerApplet.class">
 		<PARAM NAME=CODEBASE VALUE="${base}/pub/applet">
