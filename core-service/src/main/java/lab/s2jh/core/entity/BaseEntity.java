@@ -156,4 +156,11 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
         aclCode = null;
         aclType = null;
     }
+
+    private static final String[] PROPERTY_LIST = new String[] { "id", "version", "lastModifiedBy", "lastModifiedDate",
+            "createdBy", "createdDate", "aclCode", "aclType" };
+
+    public String[] retriveCommonProperties() {
+        return PROPERTY_LIST;
+    }
 }
