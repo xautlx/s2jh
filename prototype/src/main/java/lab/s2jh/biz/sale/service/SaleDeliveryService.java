@@ -32,9 +32,9 @@ public class SaleDeliveryService extends BaseService<SaleDelivery, Long> {
 
     @Override
     public SaleDelivery save(SaleDelivery entity) {
-        BigDecimal commodityCostAmount = new BigDecimal(0);
-        BigDecimal originalAmount = new BigDecimal(0);
-        BigDecimal commodityAmount = new BigDecimal(0);
+        BigDecimal commodityCostAmount = BigDecimal.ZERO;
+        BigDecimal originalAmount = BigDecimal.ZERO;
+        BigDecimal commodityAmount = BigDecimal.ZERO;
         for (SaleDeliveryDetail sdd : entity.getSaleDeliveryDetails()) {
             sdd.setSaleDelivery(entity);
             Commodity commodity = commodityDao.findOne(sdd.getCommodity().getId());
