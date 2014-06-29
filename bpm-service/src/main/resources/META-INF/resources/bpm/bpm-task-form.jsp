@@ -35,7 +35,7 @@
 		</s:else>
 	</s:iterator>
 	<div class="form-actions right">
-		<button class="btn blue" type="submit">
+		<button class="btn blue" type="submit" data-ajaxify-reload=".ajaxify-tasks">
 			<i class="fa fa-check"></i> 完成任务
 		</button>
 		<button class="btn default btn-cancel" type="button">取消</button>
