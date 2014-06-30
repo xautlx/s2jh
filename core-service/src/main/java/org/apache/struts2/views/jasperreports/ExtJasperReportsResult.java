@@ -270,11 +270,9 @@ public class ExtJasperReportsResult extends StrutsResultSupport implements Jaspe
 
         // Construct the data source for the report.
         ValueStack stack = invocation.getStack();
-        ValueStackDataSource stackDataSource = null;
 
-        Connection conn = (Connection) stack.findValue(connection);
-        if (conn == null)
-            stackDataSource = new ValueStackDataSource(stack, dataSource);
+        byte[] output;
+        JasperPrint jasperPrint;
 
         // Determine the directory that the report file is in and set the reportDirectory parameter
         // For WW 2.1.7:
@@ -306,19 +304,23 @@ public class ExtJasperReportsResult extends StrutsResultSupport implements Jaspe
             parameters.putAll(reportParams);
         }
 
-        byte[] output;
-        JasperPrint jasperPrint;
-
         // Fill the report and produce a print object
+        Connection conn = (Connection) stack.findValue(connection);
         try {
             JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(systemId);
-            if (conn == null)
+            if (conn == null) {
+                ValueStackDataSource stackDataSource = new ValueStackDataSource(stack, dataSource);
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, stackDataSource);
-            else
+            } else {
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+            }
         } catch (JRException e) {
             LOG.error("Error building report for uri " + systemId, e);
             throw new ServletException(e.getMessage(), e);
+        } finally {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
         }
 
         // Export the print object to the desired output format
