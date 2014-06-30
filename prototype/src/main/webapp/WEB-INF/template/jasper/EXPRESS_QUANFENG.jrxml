@@ -3,11 +3,17 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EXPRESS_QUANFENG" pageWidth="610" pageHeight="359" columnWidth="610" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="700cb9f4-f57f-4650-ab30-3db41600e4b7">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="net.sf.jasperreports.image.dpi" value="300"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="H2 Prototype"/>
 	<parameter name="SALE_DELIVERY_IDS" class="java.util.Collection"/>
 	<queryString language="SQL">
-		<![CDATA[select edt.sender_name,edt.sender_origin,edt.sender_postcode,edt.sender_company,edt.sender_addr,edt.sender_mobile,
+		<![CDATA[select 
+'[S2JH]' as sender_name,  
+'[寄件始发地]' as sender_origin,
+'[邮编号码]' as sender_postcode,'[寄件公司名称]' as sender_company,
+'[寄件人地址]' as sender_addr,
+'[寄件人手机号码]' as sender_mobile,
 sd.reference_voucher,sd.mobile_phone,sd.receive_person,sd.voucher,sd.delivery_addr
-from biz_sale_delivery sd INNER JOIN biz_express_data_template edt on sd.template_sid=edt.sid
+from biz_sale_delivery sd 
 where $X{IN,sd.voucher,SALE_DELIVERY_IDS}]]>
 	</queryString>
 	<field name="reference_voucher" class="java.lang.String"/>

@@ -159,19 +159,7 @@
 				<div class="form-group">
 					<label class="control-label">收货地址</label>
 					<div class="controls">
-						<div class="input-group">
-							<s:textfield name="deliveryAddr" />
-							<div class="input-group-btn">
-								<button tabindex="-1" class="btn default btn_delivery_print" type="button">打印发货清单</button>
-								<button tabindex="-1" class="btn default btn_express_print_QF" type="button">打印[全峰快递]</button>
-								<button tabindex="-1" data-toggle="dropdown" class="btn default dropdown-toggle" type="button">
-									<i class="fa fa-angle-down"></i>
-								</button>
-								<ul role="menu" class="dropdown-menu pull-right">
-									<li><a class="btn_express_print_ST">申通快递</a></li>
-								</ul>
-							</div>
-						</div>
+						<s:textfield name="deliveryAddr" />
 					</div>
 				</div>
 			</div>

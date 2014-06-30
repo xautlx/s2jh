@@ -5,14 +5,12 @@ $(function() {
             label : '凭证号',
             name : 'voucher',
             width : 120,
-            formatter : function(cellValue, options, rowdata, action) {
+            cellattr : function(rowId, cellValue, rawObject, cm, rowdata) {
                 if (rowdata['voucherState'] == 'REDW') {
-                    return '<span class="badge">红冲</span>' + cellValue
-                } else if (rowdata['voucherState'] == 'DRAFT') {
-                    return '<span class="badge badge-warning">草稿</span>' + cellValue
+                    return "class='badge-warning'"
                 }
-                return cellValue;
-            }
+            },
+            align : 'center'
         }, {
             label : '记账日期',
             name : 'voucherDate',
