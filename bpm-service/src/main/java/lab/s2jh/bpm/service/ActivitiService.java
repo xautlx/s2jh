@@ -36,13 +36,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@Component
+@Service
+@Transactional
 public class ActivitiService {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -98,6 +100,7 @@ public class ActivitiService {
      * @return
      */
     public void deleteProcessInstanceByEntity(BpmTrackable entity) {
+        entity.setActiveTaskName("END");
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceBusinessKey(entity.getBpmBusinessKey()).singleResult();
         deleteProcessInstanceByProcessInstance(processInstance,
