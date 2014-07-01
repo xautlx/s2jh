@@ -77,7 +77,7 @@
 <body class="page-header-fixed page-body">
 	<script>
         $(function() {
-            App.unblockUI($("body"));
+            App.blockUI($("body"));
         });
     </script>
 	<!-- BEGIN HEADER -->
