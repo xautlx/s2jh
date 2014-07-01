@@ -59,6 +59,8 @@ public class HtmlunitService {
                 // Enhanced WebConnection based on urlfilter
                 webClient.setWebConnection(new RegexHttpWebConnection(webClient, fetchUrlRules));
                 webClient.waitForBackgroundJavaScript(600 * 1000);
+                //设置足够高度以支持一些需要页面内容多需屏幕滚动显示的页面
+                webClient.getCurrentWindow().setInnerHeight(6000);
                 threadWebClient.set(webClient);
             }
         }
