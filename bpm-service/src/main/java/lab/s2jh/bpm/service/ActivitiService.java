@@ -13,6 +13,7 @@ import lab.s2jh.bpm.BpmTrackable;
 import lab.s2jh.core.security.AuthContextHolder;
 
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
@@ -59,6 +60,9 @@ public class ActivitiService {
 
     @Autowired(required = false)
     protected TaskService taskService;
+
+    @Autowired
+    private FormService formService;
 
     @Autowired(required = false)
     protected RepositoryService repositoryService;
@@ -637,11 +641,9 @@ public class ActivitiService {
      * @param variables
      * @return
      */
-    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, String businessKey,
-            Map<String, Object> variables) {
+    public void startProcessInstanceByKey(String processDefinitionKey, String businessKey, Map<String, Object> variables) {
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
-        return this;
     }
 
     /**
@@ -651,14 +653,13 @@ public class ActivitiService {
      * @param entity
      * @return
      */
-    public ActivitiService startProcessInstanceByKey(String processDefinitionKey, BpmTrackable entity) {
+    public void startProcessInstanceByKey(String processDefinitionKey, BpmTrackable entity) {
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         Map variables = Maps.newHashMap();
         variables.put(BPM_ENTITY_VAR_NAME, entity);
         runtimeService.startProcessInstanceByKey(processDefinitionKey, entity.getBpmBusinessKey(), variables);
         String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
         entity.setActiveTaskName(activeTaskNames);
-        return this;
     }
 
     /**
@@ -667,7 +668,7 @@ public class ActivitiService {
      * @param variables
      * @return
      */
-    public ActivitiService completeTask(String taskId, Map<String, Object> variables) {
+    public void completeTask(String taskId, Map<String, Object> variables) {
         entityManager.flush();
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         if (variables != null && variables.size() > 0) {
@@ -675,11 +676,31 @@ public class ActivitiService {
         }
         BpmTrackable entity = (BpmTrackable) taskService.getVariable(taskId, BPM_ENTITY_VAR_NAME);
         taskService.complete(taskId, variables);
+        if (entity != null) {
+            entityManager.flush();
+            String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
+            entity.setActiveTaskName(activeTaskNames);
+            entityManager.persist(entity);
+            entityManager.flush();
+        }
+    }
+
+    /**
+     * 基于表单数据完成任务
+     * @param taskId
+     * @param formProperties
+     * @return
+     */
+    public void submitTaskFormData(String taskId, Map<String, String> formProperties) {
+        identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
+        BpmTrackable entity = (BpmTrackable) taskService.getVariable(taskId, BPM_ENTITY_VAR_NAME);
+        formService.submitTaskFormData(taskId, formProperties);
         entityManager.flush();
-        String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
-        entity.setActiveTaskName(activeTaskNames);
-        entityManager.persist(entity);
-        entityManager.flush();
-        return this;
+        if (entity != null) {
+            String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
+            entity.setActiveTaskName(activeTaskNames);
+            entityManager.persist(entity);
+            entityManager.flush();
+        }
     }
 }

@@ -217,8 +217,7 @@ public class BpmTaskController extends SimpleController {
                 formProperties.put(key.split("_")[1], entry.getValue()[0]);
             }
         }
-        identityService.setAuthenticatedUserId(userpin);
-        formService.submitTaskFormData(taskId, formProperties);
+        activitiService.submitTaskFormData(taskId, formProperties);
         model = OperationResult.buildSuccessResult("任务处理成功");
         return new DefaultHttpHeaders().disableCaching();
     }
