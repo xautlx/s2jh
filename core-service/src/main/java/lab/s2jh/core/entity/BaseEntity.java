@@ -59,7 +59,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
      * 
      * @see org.springframework.data.domain.Auditable#getCreatedBy()
      */
-    @JsonIgnore
+    @JsonProperty
     @Column(updatable = false, name = "created_by")
     public String getCreatedBy() {
         return createdBy;
