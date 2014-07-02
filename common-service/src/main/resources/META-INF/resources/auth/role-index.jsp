@@ -50,7 +50,9 @@
                 label : '代码',
                 name : 'code',
                 width : 100,
-                editcopy : 'append',
+                editoptions : {
+                    defaultValue : 'ROLE_'
+                },
                 editable : true
             }, {
                 label : '名称',
@@ -73,6 +75,7 @@
                 align : 'left'
             } ],
             editcol : 'code',
+            addable : false,
             editurl : "${base}/auth/role!doSave",
             delurl : "${base}/auth/role!doDelete",
             fullediturl : "${base}/auth/role!inputTabs"
