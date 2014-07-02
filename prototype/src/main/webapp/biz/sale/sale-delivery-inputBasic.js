@@ -96,6 +96,8 @@ $(function() {
 
             // 从销售订单选取
             $form.find(".btn-select-sale-order").click(function() {
+                alert("TODO");
+                return;
                 $(this).popupDialog({
                     url : WEB_ROOT + '/biz/sale/sale-delivery!forward?_to_=selectSaleOrderDetails',
                     title : '选取销售订单',
@@ -169,15 +171,6 @@ $(function() {
 
                 $form.data("formOptions").updateTotalAmount.call($form);
             });
-        },
-        prevValidate : function() {
-            var $form = $(this);
-            var $payedAmount = $form.find("input[name='payedAmount']");
-            var $paymentAccountSubjects = $form.find("input[name='accountSubject.id']");
-            if ($payedAmount.val() != '' && $paymentAccountSubjects.val() == '') {
-                bootbox.alert("如有收款金额则必须选取收款账户");
-                return false;
-            }
         }
     });
 

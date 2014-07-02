@@ -190,12 +190,6 @@
 							<s:textfield name="discountAmount" readonly="%{'DRAFT'!=voucherState.name()}" />
 							<div class="input-group-btn">
 								<button tabindex="-1" class="btn default btn-discount-by-amount" type="button">按金额自动分摊</button>
-								<button tabindex="-1" data-toggle="dropdown" class="btn default dropdown-toggle" type="button">
-									<i class="fa fa-angle-down"></i>
-								</button>
-								<ul role="menu" class="dropdown-menu pull-right">
-									<li><a href="javascript:;" onclick="alert('TODO')">按重量自动分摊</a></li>
-								</ul>
 							</div>
 						</div>
 					</div>
@@ -243,7 +237,7 @@
 					<label class="control-label">收款账户</label>
 					<div class="controls">
 						<s:select name="accountSubject.id" list="paymentAccountSubjects"
-							data-profile-param="default_sale_delivery_account_subject_id" />
+							data-profile-param="default_sale_delivery_account_subject_id" data-rule-requiredByName="payedAmount" />
 					</div>
 				</div>
 			</div>
@@ -263,7 +257,7 @@
 
 	<div class="form-actions form-inline right">
 		<div class="pull-left">
-			<a class="btn yellow btn-select-sale-order" href="javascript:;"><i class="fa fa-indent"> 从销售订单选取</i></a>
+			<a class="btn yellow btn-select-sale-order" href="javascript:;" ><i class="fa fa-indent"> 从销售订单选取</i></a>
 		</div>
 		<s3:button disabled="%{disallowUpdate!=null}" type="submit" cssClass="btn blue"
 			data-grid-reload=".grid-biz-sale-sale-delivery">

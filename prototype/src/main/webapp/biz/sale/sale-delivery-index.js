@@ -36,7 +36,7 @@ $(function() {
             label : '客户',
             name : 'customerProfile.display',
             index : 'customerProfile.code_OR_customerProfile.title',
-            width : 100
+            width : 140
         }, {
             label : '经办人',
             align : 'center',
