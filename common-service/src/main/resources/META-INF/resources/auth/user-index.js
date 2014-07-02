@@ -6,14 +6,7 @@ $(function() {
             name : 'signinid',
             editable : true,
             editoptions : {
-                dataInit : function(elem) {
-                    var $grid = $(this);
-                    var $elem = $(elem);
-                    var rowdata = $grid.jqGrid('getSelectedRowdata');
-                    if (rowdata && rowdata.id) {
-                        $elem.attr("disabled", true);
-                    }
-                }
+                updatable : false
             },
             width : 120
         }, {
