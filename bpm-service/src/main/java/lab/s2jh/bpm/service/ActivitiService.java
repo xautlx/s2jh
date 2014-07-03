@@ -61,7 +61,7 @@ public class ActivitiService {
     @Autowired(required = false)
     protected TaskService taskService;
 
-    @Autowired
+    @Autowired(required = false)
     private FormService formService;
 
     @Autowired(required = false)
