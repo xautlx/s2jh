@@ -6,6 +6,9 @@ import java.util.Map;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import lab.s2jh.core.security.AuthContextHolder;
+import lab.s2jh.core.util.DateUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Persistable;
 
@@ -163,5 +166,16 @@ public abstract class PersistableEntity<ID extends Serializable> implements Pers
             op = (String) opParams;
         }
         return op;
+    }
+
+    /**
+     * 用于辅助构建最近操作说明
+     * @param lastOperation 如“审核”
+     * @return 追加了登录用户/操作时间等信息的操作说明
+     */
+    @Transient
+    @JsonIgnore
+    public String buildLastOperationSummary(String lastOperation) {
+        return AuthContextHolder.getAuthUserPin() + lastOperation + ":" + DateUtils.formatTimeNow();
     }
 }
