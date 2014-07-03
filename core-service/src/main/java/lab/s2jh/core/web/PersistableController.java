@@ -206,7 +206,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
 
     /**
      * 判断当前实体对象是否已持久化对象
-     * 一般用于前端页面OGNL语法计算<s:property value="%{persistentedModel?'doUpdate':'doCreate'}"/>
+     * 一般用于前端页面OGNL语法计算
      * @return
      */
     public boolean isPersistentedModel() {
@@ -1037,6 +1037,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     /**
      * 基于分组和聚合属性返回Map结构分页数据
      * 判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性
+     * sum = + , diff = - , prod = * , quot = / 
      * @param properties
      * @return
      */

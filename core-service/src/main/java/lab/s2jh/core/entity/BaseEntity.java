@@ -155,6 +155,7 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
         createdDate = null;
         aclCode = null;
         aclType = null;
+        addExtraAttribute(PersistableEntity.EXTRA_ATTRIBUTE_DIRTY_ROW, true);
     }
 
     private static final String[] PROPERTY_LIST = new String[] { "id", "version", "lastModifiedBy", "lastModifiedDate",
