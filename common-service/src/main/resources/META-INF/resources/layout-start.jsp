@@ -64,6 +64,8 @@
 <link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-punk.css" />
 <link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-shadow.css" />
 
+<link href="assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
+
 <link href="assets/css/pages/tasks.css" rel="stylesheet" type="text/css" />
 <link href="assets/css/pages/search.css" rel="stylesheet" type="text/css" />
 <link href="assets/css/pages/lock.css" rel="stylesheet" type="text/css" />
@@ -641,6 +643,8 @@
 	<script src="assets/plugins/flot/jquery.flot.time.js"></script>
 
 	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+
+	<script src="assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 
 	<!-- BEGIN:File Upload Plugin JS files-->
 	<!-- The Templates plugin is included to render the upload/download listings -->
