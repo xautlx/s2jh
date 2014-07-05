@@ -53,6 +53,7 @@
 
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index2.gif)
 
+![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/grid-master-detail.png)
 
 > 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
 
