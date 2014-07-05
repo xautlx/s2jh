@@ -28,6 +28,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
 
+import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.audit.envers.EntityRevision;
 import lab.s2jh.core.audit.envers.ExtDefaultRevisionEntity;
 import lab.s2jh.core.dao.BaseDao;
@@ -410,6 +411,40 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         return sql;
     }
 
+    private class GroupAggregateProperty {
+        @MetaData(value = "字面属性", comments = "最后用于前端JSON输出的key")
+        private String label;
+        @MetaData(value = "JPA表达式", comments = "传入JPA CriteriaBuilder组装的内容")
+        private String name;
+        @MetaData(value = "JPA表达式alias", comments = "用于获取聚合值的别名")
+        private String alias;
+
+        public String getLabel() {
+            return label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAlias() {
+            return alias;
+        }
+
+        public void setAlias(String alias) {
+            this.alias = alias;
+        }
+
+    }
+
     /**
      * 分组聚合统计，常用于类似按账期时间段统计商品销售利润，按会计科目总帐统计等
      * 
@@ -422,46 +457,68 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
             String... properties) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
-        //Session session = entityManager.unwrap(Session.class);
-        //session.createSQLQuery("SET ANSI_WARNINGS OFF;SET ARITHABORT OFF;").executeUpdate();
-        //entityManager.createNativeQuery("SET ANSI_WARNINGS OFF;SET ARITHABORT OFF;").executeUpdate();
-
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
         Root<T> root = criteriaQuery.from(entityClass);
 
-        List<String> groupLists = Lists.newArrayList();
-        List<String> aggregateLists = Lists.newArrayList();
+        //挑出分组和聚合属性组，以是否存在“(”作为标识
+        List<GroupAggregateProperty> groupProperties = Lists.newArrayList();
+        List<GroupAggregateProperty> aggregateProperties = Lists.newArrayList();
         for (String prop : properties) {
+            GroupAggregateProperty groupAggregateProperty = new GroupAggregateProperty();
+            //聚合类型表达式
             if (prop.indexOf("(") > -1) {
-                aggregateLists.add(StringUtils.remove(prop, " "));
+                //处理as别名
+                prop = prop.replace(" AS ", " as ").replace(" As ", " as ").replace(" aS ", " as ");
+                String[] splits = prop.split(" as ");
+                String alias = null;
+                String name = null;
+                if (splits.length > 1) {
+                    name = splits[0].trim();
+                    alias = splits[1].trim();
+                    groupAggregateProperty.setAlias(alias);
+                    groupAggregateProperty.setLabel(alias);
+                    groupAggregateProperty.setName(name);
+                } else {
+                    name = splits[0].trim();
+                    alias = fixCleanAlias(name);
+                    groupAggregateProperty.setAlias(alias);
+                    groupAggregateProperty.setLabel(name);
+                    groupAggregateProperty.setName(name);
+                }
+                aggregateProperties.add(groupAggregateProperty);
             } else {
-                groupLists.add(StringUtils.remove(prop, " "));
+                //直接的属性表达式
+                groupAggregateProperty.setAlias(fixCleanAlias(prop));
+                groupAggregateProperty.setLabel(prop);
+                groupAggregateProperty.setName(prop);
+                groupProperties.add(groupAggregateProperty);
             }
         }
 
-        String[] groupProperties = groupLists.toArray(new String[groupLists.size()]);
-        String[] aggregateProperties = aggregateLists.toArray(new String[aggregateLists.size()]);
-
+        //构建JPA Expression
         Expression<?>[] groupExpressions = buildExpressions(root, criteriaBuilder, groupProperties);
         Expression<?>[] aggregateExpressions = buildExpressions(root, criteriaBuilder, aggregateProperties);
         Expression<?>[] selectExpressions = ArrayUtils.addAll(groupExpressions, aggregateExpressions);
         CriteriaQuery<Tuple> select = criteriaQuery.multiselect(selectExpressions);
 
+        //基于前端动态条件对象动态where条件组装
         Predicate where = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder, false);
         if (where != null) {
             select.where(where);
         }
+      //基于前端动态条件对象动态having条件组装
         Predicate having = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder, true);
         if (having != null) {
             select.having(having);
         }
 
+        //分页和排序处理
         if (pageable != null && pageable.getSort() != null) {
             Sort sort = pageable.getSort();
             Order order = sort.iterator().next();
             String prop = order.getProperty();
             String alias = fixCleanAlias(prop);
+            //目前发现JPA不支持传入alias作为排序属性，因此只能基于alias找到匹配的Expression表达式作为排序参数
             List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
             for (Selection<?> selection : selections) {
                 if (selection.getAlias().equals(alias)) {
@@ -475,51 +532,31 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             }
         }
 
+        //追加分组参数
         select.groupBy(groupExpressions);
 
+        //创建查询对象
         TypedQuery<Tuple> query = entityManager.createQuery(select);
+        //动态追加分页参数
         if (pageable != null) {
             query.setFirstResult(pageable.getOffset());
             query.setMaxResults(pageable.getPageSize());
         }
-        String[] selectProperties = ArrayUtils.addAll(groupProperties, aggregateProperties);
+        //获取结果集合，并组装为前端便于JSON序列化的Map结构
         List<Tuple> tuples = query.getResultList();
         List<Map<String, Object>> mapDatas = Lists.newArrayList();
         for (Tuple tuple : tuples) {
             Map<String, Object> data = Maps.newHashMap();
-            for (String prop : selectProperties) {
-                String alias = fixCleanAlias(prop);
-                data.put(prop, tuple.get(alias));
+            for (GroupAggregateProperty groupAggregateProperty : groupProperties) {
+                data.put(groupAggregateProperty.getLabel(), tuple.get(groupAggregateProperty.getAlias()));
+            }
+            for (GroupAggregateProperty groupAggregateProperty : aggregateProperties) {
+                data.put(groupAggregateProperty.getLabel(), tuple.get(groupAggregateProperty.getAlias()));
             }
             mapDatas.add(data);
         }
-        //        
-        //        CriteriaQuery<?> criteriaQueryCount = criteriaBuilder.createQuery();
-        //        Root<T> rootCount = criteriaQueryCount.from(entityClass);
-        //        CriteriaQuery<?> subselect = criteriaQueryCount.select((Expression) rootCount.get("commodity").get("id"));
-        //        if (where != null) {
-        //            subselect.where(where);
-        //        }
-        //        if (having != null) {
-        //            subselect.having(having);
-        //        }
-        //        subselect.groupBy(groupExpressions);
-        //
-        //        TypedQuery subquery = entityManager.createQuery(subselect);
-        //        org.hibernate.Query hibernateQuery = subquery.unwrap(org.hibernate.Query.class);
-        //        String hql = hibernateQuery.getQueryString();
-        //        System.out.println("--------------" + hql);
-        //        hql = StringUtils.substringBefore(hql, "order by");
-        //        Query queryCount = entityManager.createQuery("select count(*) from Commodity c where c.id in  (" + hql + ")");
-        //        Set<Parameter<?>> params = subquery.getParameters();
-        //        for (Parameter<?> param : params) {
-        //            System.out.println(param.getName()+"-------count-------" + subquery.getParameterValue(param));
-        //            queryCount.setParameter(param.getName(), subquery.getParameterValue(param));
-        //        }
-        //        Object count = queryCount.getSingleResult();
-        //        System.out.println("-------count-------" + count);
-        //        System.out.println("------2222222--------" + query.unwrap(org.hibernate.Query.class).getQueryString());
-
+ 
+        //TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
         return new PageImpl(mapDatas, pageable, Integer.MAX_VALUE);
     }
 
@@ -655,7 +692,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             }
             expression = (Expression) path;
         } else {
-            expression = buildExpression(root, builder, propertyName);
+            expression = buildExpression(root, builder, propertyName, null);
         }
 
         if ("NULL".equalsIgnoreCase(String.valueOf(matchValue))) {
@@ -690,8 +727,8 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                 DateTime dateTime = new DateTime(((Date) matchValue).getTime());
                 if (dateTime.getHourOfDay() == 0 && dateTime.getMinuteOfHour() == 0
                         && dateTime.getSecondOfMinute() == 0) {
-                    return builder.or(builder.greaterThan(expression, dateTime.toDate()),
-                            builder.lessThanOrEqualTo(expression, dateTime.plusDays(1).toDate()));
+                    return builder.or(builder.lessThan(expression, dateTime.toDate()),
+                            builder.greaterThanOrEqualTo(expression, dateTime.plusDays(1).toDate()));
                 }
             }
             predicate = builder.notEqual(expression, matchValue);
@@ -755,6 +792,15 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             predicate = builder.equal(expression, matchValue);
             break;
         case GT:
+            // 对日期特殊处理：一般用于区间日期的结束时间查询,如查询2012-01-01之前,一般需要显示2010-01-01当天及以前的数据,
+            // 而数据库一般存有时分秒,因此需要特殊处理把当前日期+1天,转换为<2012-01-02进行查询
+            if (matchValue instanceof Date) {
+                DateTime dateTime = new DateTime(((Date) matchValue).getTime());
+                if (dateTime.getHourOfDay() == 0 && dateTime.getMinuteOfHour() == 0
+                        && dateTime.getSecondOfMinute() == 0) {
+                    return builder.greaterThanOrEqualTo(expression, dateTime.plusDays(1).toDate());
+                }
+            }
             predicate = builder.greaterThan(expression, (Comparable) matchValue);
             break;
         case GE:
@@ -941,7 +987,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             String rightStr = expr.substring(left + 1);
             String arg = StringUtils.substringBefore(rightStr, ")");
             String[] args = arg.split(",");
-            logger.debug("op={},arg={}", op, arg);
+            //logger.debug("op={},arg={}", op, arg);
             if (op.equalsIgnoreCase("case")) {
                 Case selectCase = criteriaBuilder.selectCase();
 
@@ -1025,17 +1071,21 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
                 StringUtils.remove(StringUtils.remove(StringUtils.remove(name, "("), ")"), "."), ","), "-");
     }
 
-    private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String fullname) {
-        Expression<?> expr = parseExpr(root, criteriaBuilder, fullname, null);
-        expr.alias(fixCleanAlias(fullname));
+    private Expression<?> buildExpression(Root<?> root, CriteriaBuilder criteriaBuilder, String name, String alias) {
+        Expression<?> expr = parseExpr(root, criteriaBuilder, name, null);
+        if (alias != null) {
+            expr.alias(alias);
+        }
         return expr;
     }
 
-    private Expression<?>[] buildExpressions(Root<?> root, CriteriaBuilder criteriaBuilder, String... names) {
-        Expression<?>[] parsed = new Expression<?>[names.length];
+    private Expression<?>[] buildExpressions(Root<?> root, CriteriaBuilder criteriaBuilder,
+            List<GroupAggregateProperty> groupAggregateProperties) {
+        Expression<?>[] parsed = new Expression<?>[groupAggregateProperties.size()];
         int i = 0;
-        for (String fullname : names) {
-            parsed[i++] = buildExpression(root, criteriaBuilder, fullname);
+        for (GroupAggregateProperty groupAggregateProperty : groupAggregateProperties) {
+            parsed[i++] = buildExpression(root, criteriaBuilder, groupAggregateProperty.getName(),
+                    groupAggregateProperty.getAlias());
         }
         return parsed;
     }
