@@ -217,11 +217,18 @@ public class PropertyFilter {
             if (matchType.equals(MatchType.IN) || matchType.equals(MatchType.NI)) {
                 String value = values[0];
                 values = value.split(",");
-            } else if (matchType.equals(MatchType.BT)) {
+            } else if (propertyClass.equals(Date.class) || propertyClass.equals(DateTime.class)) {
                 String value = values[0];
-                values = value.split("～");
-                values[0] = values[0].trim();
-                values[1] = values[1].trim();
+                value = value.replace("～", " ");
+                if (value.indexOf(" ") > -1) {
+                    values = StringUtils.split(value, " ");
+                    if (matchType.equals(MatchType.BT)) {
+                        values[0] = values[0].trim();
+                        values[1] = values[1].trim();
+                    } else {
+                        values = new String[] { values[0].trim() };
+                    }
+                }
             }
         }
 
