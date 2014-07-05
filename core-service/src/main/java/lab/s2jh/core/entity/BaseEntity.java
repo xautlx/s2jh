@@ -11,6 +11,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import lab.s2jh.core.annotation.MetaData;
@@ -163,5 +164,12 @@ public abstract class BaseEntity<ID extends Serializable> extends PersistableEnt
 
     public String[] retriveCommonProperties() {
         return PROPERTY_LIST;
+    }
+
+    @Override
+    @Transient
+    @JsonProperty
+    public String getDisplay() {
+        return "[" + getId() + "]" + this.getClass().getSimpleName();
     }
 }
