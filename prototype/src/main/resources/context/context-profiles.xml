@@ -12,6 +12,7 @@
             <property name="locations">
                 <list>
                     <value>classpath:/application.properties</value>
+                    <value>classpath:/application_prd.properties</value>
                 </list>
             </property>
             <property name="ignoreResourceNotFound" value="true" />
@@ -68,6 +69,7 @@
             <property name="locations">
                 <list>
                     <value>classpath:/application.properties</value>
+                    <value>classpath:/application_prd.properties</value>
                 </list>
             </property>
             <property name="ignoreResourceNotFound" value="true" />
