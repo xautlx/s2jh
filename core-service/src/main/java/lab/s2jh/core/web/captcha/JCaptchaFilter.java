@@ -35,10 +35,9 @@ public class JCaptchaFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        PropertiesConfigService cfg = SpringContextHolder.getBean(PropertiesConfigService.class);
         //为了提高开发人员频繁登录效率问题，开发模式则跳过验证码验证
-        if (cfg != null && cfg.isDevMode()) {
-            logger.warn("Application running at DEV mode, jcaptcha validation skipped.");
+        if (PropertiesConfigService.isDevMode() || PropertiesConfigService.isDemoMode()) {
+            logger.warn("Application running at DEV or DEMO mode, jcaptcha validation skipped.");
             chain.doFilter(request, response);
             return;
         }
