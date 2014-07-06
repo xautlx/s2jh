@@ -58,7 +58,7 @@ $(function() {
                             var targetRowid = null;
                             $.each(ids, function(i, id) {
                                 var item = $grid.jqGrid('getRowData', id);
-                                if (item['commodity.commodityBarcode'] == rowdata['commodityBarcode']) {
+                                if (item['commodity.sku'] == rowdata['sku']) {
                                     if (item['gift'] != 'true') {
                                         targetRowid = id;
                                         targetRowdata = item;
@@ -75,7 +75,7 @@ $(function() {
 
                                 var newdata = {
                                     'commodity.id' : rowdata.id,
-                                    'commodity.commodityBarcode' : rowdata.commodityBarcode,
+                                    'commodity.sku' : rowdata.sku,
                                     'measureUnit' : rowdata.measureUnit,
                                     'storageLocation.id' : rowdata['defaultStorageLocation.id'],
                                     'commodity.display' : rowdata.display,

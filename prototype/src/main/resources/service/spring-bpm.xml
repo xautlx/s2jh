@@ -19,8 +19,8 @@
 		<property name="processDefinitionCacheLimit" value="10" />
 		<!-- 自动部署 <property name="deploymentResources"> <list> <value>classpath*:/bpm/*</value> </list> </property> -->
 		<!-- 生成流程图的字体 -->
-		<property name="activityFontName" value="宋体" />
-		<property name="labelFontName" value="宋体" />
+		<property name="activityFontName" value="华文宋体" />
+		<property name="labelFontName" value="华文宋体" />
 	</bean>
 
 	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">

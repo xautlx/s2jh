@@ -102,7 +102,17 @@ public class SaleDelivery extends BaseBizEntity {
     @MetaData(value = "毛利额")
     private BigDecimal profitAmount;
 
+    @MetaData(value = "明细")
     private List<SaleDeliveryDetail> saleDeliveryDetails;
+
+    @MetaData("提交时间")
+    private Date submitDate;
+    @MetaData("审核时间")
+    private Date auditDate;
+    @MetaData("红冲时间")
+    private Date redwordDate;
+    @MetaData(value = "最近操作摘要")
+    private String lastOperationSummary;
 
     @Transient
     @Override
@@ -389,5 +399,37 @@ public class SaleDelivery extends BaseBizEntity {
 
     public void setOriginalAmount(BigDecimal originalAmount) {
         this.originalAmount = originalAmount;
+    }
+
+    public Date getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public Date getAuditDate() {
+        return auditDate;
+    }
+
+    public void setAuditDate(Date auditDate) {
+        this.auditDate = auditDate;
+    }
+
+    public Date getRedwordDate() {
+        return redwordDate;
+    }
+
+    public void setRedwordDate(Date redwordDate) {
+        this.redwordDate = redwordDate;
+    }
+
+    public String getLastOperationSummary() {
+        return lastOperationSummary;
+    }
+
+    public void setLastOperationSummary(String lastOperationSummary) {
+        this.lastOperationSummary = lastOperationSummary;
     }
 }
