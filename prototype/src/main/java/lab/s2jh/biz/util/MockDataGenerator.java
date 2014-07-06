@@ -10,11 +10,14 @@ import javax.persistence.EntityManagerFactory;
 import lab.s2jh.biz.finance.entity.BizTradeUnit;
 import lab.s2jh.biz.finance.entity.BizTradeUnit.BizTradeUnitTypeEnum;
 import lab.s2jh.biz.md.entity.Commodity;
+import lab.s2jh.biz.stock.entity.CommodityStock;
 import lab.s2jh.biz.stock.entity.StorageLocation;
 import lab.s2jh.core.util.MockEntityUtils;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import com.google.common.collect.Lists;
 
 /**
  * 模拟数据生成器
@@ -58,6 +61,7 @@ public class MockDataGenerator {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             int count;
+            //库存地数据模拟
             entityManager.getTransaction().begin();
             count = randomNum(5, 10);
             DecimalFormat df = new DecimalFormat("000");
@@ -72,9 +76,11 @@ public class MockDataGenerator {
             entityManager.flush();
             entityManager.getTransaction().commit();
 
+            //商品数据模拟
             entityManager.getTransaction().begin();
             count = randomNum(100, 300);
             List<StorageLocation> storageLocations = entityManager.createQuery("from StorageLocation").getResultList();
+            List<Commodity> commodities = Lists.newArrayList();
             for (int i = 0; i < count; i++) {
                 String num = df.format(i);
                 Commodity entity = MockEntityUtils.buildMockObject(Commodity.class);
@@ -84,6 +90,24 @@ public class MockDataGenerator {
                 entity.setTitle("模拟商品" + num);
                 entity.setBarcode(RandomStringUtils.randomNumeric(13));
                 entityManager.persist(entity);
+                commodities.add(entity);
+            }
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+
+            //商品库存数据模拟
+            entityManager.getTransaction().begin();
+            for (StorageLocation storageLocation : storageLocations) {
+                for (Commodity commodity : commodities) {
+                    CommodityStock entity = MockEntityUtils.buildMockObject(CommodityStock.class);
+                    entity.setStorageLocation(storageLocation);
+                    entity.setCommodity(commodity);
+                    entity.setCurStockAmount(entity.getCurStockQuantity().multiply(entity.getCostPrice()));
+                    entity.setBatchNo(null);
+                    entity.setProductDate(null);
+                    entity.setExpireDate(null);
+                    entityManager.persist(entity);
+                }
             }
             entityManager.flush();
             entityManager.getTransaction().commit();
