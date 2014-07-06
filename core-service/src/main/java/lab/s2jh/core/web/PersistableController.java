@@ -1037,8 +1037,12 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     /**
      * 基于分组和聚合属性返回Map结构分页数据
      * 判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性
-     * sum = + , diff = - , prod = * , quot = / 
-     * @param properties
+     * @param properties  属性列表，语法规则：sum = + , diff = - , prod = * , quot = / , case(condition,when,else)
+     * 示例：
+     *     sum(amount)
+     *     sum(diff(amount,costAmount))
+     *     min(case(equal(amount,0),-1,quot(diff(amount,costAmount),amount)))
+     *     case(equal(sum(amount),0),-1,quot(sum(diff(amount,costAmount)),sum(amount)))
      * @return
      */
     protected Page<Map<String, Object>> findByGroupAggregate(String... properties) {

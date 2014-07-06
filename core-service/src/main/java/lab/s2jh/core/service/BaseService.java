@@ -451,9 +451,14 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @param groupFilter 过滤参数对象
      * @param pageable 分页排序参数对象，TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
      * @param properties 属性集合，判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性 
+     * 属性语法规则：sum = + , diff = - , prod = * , quot = / , case(condition,when,else)
+     * 示例：
+     *     sum(amount)
+     *     sum(diff(amount,costAmount))
+     *     min(case(equal(amount,0),-1,quot(diff(amount,costAmount),amount)))
+     *     case(equal(sum(amount),0),-1,quot(sum(diff(amount,costAmount)),sum(amount)))
      * @return Map结构的集合分页对象
      */
-    @Transactional(readOnly = false)
     public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
             String... properties) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
