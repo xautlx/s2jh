@@ -156,7 +156,7 @@
 						</div>
 					</div>
 				</div>
-				<s:if test="%{devMode}">
+				<s:if test="%{devMode||demoMode}">
 					<div id="devModeTips">
 						<p>
 							开发/测试/演示登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>

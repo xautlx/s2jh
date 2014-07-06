@@ -24,7 +24,7 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
  * 登录处理
  */
 public class SigninController extends SimpleController {
-    
+
     @Autowired
     private DynamicConfigService dynamicConfigService;
 
@@ -40,6 +40,10 @@ public class SigninController extends SimpleController {
 
     public boolean isDevMode() {
         return PropertiesConfigService.isDevMode();
+    }
+
+    public boolean isDemoMode() {
+        return PropertiesConfigService.isDemoMode();
     }
 
     public String getSystemTitle() {
