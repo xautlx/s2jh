@@ -8,6 +8,7 @@ import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.service.BaseService;
+import lab.s2jh.core.service.Validation;
 import lab.s2jh.sys.entity.Menu;
 import lab.s2jh.sys.service.MenuService;
 import lab.s2jh.web.action.BaseController;
@@ -51,12 +52,14 @@ public class MenuController extends BaseController<Menu, String> {
     @Override
     @MetaData(value = "保存")
     public HttpHeaders doSave() {
+        Validation.notDemoMode();
         return super.doSave();
     }
 
     @Override
     @MetaData(value = "删除")
     public HttpHeaders doDelete() {
+        Validation.notDemoMode();
         return super.doDelete();
     }
 

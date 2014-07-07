@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.context.SpringContextHolder;
+import lab.s2jh.core.service.PropertiesConfigService;
+import lab.s2jh.core.service.Validation;
 import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
 
@@ -101,6 +103,7 @@ public class UtilController extends SimpleController {
 
     @MetaData(value = "日志级别更新")
     public HttpHeaders loggerLevelUpdate() {
+        Validation.notDemoMode();
         HttpServletRequest request = ServletActionContext.getRequest();
         String loggerName = request.getParameter("loggerName");
         String loggerLevel = request.getParameter("loggerLevel");
@@ -125,6 +128,7 @@ public class UtilController extends SimpleController {
 
     @MetaData(value = "启动H2 Server")
     public HttpHeaders startH2() throws Exception {
+        Validation.notDemoMode();
         Map<String, String> datas = Maps.newHashMap();
         EmbeddedDatabaseFactoryBean db = SpringContextHolder.getBean(EmbeddedDatabaseFactoryBean.class);
         String databaseName = (String) FieldUtils.readField(db, "databaseName", true);
@@ -147,6 +151,7 @@ public class UtilController extends SimpleController {
 
     @MetaData(value = "关闭H2 Server")
     public HttpHeaders stopH2() throws Exception {
+        Validation.notDemoMode();
         if (h2Server != null) {
             logger.info("Stopping H2 Server...");
             h2Server.stop();

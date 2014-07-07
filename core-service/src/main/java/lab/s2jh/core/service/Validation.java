@@ -29,4 +29,10 @@ public class Validation {
             throw new ValidationException(message);
         }
     }
+
+    public static void notDemoMode() {
+        if (PropertiesConfigService.isDemoMode()) {
+            throw new ValidationException("演示模式，操作被禁用");
+        }
+    }
 }
