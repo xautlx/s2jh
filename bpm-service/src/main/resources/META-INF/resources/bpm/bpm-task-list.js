@@ -1,12 +1,3 @@
-function clkChkTask(claim) {
-    var $tasks = $("#dashboard-task-list").find("li[need-claim='" + claim + "']");
-    if (this.checked) {
-        $tasks.show();
-    } else {
-        $tasks.hide();
-    }
-}
-
 var refreshTasksTimer;
 
 $(function() {
@@ -39,6 +30,16 @@ $(function() {
     refreshTasksTimer = window.setInterval(function() {
         $("#portlet-tasks").find("> .portlet-title > .tools > a.reload ").click();
     }, 1000 * 60 * 10);
+
+    $(".chk-task").click(function() {
+        var claim = $(this).hasClass("chk-task-candidate");
+        var $tasks = $("#dashboard-task-list").find("li[need-claim='" + claim + "']");
+        if (this.checked) {
+            $tasks.show();
+        } else {
+            $tasks.hide();
+        }
+    });
 
     //console.profileEnd();
 });

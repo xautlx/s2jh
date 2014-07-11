@@ -14,8 +14,8 @@
 					class="btn btn-xs green"> 过滤 <i class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
-					<label><input type="checkbox" checked="true" id="chk-task-user" onclick="clkChkTask('false')" /> 个人任务</label> <label><input
-						type="checkbox" checked="true" id="chk-task-candidate" onclick="clkChkTask('true')" /> 候选任务</label>
+					<label><input type="checkbox" checked class="chk-task chk-task-user" /> 个人任务</label> <label><input
+						type="checkbox" checked class="chk-task chk-task-candidate" /> 候选任务</label>
 				</div>
 			</div>
 		</div>
@@ -31,6 +31,8 @@
 							<div class="col1">
 								<div class="cont">
 									<div class="cont-col1">
+										<s:property value='#s.count' />
+										.
 										<s:if test="%{#item.candidate}">
 											<div class="label label-sm label-info">
 												<i class="fa fa-group"></i>
@@ -44,11 +46,12 @@
 									</div>
 									<div class="cont-col2">
 										<div class="desc">
+
 											<s:property value="#item.pdname" />
 											-
 											<s:property value="#item.name" />
 										</div>
-										<div class="biz-key" style="padding-left: 35px">
+										<div class="biz-key" style="padding-left: 55px">
 											<s:property value="#item.bizKey" />
 										</div>
 									</div>
