@@ -18,7 +18,7 @@
 				<div class="form-group">
 					<label class="control-label">缓存刷新范围</label>
 					<div class="controls">
-						<s:select name="cacheNames" list="cacheNames" size="20" multiple="true" value="" />
+						<s:select name="cacheNames" list="cacheNames" size="20" emptyOption="true" value="" />
 					</div>
 				</div>
 			</div>
