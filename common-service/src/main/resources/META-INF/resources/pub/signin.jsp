@@ -57,129 +57,114 @@
 	<!-- END LOGO -->
 	<!-- BEGIN LOGIN -->
 	<div class="clearfix" style="padding: 15px">
-		<div class="content pull-left" style="width: 100%; max-width: 450px">
-			<!-- BEGIN LOGIN FORM -->
-			<form id="login-form" class="login-form" action="${base}/j_spring_security_check" method="post">
-				<h3 class="form-title">系统登录</h3>
-				<%
-				    Exception e = (Exception) session
-									.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-							if (e != null) {
-								org.slf4j.Logger logger = org.slf4j.LoggerFactory
-										.getLogger("lab.s2jh.errors.login");
-								if (logger.isDebugEnabled()) {
-									logger.debug("login.exception", e);
-								}
-								String msg = "系统处理错误，请联系管理员";
-								if (e instanceof UsernameNotFoundException
-										|| (e.getCause() != null && e.getCause() instanceof UsernameNotFoundException)) {
-									msg = "账号不存在,请重新输入!";
-								} else if (e instanceof DisabledException
-										|| (e.getCause() != null && e.getCause() instanceof DisabledException)) {
-									msg = "账号已停用,请联系管理员!";
-								} else if (e instanceof AccountExpiredException
-										|| (e.getCause() != null && e.getCause() instanceof AccountExpiredException)) {
-									msg = "账号已过期,请联系管理员!";
-								} else if (e instanceof CredentialsExpiredException
-										|| (e.getCause() != null && e.getCause() instanceof CredentialsExpiredException)) {
-									msg = "密码已过期,请联系管理员!";
-								} else if (e instanceof LockedException
-										|| (e.getCause() != null && e.getCause() instanceof LockedException)) {
-									msg = "账号已被锁定,请联系管理员!";
-								} else if (e instanceof BadCaptchaException
-										|| (e.getCause() != null && e.getCause() instanceof BadCaptchaException)) {
-									msg = "验证码校验失败，请重试!";
-								} else if (e instanceof BadCredentialsException) {
-									msg = "登录信息错误,请重新输入!";
-								}
-								session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-				%>
-				<div class="alert alert-danger">
-					<button class="close" data-close="alert"></button>
-					<span><%=msg%></span>
-				</div>
-				<%
-				    }
-				%>
+		<div class="content pull-left" style="width: 100%; max-width: 800px">
+			<div class="row">
+				<div class="col-md-6">
+					<!-- BEGIN LOGIN FORM -->
+					<form id="login-form" class="login-form" action="${base}/j_spring_security_check" method="post">
+						<h3 class="form-title">系统登录</h3>
+						<%
+						    Exception e = (Exception) session
+											.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+									if (e != null) {
+										org.slf4j.Logger logger = org.slf4j.LoggerFactory
+												.getLogger("lab.s2jh.errors.login");
+										if (logger.isDebugEnabled()) {
+											logger.debug("login.exception", e);
+										}
+										String msg = "系统处理错误，请联系管理员";
+										if (e instanceof UsernameNotFoundException
+												|| (e.getCause() != null && e.getCause() instanceof UsernameNotFoundException)) {
+											msg = "账号不存在,请重新输入!";
+										} else if (e instanceof DisabledException
+												|| (e.getCause() != null && e.getCause() instanceof DisabledException)) {
+											msg = "账号已停用,请联系管理员!";
+										} else if (e instanceof AccountExpiredException
+												|| (e.getCause() != null && e.getCause() instanceof AccountExpiredException)) {
+											msg = "账号已过期,请联系管理员!";
+										} else if (e instanceof CredentialsExpiredException
+												|| (e.getCause() != null && e.getCause() instanceof CredentialsExpiredException)) {
+											msg = "密码已过期,请联系管理员!";
+										} else if (e instanceof LockedException
+												|| (e.getCause() != null && e.getCause() instanceof LockedException)) {
+											msg = "账号已被锁定,请联系管理员!";
+										} else if (e instanceof BadCaptchaException
+												|| (e.getCause() != null && e.getCause() instanceof BadCaptchaException)) {
+											msg = "验证码校验失败，请重试!";
+										} else if (e instanceof BadCredentialsException) {
+											msg = "登录信息错误,请重新输入!";
+										}
+										session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+						%>
+						<div class="alert alert-danger">
+							<button class="close" data-close="alert"></button>
+							<span><%=msg%></span>
+						</div>
+						<%
+						    }
+						%>
 
-				<div class="form-group">
-					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-					<label class="control-label visible-ie8 visible-ie9">登录账号</label>
-					<div class="input-icon">
-						<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-							placeholder="登录账号" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label visible-ie8 visible-ie9">登录密码</label>
-					<div class="input-icon">
-						<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
-							placeholder="登录密码" name="j_password" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label visible-ie8 visible-ie9">验证码</label>
-					<div class="input-group">
-						<div class="input-icon">
-							<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
-								placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
+						<div class="form-group">
+							<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+							<label class="control-label visible-ie8 visible-ie9">登录账号</label>
+							<div class="input-icon">
+								<i class="fa fa-user"></i> <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
+									placeholder="登录账号" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" />
+							</div>
 						</div>
-						<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
-							class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
-						</span>
-					</div>
-				</div>
-				<div class="form-actions">
-					<label> <input type="checkbox" name="_spring_security_remember_me" checked="true" value="true" />
-						记住我(两周内自动登录)
-					</label>
-					<button type="submit" class="btn blue pull-right">
-						登录 <i class="m-icon-swapright m-icon-white"></i>
-					</button>
-				</div>
-				<div class="forget-password">
-					<div class="row">
-						<div class="col-md-3">
-							<s:if test="casSupport">
-								<p>
-									<a href='<s:property value="casRedirectUrl"/>'>单点登录</a>
-								</p>
-							</s:if>
+						<div class="form-group">
+							<label class="control-label visible-ie8 visible-ie9">登录密码</label>
+							<div class="input-icon">
+								<i class="fa fa-lock"></i> <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
+									placeholder="登录密码" name="j_password" />
+							</div>
 						</div>
-						<div class="col-md-9">
-							<p class="pull-right">
-								忘记密码? <a href="#forget-password" data-toggle="modal">找回密码</a>
-								<s:if test="signupEnabled">
-								&nbsp; &nbsp;&nbsp; &nbsp; 没有账号? <a href="#create-account" data-toggle="modal">自助注册</a>
-								</s:if>
-							</p>
+						<div class="form-group">
+							<label class="control-label visible-ie8 visible-ie9">验证码</label>
+							<div class="input-group">
+								<div class="input-icon">
+									<i class="fa fa-qrcode"></i> <input class="form-control captcha-text" type="text" autocomplete="off"
+										placeholder="验证码...看不清可点击图片可刷新" name="j_captcha" />
+								</div>
+								<span class="input-group-btn" style="cursor: pointer;"> <img alt="验证码" name="j_captcha" height="34px"
+									class="captcha-img" src="${base}/assets/img/captcha_placeholder.jpg" title="看不清？点击刷新" />
+								</span>
+							</div>
 						</div>
-					</div>
+						<div class="form-actions">
+							<label> <input type="checkbox" name="_spring_security_remember_me" checked="true" value="true" />
+								记住我(两周内自动登录)
+							</label>
+							<button type="submit" class="btn blue pull-right">
+								登录 <i class="m-icon-swapright m-icon-white"></i>
+							</button>
+						</div>
+						<div class="forget-password">
+							<div class="row">
+								<div class="col-md-3">
+									<s:if test="casSupport">
+										<p>
+											<a href='<s:property value="casRedirectUrl"/>'>单点登录</a>
+										</p>
+									</s:if>
+								</div>
+								<div class="col-md-9">
+									<p class="pull-right">
+										忘记密码? <a href="#forget-password" data-toggle="modal">找回密码</a>
+										<s:if test="signupEnabled">
+                                &nbsp; &nbsp;&nbsp; &nbsp; 没有账号? <a href="#create-account" data-toggle="modal">自助注册</a>
+										</s:if>
+									</p>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- END LOGIN FORM -->
 				</div>
-				<s:if test="%{devMode||demoMode}">
-					<div id="devModeTips">
-						<p>
-							开发/测试/演示登录快速入口: <a href="javascript:void(0)" class="" onclick="setupDevUser('admin','admin')">admin</a>
-						</p>
-					</div>
-					<script type="text/javascript">
-                        function setupDevUser(user, password) {
-                            var $form = $("#login-form");
-                            $("input[name='j_username']", $form).val(user);
-                            $("input[name='j_password']", $form).val(password);
-                            $("input[name='j_captcha']", $form).val('admin');
-                            $form.submit();
-                        }
-                        jQuery(document).ready(function() {
-                            $("#devModeTips").pulsate({
-                                color : "#bf1c56",
-                                repeat : 5
-                            });
-                        });
-                    </script>
-				</s:if>
-			</form>
-			<!-- END LOGIN FORM -->
+				<div class="col-md-6" style="padding-left: 50px">
+					<%@ include file="/pub/signin-tips.jsp"%>
+				</div>
+			</div>
 
 			<!-- BEGIN FORGOT PASSWORD FORM -->
 			<div class="modal fade" id="forget-password" tabindex="-1" role="basic" aria-hidden="true">
@@ -351,7 +336,6 @@
 				</div>
 				<!-- END REGISTRATION FORM -->
 			</s:if>
-
 		</div>
 	</div>
 	<!-- END LOGIN -->
