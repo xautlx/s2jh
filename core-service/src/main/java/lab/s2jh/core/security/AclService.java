@@ -34,6 +34,13 @@ public interface AclService {
     String getAclCodePrefix(String aclCode);
 
     /**
+     * 获取登录用户ACL Code前缀
+     * 
+     * @return
+     */
+    String getLogonUserAclCodePrefix();
+
+    /**
      * 基于一个单一ACL Code返回其可以访问的ACL Code前缀集合
      * 如用户ACL Code为120000，根据业务规则其访问前缀集合可转化12, AA12,BB12等
      * @return
@@ -47,16 +54,4 @@ public interface AclService {
      * @exception 如果判断无权访问,则抛出运行异常
      */
     void validateAuthUserAclCodePermission(String... dataAclCode);
-
-    /**
-     * 获取初始化用户对应ACL Type，用于标识当前系统的ACL Type
-     * @return
-     */
-    String getInitAclType();
-
-    /**
-     * 获取初始化用户对应ACL Code，用于标识当前系统的ACL Code
-     * @return
-     */
-    String getInitAclCode();
 }
