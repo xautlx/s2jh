@@ -669,7 +669,6 @@ public class ActivitiService {
      * @return
      */
     public void completeTask(String taskId, Map<String, Object> variables) {
-        entityManager.flush();
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         if (variables != null && variables.size() > 0) {
             taskService.setVariablesLocal(taskId, variables);
@@ -677,11 +676,10 @@ public class ActivitiService {
         BpmTrackable entity = (BpmTrackable) taskService.getVariable(taskId, BPM_ENTITY_VAR_NAME);
         taskService.complete(taskId, variables);
         if (entity != null) {
-            entityManager.flush();
+            entity = entityManager.find(entity.getClass(), entity.getId());
             String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
             entity.setActiveTaskName(activeTaskNames);
             entityManager.persist(entity);
-            entityManager.flush();
         }
     }
 
@@ -695,12 +693,11 @@ public class ActivitiService {
         identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
         BpmTrackable entity = (BpmTrackable) taskService.getVariable(taskId, BPM_ENTITY_VAR_NAME);
         formService.submitTaskFormData(taskId, formProperties);
-        entityManager.flush();
         if (entity != null) {
+            entity = entityManager.find(entity.getClass(), entity.getId());
             String activeTaskNames = findActiveTaskNames(entity.getBpmBusinessKey());
             entity.setActiveTaskName(activeTaskNames);
             entityManager.persist(entity);
-            entityManager.flush();
         }
     }
 }

@@ -210,7 +210,7 @@ public class User extends BaseEntity<Long> {
     @Override
     @Transient
     public String getDisplay() {
-        return signinid + (this.getNick() == null ? "" : " " + this.getNick());
+        return signinid;
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

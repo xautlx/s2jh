@@ -1,5 +1,7 @@
 package lab.s2jh.bpm;
 
+import java.io.Serializable;
+
 import javax.persistence.Transient;
 
 import lab.s2jh.core.entity.annotation.SkipParamBind;
@@ -22,4 +24,7 @@ public interface BpmTrackable {
 
     @SkipParamBind
     public void setActiveTaskName(String activeTaskName);
+
+    @JsonProperty
+    Serializable getId();
 }
