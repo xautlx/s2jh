@@ -3,7 +3,6 @@
 <form class="form-horizontal form-bordered form-label-stripped form-validation"
 	action="${base}/bpm/bpm-task!doBackActivity" method="post" data-editrulesurl="false">
 	<s:hidden name="taskId" value="%{#parameters.taskId}" />
-
 	<s:if test="#request.task.assignee==null">
 		<div class="note note-warning note-need-claim">
 			<h4 class="block">
