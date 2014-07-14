@@ -612,7 +612,6 @@
 	<script type="text/javascript"
 		src="assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="assets/plugins/clockface/js/clockface.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-daterangepicker/moment.min.js"></script>
 	<script type="text/javascript" src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 	<script type="text/javascript" src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 	<script type="text/javascript" src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
@@ -644,7 +643,9 @@
 
 	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
 
+    <script src="assets/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+	<script src="assets/plugins/fullcalendar/lang/zh-cn.js"></script>
 
 	<!-- BEGIN:File Upload Plugin JS files-->
 	<!-- The Templates plugin is included to render the upload/download listings -->
