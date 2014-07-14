@@ -41,5 +41,25 @@ $(function() {
         }
     });
 
+    $("#txtQuickFilterTasks").keyup(function() {
+        var $el = $(this);
+        var val = $el.val();
+        var $tasks = $("#dashboard-task-list").find("li");
+        $tasks.each(function() {
+            if (val == "") {
+                $(this).show();
+            } else {
+                val = val.toLowerCase();
+                var desc = $(this).find(".desc").text() + $(this).find(".biz-key").text();
+                desc = desc.toLowerCase();
+                if (desc.indexOf(val) > -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            }
+        })
+    });
+
     //console.profileEnd();
 });

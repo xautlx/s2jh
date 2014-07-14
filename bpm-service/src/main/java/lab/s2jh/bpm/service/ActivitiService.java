@@ -52,6 +52,8 @@ public class ActivitiService {
 
     public static final String BPM_ENTITY_VAR_NAME = "entity";
 
+    public static final String BPM_INITIATOR_VAR_NAME = "initiator";
+
     @PersistenceContext
     protected EntityManager entityManager;
 

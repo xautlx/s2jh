@@ -10,6 +10,11 @@
 		</div>
 		<div class="actions">
 			<div class="btn-group">
+				<div class="input-box">
+					<input type="text" value="" id="txtQuickFilterTasks"> <input type="button" value=" " class="submit">
+				</div>
+			</div>
+			<div class="btn-group">
 				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="javascript:;"
 					class="btn btn-xs green"> 过滤 <i class="fa fa-angle-down"></i>
 				</a>
@@ -46,10 +51,11 @@
 									</div>
 									<div class="cont-col2">
 										<div class="desc">
-
 											<s:property value="#item.pdname" />
 											-
 											<s:property value="#item.name" />
+											-
+											<s:property value="#item.initiator" />
 										</div>
 										<div class="biz-key" style="padding-left: 55px">
 											<s:property value="#item.bizKey" />

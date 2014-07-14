@@ -77,7 +77,7 @@ public class BpmTaskController extends SimpleController {
                 .processDefinitionId(processDefinitionId).singleResult();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceId(task.getProcessInstanceId()).singleResult();
-
+        Map<String, Object> variables = taskService.getVariables(task.getId());
         Map<String, Object> singleTask = new HashMap<String, Object>();
         singleTask.put("id", task.getId());
         singleTask.put("name", task.getName());
@@ -86,7 +86,7 @@ public class BpmTaskController extends SimpleController {
         singleTask.put("pdversion", processDefinition.getVersion());
         singleTask.put("pid", task.getProcessInstanceId());
         singleTask.put("bizKey", processInstance.getBusinessKey());
-
+        singleTask.put("initiator", variables.get(ActivitiService.BPM_INITIATOR_VAR_NAME));
         return singleTask;
     }
 
