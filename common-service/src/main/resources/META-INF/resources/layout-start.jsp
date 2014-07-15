@@ -185,8 +185,8 @@
 					</ul></li>
 				<!-- END INBOX DROPDOWN -->
 				<!-- BEGIN TODO DROPDOWN -->
-				<li class="dropdown" id="header_task_bar"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
-					data-close-others="true"> <i class="fa fa-tasks"></i> <span class="badge badge-tasks-count"></span>
+				<li class="dropdown" id="header_task_bar"><a href="javascript:;" onclick="$('.btn-dashboard').click()"
+					class="dropdown-toggle"> <i class="fa fa-tasks"></i> <span class="badge badge-tasks-count"></span>
 				</a>
 					<ul class="dropdown-menu extended tasks hide"></ul></li>
 				<!-- END TODO DROPDOWN -->
@@ -643,7 +643,7 @@
 
 	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
 
-    <script src="assets/plugins/fullcalendar/lib/moment.min.js"></script>
+	<script src="assets/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script src="assets/plugins/fullcalendar/lang/zh-cn.js"></script>
 
