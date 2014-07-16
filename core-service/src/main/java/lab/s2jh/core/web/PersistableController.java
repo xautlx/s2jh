@@ -64,6 +64,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
@@ -1043,11 +1044,47 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      *     sum(diff(amount,costAmount))
      *     min(case(equal(amount,0),-1,quot(diff(amount,costAmount),amount)))
      *     case(equal(sum(amount),0),-1,quot(sum(diff(amount,costAmount)),sum(amount)))
+     * @param groupFilter  动态参数对象
+     * @param pageable  分页排序对象
+     * @return
+     */
+    protected Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
+            String... properties) {
+        return getEntityService().findByGroupAggregate(groupFilter, pageable, properties);
+    }
+
+    /**
+     * 基于参数和排序调用分组查询 
+     * @param properties
+     * @param groupFilter  动态参数对象
+     * @param sort  排序对象
+     * @return
+     */
+    protected Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Sort sort,
+            String... properties) {
+        Pageable pageable = new PageRequest(0, Integer.MAX_VALUE, sort);
+        return findByGroupAggregate(groupFilter, pageable, properties);
+    }
+
+    /**
+     * 基于参数调用分组查询 
+     * @param properties
+     * @param groupFilter  动态参数对象
+     * @return
+     */
+    protected Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, String... properties) {
+        return getEntityService().findByGroupAggregate(groupFilter, null, properties);
+    }
+
+    /**
+     * 基于请求组装的参数调用分组查询 
+     * @param properties
      * @return
      */
     protected Page<Map<String, Object>> findByGroupAggregate(String... properties) {
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
-        return getEntityService().findByGroupAggregate(groupFilter, pageable, properties);
+        return findByGroupAggregate(groupFilter, pageable, properties);
     }
+
 }

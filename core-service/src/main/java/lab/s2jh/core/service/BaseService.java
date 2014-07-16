@@ -448,6 +448,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     /**
      * 分组聚合统计，常用于类似按账期时间段统计商品销售利润，按会计科目总帐统计等
      * 
+     * @param clazz  ROOT实体类型
      * @param groupFilter 过滤参数对象
      * @param pageable 分页排序参数对象，TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
      * @param properties 属性集合，判断规则：属性名称包含"("则标识为聚合属性，其余为分组属性 
@@ -459,11 +460,11 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      *     case(equal(sum(amount),0),-1,quot(sum(diff(amount,costAmount)),sum(amount)))
      * @return Map结构的集合分页对象
      */
-    public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
-            String... properties) {
+    public Page<Map<String, Object>> findByGroupAggregate(Class clazz, GroupPropertyFilter groupFilter,
+            Pageable pageable, String... properties) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
-        Root<T> root = criteriaQuery.from(entityClass);
+        Root<?> root = criteriaQuery.from(clazz);
 
         //挑出分组和聚合属性组，以是否存在“(”作为标识
         List<GroupAggregateProperty> groupProperties = Lists.newArrayList();
@@ -511,7 +512,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
         if (where != null) {
             select.where(where);
         }
-      //基于前端动态条件对象动态having条件组装
+        //基于前端动态条件对象动态having条件组装
         Predicate having = buildPredicatesFromFilters(groupFilter, root, criteriaQuery, criteriaBuilder, true);
         if (having != null) {
             select.having(having);
@@ -560,9 +561,21 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             }
             mapDatas.add(data);
         }
- 
+
         //TODO：目前有个限制未实现总记录数处理，直接返回一个固定大数字
         return new PageImpl(mapDatas, pageable, Integer.MAX_VALUE);
+    }
+
+    /**
+     * 基于当前泛型实体对象类型，调用分组统计接口
+     * @param groupFilter
+     * @param pageable
+     * @param properties
+     * @return
+     */
+    public Page<Map<String, Object>> findByGroupAggregate(GroupPropertyFilter groupFilter, Pageable pageable,
+            String... properties) {
+        return findByGroupAggregate(entityClass, groupFilter, pageable, properties);
     }
 
     /**
