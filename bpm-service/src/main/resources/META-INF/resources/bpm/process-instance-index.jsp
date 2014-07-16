@@ -9,21 +9,21 @@
 		<div class="tab-pane fade active in">
 			<div class="row search-form-default">
 				<div class="col-md-12">
-					<form action="#" method="get" class="form-inline form-validation form-search-init"
+					<form action="#" method="get" class="form-inline form-validation form-search form-search-init"
 						data-grid-search=".grid-bpm-process-instance-index">
-						<div class="input-group">
-							<div class="input-cont">
-								<input type="text" name="businessKey" class="form-control" placeholder="业务编码">
-							</div>
-							<span class="input-group-btn">
-								<button class="btn green" type="submmit">
-									<i class="m-icon-swapright m-icon-white"></i>&nbsp; 查&nbsp;询
-								</button>
-								<button class="btn default" type="reset">
-									<i class="fa fa-undo"></i>&nbsp; 重&nbsp;置
-								</button>
-							</span>
+						<div class="form-group">
+							<input type="text" name="businessKey" class="form-control input-medium" placeholder="业务编码" />
 						</div>
+						<div class="form-group">
+							<s:select list="processDefinitions" cssClass="form-control input-medium" name="processDefinitionKey"
+								placeholder="请选择流程..." />
+						</div>
+						<button class="btn green" type="submmit">
+							<i class="m-icon-swapright m-icon-white"></i>&nbsp; 查&nbsp;询
+						</button>
+						<button class="btn default" type="reset">
+							<i class="fa fa-undo"></i>&nbsp; 重&nbsp;置
+						</button>
 					</form>
 				</div>
 			</div>

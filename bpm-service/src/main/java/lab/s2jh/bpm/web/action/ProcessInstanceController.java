@@ -17,6 +17,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +56,16 @@ public class ProcessInstanceController extends SimpleController {
     @Autowired
     protected ActivitiService activitiService;
 
+    public Map<String, String> getProcessDefinitions() {
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
+        List<ProcessDefinition> processDefinitions = processDefinitionQuery.list();
+        Map<String, String> datas = Maps.newHashMap();
+        for (ProcessDefinition processDefinition : processDefinitions) {
+            datas.put(processDefinition.getKey(), processDefinition.getName());
+        }
+        return datas;
+    }
+
     public HttpHeaders findByPageRunning() {
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery();
@@ -62,8 +73,12 @@ public class ProcessInstanceController extends SimpleController {
         if (StringUtils.isNotBlank(searchBusinessKey)) {
             processInstanceQuery.processInstanceBusinessKey(searchBusinessKey);
         }
-        List<ProcessInstance> processInstances = processInstanceQuery.listPage(pageable.getOffset(),
-                pageable.getPageSize());
+        String processDefinitionKey = getParameter("processDefinitionKey");
+        if (StringUtils.isNotBlank(processDefinitionKey)) {
+            processInstanceQuery.processDefinitionKey(processDefinitionKey);
+        }
+        List<ProcessInstance> processInstances = processInstanceQuery.orderByProcessInstanceId().asc()
+                .listPage(pageable.getOffset(), pageable.getPageSize());
         List<Map<String, Object>> datas = Lists.newArrayList();
         for (ProcessInstance processInstance : processInstances) {
             ExecutionEntity executionEntity = (ExecutionEntity) processInstance;
@@ -71,6 +86,7 @@ public class ProcessInstanceController extends SimpleController {
             String businessKey = executionEntity.getBusinessKey();
             ProcessDefinition pd = repositoryService.getProcessDefinition(executionEntity.getProcessDefinitionId());
             data.put("id", executionEntity.getId());
+            data.put("executionEntityId", executionEntity.getId());
             data.put("businessKey", businessKey);
             data.put("processDefinitionName", pd.getName());
             data.put("activityNames", activitiService.findActiveTaskNames(businessKey));

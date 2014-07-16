@@ -2,6 +2,11 @@ $(function() {
     $(".grid-bpm-process-instance-index").data("gridOptions", {
         url : WEB_ROOT + '/bpm/process-instance!findByPageRunning',
         colModel : [ {
+            label : '流程实例序号',
+            name : 'executionEntityId',
+            align : 'center',
+            width : 80
+        }, {
             label : '业务编码',
             name : 'businessKey',
             width : 150
