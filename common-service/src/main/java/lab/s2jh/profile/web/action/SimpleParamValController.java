@@ -34,20 +34,21 @@ public class SimpleParamValController extends BaseController<SimpleParamVal, Str
         // TODO Add acl check code logic
     }
 
-    public void prepareDoSave() {
-        String code = getRequiredParameter("code");
-        User user = AuthUserHolder.getLogonUser();
-        bindingEntity = simpleParamValService.findByUserAndCode(user, code);
-        if (bindingEntity == null) {
-            bindingEntity = new SimpleParamVal();
-            bindingEntity.setUser(user);
-        }
-    }
-
     @Override
     @MetaData("保存")
     public HttpHeaders doSave() {
-        getEntityService().save(bindingEntity);
+        String[] codes = getRequiredParameter("codes").split(",");
+        User user = AuthUserHolder.getLogonUser();
+        for (String code : codes) {
+            SimpleParamVal entity = simpleParamValService.findByUserAndCode(user, code);
+            if (entity == null) {
+                entity = new SimpleParamVal();
+                entity.setUser(user);
+            }
+            entity.setCode(code);
+            entity.setValue(getRequiredParameter(code));
+            getEntityService().save(entity);
+        }
         setModel(OperationResult.buildSuccessResult("参数默认值设定成功"));
         return buildDefaultHttpHeaders();
     }
