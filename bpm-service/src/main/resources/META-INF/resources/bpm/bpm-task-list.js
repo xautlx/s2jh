@@ -6,7 +6,7 @@ $(function() {
 
     var $headerTaskBar = $("#header_task_bar");
     var newDropdownTaskListCount = $("#dashboard-task-list > li").size();
-    var $badgeTasksCount = $headerTaskBar.find(".badge-tasks-count");
+    var $badgeTasksCount = $headerTaskBar.find(".badge-count");
     var curTasksCount = $badgeTasksCount.html();
     if (curTasksCount == '') {
         curTasksCount = '0';
@@ -24,12 +24,11 @@ $(function() {
         });
     }
 
-    if (refreshTasksTimer) {
-        window.clearInterval(refreshTasksTimer);
+    if (window.refreshTasksTimer == null) {
+        window.refreshTasksTimer = window.setInterval(function() {
+            $("#portlet-tasks").find("> .portlet-title > .tools > a.reload ").click();
+        }, 1000 * 60 * 10);
     }
-    refreshTasksTimer = window.setInterval(function() {
-        $("#portlet-tasks").find("> .portlet-title > .tools > a.reload ").click();
-    }, 1000 * 60 * 10);
 
     $(".chk-task").click(function() {
         var claim = $(this).hasClass("chk-task-candidate");

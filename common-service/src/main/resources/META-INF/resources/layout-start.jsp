@@ -186,7 +186,12 @@
 				<!-- END INBOX DROPDOWN -->
 				<!-- BEGIN TODO DROPDOWN -->
 				<li class="dropdown" id="header_task_bar"><a href="javascript:;" onclick="$('.btn-dashboard').click()"
-					class="dropdown-toggle"> <i class="fa fa-tasks"></i> <span class="badge badge-tasks-count"></span>
+					class="dropdown-toggle"> <i class="fa fa-tasks"></i> <span class="badge badge-count"></span>
+				</a>
+					<ul class="dropdown-menu extended tasks hide"></ul></li>
+
+				<li class="dropdown" id="header_message_bar"><a href="javascript:;" onclick="$('.btn-dashboard').click()"
+					class="dropdown-toggle"> <i class="fa fa-comment-o"></i> <span class="badge badge-count"></span>
 				</a>
 					<ul class="dropdown-menu extended tasks hide"></ul></li>
 				<!-- END TODO DROPDOWN -->

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
-<div class="portlet box green tasks-widget portlet-tasks" id="portlet-tasks">
+<div class="portlet box blue tasks-widget" id="portlet-tasks">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-tasks"></i>最近待办任务<span class="badge badge-warning"><s:property value="#request.tasks.size()" /></span>
@@ -16,7 +16,7 @@
 			</div>
 			<div class="btn-group">
 				<a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" href="javascript:;"
-					class="btn btn-xs green"> 过滤 <i class="fa fa-angle-down"></i>
+					class="btn btn-xs blue"> 过滤 <i class="fa fa-angle-down"></i>
 				</a>
 				<div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
 					<label><input type="checkbox" checked class="chk-task chk-task-user" /> 个人任务</label> <label><input

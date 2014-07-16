@@ -59,7 +59,7 @@
 					<div class="form-group">
 						<label class="control-label">关联附件</label>
 						<div class="controls">
-							<s3:files listUrlPrefix="/sys/pub-post!attachmentList" listUrlId="%{model.id}" readonly="true"/>
+							<s3:files listUrlPrefix="/sys/pub-post!attachmentList" listUrlId="%{model.id}" readonly="true" />
 						</div>
 					</div>
 				</div>
@@ -67,3 +67,8 @@
 		</div>
 	</div>
 </s:else>
+<script type="text/javascript">
+    $(function() {
+        $("#portlet-pubpostlist").find("> .portlet-title > .tools > a.reload ").click();
+    });
+</script>
