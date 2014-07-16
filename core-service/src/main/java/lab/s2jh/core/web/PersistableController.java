@@ -742,9 +742,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         return buildDefaultHttpHeaders();
     }
 
-    // --------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
     // -----------基于Hibernate Envers的数据修改记录审计功能------------
-    // --------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
     /**
      * 版本数据主界面页面转向
      * @return 在struts.xml中全局的revisionIndex Result定义
@@ -760,9 +760,8 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     public Map<Field, String> getRevisionFields() {
         Map<Field, String> revisionFields = Maps.newLinkedHashMap();
         for (Field field : entityClass.getDeclaredFields()) {
-            EntityAutoCode entityAutoCode = field.getAnnotation(EntityAutoCode.class);
-            if (entityAutoCode != null && entityAutoCode.comparable()) {
-                MetaData metaData = field.getAnnotation(MetaData.class);
+            MetaData metaData = field.getAnnotation(MetaData.class);
+            if (metaData != null && metaData.comparable()) {
                 revisionFields.put(field, metaData != null ? metaData.value() : field.getName().toUpperCase());
             }
         }
@@ -792,6 +791,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 revEntity.setOldStateDisplay(aae.convertStateToDisplay(revEntity.getOldState()));
                 revEntity.setNewStateDisplay(aae.convertStateToDisplay(revEntity.getNewState()));
                 revEntity.setOperationEventDisplay(revEntity.getOperationEvent());
+            } else {
+                revEntity.setOldStateDisplay(revEntity.getOldState());
+                revEntity.setNewStateDisplay(revEntity.getNewState());
+                revEntity.setOperationEventDisplay(revEntity.getOperationEvent());
             }
         }
         setModel(buildPageResultFromList(entityRevisions));
@@ -806,7 +809,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     @MetaData(value = "版本数据对比")
     protected HttpHeaders revisionCompare() {
         HttpServletRequest request = this.getRequest();
-        String id = String.valueOf(this.getId());
+        ID id = this.getId();
         Long revLeft = Long.valueOf(this.getRequiredParameter("revLeft"));
         Long revRight = Long.valueOf(this.getRequiredParameter("revRight"));
         EntityRevision revLeftEntity = null;

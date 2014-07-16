@@ -40,6 +40,9 @@ public class ExtRestActionMapper extends RestActionMapper {
             if (StringUtils.isNotBlank(actionMapping.getMethod())) {
                 path += ("!" + actionMapping.getMethod());
             }
+            //请求属性记录当前请求的action形式的url路径
+            //在一些通用路径处理逻辑可能使用，如revision-index.jsp
+            request.setAttribute("s2jh.struts.action.url", path);
             ExtRevisionListener.setOperationEvent(path);
         }
         return actionMapping;

@@ -1165,7 +1165,7 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
      * @return
      */
     @Transactional(readOnly = true)
-    public List<EntityRevision> findEntityRevisions(final Object id, Number... revs) {
+    public List<EntityRevision> findEntityRevisions(final ID id, Number... revs) {
         List<EntityRevision> entityRevisions = Lists.newArrayList();
         AuditQuery auditQuery = AuditReaderFactory.get(entityManager).createQuery()
                 .forRevisionsOfEntity(entityClass, false, true);
