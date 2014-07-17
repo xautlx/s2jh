@@ -100,10 +100,10 @@
             <!-- Struts2 Token拦截器验证失败的转向 -->
             <result name="invalid.token">/common/invalid-token.jsp</result>
             <!-- 全局的Audit版本数据List显示页面 -->
-            <result name="revisionIndex">/WEB-INF/pages/util/revision/revision-index.jsp
+            <result name="revisionIndex">/util/revision/revision-index.jsp
             </result>
             <!-- 全局的Audit版本数据对比显示页面 -->
-            <result name="revisionCompare">/WEB-INF/pages/util/revision/revision-compare.jsp
+            <result name="revisionCompare">/util/revision/revision-compare.jsp
             </result>
             <!-- 集成JasperReport响应转向，具体可参考struts2-jasperreports-plugin -->
             <result type="extJasper" name="jasperResult">
