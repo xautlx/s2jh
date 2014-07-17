@@ -16,10 +16,10 @@
 				<div class="tabbable tabbable-custom">
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#tab-auto">基本信息</a></li>
-						<s3:privilege code="P_BPM_BACK">
+						<s:if test="processBackSupport">
 							<li><a data-toggle="tab"
 								href="${base}/bpm/bpm-task!backActivity?taskId=<s:property value='#request.task.id'/>">任务自由回退</a></li>
-						</s3:privilege>
+						</s:if>
 						<li><a data-toggle="tab"
 							href="${base}/bpm/activiti!showProcessImage?processDefinitionId=<s:property value='#request.task.processDefinitionId'/>&processInstanceId=<s:property value='#request.task.processInstanceId'/>">流程运行图</a></li>
 						<li><a data-toggle="tab" href="${base}/bpm/bpm-task!variables?taskId=<s:property value='#request.task.id'/>">流程变量</a></li>

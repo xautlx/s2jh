@@ -16,6 +16,7 @@ import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
+import lab.s2jh.ctx.DynamicConfigService;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -69,6 +70,9 @@ public class BpmTaskController extends SimpleController {
 
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    private DynamicConfigService dynamicConfigService;
 
     private Map<String, Object> packageTaskInfo(Task task) {
 
@@ -238,6 +242,7 @@ public class BpmTaskController extends SimpleController {
 
     @MetaData(value = "任务回退处理")
     public HttpHeaders doBackActivity() {
+        Assert.isTrue(isProcessBackSupport(), "任务回退功能不可用");
         HttpServletRequest request = ServletActionContext.getRequest();
         Task task = getUserTaskByRequest();
         String activityId = request.getParameter("activityId");
@@ -246,5 +251,22 @@ public class BpmTaskController extends SimpleController {
         activitiService.backActivity(task.getId(), activityId, variables);
         model = OperationResult.buildSuccessResult("流程实例跳转请求处理成功");
         return new DefaultHttpHeaders().disableCaching();
+    }
+
+    /**
+     * 工作流处理的自由回退功能支持控制
+     * 如果流程流转过程存在业务数据交互处理，自由回退功能很可能导致数据重复处理或不一致的情况发生
+     * 因此除非流程和业务结合处理除非经过仔细的设计实现，建议关闭自由回退功能或有管理员临时干预控制
+     * 可选值说明：disabled=全局关闭; enable=全局启用; admin=只有ROLE_ADMIN角色用户才有功能权限
+     * @return
+     */
+    public boolean isProcessBackSupport() {
+        String back = dynamicConfigService.getString("cfg.bpm.process.back.support", "admin");
+        if (back.equalsIgnoreCase("enable")) {
+            return true;
+        } else if (back.equalsIgnoreCase("admin")) {
+            return AuthContextHolder.isAdminUser();
+        }
+        return false;
     }
 }
