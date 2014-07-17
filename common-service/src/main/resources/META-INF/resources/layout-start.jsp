@@ -72,7 +72,7 @@
 
 <link href="assets/app/custom.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico" />
+<link rel="shortcut icon" href="${base}/pub/favicon.ico" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -708,6 +708,9 @@
     </script>
 
 	<script type="text/javascript" src="assets/extras/tooltipster/js/jquery.tooltipster.min.js"></script>
+	<script type="text/javascript"
+		src="http://api.map.baidu.com/api?v=2.0&ak=<s:property value='%{baiduMapAppid}'/>&callback=initMap"></script>
+
 
 	<script src="assets/scripts/app.js"></script>
 	<script src="assets/extras/jquery.form.js"></script>

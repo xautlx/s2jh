@@ -38,6 +38,10 @@ public class LayoutController extends SimpleController {
         return AuthContextHolder.getAuthUserDetails();
     }
 
+    public String getBaiduMapAppid() {
+        return dynamicConfigService.getString("baidu.map.appid");
+    }
+
     public HttpHeaders index() {
         return start();
     }

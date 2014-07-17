@@ -43,7 +43,7 @@
 
 <script src="${base}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 
-<link rel="shortcut icon" href="favicon.ico" />
+<link rel="shortcut icon" href="${base}/pub/favicon.ico" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
