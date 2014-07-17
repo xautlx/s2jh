@@ -48,21 +48,29 @@
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="login">
-	<!-- BEGIN LOGO -->
-	<div class="logo" style="text-align: left; margin-top: 20px">
-		<h2>
-			<s:property value="%{systemTitle}" />
-		</h2>
-	</div>
-	<!-- END LOGO -->
 	<!-- BEGIN LOGIN -->
-	<div class="clearfix" style="padding: 15px">
-		<div class="content pull-left" style="width: 100%; max-width: 800px">
+	<div class="clearfix" style="padding: 50px">
+		<div class="content" style="width: 100%; max-width: 800px">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-4">
+							<img alt="" src="${base}/resources/images/logo.png">
+						</div>
+						<div class="col-md-8">
+							<h2 style="color: #555555">
+								<s:property value="%{systemTitle}" />
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr />
 			<div class="row">
 				<div class="col-md-6">
 					<!-- BEGIN LOGIN FORM -->
 					<form id="login-form" class="login-form" action="${base}/j_spring_security_check" method="post">
-						<h3 class="form-title">系统登录</h3>
+						<h3 class="form-title" style="color: #666666">系统登录</h3>
 						<%
 						    Exception e = (Exception) session
 											.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -165,6 +173,18 @@
 					<%@ include file="/pub/signin-tips.jsp"%>
 				</div>
 			</div>
+
+			<!-- BEGIN COPYRIGHT -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="copyright pull-right">
+						<%@ include file="/common/app-ver.jsp"%>2014 &copy;
+						<%=request.getServerName()%>
+					</div>
+				</div>
+			</div>
+			<!-- END COPYRIGHT -->
+
 
 			<!-- BEGIN FORGOT PASSWORD FORM -->
 			<div class="modal fade" id="forget-password" tabindex="-1" role="basic" aria-hidden="true">
@@ -339,11 +359,7 @@
 		</div>
 	</div>
 	<!-- END LOGIN -->
-	<!-- BEGIN COPYRIGHT -->
-	<div class="copyright" style="text-align: left;">
-		2013 &copy;
-		<%=request.getServerName()%><%@ include file="/common/app-ver.jsp"%></div>
-	<!-- END COPYRIGHT -->
+
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
 	<!--[if lt IE 9]>
