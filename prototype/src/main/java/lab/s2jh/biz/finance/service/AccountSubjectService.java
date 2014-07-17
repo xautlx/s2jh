@@ -36,7 +36,7 @@ public class AccountSubjectService extends BaseService<AccountSubject, Long> {
         List<AccountSubject> all = accountSubjectDao.findAllCached();
         for (AccountSubject accountSubject : all) {
             if (accountSubject.getCode().equals("1001") || accountSubject.getCode().equals("1002")
-                    || accountSubject.getCode().equals("1015")) {
+                    || accountSubject.getCode().equals("1015") || accountSubject.getCode().equals("1123")) {
                 items.addAll(findLeaves(null, accountSubject));
             }
         }
