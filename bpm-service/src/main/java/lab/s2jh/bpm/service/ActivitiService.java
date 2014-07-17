@@ -131,13 +131,17 @@ public class ActivitiService {
      */
     public void deleteProcessInstanceByProcessInstance(ProcessInstance processInstance, String message) {
         if (processInstance != null) {
-            Object val = runtimeService.getVariable(processInstance.getProcessInstanceId(), BPM_ENTITY_VAR_NAME);
-            if (val != null && val instanceof BpmTrackable) {
-                BpmTrackable entity = (BpmTrackable) val;
-                entity.setActiveTaskName("END");
-                entityManager.persist(entity);
+            //try-catch处理，避免由于更新版本导致遗留的脏数据获取对象处理失败导致无法删除
+            try {
+                Object val = runtimeService.getVariable(processInstance.getProcessInstanceId(), BPM_ENTITY_VAR_NAME);
+                if (val != null && val instanceof BpmTrackable) {
+                    BpmTrackable entity = (BpmTrackable) val;
+                    entity.setActiveTaskName("END");
+                    entityManager.persist(entity);
+                }
+            } catch (Exception e) {
+                logger.warn(e.getMessage(), e);
             }
-
             identityService.setAuthenticatedUserId(AuthContextHolder.getAuthUserPin());
             runtimeService.deleteProcessInstance(processInstance.getId(), message);
         }
