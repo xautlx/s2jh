@@ -49,6 +49,10 @@ public class AuthContextHolder {
         return userDetails;
     }
 
+    public static boolean isAdminUser() {
+        return getAuthUserDetails().isAdminUser();
+    }
+
     /**
      * 获取用户ACL CODE
      */

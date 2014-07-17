@@ -17,6 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class AuthUserDetails implements UserDetails {
 
+    private static final long serialVersionUID = 8346793124666695534L;
+
+    public static final String ROLE_ADMIN_CODE = "ROLE_ADMIN";
+
     /** 全局唯一的用户标识 */
     private String uid;
 
@@ -372,5 +376,14 @@ public class AuthUserDetails implements UserDetails {
             return false;
         }
         return new EqualsBuilder().append(getUsername(), ((AuthUserDetails) user).getUsername()).isEquals();
+    }
+
+    public boolean isAdminUser() {
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (ROLE_ADMIN_CODE.equals(grantedAuthority.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
