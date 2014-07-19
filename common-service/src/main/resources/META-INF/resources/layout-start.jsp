@@ -76,10 +76,22 @@
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="page-header-fixed page-body">
+<body class="page-header-fixed page-body" style="min-height: 600px">
 	<script>
-        $(function() {
-            App.blockUI($("body"));
+        $("body").block({
+            message : '<img src="${base}/assets/img/ajax-modal-loading.gif" width="80px" align="">',
+            centerY : true,
+            css : {
+                top : '10%',
+                border : 'none',
+                padding : '2px',
+                backgroundColor : 'none'
+            },
+            overlayCSS : {
+                backgroundColor : '#000',
+                opacity : 0.6,
+                cursor : 'wait'
+            }
         });
     </script>
 	<!-- BEGIN HEADER -->
