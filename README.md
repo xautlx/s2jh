@@ -33,20 +33,6 @@
 * 提供一个基础分模块的代码生成框架，简化实现基本的CRUD功能开发
 * 基于Maven的项目和组件依赖管理模式，便捷高效的与持续集成开发集成
 
-## Quick Start
-
-* [About License](License) - 关于开源的一点点说明
-* [UI Experience](UI) - 第一感觉，UI交互界面设计体验
-* [Executable War](ExecutableWAR) - 想进一步体验？下载独立运行封装包，本地一键快速部署运行应用
-
-## Architecture
-
-* [Technical List](TechList) - 框架主要技术(Java/Web/Tool)组件列表介绍
-* [Enhanced Grid](Grid) - 功能强大的Grid表格组件扩展增强
-* [Technical Features](TechFeature) - 主要技术选型和设计说明
-* [Mobile Support](Mobile) - 以Android为例的Web App与Native App整合应用
-* [RoadMap](RoadMap) - 粗略的开发框架路线计划
-
 ### Snapshot
 
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index1.gif)
