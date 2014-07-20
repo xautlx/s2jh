@@ -41,11 +41,11 @@
             colNames : [ '版本号', '操作时间', '操作类型', '原状态', '新状态', '操作说明', '操作人员' ],
             colModel : [ {
                 name : 'revisionEntity.rev',
-                width : 70,
+                width : 50,
                 align : 'center'
             }, {
                 name : 'revisionEntity.revstmp',
-                width : 140,
+                formatter : 'timestamp',
                 align : 'center'
             }, {
                 name : 'revisionEntity.operationEventDisplay',
@@ -54,10 +54,12 @@
             }, {
                 name : 'revisionEntity.oldStateDisplay',
                 width : 100,
+                hidden : true,
                 align : 'center'
             }, {
                 name : 'revisionEntity.newStateDisplay',
                 width : 100,
+                hidden : true,
                 align : 'center'
             }, {
                 name : 'revisionEntity.operationExplain'
@@ -71,7 +73,7 @@
                 sortable : false
             },
             operations : function(itemArray) {
-                var $select = $('<li data-position="single" data-toolbar="show"><a href="javascript:;"><i class="fa fa-print"></i> 单数据查看</a></li>');
+                var $select = $('<li data-position="single" data-toolbar="show"><a href="javascript:;"><i class="fa fa-circle-o"></i> 单数据查看</a></li>');
                 $select.children("a").bind("click", function(e) {
                     e.preventDefault();
                     var $grid = $(this).closest(".ui-jqgrid").find(".ui-jqgrid-btable:first");
@@ -94,7 +96,7 @@
                 });
                 itemArray.push($select);
 
-                var $revisionsComparet = $('<li data-position="multi" data-toolbar="show"><a href="javascript:;"><i class="fa fa-print"></i> 双数据对比</a></li>');
+                var $revisionsComparet = $('<li data-position="multi" data-toolbar="show"><a href="javascript:;"><i class="fa fa-indent"></i> 双数据对比</a></li>');
                 $revisionsComparet.children("a").bind("click", function(e) {
                     e.preventDefault();
                     var $grid = $(this).closest(".ui-jqgrid").find(".ui-jqgrid-btable:first");
