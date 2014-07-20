@@ -144,6 +144,8 @@
             <id>standalone</id>
             <properties>
                 <deploy.env>standalone</deploy.env>
+                <maven.build.timestamp.format>yyyy-MM-dd_HH:mm:ss</maven.build.timestamp.format>
+                <BUILD_ID>${maven.build.timestamp}</BUILD_ID>
             </properties>
             <build>
                 <resources>
