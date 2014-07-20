@@ -64,9 +64,10 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-					<label class="control-label">供货商</label>
+					<label class="control-label">往来单位</label>
 					<div class="controls">
-						<s:select name="supplier.id" list="suppliersMap" disabled="true" />
+						<s:select name="bizTradeUnit.id" list="#{bizTradeUnit.id:bizTradeUnit.display}"
+							data-url="/biz/finance/biz-trade-unit!frequentUsedDatas.json" />
 					</div>
 				</div>
 			</div>

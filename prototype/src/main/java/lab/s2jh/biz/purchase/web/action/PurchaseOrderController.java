@@ -264,4 +264,14 @@ public class PurchaseOrderController extends BaseController<PurchaseOrder, Long>
         setModel(OperationResult.buildSuccessResult("红冲完成"));
         return buildDefaultHttpHeaders();
     }
+
+    @Override
+    public HttpHeaders revisionList() {
+        return super.revisionList();
+    }
+
+    @Override
+    public HttpHeaders revisionCompare() {
+        return super.revisionCompare();
+    }
 }
