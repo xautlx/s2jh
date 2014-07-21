@@ -35,7 +35,9 @@
 
 ### Snapshot
 
-![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index1.gif)
+![ui-signin](https://raw.github.com/wiki/xautlx/s2jh/images/ui-signin.png)
+
+![ui-layout](https://raw.github.com/wiki/xautlx/s2jh/images/ui-layout.png)
 
 ![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index2.gif)
 
