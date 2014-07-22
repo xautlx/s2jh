@@ -32,7 +32,6 @@ import lab.s2jh.core.audit.envers.ExtDefaultRevisionEntity;
 import lab.s2jh.core.audit.envers.ExtRevisionListener;
 import lab.s2jh.core.entity.BaseEntity;
 import lab.s2jh.core.entity.PersistableEntity;
-import lab.s2jh.core.entity.annotation.EntityAutoCode;
 import lab.s2jh.core.entity.def.OperationAuditable;
 import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
@@ -1090,4 +1089,21 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         return findByGroupAggregate(groupFilter, pageable, properties);
     }
 
+    /**
+     * 子类定义可接受参数数组，然后调用次帮助类方法进行参数可接受检测
+     * 对于需要给外部用户访问的Controller为了避免用户非法篡改数据
+     * 以 @see ParameterNameAware 形式设置自动绑定参数白名单
+     */
+    public boolean acceptableParameterName(String[] acceptableParameterNames, String parameterName) {
+        for (String name : acceptableParameterNames) {
+            if (name.equals(parameterName)) {
+                return true;
+            }
+            //嵌套参数支持
+            if (name.indexOf(parameterName + ".") > -1 || name.indexOf("." + parameterName) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
