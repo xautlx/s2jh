@@ -25,6 +25,9 @@ public class PostStrutsPrepareAndExecuteFilter extends StrutsPrepareAndExecuteFi
 
     private static final Logger logger = LoggerFactory.getLogger(PostStrutsPrepareAndExecuteFilter.class);
 
+    /**
+     * 基于注解计算生成忽略权限控制的URL集合，在Spring  Security层面自动赋值给匿名登录角色
+     */
     public static Set<String> securityControllIgnoreUrls = Sets.newHashSet();
 
     /**
@@ -32,7 +35,7 @@ public class PostStrutsPrepareAndExecuteFilter extends StrutsPrepareAndExecuteFi
      */
     protected void postInit(Dispatcher dispatcher, FilterConfig filterConfig) {
         logger.debug("{} postInit...", this.getClass());
-        ConfigurationManager configurationManager = dispatcher.getConfigurationManager();        
+        ConfigurationManager configurationManager = dispatcher.getConfigurationManager();
         Configuration configuration = configurationManager.getConfiguration();
 
         Map<String, Map<String, ActionConfig>> allActionConfigs = configuration.getRuntimeConfiguration()
@@ -59,7 +62,6 @@ public class PostStrutsPrepareAndExecuteFilter extends StrutsPrepareAndExecuteFi
                                         securityControllIgnoreUrls.add(url);
                                     }
                                 }
-
                             }
                         } catch (ClassNotFoundException e) {
                             logger.error(e.getMessage(), e);
