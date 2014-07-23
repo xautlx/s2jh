@@ -7,6 +7,11 @@ $(function() {
             align : 'center',
             width : 80
         }, {
+            label : '流程发起人',
+            name : 'startUserId',
+            align : 'center',
+            width : 80
+        }, {
             label : '业务编码',
             name : 'businessKey',
             width : 150

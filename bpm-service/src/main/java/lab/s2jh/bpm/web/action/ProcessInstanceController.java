@@ -2,6 +2,7 @@ package lab.s2jh.bpm.web.action;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.pagination.PropertyFilter;
@@ -15,6 +16,7 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
@@ -30,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 public class ProcessInstanceController extends SimpleController {
 
@@ -79,12 +82,25 @@ public class ProcessInstanceController extends SimpleController {
         }
         List<ProcessInstance> processInstances = processInstanceQuery.orderByProcessInstanceId().asc()
                 .listPage(pageable.getOffset(), pageable.getPageSize());
+        Set<String> processInstanceIds = Sets.newHashSet();
+        for (ProcessInstance pi : processInstances) {
+            processInstanceIds.add(pi.getId());
+        }
+        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceIds(processInstanceIds).list();
+
         List<Map<String, Object>> datas = Lists.newArrayList();
         for (ProcessInstance processInstance : processInstances) {
             ExecutionEntity executionEntity = (ExecutionEntity) processInstance;
             Map<String, Object> data = Maps.newHashMap();
             String businessKey = executionEntity.getBusinessKey();
             ProcessDefinition pd = repositoryService.getProcessDefinition(executionEntity.getProcessDefinitionId());
+            for (HistoricProcessInstance hpi : historicProcessInstances) {
+                if (hpi.getId().equals(processInstance.getId())) {
+                    data.put("startUserId", hpi.getStartUserId());
+                    break;
+                }
+            }
             data.put("id", executionEntity.getId());
             data.put("executionEntityId", executionEntity.getId());
             data.put("businessKey", businessKey);
