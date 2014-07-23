@@ -34,7 +34,6 @@
         <module>project-tools</module>
         <module>common-service</module>
         <module>crawl-service</module>
-        <module>bpm-service</module>
         <module>prototype</module>
     </modules>
 

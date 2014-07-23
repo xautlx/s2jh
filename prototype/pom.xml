@@ -39,11 +39,6 @@
             <artifactId>common-service</artifactId>
             <version>${s2jh.version}</version>
         </dependency>
-        <dependency>
-            <groupId>lab.s2jh</groupId>
-            <artifactId>bpm-service</artifactId>
-            <version>${s2jh.version}</version>
-        </dependency>
         <!-- 在需要中文字体支持/条码等特性必要时再引入JasperReport扩展以降低依赖jar整体文件数量和大小 -->
         <dependency>
             <groupId>lab.s2jh</groupId>
@@ -206,8 +201,8 @@
                                     <includeScope>runtime</includeScope>
                                     <outputDirectory>./runtime/lib</outputDirectory>
                                     <!-- 排除几个不常变化的依赖，减少增量提交更新的文件大小 -->
-                                    <excludeArtifactIds>assets-resource,jasperreports-extension,project-tools,core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
-                                    <!-- 排除经常变化的依赖和独立运行相关依赖 <excludeArtifactIds>core-service,common-service,bpm-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds> -->
+                                    <excludeArtifactIds>assets-resource,jasperreports-extension,project-tools,core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
+                                    <!-- 排除经常变化的依赖和独立运行相关依赖 <excludeArtifactIds>core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds> -->
                                 </configuration>
                             </execution>
                         </executions>
