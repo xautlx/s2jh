@@ -51,7 +51,7 @@
 			alt="Java权限配置" src="images/guide_security.png" />
 	</p>
 	<p>
-		Java环境下载安装后，参考如下图配置，把本地或服务器的应用访问url地址添加到“例外站点”： <br> <img alt="Java配置菜单项" src="images/guide_javaconfig.png" /> <img
+		Java环境下载安装后，参考如下图配置，1, 把安全级别调至“中”， 2, 把本地或服务器的应用访问url地址添加到“例外站点”： <br> <img alt="Java配置菜单项" src="images/guide_javaconfig.png" /> <img
 			alt="Java控制面板设置" src="images/guide_controlpanel.png" />
 	</p>
 	<p>
