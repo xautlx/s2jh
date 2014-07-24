@@ -90,7 +90,7 @@
         if (window.refreshMessagesTimer == null) {
             window.refreshMessagesTimer = window.setInterval(function() {
                 $("#portlet-pubpostlist").find("> .portlet-title > .tools > a.reload ").click();
-            }, 1000 * 60 * 30);
+            }, 1000 * 60 * 50);
         }
 
         $("#chk-pub-post-read").click(function() {

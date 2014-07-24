@@ -27,7 +27,7 @@ $(function() {
     if (window.refreshTasksTimer == null) {
         window.refreshTasksTimer = window.setInterval(function() {
             $("#portlet-tasks").find("> .portlet-title > .tools > a.reload ").click();
-        }, 1000 * 60 * 10);
+        }, 1000 * 60 * 25);
     }
 
     $(".chk-task").click(function() {
