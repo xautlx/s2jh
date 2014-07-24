@@ -354,31 +354,35 @@ public class PropertyFilter {
         String sidx = StringUtils.isBlank(request.getParameter("sidx")) ? "id" : request.getParameter("sidx");
         Direction sord = "desc".equalsIgnoreCase(request.getParameter("sord")) ? Direction.DESC : Direction.ASC;
         Sort sort = null;
-        if (sidx.indexOf("(") > -1) {//聚合类型参数
-            sort = new Sort(sord, sidx);
-        } else {
-            for (String sidxItem : sidx.split(",")) {
-                if (StringUtils.isNotBlank(sidxItem)) {
-                    String[] sidxItemWithOrder = sidxItem.trim().split(" ");
-                    String sortname = sidxItemWithOrder[0];
-                    if (sortname.indexOf(OR_SEPARATOR) > -1) {
-                        sortname = StringUtils.substringBefore(sortname, OR_SEPARATOR);
-                    }
-                    if (sidxItemWithOrder.length == 1) {
-                        if (sort == null) {
-                            sort = new Sort(sord, sortname);
-                        } else {
-                            sort = sort.and(new Sort(sord, sortname));
-                        }
+
+        //按照逗号切分支持多属性排序
+        for (String sidxItem : sidx.split(",")) {
+            if (StringUtils.isNotBlank(sidxItem)) {
+                //再按空格切分获取排序属性和排序方向
+                String[] sidxItemWithOrder = sidxItem.trim().split(" ");
+                String sortname = sidxItemWithOrder[0];
+                //如果查询属性包含_OR_则取第一个作为排序属性
+                //因此在写OR多属性查询时注意把排序属性写在最前面
+                if (sortname.indexOf(OR_SEPARATOR) > -1) {
+                    sortname = StringUtils.substringBefore(sortname, OR_SEPARATOR);
+                }
+                //如果单个属性没有跟随排序方向，则取Grid组件传入的sord参数定义
+                if (sidxItemWithOrder.length == 1) {
+                    if (sort == null) {
+                        //初始化排序对象
+                        sort = new Sort(sord, sortname);
                     } else {
-                        String sortorder = sidxItemWithOrder[1];
-                        if (sort == null) {
-                            sort = new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC,
-                                    sortname);
-                        } else {
-                            sort = sort.and(new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC
-                                    : Direction.ASC, sortname));
-                        }
+                        //and追加多个排序
+                        sort = sort.and(new Sort(sord, sortname));
+                    }
+                } else {
+                    //排序属性后面空格跟随排序方向定义
+                    String sortorder = sidxItemWithOrder[1];
+                    if (sort == null) {
+                        sort = new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC, sortname);
+                    } else {
+                        sort = sort.and(new Sort("desc".equalsIgnoreCase(sortorder) ? Direction.DESC : Direction.ASC,
+                                sortname));
                     }
                 }
             }

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -520,22 +521,26 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
 
         //分页和排序处理
         if (pageable != null && pageable.getSort() != null) {
-            Sort sort = pageable.getSort();
-            Order order = sort.iterator().next();
-            String prop = order.getProperty();
-            String alias = fixCleanAlias(prop);
-            //目前发现JPA不支持传入alias作为排序属性，因此只能基于alias找到匹配的Expression表达式作为排序参数
-            List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
-            for (Selection<?> selection : selections) {
-                if (selection.getAlias().equals(alias)) {
-                    if (order.isAscending()) {
-                        select.orderBy(criteriaBuilder.desc((Expression<?>) selection));
-                    } else {
-                        select.orderBy(criteriaBuilder.asc((Expression<?>) selection));
+            Iterator<Order> orders = pageable.getSort().iterator();
+            List<javax.persistence.criteria.Order> jpaOrders = Lists.newArrayList();
+            while (orders.hasNext()) {
+                Order order = orders.next();
+                String prop = order.getProperty();
+                String alias = fixCleanAlias(prop);
+                //目前发现JPA不支持传入alias作为排序属性，因此只能基于alias找到匹配的Expression表达式作为排序参数
+                List<Selection<?>> selections = select.getSelection().getCompoundSelectionItems();
+                for (Selection<?> selection : selections) {
+                    if (selection.getAlias().equals(alias)) {
+                        if (order.isAscending()) {
+                            jpaOrders.add(criteriaBuilder.asc((Expression<?>) selection));
+                        } else {
+                            jpaOrders.add(criteriaBuilder.desc((Expression<?>) selection));
+                        }
+                        break;
                     }
-                    break;
                 }
             }
+            select.orderBy(jpaOrders);
         }
 
         //追加分组参数
