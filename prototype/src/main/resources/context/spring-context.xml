@@ -36,7 +36,7 @@
             <props>
                 <prop key="hibernate.connection.autocommit">false</prop>
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
-                <prop key="hibernate.cache.region.factory_class">lab.s2jh.core.cache.SpringEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="net.sf.ehcache.configurationResourceName">ehcache-config.xml</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 
@@ -73,9 +73,11 @@
     <cache:annotation-driven />
     <!-- 与JPA Hibernate共享一个cacheManager -->
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <property name="cacheManager">
-            <bean class="lab.s2jh.core.cache.SpringEhCacheRegionFactory" />
-        </property>
+        <property name="cacheManager" ref="ehcache" />
+    </bean>
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache-config.xml" />
+        <property name="shared" value="true" />
     </bean>
 
     <task:scheduler id="springScheduler" pool-size="10" />
