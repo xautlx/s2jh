@@ -1,94 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:task="http://www.springframework.org/schema/task" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
-	default-lazy-init="false" default-autowire="no">
+    default-lazy-init="false" default-autowire="no">
 
-	<description>Spring定时任务支持</description>
+    <description>Spring定时任务支持</description>
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL" enabled="true">
+        <jdbc:script location="classpath*:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
+    </jdbc:initialize-database>
+
+    <task:scheduler id="springScheduler" pool-size="10" />
+    <!-- 用于增强Spring @Async 注解在异步模式能捕捉到异常日志 -->
+    <bean id="handlingAsyncTaskExecutor" class="lab.s2jh.core.context.async.HandlingAsyncTaskExecutor" />
+    <!-- 建议只定义@Async注解使用，尽量不用@Scheduled而改用后面的Quartz方式便于文本定义调整定时策略 -->
+    <task:annotation-driven executor="handlingAsyncTaskExecutor" scheduler="springScheduler" />
+
+    <!-- 基于Spring Schedule XML配置的定时任务列表，适合定义在每台服务器节点执行并且无需日志记录、无需管理界面干预等功能支持的任务 -->
+    <task:scheduled-tasks scheduler="springScheduler">
+        <!-- 固定间隔触发任务，单位毫秒 -->
+        <task:scheduled ref="systemSechduleService" method="pubPostCacheRefreshTimely" fixed-rate="300000" />
+    </task:scheduled-tasks>
 
 
-	<task:scheduler id="springScheduler" pool-size="10" />
-	<!-- 用于增强Spring @Async 注解在异步模式能捕捉到异常日志 -->
-	<bean id="handlingAsyncTaskExecutor" class="lab.s2jh.core.context.async.HandlingAsyncTaskExecutor" />
-	<!-- 建议只定义@Async注解使用，尽量不用@Scheduled而改用后面的Quartz方式便于文本定义调整定时策略 -->
-	<task:annotation-driven executor="handlingAsyncTaskExecutor" scheduler="springScheduler" />
+    <!-- 基于Spring与Quartz整合以RAM内存存储非cluster集群的任务列表，适合定义在每台服务器节点都执行的任务 -->
+    <bean id="quartzRAMScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean">
+        <property name="schedulerName" value="quartzRAMScheduler" />
+        <!-- quartz配置 -->
+        <property name="configLocation" value="classpath:quartz-ram.properties" />
+        <!-- 启动时延期N秒开始任务 -->
+        <property name="startupDelay" value="30" />
+        <!-- 保存Job数据到数据库所需的数据源 -->
+        <property name="transactionManager" ref="transactionManager" />
+        <!-- Job接受applicationContext的成员变量名 -->
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />
 
-	<!-- 基于Spring Schedule XML配置的定时任务列表，适合定义在每台服务器节点执行并且无需日志记录、无需管理界面干预等功能支持的任务 -->
-	<task:scheduled-tasks scheduler="springScheduler">
-		<!-- 固定间隔触发任务，单位毫秒 -->
-		<task:scheduled ref="systemSechduleService" method="pubPostCacheRefreshTimely" fixed-rate="300000" />
-	</task:scheduled-tasks>
+        <!-- 静态Triggers配置，这些配置Trigger以固定模式运行，如果需要更新则修改配置后更新应用部署才能生效 -->
+        <property name="triggers">
+            <list>
+                <!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
+                <bean id="lab.s2jh.schedule.job.ServerMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+                    <property name="jobDetail">
+                        <bean name="lab.s2jh.schedule.job.ServerMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+                            <property name="jobClass" value="lab.s2jh.schedule.job.ServerMonitorJob" />
+                            <property name="durability" value="true" />
+                        </bean>
+                    </property>
+                    <property name="cronExpression" value="0 0 7-23 * * ?" />
+                </bean>
+            </list>
+        </property>
+        <!-- 定时任务配置Service对象注入，自动获取数据库定时任务配置然后动态加载到Quartz Scheduler，并提供管理界面可动态实时更新以及立即执行等操作 -->
+        <property name="jobBeanCfgService" ref="jobBeanCfgService" />
+        <property name="runWithinCluster" value="false" />
+    </bean>
 
+    <!-- 基于Spring与Quartz整合并且支持cluster集群的任务列表，适合定义需要在多个服务器节点中确保同一时间只有一个任务实例执行的任务 -->
+    <bean id="quartzClusterScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean" depends-on="org.springframework.jdbc.datasource.init.DataSourceInitializer#0">
+        <property name="schedulerName" value="quartzClusterScheduler" />
+        <!-- quartz配置 -->
+        <property name="configLocation" value="classpath:quartz-cluster.properties" />
+        <!-- 启动时延期N秒开始任务 -->
+        <property name="startupDelay" value="10" />
+        <!-- 保存Job数据到数据库所需的数据源 -->
+        <property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <!-- Job接受applicationContext的成员变量名 -->
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+        <!-- 用数据库最新配置覆盖已有配置 -->
+        <property name="overwriteExistingJobs" value="true" />
 
-	<!-- 基于Spring与Quartz整合以RAM内存存储非cluster集群的任务列表，适合定义在每台服务器节点都执行的任务 -->
-	<bean id="quartzRAMScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean">
-		<property name="schedulerName" value="quartzRAMScheduler" />
-		<!-- quartz配置 -->
-		<property name="configLocation" value="classpath:quartz-ram.properties" />
-		<!-- 启动时延期N秒开始任务 -->
-		<property name="startupDelay" value="30" />
-		<!-- 保存Job数据到数据库所需的数据源 -->
-		<property name="transactionManager" ref="transactionManager" />
-		<!-- Job接受applicationContext的成员变量名 -->
-		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
-
-		<!-- 静态Triggers配置，这些配置Trigger以固定模式运行，如果需要更新则修改配置后更新应用部署才能生效 -->
-		<property name="triggers">
-			<list>
-				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.ServerMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.ServerMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-							<property name="jobClass" value="lab.s2jh.schedule.job.ServerMonitorJob" />
-							<property name="durability" value="true" />
-						</bean>
-					</property>
-					<property name="cronExpression" value="0 0 7-23 * * ?" />
-				</bean>
-			</list>
-		</property>
-		<!-- 定时任务配置Service对象注入，自动获取数据库定时任务配置然后动态加载到Quartz Scheduler，并提供管理界面可动态实时更新以及立即执行等操作 -->
-		<property name="jobBeanCfgService" ref="jobBeanCfgService" />
-		<property name="runWithinCluster" value="false" />
-	</bean>
-
-	<!-- 基于Spring与Quartz整合并且支持cluster集群的任务列表，适合定义需要在多个服务器节点中确保同一时间只有一个任务实例执行的任务 -->
-	<bean id="quartzClusterScheduler" class="lab.s2jh.schedule.ExtSchedulerFactoryBean">
-		<property name="schedulerName" value="quartzClusterScheduler" />
-		<!-- quartz配置 -->
-		<property name="configLocation" value="classpath:quartz-cluster.properties" />
-		<!-- 启动时延期N秒开始任务 -->
-		<property name="startupDelay" value="10" />
-		<!-- 保存Job数据到数据库所需的数据源 -->
-		<property name="dataSource" ref="dataSource" />
-		<property name="transactionManager" ref="transactionManager" />
-		<!-- Job接受applicationContext的成员变量名 -->
-		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
-		<!-- 用数据库最新配置覆盖已有配置 -->
-		<property name="overwriteExistingJobs" value="true" />
-
-		<!-- 静态Triggers配置，这些配置Trigger以固定模式运行，如果需要更新则修改配置后更新应用部署才能生效 -->
-		<property name="triggers">
-			<list>
-				<!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
-				<bean id="lab.s2jh.schedule.job.DatabaseMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-					<property name="jobDetail">
-						<bean name="lab.s2jh.schedule.job.DatabaseMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-							<property name="jobClass" value="lab.s2jh.schedule.job.DatabaseMonitorJob" />
-							<property name="durability" value="true" />
-						</bean>
-					</property>
-					<property name="cronExpression" value="0 0 0 * * ?" />
-				</bean>
-			</list>
-		</property>
-		<!-- 定时任务配置Service对象注入，自动获取数据库定时任务配置然后动态加载到Quartz Scheduler，并提供管理界面可动态实时更新以及立即执行等操作 -->
-		<property name="jobBeanCfgService" ref="jobBeanCfgService" />
-		<property name="runWithinCluster" value="true" />
-	</bean>
+        <!-- 静态Triggers配置，这些配置Trigger以固定模式运行，如果需要更新则修改配置后更新应用部署才能生效 -->
+        <property name="triggers">
+            <list>
+                <!-- 统计数据库状态信息的定时任务，演示在集群环境中只需要任何一个节点统计执行即可 -->
+                <bean id="lab.s2jh.schedule.job.DatabaseMonitorJob.Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+                    <property name="jobDetail">
+                        <bean name="lab.s2jh.schedule.job.DatabaseMonitorJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+                            <property name="jobClass" value="lab.s2jh.schedule.job.DatabaseMonitorJob" />
+                            <property name="durability" value="true" />
+                        </bean>
+                    </property>
+                    <property name="cronExpression" value="0 0 0 * * ?" />
+                </bean>
+            </list>
+        </property>
+        <!-- 定时任务配置Service对象注入，自动获取数据库定时任务配置然后动态加载到Quartz Scheduler，并提供管理界面可动态实时更新以及立即执行等操作 -->
+        <property name="jobBeanCfgService" ref="jobBeanCfgService" />
+        <property name="runWithinCluster" value="true" />
+    </bean>
 
 </beans>
