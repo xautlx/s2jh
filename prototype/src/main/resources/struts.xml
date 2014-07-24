@@ -47,7 +47,7 @@
     <constant name="struts.convention.action.fileProtocols" value="jar,zip,code-source" />
     <constant name="struts.convention.action.suffix" value="Controller" />
     <constant name="struts.convention.action.mapAllMatches" value="true" />
-    <constant name="struts.convention.action.includeJars" value=".*common-service.*,.*bpm-service.*,.*_wl_cls_gen.*" />
+    <constant name="struts.convention.action.includeJars" value=".*common-service.*,.*_wl_cls_gen.*" />
     <constant name="struts.convention.default.parent.package" value="crud-default" />
 
     <package name="crud-default" extends="rest-default,jasperreports-default">

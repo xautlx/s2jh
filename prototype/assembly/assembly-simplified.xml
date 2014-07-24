@@ -24,7 +24,6 @@
             <includes>
                 <include>WEB-INF/lib/core-service*.jar</include>
                 <include>WEB-INF/lib/common-service*.jar</include>
-                <include>WEB-INF/lib/bpm-service*.jar</include>
             </includes>
         </fileSet>		
 		<fileSet>
