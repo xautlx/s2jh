@@ -127,14 +127,14 @@ public class UserController extends BaseController<User, Long> {
     @Override
     @MetaData(value = "保存")
     public HttpHeaders doSave() {
+        /**
+         * 判断选取的用户机构代码是否属于当前登录用户管辖范围
+         * 该属性设定为不允许自动绑定，则需要手工从请求参数获取设置  @see lab.s2jh.auth.entity.User#setAclCode
+         */
+        String aclCode = this.getParameter("aclCode");
+        bindingEntity.setAclCode(aclCode);
         if (bindingEntity.isNew()) {
-            /**
-             * 判断选取的用户机构代码是否属于当前登录用户管辖范围
-             * 该属性设定为不允许自动绑定，则需要手工从请求参数获取设置  @see lab.s2jh.auth.entity.User#setAclCode
-             */
-            String aclCode = this.getParameter("aclCode");
-            bindingEntity.setAclCode(aclCode);
-            userService.save(bindingEntity, this.getParameter("newpassword"));
+            userService.save(bindingEntity, this.getRequiredParameter("newpassword"));
             setModel(OperationResult.buildSuccessResult("创建操作成功", bindingEntity));
         } else {
             String newpassword = this.getParameter("newpassword");

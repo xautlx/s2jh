@@ -21,6 +21,7 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.entity.UserLogonLog;
 import lab.s2jh.auth.entity.UserOauth;
 import lab.s2jh.auth.entity.UserR2Role;
+import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.exception.ServiceException;
 import lab.s2jh.core.security.AclService;
@@ -30,6 +31,7 @@ import lab.s2jh.ctx.DynamicConfigService;
 import lab.s2jh.ctx.FreemarkerService;
 import lab.s2jh.ctx.MailService;
 
+import org.activiti.engine.IdentityService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
@@ -53,6 +55,7 @@ import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
 
+@SuppressWarnings("deprecation")
 @Service
 @Transactional
 public class UserService extends BaseService<User, Long> {
@@ -91,6 +94,8 @@ public class UserService extends BaseService<User, Long> {
 
     @Autowired(required = false)
     private AclService aclService;
+    @Autowired(required = false)
+    private IdentityService identityService;
 
     @Override
     protected BaseDao<User, Long> getEntityDao() {
@@ -122,34 +127,135 @@ public class UserService extends BaseService<User, Long> {
         return findByProperty("signinid", signinid);
     }
 
-    /**
-     * 用户注册
-     * 
-     * @param rawPassword
-     *            原始密码
-     * @param user
-     *            用户数据对象
-     * @return
-     */
-    public User save(User user, String rawPassword) {
+    @Override
+    public User save(User user) {
         if (user.isNew()) {
             user.setUserPin(user.getSigninid());
             user.setUid(RandomStringUtils.randomNumeric(10));
         }
+        super.save(user);
+
+        //关联处理Activiti的用户权限控制数据
+        if (identityService != null) {
+            String userId = user.getSigninid();
+            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
+                    .singleResult();
+            if (identityUser != null) {
+                //更新信息
+                identityUser.setFirstName(user.getNick());
+                identityUser.setLastName("");
+                identityUser.setPassword(user.getPassword());
+                identityUser.setEmail(user.getEmail());
+                identityService.saveUser(identityUser);
+
+                // 先删除已有的membership
+                List<org.activiti.engine.identity.Group> activitiGroups = identityService.createGroupQuery()
+                        .groupMember(userId).list();
+                for (org.activiti.engine.identity.Group group : activitiGroups) {
+                    if (group.getType().equals("ACL_CODE")) {
+                        identityService.deleteMembership(userId, group.getId());
+                    }
+                }
+            } else {
+                //创建用户对象
+                identityUser = identityService.newUser(user.getSigninid());
+                identityUser.setFirstName(user.getNick());
+                identityUser.setLastName("");
+                identityUser.setPassword(user.getPassword());
+                identityUser.setEmail(user.getEmail());
+                identityService.saveUser(identityUser);
+            }
+
+            // 添加membership
+            String aclCode = user.getAclCode();
+            if (StringUtils.isNotBlank(aclCode)) {
+                String groupId = aclCode;
+                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
+                        .singleResult();
+                if (identityGroup == null) {
+                    identityGroup = identityService.newGroup(groupId);
+                    identityGroup.setName("机构代码");
+                    identityGroup.setType("ACL_CODE");
+                    identityService.saveGroup(identityGroup);
+                }
+                identityService.createMembership(userId, groupId);
+            }
+        }
+
+        return user;
+    }
+
+    /**
+     * 用户注册
+     * 
+     * @param rawPassword 原始密码
+     * @param user 用户数据对象
+     * @return
+     */
+    public User save(User user, String rawPassword) {
         if (StringUtils.isNotBlank(rawPassword)) {
             //密码修改后更新密码过期时间为6个月
             user.setCredentialsExpireTime(new DateTime().plusMonths(6).toDate());
             user.setPassword(encodeUserPasswd(user, rawPassword));
         }
-        return this.save(user);
+        return save(user);
     }
 
     public String encodeUserPasswd(User user, String rawPassword) {
         return passwordEncoder.encodePassword(rawPassword, user.getUid());
     }
 
-    public void updateRelatedRoleR2s(Long id, String[] roleIds) {
+    public void updateRelatedRoleR2s(Long id, String... roleIds) {
         updateRelatedR2s(id, roleIds, "userR2Roles", "role");
+
+        //关联处理Activiti的用户权限控制数据
+        if (identityService != null) {
+            User user = findOne(id);
+            String userId = user.getSigninid();
+            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
+                    .singleResult();
+            if (identityUser != null) {
+                //更新信息
+                identityUser.setFirstName(user.getNick());
+                identityUser.setLastName("");
+                identityUser.setPassword(user.getPassword());
+                identityUser.setEmail(user.getEmail());
+                identityService.saveUser(identityUser);
+
+                // 先删除已有的membership
+                List<org.activiti.engine.identity.Group> activitiGroups = identityService.createGroupQuery()
+                        .groupMember(userId).list();
+                for (org.activiti.engine.identity.Group group : activitiGroups) {
+                    if (group.getType().equals(Role.class.getSimpleName())) {
+                        identityService.deleteMembership(userId, group.getId());
+                    }
+                }
+
+            } else {
+                //创建用户对象
+                identityUser = identityService.newUser(user.getSigninid());
+                identityUser.setFirstName(user.getNick());
+                identityUser.setLastName("");
+                identityUser.setPassword(user.getPassword());
+                identityUser.setEmail(user.getEmail());
+                identityService.saveUser(identityUser);
+            }
+
+            // 添加membership
+            for (String roleId : roleIds) {
+                Role role = roleDao.findOne(roleId);
+                String groupId = role.getCode();
+                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
+                        .singleResult();
+                if (identityGroup == null) {
+                    identityGroup = identityService.newGroup(groupId);
+                    identityGroup.setName(role.getTitle());
+                    identityGroup.setType(Role.class.getSimpleName());
+                    identityService.saveGroup(identityGroup);
+                }
+                identityService.createMembership(userId, groupId);
+            }
+        }
     }
 
     @Transactional(readOnly = true)
@@ -278,7 +384,7 @@ public class UserService extends BaseService<User, Long> {
             url.append(":").append(serverPort);
         }
         String contextPath = request.getContextPath();
-        if (contextPath != "/") {
+        if (!"/".equals(contextPath)) {
             url.append(contextPath);
         }
         url.append("/pub/signin?email=" + email + "&code=" + user.getRandomCode());
