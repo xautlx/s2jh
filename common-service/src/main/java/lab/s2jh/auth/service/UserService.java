@@ -30,6 +30,7 @@ import lab.s2jh.core.service.BaseService;
 import lab.s2jh.ctx.DynamicConfigService;
 import lab.s2jh.ctx.FreemarkerService;
 import lab.s2jh.ctx.MailService;
+import net.sf.jxls.processor.RowProcessor;
 
 import org.activiti.engine.IdentityService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -199,6 +200,11 @@ public class UserService extends BaseService<User, Long> {
             user.setPassword(encodeUserPasswd(user, rawPassword));
         }
         return save(user);
+    }
+
+    public boolean validatePassword(String signinid, String rawPassword) {
+        User user = findBySigninid(signinid);
+        return user.getPassword().equals(encodeUserPasswd(user, rawPassword));
     }
 
     public String encodeUserPasswd(User user, String rawPassword) {

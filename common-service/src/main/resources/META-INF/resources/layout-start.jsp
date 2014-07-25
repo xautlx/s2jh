@@ -233,7 +233,7 @@
 						<li class="divider hide"></li>
 						<li><a href="javascript:;" id="trigger_fullscreen"><i class="fa fa-move"></i> 全屏显示</a></li>
 						<li><a id="trigger_passwd" href="${base}/auth/profile!passwd" title="修改密码"><i class="fa fa-key"></i> 修改密码</a></li>
-						<li><a href="javascript:;" id="a-lock-screen"><i class="fa fa-lock"></i> 锁定系统</a></li>
+						<li><a href="javascript:;" id="a-lock-screen" rel="address:/lock"><i class="fa fa-lock"></i> 锁定系统</a></li>
 						<li><a href="javascript:;" id="a-logout"><i class="fa fa-sign-out"></i> 注销登录</a></li>
 					</ul></li>
 				<!-- END USER LOGIN DROPDOWN -->
@@ -408,7 +408,7 @@
 							</button>
 							<ul role="menu" class="dropdown-menu">
 							</ul>
-							<button class="btn default btn-dashboard" type="button">
+							<button id="btn-dashboard" class="btn default btn-dashboard" type="button">
 								<i class="fa fa-home"></i> Dashboard
 							</button>
 							<button class="btn default btn-close-active" type="button">
@@ -507,16 +507,16 @@
 				<h1>
 					<s:property value="%{authUserDetails.usernameDisplay}" />
 				</h1>
-				<form id="form-unlock" action="#" class="form-inline">
-					<div class="input-group input-medium">
-						<input type="password" placeholder="输入解锁码..." class="form-control" autocomplete="off"> <span
-							class="input-group-btn">
+				<form id="form-unlock" action="${base}/layout!unlock" class="form-inline" method="post">
+					<div class="input-group">
+						<input type="password" name="password" placeholder="输入解锁码..." class="form-control" autocomplete="off"
+							required="true"> <span class="input-group-btn">
 							<button class="btn blue icn-only" type="submit">
 								<i class="m-icon-swapright m-icon-white"></i>
 							</button>
 						</span>
 					</div>
-					<div class="relogin">请输入登录账号解锁</div>
+					<div class="relogin">请输入登录密码解锁</div>
 				</form>
 			</div>
 		</div>
