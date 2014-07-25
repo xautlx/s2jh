@@ -1086,6 +1086,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     protected Page<Map<String, Object>> findByGroupAggregate(String... properties) {
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(entityClass, getRequest());
+        appendFilterProperty(groupFilter);
         return findByGroupAggregate(groupFilter, pageable, properties);
     }
 
