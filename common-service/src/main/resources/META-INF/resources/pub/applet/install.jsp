@@ -5,8 +5,8 @@
 	<h3>Java插件安装说明</h3>
 	<p>正常情况浏览器自动检测提示安装插件，只需按照浏览器提示一步步默认安装Java插件即可;</p>
 	<p>
-		如果出现浏览器无提示或无法自动安装，可自行访问<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html"
-			target="_blank">Oracle JDK 7</a>手工下载安装Java运行环境
+		如果出现浏览器无提示或无法自动安装，可自行访问<a href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html"
+			target="_blank">Oracle JRE 7</a>手工下载安装Java运行环境
 	</p>
 	<APPLET width="600px" height="300px">
 		<PARAM NAME=CODE VALUE="net.sf.jasperreports.swing.InstallVerifyApplet.class">
