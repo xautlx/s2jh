@@ -11,14 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.octo.captcha.service.captchastore.FastHashMapCaptchaStore;
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
 import com.octo.captcha.service.image.ImageCaptchaService;
 
 public class ImageCaptchaServlet extends HttpServlet implements Servlet {
 
-    public static ImageCaptchaService imageCaptchaService = new DefaultManageableImageCaptchaService(new FastHashMapCaptchaStore(),
-            new CustomCaptchaEngine(), 180, 100000, 75000);
+    private static final long serialVersionUID = -784768764527492407L;
+
+    private static final Logger logger = LoggerFactory.getLogger(ImageCaptchaServlet.class);
+
+    public static ImageCaptchaService imageCaptchaService = new DefaultManageableImageCaptchaService(
+            new FastHashMapCaptchaStore(), new CustomCaptchaEngine(), 180, 100000, 75000);
 
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
@@ -36,7 +43,8 @@ public class ImageCaptchaServlet extends HttpServlet implements Servlet {
         httpServletResponse.setContentType("image/jpeg");
 
         // create the image with the text
-        BufferedImage bi = ImageCaptchaServlet.imageCaptchaService.getImageChallengeForID(httpServletRequest.getSession(true).getId());
+        BufferedImage bi = ImageCaptchaServlet.imageCaptchaService.getImageChallengeForID(httpServletRequest
+                .getSession(true).getId());
 
         ServletOutputStream out = httpServletResponse.getOutputStream();
 
@@ -50,6 +58,14 @@ public class ImageCaptchaServlet extends HttpServlet implements Servlet {
     }
 
     public static boolean validateResponse(HttpServletRequest request, String userCaptchaResponse) {
-        return ImageCaptchaServlet.imageCaptchaService.validateResponseForID(request.getSession().getId(), userCaptchaResponse);
+        try {
+            return ImageCaptchaServlet.imageCaptchaService.validateResponseForID(request.getSession().getId(),
+                    userCaptchaResponse);
+        } catch (Exception e) {
+            if (logger.isDebugEnabled()) {
+                logger.warn(e.getMessage(), e);
+            }
+        }
+        return false;
     }
 }
