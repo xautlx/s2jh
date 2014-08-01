@@ -22,6 +22,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.slf4j.Logger;
@@ -82,31 +83,32 @@ public class ProcessInstanceController extends SimpleController {
         }
         List<ProcessInstance> processInstances = processInstanceQuery.orderByProcessInstanceId().asc()
                 .listPage(pageable.getOffset(), pageable.getPageSize());
-        Set<String> processInstanceIds = Sets.newHashSet();
-        for (ProcessInstance pi : processInstances) {
-            processInstanceIds.add(pi.getId());
-        }
-        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery()
-                .processInstanceIds(processInstanceIds).list();
-
         List<Map<String, Object>> datas = Lists.newArrayList();
-        for (ProcessInstance processInstance : processInstances) {
-            ExecutionEntity executionEntity = (ExecutionEntity) processInstance;
-            Map<String, Object> data = Maps.newHashMap();
-            String businessKey = executionEntity.getBusinessKey();
-            ProcessDefinition pd = repositoryService.getProcessDefinition(executionEntity.getProcessDefinitionId());
-            for (HistoricProcessInstance hpi : historicProcessInstances) {
-                if (hpi.getId().equals(processInstance.getId())) {
-                    data.put("startUserId", hpi.getStartUserId());
-                    break;
-                }
+        if (CollectionUtils.isNotEmpty(processInstances)) {
+            Set<String> processInstanceIds = Sets.newHashSet();
+            for (ProcessInstance pi : processInstances) {
+                processInstanceIds.add(pi.getId());
             }
-            data.put("id", executionEntity.getId());
-            data.put("executionEntityId", executionEntity.getId());
-            data.put("businessKey", businessKey);
-            data.put("processDefinitionName", pd.getName());
-            data.put("activityNames", activitiService.findActiveTaskNames(businessKey));
-            datas.add(data);
+            List<HistoricProcessInstance> historicProcessInstances = historyService
+                    .createHistoricProcessInstanceQuery().processInstanceIds(processInstanceIds).list();
+            for (ProcessInstance processInstance : processInstances) {
+                ExecutionEntity executionEntity = (ExecutionEntity) processInstance;
+                Map<String, Object> data = Maps.newHashMap();
+                String businessKey = executionEntity.getBusinessKey();
+                ProcessDefinition pd = repositoryService.getProcessDefinition(executionEntity.getProcessDefinitionId());
+                for (HistoricProcessInstance hpi : historicProcessInstances) {
+                    if (hpi.getId().equals(processInstance.getId())) {
+                        data.put("startUserId", hpi.getStartUserId());
+                        break;
+                    }
+                }
+                data.put("id", executionEntity.getId());
+                data.put("executionEntityId", executionEntity.getId());
+                data.put("businessKey", businessKey);
+                data.put("processDefinitionName", pd.getName());
+                data.put("activityNames", activitiService.findActiveTaskNames(businessKey));
+                datas.add(data);
+            }
         }
         setModel(new PageImpl(datas, pageable, processInstanceQuery.count()));
         return buildDefaultHttpHeaders();

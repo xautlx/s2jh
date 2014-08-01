@@ -72,17 +72,25 @@
 <script type="text/javascript">
     $(function() {
         $(".btn-h2-start").click(function() {
-            $(this).ajaxPostURL(WEB_ROOT + "/sys/util!startH2", function(data) {
-                $(".h2-jdbc-url").html(data.userdata.h2JdbcUrl);
-                $(".btn-h2-open").attr("href", data.userdata.h2LoginUrl);
-                $(".h2-info").removeClass("hide");
-            }, false)
+            $(this).ajaxPostURL({
+                url : WEB_ROOT + "/sys/util!startH2",
+                success : function(data) {
+                    $(".h2-jdbc-url").html(data.userdata.h2JdbcUrl);
+                    $(".btn-h2-open").attr("href", data.userdata.h2LoginUrl);
+                    $(".h2-info").removeClass("hide");
+                },
+                confirmMsg : false
+            })
         });
 
         $(".btn-h2-stop").click(function() {
-            $(this).ajaxPostURL(WEB_ROOT + "/sys/util!stopH2", function(data) {
-                $(".h2-info").addClass("hide");
-            }, false)
+            $(this).ajaxPostURL({
+                url : WEB_ROOT + "/sys/util!stopH2",
+                success : function(data) {
+                    $(".h2-info").addClass("hide");
+                },
+                confirmMsg : false
+            })
         })
     });
 </script>

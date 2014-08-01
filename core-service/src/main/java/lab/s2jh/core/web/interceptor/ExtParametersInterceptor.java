@@ -96,17 +96,19 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                         Set<String> needRemoveElementsPropertyNames = Sets.newHashSet();
                         for (String key : parameters.keySet()) {
                             if (key.endsWith(".id")) {
-                                /**
-                                 * 对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
-                                 * 在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
-                                 * 以避免JPA做对象实例merge操作时抛出未保存实体对象错误
-                                 */
+                                //对于关联对象，由于Struts默认设置为New一个对象实例以进行后续的参数数据绑定
+                                 //在把关联OneToOne对象修改为为空时，需要做个特殊处理以把“空数据”的示例对象重置回null
+                                 //以避免JPA做对象实例merge操作时抛出未保存实体对象错误
                                 String name = StringUtils.substringBeforeLast(key, ".id");
                                 String value = request.getParameter(key);
+                                //id有值，则无需处理继续循环
                                 if (StringUtils.isNotBlank(value)) {
                                     continue;
                                 }
 
+                                //计数器判断当前对象是多个对象数据提交还是简单的只是关联对象提交
+                                //.display一般用于下拉或combox选取输入表单元素，不算做有效的对象数据提交内容
+                                //如果出现除此之外的关联属性数据，说明是关联对象数据变更处理，则继续后续的对象级联保存处理
                                 int cnt = 0;
                                 for (String param : parameters.keySet()) {
                                     if (param.startsWith(name + ".") && !param.equals(name + ".display")
@@ -116,6 +118,7 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                                     }
                                 }
 
+                                //如果计数器为0则说明当前不是对象数据编辑模式，而是简单的关联对象处理模式
                                 if (cnt == 0) {
                                     logger.debug("Reset [{}] OneToOne [{}] to null as empty id value", model, name);
                                     if (name.indexOf("[") > -1 && name.indexOf("]") > -1) {
@@ -136,7 +139,7 @@ public class ExtParametersInterceptor extends ParametersInterceptor {
                                             }
                                         }
                                     } else {
-                                        //单一属性
+                                        //单一属性，直接把关联对象设置为null，否则不做处理传递到后端会认为是一个没有任何数据但是需要新创建的级联处理对象
                                         //TODO 目前只支持单层，需要添加多层嵌套处理逻辑
                                         if (FieldUtils.getDeclaredField(model.getClass(), name, true) != null) {
                                             FieldUtils.writeDeclaredField(model, name, null, true);

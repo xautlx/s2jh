@@ -38,10 +38,12 @@ $(function() {
                 e.preventDefault();
                 var ids = $grid.getAtLeastOneSelectedItem();
                 if (ids) {
-                    var url = WEB_ROOT + '/schedule/job-bean-cfg!doStateTrigger';
-                    $grid.ajaxPostURL(url, function() {
-                        $grid.refresh();
-                    }, "确认 启动 所选任务？", {
+                    $grid.ajaxPostURL({
+                        url : WEB_ROOT + '/schedule/job-bean-cfg!doStateTrigger',
+                        success : function() {
+                            $grid.refresh();
+                        },
+                        confirmMsg : "确认 启动 所选任务？",
                         data : {
                             ids : ids.join(","),
                             state : 'resume'
@@ -56,10 +58,12 @@ $(function() {
                 e.preventDefault();
                 var ids = $grid.getAtLeastOneSelectedItem();
                 if (ids) {
-                    var url = WEB_ROOT + '/schedule/job-bean-cfg!doStateTrigger';
-                    $grid.ajaxPostURL(url, function() {
-                        $grid.refresh();
-                    }, "确认  暂停  所选任务？", {
+                    $grid.ajaxPostURL({
+                        url : WEB_ROOT + '/schedule/job-bean-cfg!doStateTrigger',
+                        success : function() {
+                            $grid.refresh();
+                        },
+                        confirmMsg : "确认  暂停  所选任务？",
                         data : {
                             ids : ids.join(","),
                             state : 'pause'
@@ -74,10 +78,12 @@ $(function() {
                 e.preventDefault();
                 var ids = $grid.getAtLeastOneSelectedItem();
                 if (ids) {
-                    var url = WEB_ROOT + '/schedule/job-bean-cfg!doRunTrigger';
-                    $grid.ajaxPostURL(url, function() {
-                        $grid.refresh();
-                    }, "确认  立即执行  所选任务？", {
+                    $grid.ajaxPostURL({
+                        url : WEB_ROOT + '/schedule/job-bean-cfg!doRunTrigger',
+                        success : function() {
+                            $grid.refresh();
+                        },
+                        confirmMsg : "确认  立即执行  所选任务？",
                         data : {
                             ids : ids.join(",")
                         }

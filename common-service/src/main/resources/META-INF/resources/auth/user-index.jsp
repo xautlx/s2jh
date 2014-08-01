@@ -2,12 +2,12 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div class="tabbable tabbable-primary">
 	<ul class="nav nav-pills">
-		<li class="active"><a class="tab-default" data-toggle="tab" href="#tab-user">用户列表</a></li>
-		<li ><a class="tab-default" data-toggle="tab" href="${base}/auth/signup-user">注册用户管理</a></li>
+		<li class="active"><a class="tab-default" data-toggle="tab" href="#tab-auto">用户列表</a></li>
+		<li><a class="tab-default" data-toggle="tab" href="${base}/auth/signup-user">注册用户管理</a></li>
 		<li class="tools pull-right"><a class="btn default reload" href="javascript:;"><i class="fa fa-refresh"></i></a></li>
 	</ul>
 	<div class="tab-content">
-		<div id="tab-user" class="tab-pane fade active in">
+		<div class="tab-pane fade active in">
 			<div class="row search-form-default">
 				<div class="col-md-12">
 					<form action="#" method="get" class="form-inline form-validation form-search"

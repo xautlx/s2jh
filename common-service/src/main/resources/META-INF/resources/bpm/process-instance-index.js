@@ -34,21 +34,24 @@ $(function() {
             $select.children("a").bind("click", function(e) {
                 var ids = $grid.getAtLeastOneSelectedItem();
                 if (ids) {
-                    $grid.ajaxPostURL(WEB_ROOT + "/bpm/process-instance!forceTerminal", function(response) {
-                        $.each(ids, function(i, item) {
-                            var item = $.trim(item);
-                            var $tr = $grid.find("tr.jqgrow[id='" + item + "']");
-                            if (response.userdata && response.userdata[item]) {
-                                var msg = response.userdata[item];
-                                $tr.pulsate({
-                                    color : "#bf1c56",
-                                    repeat : 3
-                                });
-                            } else {
-                                $grid.jqGrid("delRowData", item);
-                            }
-                        });
-                    }, "确认强制结束流程实例吗？", {
+                    $grid.ajaxPostURL({
+                        url : WEB_ROOT + "/bpm/process-instance!forceTerminal",
+                        success : function(response) {
+                            $.each(ids, function(i, item) {
+                                var item = $.trim(item);
+                                var $tr = $grid.find("tr.jqgrow[id='" + item + "']");
+                                if (response.userdata && response.userdata[item]) {
+                                    var msg = response.userdata[item];
+                                    $tr.pulsate({
+                                        color : "#bf1c56",
+                                        repeat : 3
+                                    });
+                                } else {
+                                    $grid.jqGrid("delRowData", item);
+                                }
+                            });
+                        },
+                        confirmMsg : "确认强制结束流程实例吗？",
                         data : {
                             ids : ids.join(",")
                         }
