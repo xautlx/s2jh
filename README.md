@@ -22,7 +22,7 @@
 
 > 欢迎关注的朋友在各大项目推广平台以提问、分享、收藏、点赞、投票等多种形式推广支持项目，以便更多人共同关注、问题反馈、功能优化等，促进整个项目质量不断提升
 
-> **提示**：为了方便用户区分链接资源是外部和内部，文档特别以![link](https://raw.github.com/wiki/xautlx/s2jh/images/link.gif)标识：链接前面有此图标说明是外部链接，如果你已经熟悉相关概念可以忽略点击；没有此标识说明是文档内部链接，建议点击访问以完整查阅项目文档。
+> **提示**：为了方便用户区分链接资源是外部和内部，文档特别以![link](https://http://git.oschina.net/xautlx/s2jh/wikis/images/link.gif)标识：链接前面有此图标说明是外部链接，如果你已经熟悉相关概念可以忽略点击；没有此标识说明是文档内部链接，建议点击访问以完整查阅项目文档。
 
 ## Features
 
@@ -35,13 +35,13 @@
 
 ### Snapshot
 
-![ui-signin](https://raw.github.com/wiki/xautlx/s2jh/images/ui-signin.png)
+![ui-signin](https://http://git.oschina.net/xautlx/s2jh/wikis/images/ui-signin.png)
 
-![ui-layout](https://raw.github.com/wiki/xautlx/s2jh/images/ui-layout.png)
+![ui-layout](https://http://git.oschina.net/xautlx/s2jh/wikis/images/ui-layout.png)
 
-![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/index2.gif)
+![Snapshot View](https://http://git.oschina.net/xautlx/s2jh/wikis/images/index2.gif)
 
-![Snapshot View](https://raw.github.com/wiki/xautlx/s2jh/images/grid-master-detail.png)
+![Snapshot View](https://http://git.oschina.net/xautlx/s2jh/wikis/images/grid-master-detail.png)
 
 > 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
 
