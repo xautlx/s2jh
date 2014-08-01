@@ -1107,4 +1107,12 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
         }
         return false;
     }
+
+    /**
+     * 对于一些复杂处理逻辑需要基于提交数据服务器校验后有提示警告信息需要用户二次确认
+     * 判断当前表单是否已被用户confirm确认OK
+     */
+    protected boolean postNotConfirmedByUser() {
+        return !BooleanUtils.toBoolean(getParameter("_serverValidationConfirmed_"));
+    }
 }

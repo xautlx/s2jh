@@ -16,7 +16,8 @@ public class OperationResult {
     public enum OPERATION_RESULT_TYPE {
         success,
         warning,
-        failure
+        failure,
+        confirm
     }
 
     /** 返回success或failure操作标识 */
@@ -44,6 +45,10 @@ public class OperationResult {
 
     public static OperationResult buildFailureResult(String message, Object userdata) {
         return new OperationResult(OPERATION_RESULT_TYPE.failure, message, userdata);
+    }
+    
+    public static OperationResult buildConfirmResult(String message, Object userdata) {
+        return new OperationResult(OPERATION_RESULT_TYPE.confirm, message, userdata);
     }
 
     public OperationResult(OPERATION_RESULT_TYPE type, String message) {
