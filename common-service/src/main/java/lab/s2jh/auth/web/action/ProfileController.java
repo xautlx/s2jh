@@ -8,6 +8,7 @@ import lab.s2jh.auth.service.UserService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.security.AuthUserDetails;
+import lab.s2jh.core.service.Validation;
 import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.annotation.SecurityControllIgnore;
 import lab.s2jh.core.web.view.OperationResult;
@@ -34,6 +35,7 @@ public class ProfileController extends SimpleController {
     @SecurityControllIgnore
     @MetaData(value = "密码修改处理")
     public HttpHeaders doPasswd() {
+        Validation.notDemoMode();
         AuthUserDetails authUserDetails = AuthContextHolder.getAuthUserDetails();
         Assert.notNull(authUserDetails);
         HttpServletRequest request = ServletActionContext.getRequest();

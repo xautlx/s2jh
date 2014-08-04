@@ -119,6 +119,9 @@ public class UserController extends BaseController<User, Long> {
 
     @MetaData(value = "更新角色关联")
     public HttpHeaders doUpdateRelatedRoleR2s() {
+        if (bindingEntity.getSigninid().equals("admin")) {
+            Validation.notDemoMode();
+        }
         userService.updateRelatedRoleR2s(getId(), getParameterIds("r2ids"));
         setModel(OperationResult.buildSuccessResult("更新角色关联操作完成"));
         return buildDefaultHttpHeaders();
@@ -127,6 +130,9 @@ public class UserController extends BaseController<User, Long> {
     @Override
     @MetaData(value = "保存")
     public HttpHeaders doSave() {
+        if (bindingEntity.getSigninid().equals("admin")) {
+            Validation.notDemoMode();
+        }
         /**
          * 判断选取的用户机构代码是否属于当前登录用户管辖范围
          * 该属性设定为不允许自动绑定，则需要手工从请求参数获取设置  @see lab.s2jh.auth.entity.User#setAclCode
@@ -177,6 +183,9 @@ public class UserController extends BaseController<User, Long> {
     @Override
     @MetaData(value = "删除")
     public HttpHeaders doDelete() {
+        if (bindingEntity.getSigninid().equals("admin")) {
+            Validation.notDemoMode();
+        }
         return super.doDelete();
     }
 

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.context.SpringContextHolder;
-import lab.s2jh.core.service.PropertiesConfigService;
 import lab.s2jh.core.service.Validation;
 import lab.s2jh.core.web.SimpleController;
 import lab.s2jh.core.web.view.OperationResult;
