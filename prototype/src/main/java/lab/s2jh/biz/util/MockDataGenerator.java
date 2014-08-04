@@ -10,6 +10,8 @@ import javax.persistence.EntityManagerFactory;
 import lab.s2jh.biz.finance.entity.BizTradeUnit;
 import lab.s2jh.biz.finance.entity.BizTradeUnit.BizTradeUnitTypeEnum;
 import lab.s2jh.biz.md.entity.Commodity;
+import lab.s2jh.biz.sale.entity.SaleDelivery;
+import lab.s2jh.biz.sale.entity.SaleDeliveryDetail;
 import lab.s2jh.biz.stock.entity.CommodityStock;
 import lab.s2jh.biz.stock.entity.StorageLocation;
 import lab.s2jh.core.util.MockEntityUtils;
@@ -134,6 +136,25 @@ public class MockDataGenerator {
             }
             entityManager.flush();
             entityManager.getTransaction().commit();
+
+            //销售单
+            //            entityManager.getTransaction().begin();
+            //            count = randomNum(5, 10);
+            //            for (int i = 0; i < count; i++) {
+            //                String num = df.format(i);
+            //                SaleDelivery entity = MockEntityUtils.buildMockObject(SaleDelivery.class);
+            //                List<SaleDeliveryDetail> saleDeliveryDetails = Lists.newArrayList();
+            //                int sddCount = randomNum(3, 6);
+            //                for (int j = 0; j < sddCount; j++) {
+            //                    SaleDeliveryDetail sdd = MockEntityUtils.buildMockObject(SaleDeliveryDetail.class);
+            //                    sdd.setSaleDelivery(entity);
+            //                    saleDeliveryDetails.add(sdd);
+            //                }
+            //                entity.setSaleDeliveryDetails(saleDeliveryDetails);
+            //                entityManager.persist(entity);
+            //            }
+            //            entityManager.flush();
+            //            entityManager.getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();

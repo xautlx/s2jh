@@ -22,9 +22,7 @@
     <listener>
         <listener-class>lab.s2jh.core.web.listener.ApplicationContextPostListener</listener-class>
     </listener>
-    <listener>
-        <listener-class>org.activiti.rest.common.servlet.ActivitiServletContextListener</listener-class>
-    </listener>
+    <!-- <listener> <listener-class>org.activiti.rest.common.servlet.ActivitiServletContextListener</listener-class> </listener> -->
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
