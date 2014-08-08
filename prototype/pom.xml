@@ -93,6 +93,12 @@
         </dependency>
         <!-- TEST end -->
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- For standard running package -->
         <dependency>
             <groupId>org.eclipse.jetty.aggregate</groupId>
