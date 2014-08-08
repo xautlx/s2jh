@@ -46,7 +46,7 @@ public class S3DateTextFieldTag extends TextFieldTag {
                 uiBean.setCssClass("form-control");
             }
         } else if ("timestamp".equals(format)) {
-            format = "yyyy-MM-dd HH:mm:ss";
+            format = "yyyy-MM-dd HH:mm:00";
         }
 
         //        if (this.cssClass == null) {

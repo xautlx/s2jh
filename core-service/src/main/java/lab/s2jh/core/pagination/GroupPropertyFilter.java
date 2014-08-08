@@ -72,13 +72,18 @@ public class GroupPropertyFilter {
         this.groupType = groupType;
     }
 
-    public GroupPropertyFilter append(PropertyFilter... filter) {
-        filters.addAll(Lists.newArrayList(filter));
+    public GroupPropertyFilter append(GroupPropertyFilter... groups) {
+        this.groups.addAll(Lists.newArrayList(groups));
         return this;
     }
 
-    public GroupPropertyFilter forceAnd(PropertyFilter... filter) {
-        forceAndFilters.addAll(Lists.newArrayList(filter));
+    public GroupPropertyFilter append(PropertyFilter... filters) {
+        this.filters.addAll(Lists.newArrayList(filters));
+        return this;
+    }
+
+    public GroupPropertyFilter forceAnd(PropertyFilter... filters) {
+        this.forceAndFilters.addAll(Lists.newArrayList(filters));
         return this;
     }
 
