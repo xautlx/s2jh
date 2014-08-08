@@ -41,11 +41,11 @@
         <!-- 主要依赖库的版本定义 -->
         <s2jh.version>1.0.0</s2jh.version>
         <struts2.version>2.3.16.1</struts2.version>
-        <spring.version>3.2.4.RELEASE</spring.version>
+        <spring.version>3.2.10.RELEASE</spring.version>
         <hibernate.version>4.1.8.Final</hibernate.version>
         <mybatis.version>3.1.1</mybatis.version>
         <javassist.version>3.15.0-GA</javassist.version>
-        <spring-data-jpa.version>1.2.0.RELEASE</spring-data-jpa.version>
+        <spring-data-jpa.version>1.6.2.RELEASE</spring-data-jpa.version>
         <cxf.version>2.7.0</cxf.version>
         <activemq.version>5.7.0</activemq.version>
         <quartz.version>2.2.1</quartz.version>
