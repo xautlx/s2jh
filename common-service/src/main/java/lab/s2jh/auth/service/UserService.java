@@ -21,7 +21,6 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.entity.UserLogonLog;
 import lab.s2jh.auth.entity.UserOauth;
 import lab.s2jh.auth.entity.UserR2Role;
-import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.dao.BaseDao;
 import lab.s2jh.core.exception.ServiceException;
 import lab.s2jh.core.security.AclService;
@@ -30,7 +29,6 @@ import lab.s2jh.core.service.BaseService;
 import lab.s2jh.ctx.DynamicConfigService;
 import lab.s2jh.ctx.FreemarkerService;
 import lab.s2jh.ctx.MailService;
-import net.sf.jxls.processor.RowProcessor;
 
 import org.activiti.engine.IdentityService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -409,5 +407,9 @@ public class UserService extends BaseService<User, Long> {
     public void resetPassword(User user, String rawPassword) {
         user.setRandomCode(null);
         save(user, rawPassword);
+    }
+
+    public List<User> findByAclCode(String aclCode) {
+        return userDao.findByAclCode(aclCode);
     }
 }

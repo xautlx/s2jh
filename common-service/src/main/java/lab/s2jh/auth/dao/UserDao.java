@@ -23,4 +23,6 @@ public interface UserDao extends BaseDao<User, Long> {
     @QueryHints({ @QueryHint(name = org.hibernate.ejb.QueryHints.HINT_CACHEABLE, value = "true") })
     @Query("select count(*) from User")
     Long findUserCount();
+
+    List<User> findByAclCode(String aclCode);
 }
