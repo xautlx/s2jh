@@ -164,64 +164,6 @@
                             </webResources>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.8</version>
-                        <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <includeScope>runtime</includeScope>
-                                    <outputDirectory>./runtime/lib</outputDirectory>
-                                    <!-- 排除几个不常变化的依赖，减少增量提交更新的文件大小 -->
-                                    <excludeArtifactIds>assets-resource,jasperreports-extension,project-tools,core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
-                                    <!-- 排除经常变化的依赖和独立运行相关依赖 <excludeArtifactIds>core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds> -->
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.4</version>
-                        <executions>
-                            <!-- 完整独立运行包构建 <execution> <id>assembly-standalone</id> <phase>package</phase> <goals> <goal>single</goal> 
-                                </goals> <configuration> <finalName>${project.artifactId}</finalName> <descriptors> <descriptor>assembly/assembly-standalone.xml</descriptor> 
-                                </descriptors> <archive> <manifest> <mainClass>lab.s2jh.MainExecutor</mainClass> </manifest> </archive> </configuration> 
-                                </execution> -->
-                            <!-- 如果Jetty版本有更新则重新构建 <execution> <id>assembly-jetty</id> <phase>package</phase> <goals> <goal>single</goal> 
-                                </goals> <configuration> <finalName>${project.artifactId}</finalName> <descriptors> <descriptor>assembly/assembly-jetty.xml</descriptor> 
-                                </descriptors> <outputDirectory>./runtime</outputDirectory> </configuration> </execution> -->
-                            <!-- 增量更新包构建 -->
-                            <execution>
-                                <id>assembly-simplified</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <configuration>
-                                    <finalName>${project.artifactId}</finalName>
-                                    <descriptors>
-                                        <descriptor>assembly/assembly-simplified.xml</descriptor>
-                                    </descriptors>
-                                    <archive>
-                                        <manifest>
-                                            <mainClass>lab.s2jh.MainExecutor</mainClass>
-                                        </manifest>
-                                        <manifestEntries>
-                                            <Class-Path>prototype-jetty.jar</Class-Path>
-                                        </manifestEntries>
-                                    </archive>
-                                    <outputDirectory>./runtime</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
