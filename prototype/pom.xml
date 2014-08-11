@@ -114,34 +114,6 @@
 
     <profiles>
         <profile>
-            <id>generator</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <classpathScope>compile</classpathScope>
-                            <mainClass>lab.s2jh.tool.builder.SourceCodeFrameworkBuilder</mainClass>
-                            <arguments>
-                                <argument>./generator/</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
             <id>standalone</id>
             <properties>
                 <deploy.env>standalone</deploy.env>
