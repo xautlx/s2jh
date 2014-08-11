@@ -187,6 +187,6 @@ $(function() {
                 multiselect : false
             });
             Grid.initAjax();
-        },
+        }
     });
 });
