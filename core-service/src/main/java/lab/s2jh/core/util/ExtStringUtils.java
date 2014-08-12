@@ -809,8 +809,7 @@ public class ExtStringUtils {
         try {
             str = new String(string.getBytes("ISO-8859-1"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return str;
     }

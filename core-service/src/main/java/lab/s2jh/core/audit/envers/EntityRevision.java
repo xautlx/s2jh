@@ -12,6 +12,8 @@ import javax.persistence.Transient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.envers.RevisionType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +21,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class EntityRevision {
+    
+    private static Logger logger = LoggerFactory.getLogger(EntityRevision.class);
 
     /**
      * The first element will be the changed entity instance.
@@ -113,7 +117,7 @@ public class EntityRevision {
                 item.setPropertyValue(entityFieldValue);
                 revEntityProperties.add(item);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return revEntityProperties;

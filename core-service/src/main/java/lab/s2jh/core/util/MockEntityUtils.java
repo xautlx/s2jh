@@ -70,7 +70,7 @@ public class MockEntityUtils {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return x;
     }

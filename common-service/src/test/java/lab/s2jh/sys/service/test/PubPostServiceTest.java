@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 public class PubPostServiceTest extends SpringTransactionalTestCase {
 
     @Autowired
@@ -42,18 +41,18 @@ public class PubPostServiceTest extends SpringTransactionalTestCase {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         logger.debug("2........");
         pubPostService.findPublished();
-        
+
         entity.setHtmlTitle("ABC");
         pubPostService.save(entity);
         entityManager.flush();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         logger.debug("3........");
         pubPostService.findPublished();
