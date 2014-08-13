@@ -60,6 +60,9 @@ public class User extends BaseEntity<Long> {
     @EntityAutoCode(order = 20, search = true)
     private String nick;
 
+    @MetaData(value = "移动电话")
+    private String mobilePhone;
+
     @MetaData(value = "电子邮件", tooltips = "可用于用户自助找回密码，接收系统通知等")
     private String email;
 
@@ -320,5 +323,14 @@ public class User extends BaseEntity<Long> {
 
     public void setLastLogonFailureTime(Date lastLogonFailureTime) {
         this.lastLogonFailureTime = lastLogonFailureTime;
+    }
+
+    @Column(length = 50)
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 }

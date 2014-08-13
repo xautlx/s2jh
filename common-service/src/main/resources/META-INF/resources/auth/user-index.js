@@ -25,6 +25,11 @@ $(function() {
             editable : true,
             width : 200
         }, {
+            label : '移动电话',
+            name : 'mobilePhone',
+            editable : true,
+            width : 100
+        }, {
             label : '启用',
             name : 'enabled',
             editable : true,
