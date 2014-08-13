@@ -291,8 +291,8 @@
 				</div>
 				<div class="theme-option">
 					<span>表格布局</span> <select class="grid-shrink-option form-control input-small">
-						<option value="auto" selected="selected">自动</option>
-						<option value="true">收缩</option>
+						<option value="auto">自动</option>
+						<option value="true" selected="selected">收缩</option>
 					</select>
 				</div>
 			</div>
