@@ -36,12 +36,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
 
 public class BpmTaskController extends SimpleController {
+
+    private final Logger logger = LoggerFactory.getLogger(BpmTaskController.class);
 
     private final static String DYNA_FORM_KEY = "/bpm/bpm-task!dynaForm";
 
@@ -82,7 +86,6 @@ public class BpmTaskController extends SimpleController {
                 .processDefinitionId(processDefinitionId).singleResult();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceId(task.getProcessInstanceId()).singleResult();
-        Map<String, Object> variables = taskService.getVariables(task.getId());
         Map<String, Object> singleTask = new HashMap<String, Object>();
         singleTask.put("id", task.getId());
         singleTask.put("name", task.getName());
@@ -91,7 +94,15 @@ public class BpmTaskController extends SimpleController {
         singleTask.put("pdversion", processDefinition.getVersion());
         singleTask.put("pid", task.getProcessInstanceId());
         singleTask.put("bizKey", processInstance.getBusinessKey());
-        singleTask.put("initiator", variables.get(ActivitiService.BPM_INITIATOR_VAR_NAME));
+
+        try {
+            Map<String, Object> variables = taskService.getVariables(task.getId());
+            singleTask.put("initiator", variables.get(ActivitiService.BPM_INITIATOR_VAR_NAME));
+        } catch (Exception e) {
+            //处理避免由于实体对象查询异常导致页面显示错误页面
+            logger.error(e.getMessage(), e);
+        }
+
         return singleTask;
     }
 
