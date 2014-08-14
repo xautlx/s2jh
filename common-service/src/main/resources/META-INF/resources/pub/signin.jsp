@@ -5,6 +5,7 @@
 <%@page import="lab.s2jh.core.web.captcha.BadCaptchaException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/app-ver.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -21,27 +22,27 @@
 <meta content="" name="author" />
 <meta name="MobileOptimized" content="320">
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
-<link href="${base}/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/plugins/font-awesome/css/font-awesome.min.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/plugins/bootstrap/css/bootstrap.min.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/plugins/uniform/css/uniform.default.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES -->
-<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/select2/select2_metro.css" />
-<link href="${base}/assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css">
-<link href="${base}/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/select2/select2_metro.css?_=${buildVersion}" />
+<link href="${base}/assets/plugins/fancybox/source/jquery.fancybox.css?_=${buildVersion}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css?_=${buildVersion}">
+<link href="${base}/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css?_=${buildVersion}" rel="stylesheet" />
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME STYLES -->
-<link href="${base}/assets/css/style-metronic.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/css/style.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/css/style-responsive.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/css/plugins.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
-<link href="${base}/assets/css/pages/login.css" rel="stylesheet" type="text/css" />
-<link href="${base}/assets/app/custom.css" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/css/style-metronic.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/css/style.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/css/style-responsive.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/css/plugins.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/css/themes/default.css?_=${buildVersion}" rel="stylesheet" type="text/css" id="style_color" />
+<link href="${base}/assets/css/pages/login.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="${base}/assets/app/custom.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 <!-- END THEME STYLES -->
 
-<script src="${base}/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="${base}/assets/plugins/jquery-1.10.2.min.js?_=${buildVersion}" type="text/javascript"></script>
 
 <link rel="shortcut icon" href="${base}/pub/favicon.ico" />
 </head>
@@ -178,7 +179,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="copyright pull-right">
-						<%@ include file="/common/app-ver.jsp"%>2014 &copy;
+						<span title="${buildVersion}|<%= request.getLocalAddr()  %>:<%=request.getLocalPort()%>]"
+							style="display: inline-block; width: 200px">${buildVersion}</span> 2014 &copy;
 						<%=request.getServerName()%>
 					</div>
 				</div>
@@ -363,28 +365,28 @@
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
 	<!--[if lt IE 9]>
-	<script src="${base}/assets/plugins/respond.min.js"></script>
-	<script src="${base}/assets/plugins/excanvas.min.js"></script> 
+	<script src="${base}/assets/plugins/respond.min.js?_=${buildVersion}"></script>
+	<script src="${base}/assets/plugins/excanvas.min.js?_=${buildVersion}"></script> 
 	<![endif]-->
-	<script src="${base}/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/jquery-migrate-1.2.1.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/bootstrap/js/bootstrap.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/jquery.blockui.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/jquery.cookie.min.js?_=${buildVersion}" type="text/javascript"></script>
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
-	<script src="${base}/assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
-	<script src="${base}/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="${base}/assets/plugins/jquery.pulsate.min.js"></script>
+	<script src="${base}/assets/plugins/jquery-validation/dist/jquery.validate.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/bootbox/bootbox.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script type="text/javascript" src="${base}/assets/plugins/jquery.pulsate.min.js?_=${buildVersion}"></script>
 	<!-- The basic File Upload plugin -->
-	<script src="${base}/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+	<script src="${base}/assets/plugins/jquery-file-upload/js/jquery.fileupload.js?_=${buildVersion}"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
-	<script src="${base}/assets/extras/jquery.form.js"></script>
-	<script src="${base}/assets/scripts/app.js" type="text/javascript"></script>
-	<script src="${base}/assets/app/util.js" type="text/javascript"></script>
-	<script src="${base}/assets/app/form-validation.js" type="text/javascript"></script>
+	<script src="${base}/assets/extras/jquery.form.js?_=${buildVersion}"></script>
+	<script src="${base}/assets/scripts/app.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/app/util.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/app/form-validation.js?_=${buildVersion}" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script type="text/javascript">
         var WEB_ROOT = "${base}";

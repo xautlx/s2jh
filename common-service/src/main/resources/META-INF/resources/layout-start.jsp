@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/app-ver.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -17,58 +18,68 @@
 <meta name="MobileOptimized" content="320">
 
 <!-- Basic Javascripts -->
-<script src="assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
-<script src="assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-1.10.2.min.js?_=${buildVersion}" type="text/javascript"></script>
+<script src="assets/plugins/jquery.blockui.min.js?_=${buildVersion}" type="text/javascript"></script>
 
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
-<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+<link href="assets/plugins/font-awesome/css/font-awesome.min.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/plugins/bootstrap/css/bootstrap.min.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/plugins/uniform/css/uniform.default.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES -->
-<link rel="stylesheet" type="text/css" href="assets/plugins/select2/select2_metro.css" />
+<link rel="stylesheet" type="text/css" href="assets/plugins/select2/select2_metro.css?_=${buildVersion}" />
 
 <!-- END PAGE LEVEL STYLES -->
 <!-- BEGIN THEME STYLES -->
-<link href="assets/css/style-metronic.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/style-responsive.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/themes/light.css" rel="stylesheet" type="text/css" id="style_color" />
+<link href="assets/css/style-metronic.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/style.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/style-responsive.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/plugins.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/themes/light.css?_=${buildVersion}" rel="stylesheet" type="text/css" id="style_color" />
 
 <link rel="stylesheet" type="text/css"
-	href="assets/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-timepicker/compiled/timepicker.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-colorpicker/css/colorpicker.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css" />
+	href="assets/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css?_=${buildVersion}" />
 <link rel="stylesheet" type="text/css"
-	href="assets/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-editable/inputs-ext/address/address.css" />
-<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-toastr/toastr.min.css" />
+	href="assets/plugins/bootstrap-timepicker/compiled/timepicker.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-colorpicker/css/colorpicker.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/bootstrap-editable/inputs-ext/address/address.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-toastr/toastr.min.css?_=${buildVersion}" />
 
-<link rel="stylesheet" type="text/css" href="assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css">
-<link rel="stylesheet" type="text/css" href="assets/extras/jquery-jqgrid/plugins/ui.multiselect.css">
-<link rel="stylesheet" type="text/css" href="assets/extras/jquery-jqgrid/css/ui.jqgrid.css">
-<link rel="stylesheet" type="text/css" href="assets/app/bootstrap-jqgrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css?_=${buildVersion}">
+<link rel="stylesheet" type="text/css" href="assets/extras/jquery-jqgrid/plugins/ui.multiselect.css?_=${buildVersion}">
+<link rel="stylesheet" type="text/css" href="assets/extras/jquery-jqgrid/css/ui.jqgrid.css?_=${buildVersion}">
+<link rel="stylesheet" type="text/css" href="assets/app/bootstrap-jqgrid.css?_=${buildVersion}" />
 
-<link rel="stylesheet" type="text/css" href="assets/extras/kindeditor/themes/default/default.css">
+<link rel="stylesheet" type="text/css" href="assets/extras/kindeditor/themes/default/default.css?_=${buildVersion}">
 
-<link rel="stylesheet" type="text/css" href="assets/extras/jquery-ztree/css/zTreeStyle/zTreeStyle.css">
-<link rel="stylesheet" type="text/css" href="assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" />
+<link rel="stylesheet" type="text/css" href="assets/extras/jquery-ztree/css/zTreeStyle/zTreeStyle.css?_=${buildVersion}">
+<link rel="stylesheet" type="text/css"
+	href="assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css?_=${buildVersion}" />
 
-<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/tooltipster.css" />
-<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-light.css" />
-<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-noir.css" />
-<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-punk.css" />
-<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/themes/tooltipster-shadow.css" />
+<link rel="stylesheet" type="text/css" href="assets/extras/tooltipster/css/tooltipster.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/extras/tooltipster/css/themes/tooltipster-light.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/extras/tooltipster/css/themes/tooltipster-noir.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/extras/tooltipster/css/themes/tooltipster-punk.css?_=${buildVersion}" />
+<link rel="stylesheet" type="text/css"
+	href="assets/extras/tooltipster/css/themes/tooltipster-shadow.css?_=${buildVersion}" />
 
-<link href="assets/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<link href="assets/plugins/fullcalendar/fullcalendar.css?_=${buildVersion}" rel="stylesheet" />
 
-<link href="assets/css/pages/tasks.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/pages/search.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/pages/lock.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/pages/tasks.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/pages/search.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
+<link href="assets/css/pages/lock.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 
 <link href="assets/app/custom.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
 <!-- END THEME STYLES -->
@@ -431,7 +442,9 @@
 	<div class="footer">
 		<div class="footer-inner">
 			2013 &copy;
-			<%=request.getServerName()%><%@ include file="/common/app-ver.jsp"%></div>
+			<%=request.getServerName()%><span title="${buildVersion}|<%= request.getLocalAddr()  %>:<%=request.getLocalPort()%>]"
+				style="display: inline-block; width: 200px">${buildVersion}</span>
+		</div>
 		<div class="footer-tools">
 			<span class="go-top"> <i class="fa fa-angle-up"></i>
 			</span>
@@ -598,99 +611,105 @@
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
 	<!--[if lt IE 9]>
-	<script src="assets/plugins/respond.min.js"></script>
-	<script src="assets/plugins/excanvas.min.js"></script> 
+	<script src="assets/plugins/respond.min.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/excanvas.min.js?_=${buildVersion}"></script> 
 	<![endif]-->
 
-	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+	<script src="assets/plugins/jquery-migrate-1.2.1.min.js?_=${buildVersion}" type="text/javascript"></script>
 	<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-	<script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap/js/bootstrap.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js?_=${buildVersion}"
+		type="text/javascript"></script>
+	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js?_=${buildVersion}" type="text/javascript"></script>
 
-	<script src="assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+	<script src="assets/plugins/jquery.cookie.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/uniform/jquery.uniform.min.js?_=${buildVersion}" type="text/javascript"></script>
 	<!-- END CORE PLUGINS -->
-	<script type="text/javascript" src="assets/plugins/select2/select2.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-validation/dist/additional-methods.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-validation/localization/messages_zh.js"></script>
+	<script type="text/javascript" src="assets/plugins/select2/select2.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-validation/dist/jquery.validate.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-validation/dist/additional-methods.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-validation/localization/messages_zh.js?_=${buildVersion}"></script>
 
-	<script type="text/javascript" src="assets/plugins/fuelux/js/spinner.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-	<script type="text/javascript" src="assets/plugins/select2/select2.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="assets/plugins/fuelux/js/spinner.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/ckeditor/ckeditor.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-fileupload/bootstrap-fileupload.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/select2/select2.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js?_=${buildVersion}"></script>
 	<script type="text/javascript"
-		src="assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="assets/plugins/clockface/js/clockface.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
-	<script type="text/javascript" src="assets/plugins/jquery-multi-select/js/jquery.quicksearch.js"></script>
-	<script src="assets/plugins/jquery.pwstrength.bootstrap/src/pwstrength.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-tags-input/jquery.tagsinput.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-markdown/js/bootstrap-markdown.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-markdown/lib/markdown.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
-	<script type="text/javascript" src="assets/plugins/jquery.pulsate.min.js"></script>
-	<script src="assets/plugins/bootstrap-toastr/toastr.min.js"></script>
-	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-editable/inputs-ext/address/address.js"></script>
+		src="assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js?_=${buildVersion}"></script>
+	<script type="text/javascript"
+		src="assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js?_=${buildVersion}"></script>
+	<script type="text/javascript"
+		src="assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?_=${buildVersion}"
+		charset="UTF-8"></script>
+	<script type="text/javascript" src="assets/plugins/clockface/js/clockface.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery.input-ip-address-control-1.0.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-multi-select/js/jquery.multi-select.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/jquery-multi-select/js/jquery.quicksearch.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/jquery.pwstrength.bootstrap/src/pwstrength.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js?_=${buildVersion}"
+		type="text/javascript"></script>
+	<script src="assets/plugins/jquery-tags-input/jquery.tagsinput.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-markdown/js/bootstrap-markdown.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-markdown/lib/markdown.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js?_=${buildVersion}" type="text/javascript"></script>
+	<script type="text/javascript" src="assets/plugins/jquery.pulsate.min.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/bootstrap-toastr/toastr.min.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/backstretch/jquery.backstretch.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="assets/plugins/bootbox/bootbox.min.js?_=${buildVersion}" type="text/javascript"></script>
+	<script type="text/javascript"
+		src="assets/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.min.js?_=${buildVersion}"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap-editable/inputs-ext/address/address.js?_=${buildVersion}"></script>
 
-	<script src="assets/plugins/flot/jquery.flot.js"></script>
-	<script src="assets/plugins/flot/jquery.flot.resize.js"></script>
-	<script src="assets/plugins/flot/jquery.flot.pie.js"></script>
-	<script src="assets/plugins/flot/jquery.flot.stack.js"></script>
-	<script src="assets/plugins/flot/jquery.flot.crosshair.js"></script>
-	<script src="assets/plugins/flot/jquery.flot.time.js"></script>
+	<script src="assets/plugins/flot/jquery.flot.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/flot/jquery.flot.resize.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/flot/jquery.flot.pie.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/flot/jquery.flot.stack.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/flot/jquery.flot.crosshair.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/flot/jquery.flot.time.js?_=${buildVersion}"></script>
 
-	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js?_=${buildVersion}"></script>
 
-	<script src="assets/plugins/fullcalendar/lib/moment.min.js"></script>
-	<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
-	<script src="assets/plugins/fullcalendar/lang/zh-cn.js"></script>
+	<script src="assets/plugins/fullcalendar/lib/moment.min.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/fullcalendar/fullcalendar.min.js?_=${buildVersion}"></script>
+	<script src="assets/plugins/fullcalendar/lang/zh-cn.js?_=${buildVersion}"></script>
 
 	<!-- BEGIN:File Upload Plugin JS files-->
 	<!-- The Templates plugin is included to render the upload/download listings -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js?_=${buildVersion}"></script>
 	<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/vendor/load-image.min.js?_=${buildVersion}"></script>
 	<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js?_=${buildVersion}"></script>
 	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.iframe-transport.js?_=${buildVersion}"></script>
 	<!-- The basic File Upload plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload.js?_=${buildVersion}"></script>
 	<!-- The File Upload processing plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-process.js?_=${buildVersion}"></script>
 	<!-- The File Upload image preview & resize plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-image.js?_=${buildVersion}"></script>
 	<!-- The File Upload audio preview plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-audio.js?_=${buildVersion}"></script>
 	<!-- The File Upload video preview plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-video.js?_=${buildVersion}"></script>
 	<!-- The File Upload validation plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js?_=${buildVersion}"></script>
 	<!-- The File Upload user interface plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js?_=${buildVersion}"></script>
 	<!-- The main application script -->
 	<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 	<!--[if (gte IE 8)&(lt IE 10)]>
-    <script src="assets/plugins/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
+    <script src="assets/plugins/jquery-file-upload/js/cors/jquery.xdr-transport.js?_=${buildVersion}"></script>
     <![endif]-->
 	<!-- END:File Upload Plugin JS files-->
 
@@ -719,22 +738,22 @@
         
     </script>
 
-	<script type="text/javascript" src="assets/extras/tooltipster/js/jquery.tooltipster.min.js"></script>
+	<script type="text/javascript" src="assets/extras/tooltipster/js/jquery.tooltipster.min.js?_=${buildVersion}"></script>
 	<script type="text/javascript"
 		src="http://api.map.baidu.com/api?v=2.0&ak=<s:property value='%{baiduMapAppid}'/>&callback=initMap"></script>
 
 
-	<script src="assets/scripts/app.js"></script>
-	<script src="assets/extras/jquery.form.js"></script>
-	<script src="assets/extras/bootstrap-contextmenu.js"></script>
-	<script src="assets/extras/taffydb/taffy-min.js"></script>
-	<script src="assets/app/dynamic-table.js"></script>
-	<script src="assets/app/util.js"></script>
-	<script src="assets/app/global.js"></script>
-	<script src="assets/app/grid.js"></script>
-	<script src="assets/app/form-validation.js"></script>
-	<script src="assets/app/page.js"></script>
-	<script src="resources/js/biz.js"></script>
+	<script src="assets/scripts/app.js?_=${buildVersion}"></script>
+	<script src="assets/extras/jquery.form.js?_=${buildVersion}"></script>
+	<script src="assets/extras/bootstrap-contextmenu.js?_=${buildVersion}"></script>
+	<script src="assets/extras/taffydb/taffy-min.js?_=${buildVersion}"></script>
+	<script src="assets/app/dynamic-table.js?_=${buildVersion}"></script>
+	<script src="assets/app/util.js?_=${buildVersion}"></script>
+	<script src="assets/app/global.js?_=${buildVersion}"></script>
+	<script src="assets/app/grid.js?_=${buildVersion}"></script>
+	<script src="assets/app/form-validation.js?_=${buildVersion}"></script>
+	<script src="assets/app/page.js?_=${buildVersion}"></script>
+	<script src="resources/js/biz.js?_=${buildVersion}"></script>
 
 	<script>
         $(function() {
