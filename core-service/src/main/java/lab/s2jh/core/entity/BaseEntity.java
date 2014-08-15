@@ -19,16 +19,19 @@ import lab.s2jh.core.audit.SaveUpdateAuditListener;
 import lab.s2jh.core.entity.annotation.SkipParamBind;
 import lab.s2jh.core.entity.def.DefaultAuditable;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
+import lab.s2jh.core.web.rest.Jackson2LibHandler;
 
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.AuditOverrides;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonFilter(Jackson2LibHandler.DEFAULT_JSON_FILTER_NAME)
 @JsonInclude(Include.NON_EMPTY)
 @EntityListeners({ SaveUpdateAuditListener.class })
 @MappedSuperclass

@@ -41,7 +41,6 @@ import lab.s2jh.core.util.DateUtils;
 import lab.s2jh.core.util.ExtStringUtils;
 import lab.s2jh.core.web.json.DateJsonSerializer;
 import lab.s2jh.core.web.json.DateTimeJsonSerializer;
-import lab.s2jh.core.web.json.HibernateAwareObjectMapper;
 import lab.s2jh.core.web.view.OperationResult;
 import net.sf.jxls.transformer.XLSTransformer;
 
@@ -68,7 +67,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -890,22 +888,6 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             return label;
         }
         return String.valueOf(value);
-    }
-
-    /**
-     * 将Map数据转换为JSON字符串，一般用于Grid组件构建select下拉框所需JSON数据
-     * @param dataMap
-     * @return
-     */
-    public String convertToJson(Map<String, Serializable> dataMap) {
-        try {
-            Map<String, Object> displayMap = Maps.newLinkedHashMap();
-            displayMap.put("", "");
-            displayMap.putAll(dataMap);
-            return HibernateAwareObjectMapper.getInstance().writeValueAsString(displayMap);
-        } catch (JsonProcessingException e) {
-            return "{\"\":\"ERROR\"}";
-        }
     }
 
     private static Map<Class<?>, Map<String, Object>> entityValidationRulesMap = Maps.newHashMap();
