@@ -58,60 +58,70 @@ public class ExtSchedulerFactoryBean extends SchedulerFactoryBean {
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
         List<JobBeanCfg> jobBeanCfgs = jobBeanCfgService.findAll();
         List<Trigger> allTriggers = Lists.newArrayList();
+
+        List<Trigger> triggers = null;
         try {
-            @SuppressWarnings("unchecked")
-            List<Trigger> triggers = (List<Trigger>) FieldUtils.readField(this, "triggers", true);
-            if (triggers == null) {
-                triggers = Lists.newArrayList();
+            //基于反射获取已经在XML中定义的triggers集合
+            triggers = (List<Trigger>) FieldUtils.readField(this, "triggers", true);
+        } catch (IllegalAccessException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        if (triggers == null) {
+            triggers = Lists.newArrayList();
+        } else {
+            allTriggers.addAll(triggers);
+        }
+
+        for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
+            // 只处理与当前Scheduler集群运行模式匹配的数据
+            if (jobBeanCfg.getRunWithinCluster() == null || !jobBeanCfg.getRunWithinCluster().equals(runWithinCluster)) {
+                continue;
             }
+            // 以任务全类名作为Job和Trigger相关名称
+            Class<?> jobClass = null;
+            try {
+                jobClass = Class.forName(jobBeanCfg.getJobClass());
+            } catch (ClassNotFoundException e) {
+                //容错处理避免由于配置错误导致无法启动应用
+                logger.error(e.getMessage(), e);
+            }
+            if (jobClass == null) {
+                continue;
+            }
+            String jobName = jobClass.getName();
+
+            boolean jobExists = false;
             for (Trigger trigger : triggers) {
-                allTriggers.add(trigger);
+                if (trigger.getJobKey().getName().equals(jobName)) {
+                    jobExists = true;
+                    break;
+                }
+            }
+            if (jobExists) {
+                logger.warn("WARN: Skipped dynamic  job [{}] due to exists static configuration.", jobName);
+                continue;
             }
 
-            for (JobBeanCfg jobBeanCfg : jobBeanCfgs) {
-                // 只处理与当前Scheduler集群运行模式匹配的数据
-                if (jobBeanCfg.getRunWithinCluster() == null
-                        || !jobBeanCfg.getRunWithinCluster().equals(runWithinCluster)) {
-                    continue;
-                }
-                // 以任务全类名作为Job和Trigger相关名称
-                Class<?> jobClass = Class.forName(jobBeanCfg.getJobClass());
-                String jobName = jobClass.getName();
+            logger.debug("Build and schedule dynamical job： {}, CRON: {}", jobName, jobBeanCfg.getCronExpression());
 
-                boolean jobExists = false;
-                for (Trigger trigger : triggers) {
-                    if (trigger.getJobKey().getName().equals(jobName)) {
-                        jobExists = true;
-                        break;
-                    }
-                }
-                if (jobExists) {
-                    logger.warn("WARN: Skipped dynamic  job [{}] due to exists static configuration.", jobName);
-                    continue;
-                }
+            // Spring动态加载Job Bean
+            BeanDefinitionBuilder bdbJobDetailBean = BeanDefinitionBuilder
+                    .rootBeanDefinition(JobDetailFactoryBean.class);
+            bdbJobDetailBean.addPropertyValue("jobClass", jobBeanCfg.getJobClass());
+            bdbJobDetailBean.addPropertyValue("durability", true);
+            beanFactory.registerBeanDefinition(jobName, bdbJobDetailBean.getBeanDefinition());
 
-                logger.debug("Build and schedule dynamical job： {}, CRON: {}", jobName, jobBeanCfg.getCronExpression());
+            // Spring动态加载Trigger Bean
+            String triggerName = jobName + ".Trigger";
+            JobDetail jobDetailBean = (JobDetail) beanFactory.getBean(jobName);
+            BeanDefinitionBuilder bdbCronTriggerBean = BeanDefinitionBuilder
+                    .rootBeanDefinition(CronTriggerFactoryBean.class);
+            bdbCronTriggerBean.addPropertyValue("jobDetail", jobDetailBean);
+            bdbCronTriggerBean.addPropertyValue("cronExpression", jobBeanCfg.getCronExpression());
+            beanFactory.registerBeanDefinition(triggerName, bdbCronTriggerBean.getBeanDefinition());
 
-                // Spring动态加载Job Bean
-                BeanDefinitionBuilder bdbJobDetailBean = BeanDefinitionBuilder
-                        .rootBeanDefinition(JobDetailFactoryBean.class);
-                bdbJobDetailBean.addPropertyValue("jobClass", jobBeanCfg.getJobClass());
-                bdbJobDetailBean.addPropertyValue("durability", true);
-                beanFactory.registerBeanDefinition(jobName, bdbJobDetailBean.getBeanDefinition());
-
-                // Spring动态加载Trigger Bean
-                String triggerName = jobName + ".Trigger";
-                JobDetail jobDetailBean = (JobDetail) beanFactory.getBean(jobName);
-                BeanDefinitionBuilder bdbCronTriggerBean = BeanDefinitionBuilder
-                        .rootBeanDefinition(CronTriggerFactoryBean.class);
-                bdbCronTriggerBean.addPropertyValue("jobDetail", jobDetailBean);
-                bdbCronTriggerBean.addPropertyValue("cronExpression", jobBeanCfg.getCronExpression());
-                beanFactory.registerBeanDefinition(triggerName, bdbCronTriggerBean.getBeanDefinition());
-
-                allTriggers.add((Trigger) beanFactory.getBean(triggerName));
-            }
-        } catch (Exception e) {
-            logger.error("Quartz job process error", e);
+            allTriggers.add((Trigger) beanFactory.getBean(triggerName));
         }
 
         this.setTriggers(allTriggers.toArray(new Trigger[] {}));
