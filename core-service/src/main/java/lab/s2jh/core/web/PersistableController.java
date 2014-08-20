@@ -1082,6 +1082,9 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
             if (name.equals(parameterName)) {
                 return true;
             }
+            if (name.indexOf("extraAttributes.") > -1) {
+                return true;
+            }
             //嵌套参数支持
             if (name.indexOf(parameterName + ".") > -1 || name.indexOf("." + parameterName) > -1) {
                 return true;
