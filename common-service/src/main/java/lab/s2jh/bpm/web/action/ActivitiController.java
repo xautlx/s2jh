@@ -2,6 +2,7 @@ package lab.s2jh.bpm.web.action;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ResourceBundle.Control;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.web.SimpleController;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -58,6 +60,7 @@ public class ActivitiController extends SimpleController {
      * @return
      * @throws Exception 
      */
+    @SecurityControlIgnore
     public void processInstanceImage() {
         HttpServletRequest request = ServletActionContext.getRequest();
         InputStream imageStream = null;

@@ -15,7 +15,7 @@ import lab.s2jh.bpm.service.ActivitiService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.web.SimpleController;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.ctx.DynamicConfigService;
 
@@ -107,7 +107,7 @@ public class BpmTaskController extends SimpleController {
     }
 
     @MetaData(value = "用户待办任务列表")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders userTasks() {
         // 已经签收的任务
         String userpin = AuthContextHolder.getAuthUserPin();
@@ -219,7 +219,6 @@ public class BpmTaskController extends SimpleController {
 
     public HttpHeaders complete() {
         HttpServletRequest request = ServletActionContext.getRequest();
-        String userpin = AuthContextHolder.getAuthUserPin();
         String taskId = request.getParameter("id");
 
         Map<String, String> formProperties = new HashMap<String, String>();
@@ -275,6 +274,21 @@ public class BpmTaskController extends SimpleController {
      */
     public boolean isProcessBackSupport() {
         String back = dynamicConfigService.getString("cfg.bpm.process.back.support", "admin");
+        if (back.equalsIgnoreCase("enable")) {
+            return true;
+        } else if (back.equalsIgnoreCase("admin")) {
+            return AuthContextHolder.isAdminUser();
+        }
+        return false;
+    }
+
+    /**
+     * 工作流处理的是否显示流程变量信息控制
+     * 可选值说明：disabled=全局关闭; enable=全局启用; admin=只有ROLE_ADMIN角色用户才有功能权限
+     * @return
+     */
+    public boolean isShowProcessVariables() {
+        String back = dynamicConfigService.getString("cfg.bpm.process.variables.show", "admin");
         if (back.equalsIgnoreCase("enable")) {
             return true;
         } else if (back.equalsIgnoreCase("admin")) {

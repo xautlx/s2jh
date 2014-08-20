@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.exception.WebException;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.service.ReportDefService;
 import lab.s2jh.sys.entity.AttachmentFile;
@@ -81,12 +81,12 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         // Do nothing
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String preview() {
         return "preview";
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String generate() {
         return "jasperResult";
     }
@@ -106,7 +106,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         return new File(getWebRootDir() + getRelativeJasperFilePath() + File.separator + reportId + ".jasper");
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String getLocation() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String reportId = request.getParameter("report");
@@ -172,7 +172,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         return jasperOutputFormatMap;
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String getFormat() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String format = request.getParameter("format");
@@ -186,7 +186,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         return format;
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String getContentDisposition() {
         HttpServletRequest request = ServletActionContext.getRequest();
         String contentDisposition = request.getParameter("contentDisposition");
@@ -196,7 +196,7 @@ public class JasperReportController extends BaseController<ReportDef, String> {
         return contentDisposition;
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public String getDocumentName() {
         try {
             HttpServletRequest request = ServletActionContext.getRequest();

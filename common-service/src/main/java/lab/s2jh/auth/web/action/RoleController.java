@@ -17,7 +17,7 @@ import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.web.action.BaseController;
 
@@ -69,7 +69,7 @@ public class RoleController extends BaseController<Role, String> {
         return aclTypeMap;
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders aclTypeMapData() {
         setModel(getAclTypeMap());
         return buildDefaultHttpHeaders();
@@ -122,7 +122,7 @@ public class RoleController extends BaseController<Role, String> {
     }
 
     @MetaData(value = "权限关联")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders privileges() {
         Map<String, List<Privilege>> groupDatas = Maps.newLinkedHashMap();
         List<Privilege> privileges = privilegeService.findAllCached();

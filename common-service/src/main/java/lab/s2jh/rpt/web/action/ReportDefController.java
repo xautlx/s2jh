@@ -7,7 +7,7 @@ import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.rpt.entity.ReportDef;
 import lab.s2jh.rpt.entity.ReportDefR2Role;
@@ -89,7 +89,7 @@ public class ReportDefController extends BaseController<ReportDef, String> {
     }
 
     @MetaData(value = "计算显示角色关联数据")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders findRelatedRoles() {
         GroupPropertyFilter groupFilter = GroupPropertyFilter.buildFromHttpRequest(Role.class, getRequest());
         List<Role> roles = roleService.findByFilters(groupFilter, new Sort(Direction.DESC, "aclType", "code"));

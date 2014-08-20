@@ -12,7 +12,7 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.sys.entity.PubPost;
 import lab.s2jh.sys.entity.PubPostRead;
 import lab.s2jh.sys.service.PubPostReadService;
@@ -78,7 +78,7 @@ public class PubPostController extends BaseController<PubPost, String> {
     }
 
     @MetaData("用户公告消息列表")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders messages() {
         HttpServletRequest request = ServletActionContext.getRequest();
         HttpSession session = request.getSession();

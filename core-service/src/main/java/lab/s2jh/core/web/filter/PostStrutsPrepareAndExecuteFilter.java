@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.servlet.FilterConfig;
 
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.struts2.dispatcher.Dispatcher;
@@ -28,7 +28,7 @@ public class PostStrutsPrepareAndExecuteFilter extends StrutsPrepareAndExecuteFi
     /**
      * 基于注解计算生成忽略权限控制的URL集合，在Spring  Security层面自动赋值给匿名登录角色
      */
-    public static Set<String> securityControllIgnoreUrls = Sets.newHashSet();
+    public static Set<String> securityControlIgnoreUrls = Sets.newHashSet();
 
     /**
      * Callback for post initialization
@@ -53,13 +53,13 @@ public class PostStrutsPrepareAndExecuteFilter extends StrutsPrepareAndExecuteFi
                         try {
                             Class<?> actionClass = ClassUtils.getClass(className);
                             for (Method method : actionClass.getDeclaredMethods()) {
-                                SecurityControllIgnore securityControllIgnore = method
-                                        .getAnnotation(SecurityControllIgnore.class);
-                                if (securityControllIgnore != null) {
+                                SecurityControlIgnore securityControlIgnore = method
+                                        .getAnnotation(SecurityControlIgnore.class);
+                                if (securityControlIgnore != null) {
                                     if (Modifier.isPublic(method.getModifiers())
                                             && (method.getReturnType() == String.class || method.getReturnType() == HttpHeaders.class)) {
                                         String url = namespace + "/" + actionName + "!" + method.getName();
-                                        securityControllIgnoreUrls.add(url);
+                                        securityControlIgnoreUrls.add(url);
                                     }
                                 }
                             }

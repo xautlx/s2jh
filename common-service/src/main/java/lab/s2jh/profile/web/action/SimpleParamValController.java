@@ -7,7 +7,7 @@ import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.security.AuthUserHolder;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.profile.entity.SimpleParamVal;
 import lab.s2jh.profile.service.SimpleParamValService;
@@ -54,7 +54,7 @@ public class SimpleParamValController extends BaseController<SimpleParamVal, Str
     }
 
     @MetaData("参数列表")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders params() {
         User user = AuthUserHolder.getLogonUser();
         Map<String, String> datas = Maps.newHashMap();

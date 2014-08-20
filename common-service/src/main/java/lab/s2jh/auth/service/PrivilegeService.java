@@ -108,7 +108,7 @@ public class PrivilegeService extends BaseService<Privilege, String> {
         Map<String, Collection<ConfigAttribute>> resourceMap = new LinkedHashMap<String, Collection<ConfigAttribute>>();
 
         //处理所有SecurityControllIgnore标记的权限为登录可访问, 数据集合来源为Struts2注入设置securityControllIgnoreUrls
-        for (String url : PostStrutsPrepareAndExecuteFilter.securityControllIgnoreUrls) {
+        for (String url : PostStrutsPrepareAndExecuteFilter.securityControlIgnoreUrls) {
             addURL2Role(resourceMap, url, Role.ROLE_ANONYMOUSLY_CODE);
         }
 

@@ -16,7 +16,7 @@ import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.util.UidUtils;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.service.DataDictService;
 import lab.s2jh.web.action.BaseController;
@@ -124,9 +124,9 @@ public class PrivilegeController extends BaseController<Privilege, String> {
                             urls.add(indexUrlVO);
 
                             for (Method method : actionClass.getDeclaredMethods()) {
-                                SecurityControllIgnore securityControllIgnore = method
-                                        .getAnnotation(SecurityControllIgnore.class);
-                                if (securityControllIgnore != null) {
+                                SecurityControlIgnore securityControlIgnore = method
+                                        .getAnnotation(SecurityControlIgnore.class);
+                                if (securityControlIgnore != null) {
                                     continue;
                                 }
                                 PrivilegeUrlVO privilegeUrlVO = new PrivilegeUrlVO();
@@ -300,7 +300,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     }
 
     @MetaData(value = "计算显示角色关联数据")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders roles() {
         List<Role> roles = roleService.findAllCached();
         List<RoleR2Privilege> r2s = privilegeService.findRelatedRoleR2PrivilegesForPrivilege(this.getId());
@@ -320,7 +320,7 @@ public class PrivilegeController extends BaseController<Privilege, String> {
     }
 
     @MetaData(value = "更新角色关联")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders doUpdateRelatedRoleR2s() {
         privilegeService.updateRelatedRoleR2s(getId(), getParameterIds("r2ids"));
         setModel(OperationResult.buildSuccessResult("更新角色关联操作完成"));

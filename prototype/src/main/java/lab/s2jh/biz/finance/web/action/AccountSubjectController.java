@@ -10,7 +10,7 @@ import lab.s2jh.core.pagination.GroupPropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter;
 import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.web.action.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -63,7 +63,7 @@ public class AccountSubjectController extends BaseController<AccountSubject, Lon
     }
 
     @MetaData(value = "付款会计科目树形数据")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders findPaymentAccountSubjects() {
         List<Map<String, Object>> treeDatas = Lists.newArrayList();
         Iterable<AccountSubject> items = accountSubjectService.findPaymentAccountSubjects();

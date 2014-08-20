@@ -21,7 +21,7 @@ import lab.s2jh.core.security.AclService;
 import lab.s2jh.core.security.AuthContextHolder;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.service.Validation;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.json.ValueLabelBean;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.sys.service.MenuService;
@@ -82,7 +82,7 @@ public class UserController extends BaseController<User, Long> {
         return aclTypeMap;
     }
 
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders aclTypeMapData() {
         setModel(getAclTypeMap());
         return buildDefaultHttpHeaders();
@@ -94,7 +94,7 @@ public class UserController extends BaseController<User, Long> {
     }
 
     @MetaData(value = "角色关联")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders roles() {
         List<Role> roles = Lists.newArrayList();
         List<Role> allRoles = roleService.findAllCached();
@@ -190,7 +190,7 @@ public class UserController extends BaseController<User, Long> {
     }
 
     @MetaData(value = "机构选取的Autocomplete数据")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders aclCodes() {
         List<ValueLabelBean> lvList = Lists.newArrayList();
         if (aclService != null) {

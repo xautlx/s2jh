@@ -9,7 +9,7 @@ import lab.s2jh.biz.finance.service.BizTradeUnitService;
 import lab.s2jh.biz.md.entity.Commodity;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControllIgnore;
+import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.web.action.BaseController;
 
@@ -73,7 +73,7 @@ public class BizTradeUnitController extends BaseController<BizTradeUnit, Long> {
     }
 
     @MetaData(value = "常用数据")
-    @SecurityControllIgnore
+    @SecurityControlIgnore
     public HttpHeaders frequentUsedDatas() {
         Set<Map<String, Object>> datas = Sets.newHashSet();
         List<BizTradeUnit> entities = bizTradeUnitService.findFrequentUsedDatas();
