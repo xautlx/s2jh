@@ -56,9 +56,8 @@ public class ActivitiController extends SimpleController {
     }
 
     /**
-     * 流程运行图
-     * @return
-     * @throws Exception 
+     * 流程运行图显示响应
+     * 此处采用的宽松的流程图访问控制，如果业务需要限制流程图的访问需要添加相应的控制逻辑
      */
     @SecurityControlIgnore
     public void processInstanceImage() {
