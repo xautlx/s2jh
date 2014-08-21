@@ -9,7 +9,7 @@
 	</thead>
 	<tbody>
 		<s:iterator var="item" value="#request.privileges" status="s">
-			<tr class='select-table-checkbox odd gradeX'>
+			<tr>
 				<td class="active" style="width: 150px"><s:property value="%{#item.key}" /></td>
 				<td class="checkbox-privileges"><s:iterator var="child" value="#item.value">
 						<div class="col-md-2">

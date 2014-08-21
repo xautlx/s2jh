@@ -23,7 +23,7 @@
 			</thead>
 			<tbody>
 				<s:iterator var="item" value="#request.roles" status="s">
-					<tr class='select-table-checkbox odd gradeX <s:property value="%{#item.extraAttributes.related?'text-primary':''}" />'>
+					<tr class='select-table-checkbox <s:property value="%{#item.extraAttributes.related?'text-primary':''}" />'>
 						<td class="table-checkbox"><s:checkbox name="r2ids" fieldValue="%{#item.id}"
 								value="%{#item.extraAttributes.related}" /></td>
 						<td><s:property value="%{#item.title}" /></td>

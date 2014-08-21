@@ -23,7 +23,7 @@
 			</thead>
 			<tbody>
 				<s:iterator var="item" value="#request.privileges" status="s">
-					<tr class='select-table-checkbox odd gradeX'>
+					<tr>
 						<td class="active" style="width: 150px"><input type="checkbox"
 							onclick="$(this).closest('tr').find('.checkbox-privileges :checkbox').attr('checked',this.checked)" /> <s:property
 								value="%{#item.key}" /></td>

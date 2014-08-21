@@ -98,7 +98,7 @@ public class AttachmentFileController extends BaseController<AttachmentFile, Str
                 //                        + entity.getId());
                 //                dataMap.put("deleteType", "DELETE");
             } catch (Exception e) {
-                logger.warn("entity delete failure", e);
+                logger.warn("Attachment file upload failure", e);
                 dataMap.put("name", filesFileName[i]);
                 dataMap.put("error", e.getMessage());
             }

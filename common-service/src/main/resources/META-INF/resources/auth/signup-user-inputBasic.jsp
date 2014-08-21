@@ -48,7 +48,7 @@
 							</thead>
 							<tbody>
 								<s:iterator var="item" value="roles" status="s">
-									<tr class='select-table-checkbox odd '>
+									<tr class='select-table-checkbox'>
 										<td class="table-checkbox"><s:checkbox name="r2ids" fieldValue="%{#item.id}" /></td>
 										<td><s:property value="%{#item.title}" /></td>
 										<td><s:property value="%{#item.code}" /></td>
