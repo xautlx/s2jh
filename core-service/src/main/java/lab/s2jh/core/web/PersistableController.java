@@ -1077,12 +1077,16 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
      * 对于需要给外部用户访问的Controller为了避免用户非法篡改数据
      * 以 @see ParameterNameAware 形式设置自动绑定参数白名单
      */
-    public boolean acceptableParameterName(String[] acceptableParameterNames, String parameterName) {
+    protected boolean acceptableParameterName(String[] acceptableParameterNames, String parameterName) {
+        if (parameterName.equals("struts.token.name") || parameterName.equals("token")
+                || parameterName.equals("version")) {
+            return true;
+        }
+        if (parameterName.indexOf("extraAttributes.") > -1) {
+            return true;
+        }
         for (String name : acceptableParameterNames) {
             if (name.equals(parameterName)) {
-                return true;
-            }
-            if (name.indexOf("extraAttributes.") > -1) {
                 return true;
             }
             //嵌套参数支持
