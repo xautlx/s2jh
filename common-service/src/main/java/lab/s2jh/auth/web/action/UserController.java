@@ -274,4 +274,9 @@ public class UserController extends BaseController<User, Long> {
         return super.revisionCompare();
     }
 
+    public HttpHeaders resetActivitiIndentityData() {
+        userService.resetActivitiIndentityData();
+        setModel(OperationResult.buildSuccessResult("工作流用户群组数据重置操作完成"));
+        return buildDefaultHttpHeaders();
+    }
 }

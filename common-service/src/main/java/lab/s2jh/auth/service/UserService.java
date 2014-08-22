@@ -2,6 +2,7 @@ package lab.s2jh.auth.service;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +53,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 @SuppressWarnings("deprecation")
 @Service
@@ -135,51 +138,7 @@ public class UserService extends BaseService<User, Long> {
         super.save(user);
 
         //关联处理Activiti的用户权限控制数据
-        if (identityService != null) {
-            String userId = user.getSigninid();
-            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
-                    .singleResult();
-            if (identityUser != null) {
-                //更新信息
-                identityUser.setFirstName(user.getNick());
-                identityUser.setLastName("");
-                identityUser.setPassword(user.getPassword());
-                identityUser.setEmail(user.getEmail());
-                identityService.saveUser(identityUser);
-
-                // 先删除已有的membership
-                List<org.activiti.engine.identity.Group> activitiGroups = identityService.createGroupQuery()
-                        .groupMember(userId).list();
-                for (org.activiti.engine.identity.Group group : activitiGroups) {
-                    if (group.getType().equals("ACL_CODE")) {
-                        identityService.deleteMembership(userId, group.getId());
-                    }
-                }
-            } else {
-                //创建用户对象
-                identityUser = identityService.newUser(user.getSigninid());
-                identityUser.setFirstName(user.getNick());
-                identityUser.setLastName("");
-                identityUser.setPassword(user.getPassword());
-                identityUser.setEmail(user.getEmail());
-                identityService.saveUser(identityUser);
-            }
-
-            // 添加membership
-            String aclCode = user.getAclCode();
-            if (StringUtils.isNotBlank(aclCode)) {
-                String groupId = aclCode;
-                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
-                        .singleResult();
-                if (identityGroup == null) {
-                    identityGroup = identityService.newGroup(groupId);
-                    identityGroup.setName("机构代码");
-                    identityGroup.setType("ACL_CODE");
-                    identityService.saveGroup(identityGroup);
-                }
-                identityService.createMembership(userId, groupId);
-            }
-        }
+        cascadeActivitiIndentityData(user);
 
         return user;
     }
@@ -211,13 +170,16 @@ public class UserService extends BaseService<User, Long> {
 
     public void updateRelatedRoleR2s(Long id, String... roleIds) {
         updateRelatedR2s(id, roleIds, "userR2Roles", "role");
-
         //关联处理Activiti的用户权限控制数据
+        cascadeActivitiIndentityData(userDao.findOne(id), roleIds);
+    }
+
+    private void cascadeActivitiIndentityData(User user, String... roleIds) {
         if (identityService != null) {
-            User user = findOne(id);
             String userId = user.getSigninid();
             org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
                     .singleResult();
+            List<org.activiti.engine.identity.Group> activitiGroups = null;
             if (identityUser != null) {
                 //更新信息
                 identityUser.setFirstName(user.getNick());
@@ -227,14 +189,12 @@ public class UserService extends BaseService<User, Long> {
                 identityService.saveUser(identityUser);
 
                 // 先删除已有的membership
-                List<org.activiti.engine.identity.Group> activitiGroups = identityService.createGroupQuery()
-                        .groupMember(userId).list();
+                activitiGroups = identityService.createGroupQuery().groupMember(userId).list();
                 for (org.activiti.engine.identity.Group group : activitiGroups) {
-                    if (group.getType().equals(Role.class.getSimpleName())) {
+                    if (group.getType().equals("ACL_CODE")) {
                         identityService.deleteMembership(userId, group.getId());
                     }
                 }
-
             } else {
                 //创建用户对象
                 identityUser = identityService.newUser(user.getSigninid());
@@ -246,18 +206,43 @@ public class UserService extends BaseService<User, Long> {
             }
 
             // 添加membership
-            for (String roleId : roleIds) {
-                Role role = roleDao.findOne(roleId);
-                String groupId = role.getCode();
+            String aclCode = user.getAclCode();
+            if (StringUtils.isNotBlank(aclCode)) {
+                String groupId = aclCode;
                 org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
                         .singleResult();
                 if (identityGroup == null) {
                     identityGroup = identityService.newGroup(groupId);
-                    identityGroup.setName(role.getTitle());
-                    identityGroup.setType(Role.class.getSimpleName());
+                    identityGroup.setName("机构代码");
+                    identityGroup.setType("ACL_CODE");
                     identityService.saveGroup(identityGroup);
                 }
                 identityService.createMembership(userId, groupId);
+            }
+
+            // 添加role关联membership
+            if (roleIds != null) {
+                //先删除已有角色关联
+                if (activitiGroups != null) {
+                    for (org.activiti.engine.identity.Group group : activitiGroups) {
+                        if (group.getType().equals(Role.class.getSimpleName())) {
+                            identityService.deleteMembership(userId, group.getId());
+                        }
+                    }
+                }
+                for (String roleId : roleIds) {
+                    Role role = roleDao.findOne(roleId);
+                    String groupId = role.getCode();
+                    org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery()
+                            .groupId(groupId).singleResult();
+                    if (identityGroup == null) {
+                        identityGroup = identityService.newGroup(groupId);
+                        identityGroup.setName(role.getTitle());
+                        identityGroup.setType(Role.class.getSimpleName());
+                        identityService.saveGroup(identityGroup);
+                    }
+                    identityService.createMembership(userId, groupId);
+                }
             }
         }
     }
@@ -411,5 +396,20 @@ public class UserService extends BaseService<User, Long> {
 
     public List<User> findByAclCode(String aclCode) {
         return userDao.findByAclCode(aclCode);
+    }
+
+    /**
+     * 基于应用的用户数据重置Activiti工作流引擎的用户和组数据
+     */
+    public void resetActivitiIndentityData() {
+        Iterable<User> users = userDao.findAll();
+        for (User user : users) {
+            List<UserR2Role> userR2Roles = user.getUserR2Roles();
+            String[] roleIds = new String[userR2Roles.size()];
+            for (int i = 0; i < roleIds.length; i++) {
+                roleIds[i] = userR2Roles.get(i).getRole().getId();
+            }
+            cascadeActivitiIndentityData(user, roleIds);
+        }
     }
 }
