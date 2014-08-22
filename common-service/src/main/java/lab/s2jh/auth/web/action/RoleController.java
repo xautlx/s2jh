@@ -168,4 +168,9 @@ public class RoleController extends BaseController<Role, String> {
         }
     }
 
+    @MetaData("角色关联用户")
+    public HttpHeaders users() {
+        this.getRequest().setAttribute("users", bindingEntity.getRoleR2Users());
+        return buildDefaultHttpHeaders("users");
+    }
 }

@@ -54,6 +54,9 @@ public class Role extends BaseUuidEntity {
     @MetaData(value = "角色权限关联")
     private List<RoleR2Privilege> roleR2Privileges = Lists.newArrayList();
 
+    @MetaData(value = "角色关联用户")
+    private List<UserR2Role> roleR2Users = Lists.newArrayList();
+
     @Column(nullable = false, length = 256)
     public String getTitle() {
         return title;
@@ -106,5 +109,16 @@ public class Role extends BaseUuidEntity {
 
     public void setRoleR2Privileges(List<RoleR2Privilege> roleR2Privileges) {
         this.roleR2Privileges = roleR2Privileges;
+    }
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotAudited
+    @JsonIgnore
+    public List<UserR2Role> getRoleR2Users() {
+        return roleR2Users;
+    }
+
+    public void setRoleR2Users(List<UserR2Role> roleR2Users) {
+        this.roleR2Users = roleR2Users;
     }
 }

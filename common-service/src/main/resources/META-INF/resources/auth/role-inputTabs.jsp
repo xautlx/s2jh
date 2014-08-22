@@ -5,6 +5,7 @@
 		<li class="tools pull-right"><a href="javascript:;" class="btn default reload"><i class="fa fa-refresh"></i></a></li>
 		<li class="active"><a data-toggle="tab"
 			href="${base}/auth/role!privileges?id=<s:property value='#parameters.id'/>">权限关联</a></li>
+		<li><a data-toggle="tab" href="${base}/auth/role!users?id=<s:property value='#parameters.id'/>">用户关联</a></li>
 	</ul>
 </div>
 <%@ include file="/common/ajax-footer.jsp"%>
