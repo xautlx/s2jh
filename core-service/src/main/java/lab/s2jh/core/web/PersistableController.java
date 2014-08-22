@@ -1075,6 +1075,7 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
     /**
      * 子类定义可接受参数数组，然后调用次帮助类方法进行参数可接受检测
      * 对于需要给外部用户访问的Controller为了避免用户非法篡改数据
+     * 数组类型参数，按照以星号作为数组下标匹配，abc[*].xyz格式定义
      * 以 @see ParameterNameAware 形式设置自动绑定参数白名单
      */
     protected boolean acceptableParameterName(String[] acceptableParameterNames, String parameterName) {
@@ -1082,12 +1083,20 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                 || parameterName.equals("version")) {
             return true;
         }
-        if (parameterName.indexOf("extraAttributes.") > -1) {
+        if (parameterName.equals("extraAttributes") || parameterName.indexOf("extraAttributes.") > -1) {
             return true;
+        }
+        //数组类型参数，转换以便匹配abc[*].xyz定义模式
+        if (parameterName.indexOf("[") > -1) {
+            parameterName = StringUtils.substringBefore(parameterName, "[") + "[*]"
+                    + StringUtils.substringAfter(parameterName, "]");
         }
         for (String name : acceptableParameterNames) {
             if (name.equals(parameterName)) {
                 return true;
+            }
+            if (name.indexOf("[") > -1) {
+                name = name.replace("[*]", "");
             }
             //嵌套参数支持
             if (name.indexOf(parameterName + ".") > -1 || name.indexOf("." + parameterName) > -1) {
