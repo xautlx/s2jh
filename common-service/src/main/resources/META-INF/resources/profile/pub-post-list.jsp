@@ -3,7 +3,7 @@
 <div class="portlet box green " id="portlet-pubpostlist">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="fa fa-bell-o"></i> 最近公告消息<span class="badge badge-warning"><s:property value="#request.tasks.size()" /></span>
+			<i class="fa fa-comment-o"></i> 最近公告消息<span class="badge badge-warning"><s:property value="#request.tasks.size()" /></span>
 		</div>
 		<div class="tools">
 			<a href="" class="reload"></a>
