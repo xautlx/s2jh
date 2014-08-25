@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.util.Map;
 
 import lab.s2jh.core.exception.ServiceException;
+import lab.s2jh.core.service.PropertiesConfigService;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,7 +72,7 @@ public class FreemarkerService extends Configuration {
     }
 
     public String processTemplateByFileName(String templateFileName, Map<String, Object> dataMap) {
-        String templateDir = ServletActionContext.getServletContext().getRealPath("/");
+        String templateDir = PropertiesConfigService.getWebRootRealPath();
         templateDir += File.separator + "WEB-INF" + File.separator + "template" + File.separator + "freemarker";
         File targetTemplateFile = new File(templateDir + File.separator + templateFileName + ".ftl");
         //TODO: 可添加额外从classpath加载文件处理
