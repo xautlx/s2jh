@@ -339,6 +339,18 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
     }
 
     /**
+     * 基于查询条件count记录数据
+     * 
+     * @param groupPropertyFilter
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public long count(GroupPropertyFilter groupPropertyFilter) {
+        Specification<T> spec = buildSpecification(groupPropertyFilter);
+        return getEntityDao().count(spec);
+    }
+
+    /**
      * 基于动态组合条件对象查询数据集合
      * 
      * @param groupPropertyFilter
