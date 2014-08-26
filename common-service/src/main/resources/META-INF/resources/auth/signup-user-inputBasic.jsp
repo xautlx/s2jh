@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label class="control-label">登录帐号</label>
 					<div class="controls">
-						<s:textfield name="signinid"/>
+						<s:textfield name="signinid" />
 					</div>
 				</div>
 			</div>
@@ -56,6 +56,26 @@
 								</s:iterator>
 							</tbody>
 						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="control-label">注册联系信息</label>
+					<div class="controls">
+						<s:textarea name="contactInfo" rows="4" disabled="true" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="control-label">注册备注说明</label>
+					<div class="controls">
+						<s:textarea name="remarkInfo" rows="4" disabled="true" />
 					</div>
 				</div>
 			</div>
