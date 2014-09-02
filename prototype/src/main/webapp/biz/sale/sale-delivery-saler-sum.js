@@ -66,7 +66,16 @@ $(function() {
                     label : '凭证号',
                     name : 'voucher',
                     width : 80
-                },{
+                }, {
+                    label : '发货类型',
+                    stype : 'select',
+                    name : 'deliveryType',
+                    align : 'center',
+                    searchoptions : {
+                        value : Util.getCacheEnumsByType('deliveryTypeEnum')
+                    },
+                    width : 60
+                }, {
                     label : '凭证日期',
                     name : 'voucherDate',
                     stype : 'date',

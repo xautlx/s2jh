@@ -1,4 +1,5 @@
 @echo off
+
 set PORT=8080
 set CONTEXT=s2jh
 set JETTY=prototype-jetty.jar
@@ -33,10 +34,10 @@ if %T1% GTR %T2% (
   copy %JETTY% temp
   copy %WAR% temp 
   cd temp
-  jar xvf %JETTY%
+  %JAVA_HOME%\bin\jar.exe xvf %JETTY%
   del %JETTY%
   del META-INF\MANIFEST.MF
-  jar uvf %WAR% *
+  %JAVA_HOME%\bin\jar.exe uvf %WAR% *
   move %WAR% ..\%MERGE_WAR%
   cd ..
   rd /s/q temp

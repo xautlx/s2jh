@@ -100,7 +100,7 @@
             <jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
-
+            
             <jdbc:script location="classpath:sql/data/biz_finance_account_subject.sql" encoding="UTF-8" />
         </jdbc:initialize-database>
 
@@ -126,7 +126,6 @@
                     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
                     <!-- 创建MySQL UTF-8编码数据库脚本：CREATE DATABASE s2jh DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; -->
                     <property name="url" value="jdbc:mysql://localhost:3306/s2jh?characterEncoding=utf8" />
-                    <!-- 根据实际需要修改相应的用户和密码参数 -->
                     <property name="username" value="root" />
                     <property name="password" value="" />
                 </bean>
@@ -152,7 +151,7 @@
             <jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_privilege.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_role.sql" encoding="UTF-8" />
-            <jdbc:script location="classpath:sql/data/t_auth_department.sql" encoding="UTF-8" />
+             <jdbc:script location="classpath:sql/data/t_auth_department.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
             <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />

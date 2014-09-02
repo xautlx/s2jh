@@ -6,7 +6,6 @@ import java.util.Set;
 
 import lab.s2jh.biz.finance.entity.BizTradeUnit;
 import lab.s2jh.biz.finance.service.BizTradeUnitService;
-import lab.s2jh.biz.md.entity.Commodity;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
 import lab.s2jh.core.web.annotation.SecurityControlIgnore;

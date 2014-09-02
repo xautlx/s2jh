@@ -4,7 +4,6 @@ import lab.s2jh.biz.sale.entity.SaleDeliveryDetail;
 import lab.s2jh.biz.sale.service.SaleDeliveryDetailService;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.service.BaseService;
-import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.web.action.BaseController;
 
 import org.apache.struts2.rest.HttpHeaders;
