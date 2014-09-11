@@ -632,11 +632,8 @@
 	<script type="text/javascript" src="assets/plugins/jquery-validation/localization/messages_zh.js?_=${buildVersion}"></script>
 
 	<script type="text/javascript" src="assets/plugins/fuelux/js/spinner.min.js?_=${buildVersion}"></script>
-	<script type="text/javascript" src="assets/plugins/ckeditor/ckeditor.js?_=${buildVersion}"></script>
 	<script type="text/javascript" src="assets/plugins/bootstrap-fileupload/bootstrap-fileupload.js?_=${buildVersion}"></script>
 	<script type="text/javascript" src="assets/plugins/select2/select2.min.js?_=${buildVersion}"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js?_=${buildVersion}"></script>
-	<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js?_=${buildVersion}"></script>
 	<script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js?_=${buildVersion}"></script>
 	<script type="text/javascript"
 		src="assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js?_=${buildVersion}"></script>
