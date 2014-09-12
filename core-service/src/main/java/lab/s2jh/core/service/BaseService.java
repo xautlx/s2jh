@@ -827,24 +827,33 @@ public abstract class BaseService<T extends Persistable<? extends Serializable>,
             predicate = builder.equal(expression, matchValue);
             break;
         case GT:
-            // 对日期特殊处理：一般用于区间日期的结束时间查询,如查询2012-01-01之前,一般需要显示2010-01-01当天及以前的数据,
-            // 而数据库一般存有时分秒,因此需要特殊处理把当前日期+1天,转换为<2012-01-02进行查询
-            if (matchValue instanceof Date) {
-                DateTime dateTime = new DateTime(((Date) matchValue).getTime());
-                if (dateTime.getHourOfDay() == 0 && dateTime.getMinuteOfHour() == 0
-                        && dateTime.getSecondOfMinute() == 0) {
-                    return builder.greaterThanOrEqualTo(expression, dateTime.plusDays(1).toDate());
-                }
-            }
             predicate = builder.greaterThan(expression, (Comparable) matchValue);
             break;
         case GE:
             predicate = builder.greaterThanOrEqualTo(expression, (Comparable) matchValue);
             break;
         case LT:
+            // 对日期特殊处理：一般用于区间日期的结束时间查询,如查询2012-01-01之前,一般需要显示2010-01-01当天及以前的数据,
+            // 而数据库一般存有时分秒,因此需要特殊处理把当前日期+1天,转换为<2012-01-02进行查询
+            if (matchValue instanceof Date) {
+                DateTime dateTime = new DateTime(((Date) matchValue).getTime());
+                if (dateTime.getHourOfDay() == 0 && dateTime.getMinuteOfHour() == 0
+                        && dateTime.getSecondOfMinute() == 0) {
+                    return builder.lessThan(expression, dateTime.plusDays(1).toDate());
+                }
+            }
             predicate = builder.lessThan(expression, (Comparable) matchValue);
             break;
         case LE:
+            // 对日期特殊处理：一般用于区间日期的结束时间查询,如查询2012-01-01之前,一般需要显示2010-01-01当天及以前的数据,
+            // 而数据库一般存有时分秒,因此需要特殊处理把当前日期+1天,转换为<2012-01-02进行查询
+            if (matchValue instanceof Date) {
+                DateTime dateTime = new DateTime(((Date) matchValue).getTime());
+                if (dateTime.getHourOfDay() == 0 && dateTime.getMinuteOfHour() == 0
+                        && dateTime.getSecondOfMinute() == 0) {
+                    return builder.lessThan(expression, dateTime.plusDays(1).toDate());
+                }
+            }
             predicate = builder.lessThanOrEqualTo(expression, (Comparable) matchValue);
             break;
         case IN:
