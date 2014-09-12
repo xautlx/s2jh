@@ -52,8 +52,12 @@ public class DateUtils {
         return DEFAULT_TIME_FORMATER.format(date);
     }
 
+    public static String formatDateNow() {
+        return formatDate(new Date());
+    }
+
     public static String formatTimeNow() {
-        return DEFAULT_TIME_FORMATER.format(new Date());
+        return formatTime(new Date());
     }
 
     public static Date parseDate(String date, DateFormat df) {
