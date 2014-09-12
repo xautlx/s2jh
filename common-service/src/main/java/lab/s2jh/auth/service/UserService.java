@@ -137,7 +137,7 @@ public class UserService extends BaseService<User, Long> {
         }
         super.save(user);
 
-        //关联处理Activiti的用户权限控制数据
+        // 关联处理Activiti的用户权限控制数据
         cascadeActivitiIndentityData(user);
 
         return user;
@@ -146,13 +146,15 @@ public class UserService extends BaseService<User, Long> {
     /**
      * 用户注册
      * 
-     * @param rawPassword 原始密码
-     * @param user 用户数据对象
+     * @param rawPassword
+     *            原始密码
+     * @param user
+     *            用户数据对象
      * @return
      */
     public User save(User user, String rawPassword) {
         if (StringUtils.isNotBlank(rawPassword)) {
-            //密码修改后更新密码过期时间为6个月
+            // 密码修改后更新密码过期时间为6个月
             user.setCredentialsExpireTime(new DateTime().plusMonths(6).toDate());
             user.setPassword(encodeUserPasswd(user, rawPassword));
         }
@@ -161,6 +163,10 @@ public class UserService extends BaseService<User, Long> {
 
     public boolean validatePassword(String signinid, String rawPassword) {
         User user = findBySigninid(signinid);
+        //用户账号不存在，直接返回密码验证失败
+        if (user == null) {
+            return false;
+        }
         return user.getPassword().equals(encodeUserPasswd(user, rawPassword));
     }
 
@@ -170,18 +176,17 @@ public class UserService extends BaseService<User, Long> {
 
     public void updateRelatedRoleR2s(Long id, String... roleIds) {
         updateRelatedR2s(id, roleIds, "userR2Roles", "role");
-        //关联处理Activiti的用户权限控制数据
+        // 关联处理Activiti的用户权限控制数据
         cascadeActivitiIndentityData(userDao.findOne(id), roleIds);
     }
 
     private void cascadeActivitiIndentityData(User user, String... roleIds) {
         if (identityService != null) {
             String userId = user.getSigninid();
-            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
-                    .singleResult();
+            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId).singleResult();
             List<org.activiti.engine.identity.Group> activitiGroups = null;
             if (identityUser != null) {
-                //更新信息
+                // 更新信息
                 identityUser.setFirstName(user.getNick());
                 identityUser.setLastName("");
                 identityUser.setPassword(user.getPassword());
@@ -196,7 +201,7 @@ public class UserService extends BaseService<User, Long> {
                     }
                 }
             } else {
-                //创建用户对象
+                // 创建用户对象
                 identityUser = identityService.newUser(user.getSigninid());
                 identityUser.setFirstName(user.getNick());
                 identityUser.setLastName("");
@@ -209,8 +214,7 @@ public class UserService extends BaseService<User, Long> {
             String aclCode = user.getAclCode();
             if (StringUtils.isNotBlank(aclCode)) {
                 String groupId = aclCode;
-                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
-                        .singleResult();
+                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId).singleResult();
                 if (identityGroup == null) {
                     identityGroup = identityService.newGroup(groupId);
                     identityGroup.setName("机构代码");
@@ -222,7 +226,7 @@ public class UserService extends BaseService<User, Long> {
 
             // 添加role关联membership
             if (roleIds != null) {
-                //先删除已有角色关联
+                // 先删除已有角色关联
                 if (activitiGroups != null) {
                     for (org.activiti.engine.identity.Group group : activitiGroups) {
                         if (group.getType().equals(Role.class.getSimpleName())) {
@@ -233,8 +237,7 @@ public class UserService extends BaseService<User, Long> {
                 for (String roleId : roleIds) {
                     Role role = roleDao.findOne(roleId);
                     String groupId = role.getCode();
-                    org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery()
-                            .groupId(groupId).singleResult();
+                    org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId).singleResult();
                     if (identityGroup == null) {
                         identityGroup = identityService.newGroup(groupId);
                         identityGroup.setName(role.getTitle());
@@ -275,6 +278,7 @@ public class UserService extends BaseService<User, Long> {
 
     /**
      * 加载用户权限数据对象
+     * 
      * @param username
      * @return
      */
@@ -282,7 +286,7 @@ public class UserService extends BaseService<User, Long> {
         logger.debug("Loading user details for: {}", username);
 
         User user = null;
-        //添加邮件登录支持
+        // 添加邮件登录支持
         if (username.indexOf("@") > -1) {
             user = findByProperty("email", username);
         }
@@ -297,8 +301,7 @@ public class UserService extends BaseService<User, Long> {
         boolean enabled = user.getEnabled() == null ? true : user.getEnabled();
         boolean accountNonLocked = user.getAccountNonLocked() == null ? true : user.getAccountNonLocked();
         Date now = new Date();
-        boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user
-                .getCredentialsExpireTime().after(now);
+        boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user.getCredentialsExpireTime().after(now);
         boolean accountNonExpired = user.getAccountExpireTime() == null ? true : user.getAccountExpireTime().after(now);
 
         if (!enabled) {
@@ -329,8 +332,8 @@ public class UserService extends BaseService<User, Long> {
             }
         }
 
-        AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
-                credentialsNonExpired, accountNonLocked, dbAuthsSet);
+        AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
+                accountNonLocked, dbAuthsSet);
         authUserDetails.setUid(user.getUid());
         authUserDetails.setAclCode(user.getAclCode());
         authUserDetails.setAclType(user.getAclType());
