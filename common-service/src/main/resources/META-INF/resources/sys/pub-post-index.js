@@ -32,8 +32,7 @@ $(function() {
             editable : true
         }, {
             name : 'publishTime',
-            fixed : true,
-            sorttype : 'date',
+            formatter : 'timestamp',
             editable : true,
             editoptions : {
                 time : true
@@ -41,8 +40,7 @@ $(function() {
             align : 'center'
         }, {
             name : 'expireTime',
-            fixed : true,
-            sorttype : 'date',
+            formatter : 'timestamp',
             editable : true,
             editoptions : {
                 time : true
@@ -59,18 +57,17 @@ $(function() {
                 url : WEB_ROOT + "/sys/pub-post-read!findByPage?search['EQ_pubPost.id']=" + row_id,
                 colNames : [ '阅读用户', '首次阅读时间', '最后阅读时间', '总计阅读次数' ],
                 colModel : [ {
-                    name : 'readUserLabel'
+                    name : 'readUserLabel',
+                    width : 150
                 }, {
                     name : 'firstReadTime',
-                    sorttype : 'date'
+                    formatter : 'timestamp'
                 }, {
                     name : 'lastReadTime',
-                    sorttype : 'date'
+                    formatter : 'timestamp'
                 }, {
                     name : 'readTotalCount',
-                    width : 100,
-                    fixed : true,
-                    align : 'right'
+                    formatter : 'number'
                 } ]
             });
         }
