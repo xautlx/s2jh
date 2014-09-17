@@ -12,6 +12,7 @@ import lab.s2jh.core.web.annotation.SecurityControlIgnore;
 import lab.s2jh.core.web.view.OperationResult;
 import lab.s2jh.web.action.BaseController;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -75,8 +76,14 @@ public class BizTradeUnitController extends BaseController<BizTradeUnit, Long> {
     @SecurityControlIgnore
     public HttpHeaders frequentUsedDatas() {
         Set<Map<String, Object>> datas = Sets.newHashSet();
+        String type = getParameter("type");
         List<BizTradeUnit> entities = bizTradeUnitService.findFrequentUsedDatas();
         for (BizTradeUnit entity : entities) {
+            if (StringUtils.isNotBlank(type)) {
+                if (!type.equals(entity.getType().name())) {
+                    continue;
+                }
+            }
             Map<String, Object> item = Maps.newHashMap();
             item.put("id", entity.getId());
             item.put("display", entity.getDisplay());

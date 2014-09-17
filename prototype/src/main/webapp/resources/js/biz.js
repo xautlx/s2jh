@@ -195,7 +195,7 @@ var Biz = function() {
         },
 
         initCacheCustomerProfileDatas : function(aysnc) {
-            var url = WEB_ROOT + "/biz/customer/customer-profile!frequentUsedDatas.json";
+            var url = WEB_ROOT + "/biz/finance/biz-trade-unit!frequentUsedDatas.json?type=CUSTOMER";
             $.ajax({
                 async : aysnc,
                 type : "GET",
