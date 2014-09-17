@@ -15,6 +15,8 @@ public class DateConverter extends DefaultTypeConverter {
 
     private static final Logger logger = LoggerFactory.getLogger(DateConverter.class);
 
+    private static final String DATETIME_WITHOUTSEC_PATTERN = "yyyy-MM-dd HH:mm";
+
     private static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     private static final String DATE_PATTERN = "yyyy-MM-dd";
@@ -53,7 +55,7 @@ public class DateConverter extends DefaultTypeConverter {
                     return null;
                 }
                 result = DateUtils.parseDate((String) value, new String[] { DATE_PATTERN, DATETIME_PATTERN,
-                        MONTH_PATTERN });
+                        MONTH_PATTERN, DATETIME_WITHOUTSEC_PATTERN });
 
                 // all patterns failed, try a milliseconds constructor
                 if (result == null && StringUtils.isNotEmpty((String) value)) {
