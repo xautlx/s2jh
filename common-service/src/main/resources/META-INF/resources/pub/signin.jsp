@@ -31,6 +31,7 @@
 <link href="${base}/assets/plugins/fancybox/source/jquery.fancybox.css?_=${buildVersion}" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="${base}/assets/plugins/jquery-ui/redmond/jquery-ui-1.10.3.custom.min.css?_=${buildVersion}">
 <link href="${base}/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css?_=${buildVersion}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${base}/assets/plugins/bootstrap-toastr/toastr.min.css?_=${buildVersion}" />
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME STYLES -->
 <link href="${base}/assets/css/style-metronic.css?_=${buildVersion}" rel="stylesheet" type="text/css" />
@@ -379,6 +380,7 @@
 	<script src="${base}/assets/plugins/backstretch/jquery.backstretch.min.js?_=${buildVersion}" type="text/javascript"></script>
 	<script src="${base}/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js?_=${buildVersion}" type="text/javascript"></script>
 	<script type="text/javascript" src="${base}/assets/plugins/jquery.pulsate.min.js?_=${buildVersion}"></script>
+	<script src="${base}/assets/plugins/bootstrap-toastr/toastr.min.js?_=${buildVersion}"></script>
 	<!-- The basic File Upload plugin -->
 	<script src="${base}/assets/plugins/jquery-file-upload/js/jquery.fileupload.js?_=${buildVersion}"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
@@ -386,6 +388,7 @@
 	<script src="${base}/assets/extras/jquery.form.js?_=${buildVersion}"></script>
 	<script src="${base}/assets/scripts/app.js?_=${buildVersion}" type="text/javascript"></script>
 	<script src="${base}/assets/app/util.js?_=${buildVersion}" type="text/javascript"></script>
+	<script src="${base}/assets/app/global.js?_=${buildVersion}"></script>
 	<script src="${base}/assets/app/form-validation.js?_=${buildVersion}" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script type="text/javascript">
@@ -453,6 +456,7 @@
 
             App.init();
             Util.init();
+            Global.init();
             FormValidation.init();
 
             $('#login-form').find("input:first").focus();
