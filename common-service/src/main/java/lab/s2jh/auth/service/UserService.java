@@ -132,7 +132,6 @@ public class UserService extends BaseService<User, Long> {
     @Override
     public User save(User user) {
         if (user.isNew()) {
-            user.setUserPin(user.getSigninid());
             user.setUid(RandomStringUtils.randomNumeric(10));
         }
         super.save(user);

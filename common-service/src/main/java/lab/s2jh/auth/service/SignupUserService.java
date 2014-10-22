@@ -65,8 +65,6 @@ public class SignupUserService extends BaseService<SignupUser, String> {
         user.setSigninid(entity.getSigninid());
         user.setSignupTime(entity.getSignupTime());
         user.setPassword(entity.getPassword());
-        user.setUserPin(((StringUtils.isBlank(entity.getAclCode()) ? "" : entity.getAclCode() + "_") + entity
-                .getSigninid()).toLowerCase());
         userDao.save(user);
 
         if (CollectionUtils.isNotEmpty(roles)) {

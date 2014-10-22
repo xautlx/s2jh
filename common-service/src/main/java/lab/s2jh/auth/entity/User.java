@@ -37,11 +37,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 
 @Entity
-@Table(name = "T_AUTH_USER")
+@Table(name = "TBL_AUTH_USER")
 @MetaData(value = "用户")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Audited
 public class User extends BaseEntity<Long> {
+
+    private static final long serialVersionUID = 512335968914828057L;
 
     public final static String[] PROTECTED_USER_NAMES = new String[] { "admin", "super" };
 
@@ -112,10 +114,6 @@ public class User extends BaseEntity<Long> {
 
     @MetaData(value = "随机数", comments = "用于找回密码设定的随机UUID字符串")
     private String randomCode;
-
-    /** 遗留项目属性定义 */
-    @Deprecated
-    private String userPin;
 
     private Long id;
 
@@ -290,15 +288,6 @@ public class User extends BaseEntity<Long> {
 
     public void setDepartment(Department department) {
         this.department = department;
-    }
-
-    @Column(length = 50)
-    public String getUserPin() {
-        return userPin;
-    }
-
-    public void setUserPin(String userPin) {
-        this.userPin = userPin;
     }
 
     public String getRandomCode() {
