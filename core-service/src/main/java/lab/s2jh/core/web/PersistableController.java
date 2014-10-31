@@ -984,9 +984,10 @@ public abstract class PersistableController<T extends PersistableEntity<ID>, ID 
                         Size size = method.getAnnotation(Size.class);
                         if (size != null) {
                             if (size.min() > 0) {
-
+                                rules.put("minlength", size.min());
                             }
                             if (size.max() < Integer.MAX_VALUE) {
+                                rules.put("maxlength", size.max());
                             }
                         }
 
