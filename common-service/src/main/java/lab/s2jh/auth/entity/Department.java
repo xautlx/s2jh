@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
-import lab.s2jh.sys.entity.Menu;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "TBL_AUTH_DEPARTMENT")
 @MetaData(value = "部门")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Department extends BaseUuidEntity {
+public class Department extends BaseUuidEntity implements Comparable<Department> {
 
     private static final long serialVersionUID = -7634994834209530394L;
 
@@ -81,6 +81,17 @@ public class Department extends BaseUuidEntity {
         return title;
     }
 
+    @Transient
+    public String getPathDisplay() {
+        Department category = this;
+        String label = this.getTitle();
+        while (category.getParent() != null) {
+            label = category.getParent().getTitle() + "/" + label;
+            category = category.getParent();
+        }
+        return label;
+    }
+
     @Column(nullable = true, length = 64)
     public String getContactTel() {
         return contactTel;
@@ -90,7 +101,7 @@ public class Department extends BaseUuidEntity {
         this.contactTel = contactTel;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     public User getManager() {
         return manager;
@@ -109,5 +120,10 @@ public class Department extends BaseUuidEntity {
 
     public void setParent(Department parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public int compareTo(Department o) {
+        return CompareToBuilder.reflectionCompare(o.getCode(), this.getCode());
     }
 }

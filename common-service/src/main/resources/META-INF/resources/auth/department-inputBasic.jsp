@@ -42,12 +42,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="row hide">
+		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="control-label">部门主管</label>
 					<div class="controls">
-						<s:textfield name="manager" disabled="true" value="TODO" />
+						<s:select name="manager.id" list="usersMap" />
 					</div>
 				</div>
 			</div>

@@ -4,7 +4,8 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab"
 			href="${base}/auth/department!edit?id=<s:property value='#parameters.id'/>&clone=<s:property value='#parameters.clone'/>">基本信息</a></li>
-	    <li class="tools pull-right"><a href="javascript:;" class="btn default reload"><i class="fa fa-refresh"></i></a></li>
+		<li><a data-toggle="tab" href="${base}/auth/department!forward?_to_=users&id=<s:property value='#parameters.id'/>">用户列表</a></li>
+		<li class="tools pull-right"><a href="javascript:;" class="btn default reload"><i class="fa fa-refresh"></i></a></li>
 	</ul>
 </div>
 <%@ include file="/common/ajax-footer.jsp"%>

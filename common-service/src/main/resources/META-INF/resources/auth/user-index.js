@@ -40,14 +40,25 @@ $(function() {
             editable : true,
             sorttype : 'date'
         }, {
-            label : '所属部门',
             name : 'department.id',
+            hidden : true,
+            hidedlg : true,
+            editable : true
+        }, {
+            label : '所属部门',
+            name : 'department.pathDisplay',
+            index : 'department.code_OR_department.title',
+            width : 120,
+            sortable : false,
             editable : true,
-            stype : 'select',
+            align : 'left',
             editoptions : {
-                value : Util.getCacheSelectOptionDatas(WEB_ROOT + "/auth/department!findByPage?rows=-1")
-            },
-            width : 150
+                dataInit : function(elem, opt) {
+                    $(elem).treeselect({
+                        url : WEB_ROOT + "/auth/department!treeData"
+                    });
+                }
+            }
         }, {
             label : '注册时间',
             name : 'signupTime',

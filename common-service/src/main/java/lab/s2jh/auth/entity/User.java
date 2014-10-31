@@ -62,10 +62,10 @@ public class User extends BaseEntity<Long> {
     @EntityAutoCode(order = 20, search = true)
     private String nick;
 
-    @MetaData(value = "移动电话")
+    @MetaData(value = "移动电话", tooltips = "可用于短信验证，短信通知等")
     private String mobilePhone;
 
-    @MetaData(value = "电子邮件", tooltips = "可用于用户自助找回密码，接收系统通知等")
+    @MetaData(value = "电子邮件", tooltips = "可用于用户自助找回密码，接收邮件通知等")
     private String email;
 
     @MetaData(value = "启用标识", tooltips = "禁用之后则不能登录访问系统")
@@ -280,7 +280,7 @@ public class User extends BaseEntity<Long> {
     }
 
     @NotAudited
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "DEPARTMENT_ID")
     public Department getDepartment() {
         return department;

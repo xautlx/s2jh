@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import lab.s2jh.auth.entity.Department;
 import lab.s2jh.auth.entity.Privilege;
 import lab.s2jh.auth.entity.Role;
 import lab.s2jh.auth.entity.User;
 import lab.s2jh.auth.entity.UserR2Role;
+import lab.s2jh.auth.service.DepartmentService;
 import lab.s2jh.auth.service.PrivilegeService;
 import lab.s2jh.auth.service.RoleService;
 import lab.s2jh.auth.service.UserService;
@@ -50,6 +52,9 @@ public class UserController extends BaseController<User, Long> {
 
     @Autowired
     private PrivilegeService privilegeService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     @Autowired
     private MenuService menuService;
@@ -168,6 +173,19 @@ public class UserController extends BaseController<User, Long> {
                 groupFilter.forceAnd(new PropertyFilter(MatchType.LE, "aclType", authUserAclType));
             }
         }
+        String departmentId = getParameter("departmentId");
+        if (StringUtils.isNotBlank(departmentId)) {
+            String searchType = getParameter("searchType", "current");
+            if ("current".equals(searchType)) {
+                groupFilter.forceAnd(new PropertyFilter(MatchType.EQ, "department.id", departmentId));
+            } else {
+                Department current = departmentService.findOne(departmentId);
+                List<Department> departments = departmentService.findChildrenCascade(current);
+                departments.add(current);
+                groupFilter.forceAnd(new PropertyFilter(MatchType.IN, "department", departments));
+            }
+        }
+
         Pageable pageable = PropertyFilter.buildPageableFromHttpRequest(getRequest());
         Page<User> page = this.getEntityService().findByPage(groupFilter, pageable);
         if (aclService != null) {

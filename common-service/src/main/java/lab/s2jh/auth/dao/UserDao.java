@@ -25,4 +25,6 @@ public interface UserDao extends BaseDao<User, Long> {
     Long findUserCount();
 
     List<User> findByAclCode(String aclCode);
+
+    List<User> findByEnabled(Boolean enabled);
 }

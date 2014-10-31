@@ -17,9 +17,18 @@ $(function() {
             editable : true,
             align : 'left'
         }, {
+            label : '主管人',
+            name : 'manager.id',
+            editable : true,
+            stype : 'select',
+            editoptions : {
+                value : Util.getCacheSelectOptionDatas(WEB_ROOT + "/auth/user!findByPage?rows=-1")
+            },
+            width : 100
+        }, {
             label : '联系电话',
             name : 'contactTel',
-            width : 100,
+            width : 150,
             editable : true,
             align : 'left'
         } ],

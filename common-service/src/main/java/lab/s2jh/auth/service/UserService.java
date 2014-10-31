@@ -421,4 +421,8 @@ public class UserService extends BaseService<User, Long> {
             cascadeActivitiIndentityData(user, roleIds);
         }
     }
+
+    public List<User> findUsersEnabled() {
+        return userDao.findByEnabled(true);
+    }
 }
