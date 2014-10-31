@@ -42,7 +42,7 @@ public class DataDictController extends BaseController<DataDict, String> {
 
     @Override
     protected void appendFilterProperty(GroupPropertyFilter groupPropertyFilter) {
-        if (groupPropertyFilter.isEmpty()) {
+        if (groupPropertyFilter.isEmptySearch()) {
             groupPropertyFilter.forceAnd(new PropertyFilter(MatchType.NU, "parent.id", true));
         }
         super.appendFilterProperty(groupPropertyFilter);

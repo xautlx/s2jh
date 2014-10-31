@@ -37,7 +37,7 @@ public class MenuController extends BaseController<Menu, String> {
 
     @Override
     protected void appendFilterProperty(GroupPropertyFilter groupPropertyFilter) {
-        if (groupPropertyFilter.isEmpty()) {
+        if (groupPropertyFilter.isEmptySearch()) {
             groupPropertyFilter.forceAnd(new PropertyFilter(MatchType.NU, "parent", true));
         }
         super.appendFilterProperty(groupPropertyFilter);

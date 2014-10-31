@@ -4,16 +4,19 @@
 package lab.s2jh.core.pagination;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import lab.s2jh.core.exception.ServiceException;
+import lab.s2jh.core.pagination.PropertyFilter.MatchType;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * 用于jqGrid自定义高级查询条件封装条件组合
@@ -236,7 +239,28 @@ public class GroupPropertyFilter {
         }
     }
 
-    public boolean isEmpty() {
-        return CollectionUtils.isEmpty(groups) && CollectionUtils.isEmpty(filters);
+    /**
+     * 判断当前是没有提供任何参数的默认查询
+     * 一般用于父子结构类型数据根据无参数判断追加parent==null的查询条件
+     * @return
+     */
+    public boolean isEmptySearch() {
+        if (CollectionUtils.isEmpty(filters) && CollectionUtils.isEmpty(groups)) {
+            return true;
+        }
+        Set<PropertyFilter> mergeFileters = Sets.newHashSet();
+        mergeFileters.addAll(filters);
+        for (GroupPropertyFilter group : groups) {
+            mergeFileters.addAll(group.getFilters());
+            mergeFileters.addAll(group.getForceAndFilters());
+        }
+        for (PropertyFilter filter : mergeFileters) {
+            //FETCH类型不算有效的查询条件，忽略掉
+            if (!filter.getMatchType().equals(MatchType.FETCH)) {
+                return false;
+            }
+        }
+        return true;
     }
+
 }
