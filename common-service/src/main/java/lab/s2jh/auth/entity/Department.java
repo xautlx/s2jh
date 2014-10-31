@@ -1,8 +1,10 @@
 package lab.s2jh.auth.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -11,9 +13,12 @@ import javax.validation.constraints.Size;
 import lab.s2jh.core.annotation.MetaData;
 import lab.s2jh.core.entity.BaseUuidEntity;
 import lab.s2jh.core.entity.annotation.EntityAutoCode;
+import lab.s2jh.sys.entity.Menu;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TBL_AUTH_DEPARTMENT")
@@ -21,12 +26,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Department extends BaseUuidEntity {
 
+    private static final long serialVersionUID = -7634994834209530394L;
+
     @MetaData(value = "代码")
-    @EntityAutoCode(order = 5, listShow = true)
     private String code;
 
     @MetaData(value = "名称")
-    @EntityAutoCode(order = 10, listShow = true)
     private String title;
 
     @MetaData(value = "描述")
@@ -34,11 +39,12 @@ public class Department extends BaseUuidEntity {
     private String description;
 
     @MetaData(value = "联系电话")
-    @EntityAutoCode(order = 20, listShow = true)
     private String contactTel;
 
+    @MetaData(value = "父节点")
+    private Department parent;
+
     @MetaData(value = "部门主管")
-    @EntityAutoCode(order = 30, listShow = true)
     private User manager;
 
     @Column(nullable = false, length = 64)
@@ -92,5 +98,16 @@ public class Department extends BaseUuidEntity {
 
     public void setManager(User manager) {
         this.manager = manager;
+    }
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "PARENT_ID")
+    @JsonIgnore
+    public Department getParent() {
+        return parent;
+    }
+
+    public void setParent(Department parent) {
+        this.parent = parent;
     }
 }

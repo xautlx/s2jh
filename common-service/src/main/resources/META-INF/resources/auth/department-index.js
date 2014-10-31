@@ -26,6 +26,12 @@ $(function() {
         postData : {
             "search['FETCH_manager']" : "LEFT"
         },
+        multiselect : false,
+        subGrid : true,
+        gridDnD : true,
+        subGridRowExpanded : function(subgrid_id, row_id) {
+            Grid.initRecursiveSubGrid(subgrid_id, row_id, "parent.id");
+        },
         editcol : 'code',
         editurl : WEB_ROOT + "/auth/department!doSave",
         delurl : WEB_ROOT + "/auth/department!doDelete",
