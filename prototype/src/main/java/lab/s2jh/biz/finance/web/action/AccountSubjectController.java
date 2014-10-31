@@ -38,7 +38,7 @@ public class AccountSubjectController extends BaseController<AccountSubject, Lon
 
     @Override
     protected void appendFilterProperty(GroupPropertyFilter groupPropertyFilter) {
-        if (groupPropertyFilter.isEmpty()) {
+        if (groupPropertyFilter.isEmptySearch()) {
             groupPropertyFilter.forceAnd(new PropertyFilter(MatchType.NU, "parent.id", true));
         }
         super.appendFilterProperty(groupPropertyFilter);
