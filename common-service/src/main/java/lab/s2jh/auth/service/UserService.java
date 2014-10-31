@@ -2,7 +2,6 @@ package lab.s2jh.auth.service;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,9 +52,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 @SuppressWarnings("deprecation")
 @Service
@@ -63,6 +60,9 @@ import com.google.common.collect.Sets;
 public class UserService extends BaseService<User, Long> {
 
     private Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    //采用业务逻辑视图代替自带表方式实现业务权限数据供Activiti调用
+    private boolean dbIdentityUsed = false;
 
     @Autowired
     private UserDao userDao;
@@ -180,9 +180,13 @@ public class UserService extends BaseService<User, Long> {
     }
 
     private void cascadeActivitiIndentityData(User user, String... roleIds) {
+        if (dbIdentityUsed == false) {
+            return;
+        }
         if (identityService != null) {
             String userId = user.getSigninid();
-            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId).singleResult();
+            org.activiti.engine.identity.User identityUser = identityService.createUserQuery().userId(userId)
+                    .singleResult();
             List<org.activiti.engine.identity.Group> activitiGroups = null;
             if (identityUser != null) {
                 // 更新信息
@@ -213,7 +217,8 @@ public class UserService extends BaseService<User, Long> {
             String aclCode = user.getAclCode();
             if (StringUtils.isNotBlank(aclCode)) {
                 String groupId = aclCode;
-                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId).singleResult();
+                org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId)
+                        .singleResult();
                 if (identityGroup == null) {
                     identityGroup = identityService.newGroup(groupId);
                     identityGroup.setName("机构代码");
@@ -236,7 +241,8 @@ public class UserService extends BaseService<User, Long> {
                 for (String roleId : roleIds) {
                     Role role = roleDao.findOne(roleId);
                     String groupId = role.getCode();
-                    org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery().groupId(groupId).singleResult();
+                    org.activiti.engine.identity.Group identityGroup = identityService.createGroupQuery()
+                            .groupId(groupId).singleResult();
                     if (identityGroup == null) {
                         identityGroup = identityService.newGroup(groupId);
                         identityGroup.setName(role.getTitle());
@@ -300,7 +306,8 @@ public class UserService extends BaseService<User, Long> {
         boolean enabled = user.getEnabled() == null ? true : user.getEnabled();
         boolean accountNonLocked = user.getAccountNonLocked() == null ? true : user.getAccountNonLocked();
         Date now = new Date();
-        boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user.getCredentialsExpireTime().after(now);
+        boolean credentialsNonExpired = user.getCredentialsExpireTime() == null ? true : user
+                .getCredentialsExpireTime().after(now);
         boolean accountNonExpired = user.getAccountExpireTime() == null ? true : user.getAccountExpireTime().after(now);
 
         if (!enabled) {
@@ -331,8 +338,8 @@ public class UserService extends BaseService<User, Long> {
             }
         }
 
-        AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
-                accountNonLocked, dbAuthsSet);
+        AuthUserDetails authUserDetails = new AuthUserDetails(username, user.getPassword(), enabled, accountNonExpired,
+                credentialsNonExpired, accountNonLocked, dbAuthsSet);
         authUserDetails.setUid(user.getUid());
         authUserDetails.setAclCode(user.getAclCode());
         authUserDetails.setAclType(user.getAclType());
