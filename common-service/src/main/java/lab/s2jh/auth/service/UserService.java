@@ -31,7 +31,6 @@ import lab.s2jh.ctx.FreemarkerService;
 import lab.s2jh.ctx.MailService;
 
 import org.activiti.engine.IdentityService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.joda.time.DateTime;

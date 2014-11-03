@@ -17,12 +17,15 @@
     String message = "[" + sid + "][" + ip + ":" + port + "][" + time
             + "] Loading balance testing, session count=" + count;
     System.out.println(message);
-
+    
     Map<String, Object> data = new LinkedHashMap<String, Object>();
-    data.put("Time", time.toString());
-    data.put("SessionID", sid);
-    data.put("Count", String.valueOf(count));
-    data.put("LocalHostAddress", java.net.InetAddress.getLocalHost().getHostAddress());
+
+    Map<String, Object> keyData = new LinkedHashMap<String, Object>();
+    data.put("Key Data", keyData);
+    keyData.put("Time", time.toString());
+    keyData.put("SessionID", sid);
+    keyData.put("Count", String.valueOf(count));
+    keyData.put("LocalHostAddress", java.net.InetAddress.getLocalHost().getHostAddress());
 
     Map<String, Object> requestData = new LinkedHashMap<String, Object>();
     data.put("Request Data", requestData);
@@ -50,40 +53,37 @@
 <title>Loading balance test page</title>
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<input type="button" value="Refresh" class="btn" onclick="self.location.reload()" />
-		</div>
-		<div class="row-fluid">
-			<%
-			    for (Map.Entry<String, Object> me : data.entrySet()) {
-			%>
-			<fieldset>
-				<legend><%=me.getKey()%></legend>
-				<div class="alert alert-info">
-					<ul>
-						<%
-						    Object val = me.getValue();
-						        if (val instanceof Map) {
-						            Map<String, Object> childData = (Map<String, Object>) val;
-						            for (Map.Entry<String, Object> child : childData.entrySet()) {
-						%>
-						<li><%=child.getKey()%> : <%=child.getValue()%></li>
-						<%
-						    }
-						        } else {
-						%>
-						<li><%=val%></li>
-						<%
-						    }
-						%>
-					</ul>
-				</div>
-			</fieldset>
-			<%
-			    }
-			%>
-		</div>
+	<div class="row-fluid">
+		<input type="button" value="Reload Page" class="btn" onclick="self.location.reload()" />
 	</div>
+	<%
+	    for (Map.Entry<String, Object> me : data.entrySet()) {
+	%>
+	<fieldset>
+		<legend><%=me.getKey()%></legend>
+		<div class="alert alert-info">
+			<ul>
+				<%
+				    Object val = me.getValue();
+				        if (val instanceof Map) {
+				            Map<String, Object> childData = (Map<String, Object>) val;
+				            for (Map.Entry<String, Object> child : childData.entrySet()) {
+				%>
+				<li><%=child.getKey()%> : <%=child.getValue()%></li>
+				<%
+				    }
+				        } else {
+				%>
+				<li><%=val%></li>
+				<%
+				    }
+				%>
+			</ul>
+		</div>
+	</fieldset>
+	<%
+	    }
+	%>
+
 </body>
 </html>
