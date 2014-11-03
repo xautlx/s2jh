@@ -131,9 +131,6 @@ public class UserService extends BaseService<User, Long> {
 
     @Override
     public User save(User user) {
-        if (user.isNew()) {
-            user.setUid(RandomStringUtils.randomNumeric(10));
-        }
         super.save(user);
 
         // 关联处理Activiti的用户权限控制数据
@@ -145,13 +142,14 @@ public class UserService extends BaseService<User, Long> {
     /**
      * 用户注册
      * 
-     * @param rawPassword
-     *            原始密码
-     * @param user
-     *            用户数据对象
+     * @param rawPassword 原始密码
+     * @param user 用户数据对象
      * @return
      */
     public User save(User user, String rawPassword) {
+        if (user.isNew()) {
+            user.setUid(UUID.randomUUID().toString());
+        }
         if (StringUtils.isNotBlank(rawPassword)) {
             // 密码修改后更新密码过期时间为6个月
             user.setCredentialsExpireTime(new DateTime().plusMonths(6).toDate());
