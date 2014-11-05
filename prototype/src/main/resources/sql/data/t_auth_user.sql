@@ -1,1 +1,1 @@
-INSERT INTO t_auth_user (sid,  version, user_id, password, nick, enabled ,uid, email, DEPARTMENT_ID) VALUES (1,  0, 'admin', 'ceb4f32325eda6142bd65215f4c0f371', '系统超级管理员', 'Y', 'admin','xautlx@hotmail.com','1cc7a4f1-44ee-41e2-b488-f0769fa6eca6');
+INSERT INTO tbl_auth_user (sid,  version, user_id, password, nick, enabled ,uid, email, DEPARTMENT_ID) VALUES (1,  0, 'admin', 'ceb4f32325eda6142bd65215f4c0f371', '系统超级管理员', 'Y', 'admin','xautlx@hotmail.com','1cc7a4f1-44ee-41e2-b488-f0769fa6eca6');

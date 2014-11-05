@@ -44,8 +44,8 @@
             <version>${s2jh.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> 
-            <artifactId>ojdbc6</artifactId> <scope>runtime</scope> </dependency> -->
+        <!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> <scope>runtime</scope> 
+            </dependency> -->
 
         <!-- j2ee web spec -->
         <dependency>
@@ -103,6 +103,16 @@
             <artifactId>jetty-jsp</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.restlet</groupId>
+            <artifactId>org.restlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet</groupId>
+            <artifactId>org.restlet.ext.servlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -141,46 +151,6 @@
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.8</version>
-                        <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <includeScope>compile</includeScope>
-                                    <outputDirectory>./runtime/lib</outputDirectory>
-                                    <excludeGroupIds>lab.s2jh</excludeGroupIds>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.8</version>
-                        <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <includeScope>runtime</includeScope>
-                                    <outputDirectory>./runtime/lib</outputDirectory>
-                                    <!-- 排除几个不常变化的依赖，减少增量提交更新的文件大小 -->
-                                    <excludeArtifactIds>assets-resource,project-tools,core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds>
-                                    <!-- 排除经常变化的依赖和独立运行相关依赖 <excludeArtifactIds>core-service,common-service,jdtcore,org.eclipse.jdt.core,jetty-webapp,jetty-jsp,com.sun.el,javax.el,javax.servlet.jsp.jstl,javax.servlet.jsp,javax.servlet,servlet-api,jsp-api,org.apache.jasper.glassfish,org.apache.taglibs.standard.glassfish</excludeArtifactIds> -->
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>2.4</version>
                         <executions>
@@ -191,26 +161,9 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <descriptors>
-                                        <descriptor>assembly/assembly-standalone.xml</descriptor>
-                                    </descriptors>
-                                    <archive>
-                                        <manifest>
-                                            <mainClass>lab.s2jh.MainExecutor</mainClass>
-                                        </manifest>
-                                    </archive>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>assembly-simplified</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <configuration>
                                     <finalName>${project.artifactId}</finalName>
                                     <descriptors>
-                                        <descriptor>assembly/assembly-simplified.xml</descriptor>
+                                        <descriptor>assembly/assembly-standalone.xml</descriptor>
                                     </descriptors>
                                     <archive>
                                         <manifest>
