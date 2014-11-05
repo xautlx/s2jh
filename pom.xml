@@ -29,7 +29,6 @@
     <!-- modules -->
     <modules>
         <module>assets-resource</module>
-        <module>jasperreports-extension</module>
         <module>core-service</module>
         <module>core-test</module>
         <module>project-tools</module>
