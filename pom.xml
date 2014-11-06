@@ -90,6 +90,11 @@
             <url>http://maven.oschina.net/content/groups/public/</url>
         </repository>
         <repository>
+            <id>oschina-thirdparty</id>
+            <name>oschina thirdparty repository</name>
+            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+        </repository>
+        <repository>
             <id>org.springframework.maven.milestone</id>
             <name>Spring Framework Maven Milestone Repository</name>
             <url>http://maven.springframework.org/milestone</url>

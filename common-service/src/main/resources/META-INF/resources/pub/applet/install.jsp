@@ -47,7 +47,7 @@
 	</p>
 	<p>
 		Java环境下载安装后，找到Java目录（默认一般为C:\Program Files (x86)\Java，如果找不到在命令行下面执行： java -verbose，最下面信息即可看出java所在目录），
-		用文本编辑器打开:JAVA根目录/jre7/lib/security/java.policy ，在如下图位置添加文本：permission java.security.AllPermission; <br> <img
+		用文本编辑器打开:JAVA根目录/jre[版本]/lib/security/java.policy ，在如下图位置添加文本：permission java.security.AllPermission; <br> <img
 			alt="Java权限配置" src="images/guide_security.png" />
 	</p>
 	<p>

@@ -72,8 +72,5 @@
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring</artifactId>
         </dependency>
-        <!-- <dependency> <groupId>org.activiti</groupId> <artifactId>activiti-json-converter</artifactId> </dependency> 
-            <dependency> <groupId>org.activiti</groupId> <artifactId>activiti-rest</artifactId> </dependency> <dependency> <groupId>org.infinispan</groupId> 
-            <artifactId>infinispan-core</artifactId> </dependency> -->
     </dependencies>
 </project>
