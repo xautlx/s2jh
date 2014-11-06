@@ -142,7 +142,7 @@
                             <filtering>false</filtering>
                         </resource>
                     </webResources>
-                    <outputDirectory>..</outputDirectory>
+                    <outputDirectory>${project.basedir}/..</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
