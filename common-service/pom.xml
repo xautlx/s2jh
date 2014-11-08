@@ -73,4 +73,5 @@
             <artifactId>activiti-spring</artifactId>
         </dependency>
     </dependencies>
+
 </project>

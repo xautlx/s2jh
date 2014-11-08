@@ -15,8 +15,7 @@
     <properties>
         <maven.build.timestamp.format>yyyy-MM-dd_HH:mm:ss</maven.build.timestamp.format>
         <BUILD_ID>${maven.build.timestamp}</BUILD_ID>
-        <deploy.env>production</deploy.env>
-        <deploy_env>oschina</deploy_env>
+        <deploy_env>production</deploy_env>
     </properties>
 
     <dependencies>
@@ -39,6 +38,11 @@
         <dependency>
             <groupId>lab.s2jh</groupId>
             <artifactId>common-service</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>jasper-service</artifactId>
             <version>${s2jh.version}</version>
         </dependency>
         <dependency>
@@ -119,6 +123,24 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/deploy/${deploy_env}/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -176,7 +198,7 @@
                                     <filtering>true</filtering>
                                 </resource>
                                 <resource>
-                                    <directory>src/main/deploy/${deploy.env}/webResources</directory>
+                                    <directory>src/main/deploy/${deploy_env}/webResources</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </webResources>

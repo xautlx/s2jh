@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>lab.s2jh</groupId>
+        <artifactId>s2jh-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <artifactId>jasper-service</artifactId>
+    <packaging>jar</packaging>
+    <name>s2jh :: module :: jasper-service</name>
+
+    <dependencies>
+        <!-- j2ee web spec -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+        </dependency>
+        <!-- WEB end -->
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>core-service</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>common-service</artifactId>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>core-test</artifactId>
+            <scope>test</scope>
+            <version>${s2jh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lab.s2jh</groupId>
+            <artifactId>project-tools</artifactId>
+            <version>${s2jh.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itextasian</artifactId>
+            <version>2.1.7</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- 条码支持 -->
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-bridge</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-gvt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-svg-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-script</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-css</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-svggen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-awt-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>compile</includeScope>
+                            <outputDirectory>./src/main/resources/META-INF/resources/pub/applet</outputDirectory>
+                            <includeGroupIds>net.sf.jasperreports,org.apache.xmlgraphics,net.sf.barcode4j,com.lowagie,xml-apis,xerces,org.apache.poi,commons-collections,commons-digester,commons-lang3,commons-logging,org.apache.commons</includeGroupIds>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

@@ -33,6 +33,7 @@
         <module>core-test</module>
         <module>project-tools</module>
         <module>common-service</module>
+        <module>jasper-service</module>
         <module>crawl-service</module>
         <module>prototype</module>
     </modules>
@@ -74,7 +75,8 @@
         <!-- Plugin的属性定义 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.6</jdk.version>
-        <deploy.env>local</deploy.env>
+        <deploy_env>local</deploy_env>
+        <test_skip>false</test_skip>
     </properties>
 
     <!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
@@ -638,6 +640,11 @@
                 <artifactId>xml-apis</artifactId>
                 <version>1.4.01</version>
             </dependency>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.11.0</version>
+            </dependency>
             <!-- 重新定义Java XPath Engine到最新版，避免旧版那些不必要的依赖 -->
             <dependency>
                 <groupId>jaxen</groupId>
@@ -645,7 +652,6 @@
                 <version>1.1.4</version>
             </dependency>
             <!-- XML end -->
-
 
             <!-- jasperreports -->
             <dependency>
@@ -1183,6 +1189,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.16</version>
                     <configuration>
+                        <skip>${test_skip}</skip>
                         <excludes>
                             <exclude>**/*NoAutoTest.java</exclude>
                         </excludes>

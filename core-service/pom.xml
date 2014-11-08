@@ -54,7 +54,11 @@
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-spring-plugin</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-jasperreports-plugin</artifactId>
+        </dependency>
+        
         <!-- SPRING begin -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -161,6 +165,10 @@
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
         </dependency>
         <!-- For kindeditor -->
         <dependency>
@@ -274,72 +282,8 @@
             <artifactId>quartz</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-jasperreports-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itextasian</artifactId>
-            <version>2.1.7</version>
-            <scope>runtime</scope>
-        </dependency> 
-       <!-- 条码支持 -->
-        <dependency>
-            <groupId>net.sf.barcode4j</groupId>
-            <artifactId>barcode4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-bridge</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-gvt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-svg-dom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-dom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-script</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-css</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-svggen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-awt-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-        </dependency>
+
+
+
     </dependencies>
 </project>
