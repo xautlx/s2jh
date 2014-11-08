@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd"
+    default-lazy-init="false">
+
+    <beans profile="development">
+        <!-- 缺省PropertyPlaceholder定义 -->
+        <bean class="lab.s2jh.ctx.ExtPropertyPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <value>classpath:/application.properties</value>
+                    <value>classpath:/application_prd.properties</value>
+                </list>
+            </property>
+            <property name="ignoreResourceNotFound" value="true" />
+            <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        </bean>
+
+        <bean id="dataSourceSpied" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+            <property name="poolProperties">
+                <bean class="org.apache.tomcat.jdbc.pool.PoolProperties">
+                    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                    <!-- 创建MySQL UTF-8编码数据库脚本：CREATE DATABASE s2jh DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; -->
+                    <property name="url"
+                        value="jdbc:mysql://${MOPAAS_MYSQL16303_HOST}:${MOPAAS_MYSQL16303_PORT}/${MOPAAS_MYSQL16303_NAME}?characterEncoding=utf8" />
+                    <property name="username" value="${MOPAAS_MYSQL16303_USERNAME}" />
+                    <property name="password" value="${MOPAAS_MYSQL16303_PASSWORD}" />
+                </bean>
+            </property>
+        </bean>
+
+        <!-- 定制log4jdbc做一些输出SQL信息的微调 -->
+        <bean id="extSlf4jSpyLogDelegator" class="lab.s2jh.core.dao.log4jdbc.ExtSlf4jSpyLogDelegator" />
+
+        <!-- 用log4jdbc对datasouce进行包裹实现完整的SQL语句跟踪 -->
+        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource" depends-on="extSlf4jSpyLogDelegator">
+            <constructor-arg>
+                <ref bean="dataSourceSpied" />
+            </constructor-arg>
+        </bean>
+
+        <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL"
+            enabled="${jdbc.initialize.database.enable}">
+
+            <jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
+
+            <jdbc:script location="classpath:sql/data/t_sys_data_dict.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_sys_menu.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_privilege.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_role.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_department.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_user.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_auth_user_r2_role.sql" encoding="UTF-8" />
+            <jdbc:script location="classpath:sql/data/t_sys_pub_post.sql" encoding="UTF-8" />
+
+            <jdbc:script location="classpath:sql/data/biz_finance_account_subject.sql" encoding="UTF-8" />
+        </jdbc:initialize-database>
+
+        <bean id="mockDataGenerator" class="lab.s2jh.biz.util.MockDataGenerator" init-method="initializeDatabase">
+            <property name="enabled" value="${jdbc.initialize.database.enable}" />
+            <property name="entityManagerFactory" ref="entityManagerFactory" />
+            <property name="transactionManager" ref="transactionManager" />
+        </bean>
+
+        <import resource="classpath:/service/spring*.xml" />
+    </beans>
+
+    <!-- 用于Unit Test配置 -->
+    <beans profile="test">
+        <!-- 缺省PropertyPlaceholder定义 -->
+        <bean class="lab.s2jh.ctx.ExtPropertyPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <value>classpath:/application.properties</value>
+                    <value>classpath:/application-test.properties</value>
+                </list>
+            </property>
+            <property name="ignoreResourceNotFound" value="true" />
+            <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        </bean>
+
+        <!-- 嵌入式内存中数据库 -->
+        <jdbc:embedded-database id="dataSourceSpied" type="H2">
+            <jdbc:script location="classpath:sql/ddl/quartz/tables_h2.sql" encoding="UTF-8" />
+        </jdbc:embedded-database>
+
+        <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+            <constructor-arg>
+                <ref bean="dataSourceSpied" />
+            </constructor-arg>
+        </bean>
+    </beans>
+</beans>
