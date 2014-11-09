@@ -40,19 +40,26 @@
             <artifactId>common-service</artifactId>
             <version>${s2jh.version}</version>
         </dependency>
+        <!-- 为了在有限内存的演示环境部署应用注释掉Jasper相关依赖，在本地开发环境取消注释开启JasperReport相关功能 
         <dependency>
             <groupId>lab.s2jh</groupId>
             <artifactId>jasper-service</artifactId>
             <version>${s2jh.version}</version>
         </dependency>
+        -->
         <dependency>
             <groupId>lab.s2jh</groupId>
             <artifactId>project-tools</artifactId>
             <version>${s2jh.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Oracle JDBC Driver Demo <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> <scope>runtime</scope> 
-            </dependency> -->
+        <!-- Oracle JDBC Driver Demo 
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId> 
+            <scope>runtime</scope> 
+        </dependency> 
+        -->
 
         <!-- j2ee web spec -->
         <dependency>
