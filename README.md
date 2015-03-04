@@ -2,8 +2,6 @@
 
 集结最新主流时尚开源技术的面向企业级Web应用的基础开发框架，提供一个J2EE相关主流开源技术架构整合及一些企业应用基础通用功能和组件的设计实现的最佳实践和原型参考。
 
-**在线演示站点： http://115.29.107.110/s2jh**
-
 以下两个站点代码和文档同步更新，请自由选择一个访问速度较快的站点即可：
 
 ### 项目托管同步更新站点列表：
@@ -45,10 +43,17 @@
 
 > 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
 
-## Reference
+ 
+### Reference
 
-* [关于作者](https://github.com/xautlx/s2jh/wiki/AboutAuthor)
-* [SpringSide](https://github.com/springside/) - “SpringSide是以Spring Framework为核心的，Pragmatic风格的JavaEE应用参考示例，是JavaEE世界中的主流技术选型，最佳实践的总结与演示”。
-本框架其中一些技术选型和整合也充分借鉴参考了SpringSide的最佳实践，如果说SpringSide是一把精巧多功能的瑞士军刀，那可以理解本框架目标是以此雕刻出一个面向企业应用开发的半成品工程。
-* [Nutch Htmlunit Plugin](https://github.com/xautlx/nutch-htmlunit) - 作者项目：基于Htmlunit扩展的Nutch支持AJAX页面抓取插件
-* [12306 Hunter](https://github.com/xautlx/12306-hunter) - 作者项目：[功能已过期失效] Java Swing C/S版本12306订票助手，用处你懂的
+欢迎关注作者其他项目：
+
+* [Nutch 2.X AJAX Plugins (Active)](https://github.com/xautlx/nutch-ajax) -  基于Apache Nutch 2.3和Htmlunit, Selenium WebDriver等组件扩展，实现对于AJAX加载类型页面的完整页面内容抓取，以及特定数据项的解析和索引
+
+* [S2JH4Net (Active)](https://github.com/xautlx/s2jh4net) -  基于Spring MVC+Spring+JPA+Hibernate的面向互联网及企业Web应用开发框架
+
+* [S2JH (Deprecated)](https://github.com/xautlx/s2jh) -  基于Struts2+Spring+JPA+Hibernate的面向企业Web应用开发框架
+ 
+* [Nutch 1.X AJAX Plugins (Deprecated)](https://github.com/xautlx/nutch-htmlunit) -  基于Apache Nutch 1.X和Htmlunit的扩展实现AJAX页面爬虫抓取解析插件
+ 
+* [12306 Hunter (Deprecated)](https://github.com/xautlx/12306-hunter) - （功能已失效不可用，不过还可以当作Swing开发样列参考只用）Java Swing C/S版本12306订票助手，用处你懂的
