@@ -33,13 +33,13 @@
 
 ### Snapshot
 
-![ui-signin](http://git.oschina.net/xautlx/s2jh/wikis/images/ui-signin.png)
+![ui-signin](https://github.com/xautlx/s2jh/wiki/images/ui-signin.png)
 
-![ui-layout](http://git.oschina.net/xautlx/s2jh/wikis/images/ui-layout.png)
+![ui-layout](https://github.com/xautlx/s2jh/wiki/images/ui-layout.png)
 
-![Snapshot View](http://git.oschina.net/xautlx/s2jh/wikis/images/index2.gif)
+![Snapshot View](https://github.com/xautlx/s2jh/wiki/images/index2.gif)
 
-![Snapshot View](http://git.oschina.net/xautlx/s2jh/wikis/images/grid-master-detail.png)
+![Snapshot View](https://github.com/xautlx/s2jh/wiki/images/grid-master-detail.png)
 
 > 项目最新自动化持续集成构建状态 Travis-CI Status: [![Build Status](https://travis-ci.org/xautlx/s2jh.png?branch=master)](https://travis-ci.org/xautlx/s2jh)
 
